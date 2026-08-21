@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MysticBackground } from './components/layout/MysticBackground';
 import { Header } from './components/layout/Header';
 import { ArcanaFlowSelector } from './components/home/ArcanaFlowSelector';
@@ -7,11 +7,15 @@ import { DeepReadingView } from './components/reading/DeepReadingView';
 import { JournalModal } from './components/journal/JournalModal';
 import { CardEncyclopediaModal } from './components/encyclopedia/CardEncyclopediaModal';
 import { ShareScrollModal } from './components/common/ShareScrollModal';
+import { UserProfileModal } from './components/profile/UserProfileModal';
+import { DailyCardModal } from './components/reading/DailyCardModal';
 
 import { DrawnCard, JournalEntry, Language, ReadingResultData, SpreadDefinition } from './types/tarot';
 import { SPREAD_CONFIGS, TOPICS } from './data/translations';
 import { analyzeReading } from './services/deepReadingEngine';
 import { audioService } from './services/audioService';
+import { AstrologyService } from './services/astrologyService';
+import { UserProfile } from './types/userProfile';
 
 const JOURNAL_STORAGE_KEY = 'arcana_tarot_journal_v2';
 
@@ -28,10 +32,17 @@ export function App() {
   const [activeSpread, setActiveSpread] = useState<SpreadDefinition>(SPREAD_CONFIGS[1]);
   const [currentReading, setCurrentReading] = useState<ReadingResultData | null>(null);
 
+  // User Natal Profile
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
+    return AstrologyService.loadProfile();
+  });
+
   // Modals
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
   const [isCodexOpen, setIsCodexOpen] = useState<boolean>(false);
   const [isScrollOpen, setIsScrollOpen] = useState<boolean>(false);
+  const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
+  const [isDailyCardOpen, setIsDailyCardOpen] = useState<boolean>(false);
 
   // Journal Persistence
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => {
@@ -126,8 +137,11 @@ export function App() {
         onSelectLanguage={setLanguage}
         onOpenJournal={() => setIsJournalOpen(true)}
         onOpenCodex={() => setIsCodexOpen(true)}
+        onOpenProfile={() => setIsProfileOpen(true)}
+        onOpenDailyCard={() => setIsDailyCardOpen(true)}
         onResetHome={handleResetHome}
         journalCount={journalEntries.length}
+        userProfile={userProfile}
       />
 
       {/* Main Experience Flows */}
@@ -192,6 +206,21 @@ export function App() {
           onClose={() => setIsScrollOpen(false)}
         />
       )}
+
+      {/* Natal Profile Modal */}
+      <UserProfileModal
+        isOpen={isProfileOpen}
+        onClose={() => setIsProfileOpen(false)}
+        language={language}
+        onProfileUpdated={(profile) => setUserProfile(profile)}
+      />
+
+      {/* Daily Card of the Day Modal */}
+      <DailyCardModal
+        isOpen={isDailyCardOpen}
+        onClose={() => setIsDailyCardOpen(false)}
+        language={language}
+      />
 
     </div>
   );

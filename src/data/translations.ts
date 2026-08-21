@@ -86,6 +86,51 @@ export const UI_TRANSLATIONS = {
     my: 'ဗေဒင်မှတ်တမ်း',
     ja: 'リーディング記録'
   },
+  dailyCardBtn: {
+    en: 'Daily Oracle',
+    my: 'နေ့စဉ် နိမိတ်ကတ်',
+    ja: 'デイリー・オラクル'
+  },
+  profileBtn: {
+    en: 'Natal Profile',
+    my: 'မွေးရာပါ ဇာတာမှတ်တမ်း',
+    ja: '出生ホロスコープ'
+  },
+  askOracleBtn: {
+    en: 'Ask Oracle',
+    my: 'နိမိတ်ထပ်မံမေးမည်',
+    ja: 'オラクルに対話する'
+  },
+  voiceListenBtn: {
+    en: 'Listen to Oracle',
+    my: 'နိမိတ်အသံ ဖတ်ကြားစေမည်',
+    ja: 'オラクルの託宣を聴く'
+  },
+  voiceStopBtn: {
+    en: 'Stop Voice',
+    my: 'အသံ ရပ်တန့်မည်',
+    ja: '音声停止'
+  },
+  polarityTitle: {
+    en: '⚖️ Certainty & Cosmic Polarity',
+    my: '⚖️ အဖြေ၏ သေချာမှုနှင့် စကြဝဠာချိန်ခွင်လျှာ (Polarity)',
+    ja: '⚖️ 運命の極性と確信度（Yes/No・ポラリティ）'
+  },
+  elementalTitle: {
+    en: '🜂 Elemental Dignities & Alchemy',
+    my: '🜂 ဓာတ်ကြီးလေးပါး ချိန်ခွင်လျှာနှင့် ဓာတုပေါင်းစပ်မှု (Elemental Alchemy)',
+    ja: '🜂 四大元素の品格と錬金術的調和'
+  },
+  synergyTitle: {
+    en: '⚡ Card Synergy & Sacred Alchemy',
+    my: '⚡ ကတ်ပြားများအကြား အထူး ပေါင်းစပ်စွမ်းအင် (Card Synergy)',
+    ja: '⚡ カード間の特別なシナジー（聖なる共鳴）'
+  },
+  quintessenceTitle: {
+    en: '👑 The Quintessence (Master Shadow Key)',
+    my: '👑 ကံကြမ္မာ၏ အဓိက မာစတာသော့ချက် (The Quintessence)',
+    ja: '👑 クインテッセンス（運命を統べる根源のマスターキー）'
+  },
   ambientAudio: {
     en: 'Ambient Sound (432Hz)',
     my: 'စိတ်ငြိမ် အသံလှိုင်း (432Hz)',
@@ -309,7 +354,7 @@ export const TOPICS = [
       my: 'ဤအရေးကြီးသော ဆုံးဖြတ်ချက်မချမီ မည်သည့်အရာကို ကြိုတင်သိရှိထားသင့်သနည်း။',
       ja: 'この重要な選択をする前に知っておくべき真実は何ですか？'
     },
-    suggestedSpread: 'cross'
+    suggestedSpread: 'decision_fork'
   },
   {
     id: 'unknown',
@@ -631,6 +676,355 @@ export const SPREAD_CONFIGS = [
           en: 'How the relationship moves ahead.',
           my: 'ဤဆက်ဆံရေး ရှေ့ဆက်လှမ်းချီရမည့် လမ်းညွှန်ချက်။',
           ja: '二人が共に歩んでいくための最善の道筋。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'decision_fork',
+    name: {
+      en: '⚔️ Two Paths Decision Fork',
+      my: '⚔️ လမ်းနှစ်ခွ ရွေးချယ်မှု ခင်းကျင်းပုံ',
+      ja: '⚔️ 運命の分岐点（2つの道・5枚）'
+    },
+    subtitle: {
+      en: 'Crossroads · Path A Flow · Path A Outcome · Path B Flow · Path B Outcome.',
+      my: 'လမ်းဆုံလမ်းခွ • လမ်းကြောင်း A အလားအလာ • လမ်းကြောင်း A ရလဒ် • လမ်းကြောင်း B အလားအလာ • လမ်းကြောင်း B ရလဒ်။',
+      ja: '分岐点・道Aの展開・道Aの結末・道Bの展開・道Bの結末。'
+    },
+    cardCount: 5,
+    description: {
+      en: 'Compare two diverging decisions side by side before choosing.',
+      my: 'ရွေးချယ်စရာ လမ်းကြောင်းနှစ်ခု၏ အကျိုးအပြစ်နှင့် အနာဂတ်ရလဒ်များကို နှိုင်းယှဉ်ကြည့်ရှုခြင်း။',
+      ja: '2つの選択肢がもたらす未来の軌跡を左右で比較対照する決定版スプレッド。'
+    },
+    positions: [
+      {
+        id: 1,
+        name: {
+          en: 'The Crossroads',
+          my: 'လက်ရှိ လမ်းဆုံလမ်းခွ',
+          ja: '現在の分岐点'
+        },
+        description: {
+          en: 'The current tension or decision point.',
+          my: 'လက်ရှိ ရင်ဆိုင်နေရသော အဆုံးအဖြတ် လမ်းခွဲ။',
+          ja: '今まさにあなたが立たされている選択の岐路。'
+        }
+      },
+      {
+        id: 2,
+        name: {
+          en: 'Path A: Trajectory',
+          my: 'လမ်းကြောင်း (က) ၏ အလားအလာ',
+          ja: '道A：展開とエネルギー'
+        },
+        description: {
+          en: 'What unfolds if you take the first path.',
+          my: 'ပထမလမ်းကြောင်းကို ရွေးချယ်ပါက ဖြစ်ပေါ်လာမည့် အခြေအနေ။',
+          ja: '第1の選択肢を選んだ場合のプロセス。'
+        }
+      },
+      {
+        id: 3,
+        name: {
+          en: 'Path A: Outcome',
+          my: 'လမ်းကြောင်း (က) ၏ အဆုံးသတ်ရလဒ်',
+          ja: '道A：最終結果'
+        },
+        description: {
+          en: 'The long-term destination of the first path.',
+          my: 'ပထမလမ်းကြောင်း၏ နောက်ဆုံး အသီးအပွင့် ရလဒ်။',
+          ja: '第1の選択肢の終着点と実り。'
+        }
+      },
+      {
+        id: 4,
+        name: {
+          en: 'Path B: Trajectory',
+          my: 'လမ်းကြောင်း (ခ) ၏ အလားအလာ',
+          ja: '道B：展開とエネルギー'
+        },
+        description: {
+          en: 'What unfolds if you take the second path.',
+          my: 'ဒုတိယလမ်းကြောင်းကို ရွေးချယ်ပါက ဖြစ်ပေါ်လာမည့် အခြေအနေ။',
+          ja: '第2の選択肢を選んだ場合のプロセス。'
+        }
+      },
+      {
+        id: 5,
+        name: {
+          en: 'Path B: Outcome',
+          my: 'လမ်းကြောင်း (ခ) ၏ အဆုံးသတ်ရလဒ်',
+          ja: '道B：最終結果'
+        },
+        description: {
+          en: 'The long-term destination of the second path.',
+          my: 'ဒုတိယလမ်းကြောင်း၏ နောက်ဆုံး အသီးအပွင့် ရလဒ်။',
+          ja: '第2の選択肢の終着点と実り。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'chakra_spread',
+    name: {
+      en: '🧘 7-Chakra Alignment',
+      my: '🧘 စွမ်းအင်စက်ဝိုင်း ၇ ခု ခင်းကျင်းပုံ (7 Chakras)',
+      ja: '🧘 7つのチャクラ・エネルギー診断（7枚）'
+    },
+    subtitle: {
+      en: 'Root · Sacral · Solar Plexus · Heart · Throat · Third Eye · Crown.',
+      my: 'မူလအခြေစိုက် • ဖန်တီးမှု • အတွင်းခွန်အား • မေတ္တာ • အမှန်တရား • ဉာဏ်အလင်း • စကြဝဠာချိတ်ဆက်မှု။',
+      ja: '第1（基底）・第2（仙骨）・第3（太陽神経叢）・第4（心臓）・第5（喉）・第6（第三の目）・第7（頭頂）。'
+    },
+    cardCount: 7,
+    description: {
+      en: 'Diagnose spiritual, emotional, and physical energetic centers.',
+      my: 'မိမိ၏ စိတ်ဝိညာဉ်၊ ခံစားချက်နှင့် စွမ်းအင်စက်ဝန်းများကို အဆင့်ဆင့် စစ်ဆေးကုစားခြင်း။',
+      ja: '肉体・精神・魂の7つのエネルギーセンターの状態を詳細にスキャンする聖なる展開法。'
+    },
+    positions: [
+      {
+        id: 1,
+        name: {
+          en: '1. Root Chakra (Muladhara)',
+          my: '၁။ မူလအခြေစိုက် စွမ်းအင် (ရုပ်ဝတ္ထုနှင့် လုံခြုံမှု)',
+          ja: '第1チャクラ：ルート（生存・物質的基盤）'
+        },
+        description: {
+          en: 'Physical vitality, material survival, and sense of safety.',
+          my: 'ရုပ်ဝတ္ထုလုံခြုံရေး၊ ကျန်းမာရေးနှင့် မြေပြင်အခြေစိုက်စွမ်းအင်။',
+          ja: '物質的な安心感と大地に根ざす生命力。'
+        }
+      },
+      {
+        id: 2,
+        name: {
+          en: '2. Sacral Chakra (Svadhisthana)',
+          my: '၂။ ဖန်တီးမှုနှင့် ဆက်ဆံရေး စွမ်းအင်',
+          ja: '第2チャクラ：セイクラル（情動・セクシャリティ・創造力）'
+        },
+        description: {
+          en: 'Creative flow, intimacy, emotional passion, and adaptability.',
+          my: 'ဖန်တီးနိုင်စွမ်း၊ သံယောဇဉ်နှင့် ခံစားချက်စီးဆင်းမှု။',
+          ja: '感情の受容、情熱、人間関係の親密さ。'
+        }
+      },
+      {
+        id: 3,
+        name: {
+          en: '3. Solar Plexus Chakra (Manipura)',
+          my: '၃။ သန္နိဋ္ဌာန်နှင့် အတွင်းခွန်အား စွမ်းအင်',
+          ja: '第3チャクラ：ソーラープレクサス（意志・自信・自己主権）'
+        },
+        description: {
+          en: 'Personal power, self-esteem, willpower, and autonomy.',
+          my: 'မိမိကိုယ်ကို ယုံကြည်မှု၊ ဆုံးဖြတ်ချက်နှင့် စိတ်ခွန်အား။',
+          ja: '自己肯定感、決断力、人生の主権。'
+        }
+      },
+      {
+        id: 4,
+        name: {
+          en: '4. Heart Chakra (Anahata)',
+          my: '၄။ မေတ္တာနှင့် ကရုဏာ စွမ်းအင်',
+          ja: '第4チャクラ：ハート（無条件の愛・慈悲・調和）'
+        },
+        description: {
+          en: 'Compassion, unconditional love, healing, and forgiveness.',
+          my: 'စစ်မှန်သော မေတ္တာ၊ ကုစားခြင်းနှင့် ခွင့်လွှတ်နားလည်မှု။',
+          ja: '他者への慈愛、心の解放、無条件の愛。'
+        }
+      },
+      {
+        id: 5,
+        name: {
+          en: '5. Throat Chakra (Vishuddha)',
+          my: '၅။ အမှန်တရားနှင့် ဆက်သွယ်ပြောဆိုမှု စွမ်းအင်',
+          ja: '第5チャクラ：スロート（真実の表現・対話・自己開示）'
+        },
+        description: {
+          en: 'Authentic truth, communication, clarity, and expression.',
+          my: 'ရိုးသားဖြောင့်မတ်သော စကား၊ အမှန်တရားနှင့် ဖော်ပြပြောဆိုနိုင်စွမ်း။',
+          ja: '真実の声、明晰なコミュニケーション、表現力。'
+        }
+      },
+      {
+        id: 6,
+        name: {
+          en: '6. Third Eye Chakra (Ajna)',
+          my: '၆။ အတွင်းစိတ်အာရုံနှင့် ဉာဏ်အလင်း စွမ်းအင်',
+          ja: '第6チャクラ：サードアイ（直感・洞察力・霊視力）'
+        },
+        description: {
+          en: 'Intuition, mental vision, dream insights, and wisdom.',
+          my: 'အတွင်းစိတ်အာရုံ၊ အမြော်အမြင်နှင့် ဉာဏ်ပညာ။',
+          ja: '直感、深層のビジョン、見通す智慧。'
+        }
+      },
+      {
+        id: 7,
+        name: {
+          en: '7. Crown Chakra (Sahasrara)',
+          my: '၇။ စကြဝဠာနှင့် စိတ်ဝိညာဉ် ချိတ်ဆက်မှု စွမ်းအင်',
+          ja: '第7チャクラ：クラウン（天界との繋がり・宇宙意識）'
+        },
+        description: {
+          en: 'Spiritual transcendence, cosmic oneness, and divine grace.',
+          my: 'စကြဝဠာနှင့် တစ်သားတည်းဖြစ်မှု၊ ဉာဏ်အလင်းပွင့်ခြင်းနှင့် သစ္စာတရား။',
+          ja: '大いなる宇宙との合一、悟り、天上の祝福。'
+        }
+      }
+    ]
+  },
+  {
+    id: 'celtic_cross',
+    name: {
+      en: '✡ 10-Card Celtic Cross',
+      my: '✡ ၁၀ ကတ် မဟာကံကြမ္မာ ခင်းကျင်းပုံ (Celtic Cross)',
+      ja: '✡ ケルティック・クロス（大いなる啓示・10枚）'
+    },
+    subtitle: {
+      en: 'The Master Standard: Present · Challenge · Root · Past · Crown · Future · Self · Environment · Hopes · Final Outcome.',
+      my: 'တာရော့ဗေဒ၏ အထွတ်အထိပ် ခင်းကျင်းပုံ: ပစ္စုပ္ပန် • စိန်ခေါ်မှု • အခြေခံ • အတိတ် • ရည်မှန်းချက် • အနာဂတ် • မိမိ • ပတ်ဝန်းကျင် • မျှော်လင့်ချက် • အဆုံးစွန်ရလဒ်။',
+      ja: 'タロット最高峰の伝統スプレッド：現状・障害・根本・過去・理想・未来・自己・環境・願望と恐れ・最終結果。'
+    },
+    cardCount: 10,
+    description: {
+      en: 'The definitive deep psychological and karmic blueprint of your life.',
+      my: 'ဘဝ၏ ကံကြမ္မာခရီးလမ်းကြောင်းနှင့် အတွင်းစိတ်အနက်ရှိုင်းဆုံးကို အသေးစိတ် ဖော်ပြပေးသော မဟာခင်းကျင်းပုံ။',
+      ja: '宿命の全容、心理的深層、未来の軌跡を完全に見通す最も権威ある展開法。'
+    },
+    positions: [
+      {
+        id: 1,
+        name: {
+          en: '1. The Heart of the Matter',
+          my: '၁။ ကိစ္စရပ်၏ အဓိက အနှစ်သာရ',
+          ja: '第1位置：問題の核心・現状'
+        },
+        description: {
+          en: 'The central atmosphere and active energy right now.',
+          my: 'လက်ရှိအချိန်တွင် အဓိက လွှမ်းမိုးနေသော စွမ်းအင်။',
+          ja: '今まさに中心で渦巻いている本質的エネルギー。'
+        }
+      },
+      {
+        id: 2,
+        name: {
+          en: '2. The Crossing Challenge',
+          my: '၂။ ကန့်လန့်ဖြတ် စိန်ခေါ်မှုနှင့် အတားအဆီး',
+          ja: '第2位置：直面する障害・試練'
+        },
+        description: {
+          en: 'What directly opposes, crosses, or catalyzes you.',
+          my: 'တိုက်ရိုက်ရင်ဆိုင်နေရသော အတားအဆီး သို့မဟုတ် စမ်းသပ်မှု။',
+          ja: '前進を阻んでいる摩擦、または目覚めの引き金。'
+        }
+      },
+      {
+        id: 3,
+        name: {
+          en: '3. The Root Foundation',
+          my: '၃။ အခြေခံအုတ်မြစ်နှင့် ကံကြမ္မာအကြောင်းရင်း',
+          ja: '第3位置：根本の土台・無意識の根源'
+        },
+        description: {
+          en: 'Subconscious roots and past causes underpinning the situation.',
+          my: 'အခြေအနေ၏ မူလအစနှင့် နောက်ကွယ်မှ အကြောင်းတရား။',
+          ja: '状況を支えている潜在意識の根幹と根本原因。'
+        }
+      },
+      {
+        id: 4,
+        name: {
+          en: '4. The Passing Past',
+          my: '၄။ ကုန်လွန်ခဲ့သော အတိတ်လွှမ်းမိုးမှု',
+          ja: '第4位置：過ぎ去りし過去・去りゆく影響'
+        },
+        description: {
+          en: 'Events or energies that are receding from your field.',
+          my: 'ပြီးဆုံးသွားတော့မည့် အတိတ်က စွမ်းအင်များနှင့် သင်ခန်းစာများ။',
+          ja: 'すでにピークを過ぎ、背後へと去りゆく影響力。'
+        }
+      },
+      {
+        id: 5,
+        name: {
+          en: '5. The Crown & Highest Potential',
+          my: '၅။ အမြင့်ဆုံး ရည်မှန်းချက်နှင့် ဖြစ်နိုင်ခြေ',
+          ja: '第5位置：理想・高次の可能性（クラウン）'
+        },
+        description: {
+          en: 'The best achievable goal or conscious aspiration.',
+          my: 'အကောင်းဆုံး ရရှိနိုင်သော အောင်မြင်မှုနှင့် မျှော်မှန်းချက်။',
+          ja: '達成可能な最善の結果、あるいは意識的な理想。'
+        }
+      },
+      {
+        id: 6,
+        name: {
+          en: '6. The Near Future',
+          my: '၆။ မကြာမီ ရောက်ရှိလာမည့် အနာဂတ်',
+          ja: '第6位置：近未来の展開'
+        },
+        description: {
+          en: 'What is entering your life within days or weeks.',
+          my: 'ရက်သတ္တပတ်ပိုင်းအတွင်း စတင်ပေါ်ပေါက်လာမည့် အပြောင်းအလဲ။',
+          ja: '数日〜数週間以内に訪れる次の一歩。'
+        }
+      },
+      {
+        id: 7,
+        name: {
+          en: '7. Self & Internal Attitude',
+          my: '၇။ မိမိ၏ ရပ်တည်ချက်နှင့် အတွင်းစိတ်',
+          ja: '第7位置：自己の立場・内なる姿勢'
+        },
+        description: {
+          en: 'How you perceive yourself and your emotional posture.',
+          my: 'မိမိကိုယ်ကို မြင်သည့် အမြင်နှင့် စိတ်နေသဘောထား။',
+          ja: 'あなた自身の精神的立ち位置と内なる感情。'
+        }
+      },
+      {
+        id: 8,
+        name: {
+          en: '8. External Environment & People',
+          my: '၈။ ပတ်ဝန်းကျင်နှင့် အခြားသူများ၏ သဘောထား',
+          ja: '第8位置：周囲の環境・他者の影響'
+        },
+        description: {
+          en: 'The external circumstances, people, and vibes around you.',
+          my: 'မိမိပတ်ဝန်းကျင်ရှိ လူပုဂ္ဂိုလ်များ၏ သဘောထားနှင့် အခြေအနေ။',
+          ja: '取り巻く環境、他者の意図、外部からのエネルギー。'
+        }
+      },
+      {
+        id: 9,
+        name: {
+          en: '9. Hopes & Secret Fears',
+          my: '၉။ မျှော်လင့်ချက်နှင့် အတွင်းစိတ် စိုးရိမ်သောကများ',
+          ja: '第9位置：希望と恐れ'
+        },
+        description: {
+          en: 'Your deepest desires tangled with your hidden worries.',
+          my: 'နှလုံးသားထဲရှိ ဆန္ဒများနှင့် မသိစိတ်၏ စိုးရိမ်ပူပန်မှုများ။',
+          ja: '魂が最も望んでいること、そして恐れている影。'
+        }
+      },
+      {
+        id: 10,
+        name: {
+          en: '10. Ultimate Outcome & Destiny',
+          my: '၁၀။ နောက်ဆုံး အဆုံးစွန် ကံကြမ္မာရလဒ်',
+          ja: '第10位置：最終結末・大いなる着地点'
+        },
+        description: {
+          en: 'The definitive culmination of this sacred cycle.',
+          my: 'ဤခရီးလမ်း၏ နောက်ဆုံး အထွတ်အထိပ် ပြည့်မြောက်ခြင်း ရလဒ်။',
+          ja: 'すべての要素が統合された先にある、宿命の最終結論。'
         }
       }
     ]

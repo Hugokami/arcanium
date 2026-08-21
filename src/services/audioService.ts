@@ -111,6 +111,16 @@ class AudioService {
     }
   }
 
+  // Play high chime
+  public playChime() {
+    this.playCardFlip();
+  }
+
+  // Play card select
+  public playCardSelect() {
+    this.playCardSlide();
+  }
+
   // Card Flip / Reveal Bell (Harmonic Singing Chime)
   public playCardFlip() {
     if (this.isMuted) return;

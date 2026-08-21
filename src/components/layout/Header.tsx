@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check } from 'lucide-react';
+import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check, Sun, Compass } from 'lucide-react';
 import { Language } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
+import { UserProfile } from '../../types/userProfile';
 
 interface HeaderProps {
   language: Language;
   onSelectLanguage: (lang: Language) => void;
   onOpenJournal: () => void;
   onOpenCodex: () => void;
+  onOpenProfile: () => void;
+  onOpenDailyCard: () => void;
   onResetHome: () => void;
   journalCount: number;
+  userProfile?: UserProfile | null;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -18,8 +22,11 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectLanguage,
   onOpenJournal,
   onOpenCodex,
+  onOpenProfile,
+  onOpenDailyCard,
   onResetHome,
-  journalCount
+  journalCount,
+  userProfile
 }) => {
   const [isMuted, setIsMuted] = useState(audioService.getMuted());
   const [isAmbientOn, setIsAmbientOn] = useState(audioService.getIsAmbientPlaying());
@@ -86,13 +93,41 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         {/* Right: Controls Hub */}
-        <div className="flex items-center space-x-2 sm:space-x-2.5">
+        <div className="flex items-center space-x-1.5 sm:space-x-2">
           
+          {/* Daily Oracle Button */}
+          <button
+            onClick={() => {
+              audioService.playCardFlip();
+              onOpenDailyCard();
+            }}
+            className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-400/60 text-xs text-amber-200 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95 shadow-sm"
+            title={UI_TRANSLATIONS.dailyCardBtn[language]}
+          >
+            <Sun className="w-3.5 h-3.5 text-amber-400 animate-spin-slow" />
+            <span className="hidden md:inline font-serif">{UI_TRANSLATIONS.dailyCardBtn[language]}</span>
+          </button>
+
+          {/* Natal Profile Button */}
+          <button
+            onClick={() => {
+              audioService.playCardSlide();
+              onOpenProfile();
+            }}
+            className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+            title={UI_TRANSLATIONS.profileBtn[language]}
+          >
+            <Compass className="w-3.5 h-3.5 text-[#d4af37]" />
+            <span className="font-serif max-w-[90px] truncate">
+              {userProfile?.zodiacSign ? `${userProfile.zodiacSign.symbol} ${userProfile.name.split(' ')[0]}` : UI_TRANSLATIONS.profileBtn[language]}
+            </span>
+          </button>
+
           {/* Language Switcher Dropdown */}
           <div className="relative" ref={langMenuRef}>
             <button
               onClick={() => setShowLangMenu(!showLangMenu)}
-              className="flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             >
               <Globe className="w-3.5 h-3.5 text-[#d4af37]" />
               <span className="font-serif font-medium">{currentLangObj.nativeName}</span>
@@ -132,7 +167,7 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenCodex();
             }}
-            className="hidden sm:flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+            className="hidden lg:flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             title={UI_TRANSLATIONS.codexBtn[language]}
           >
             <BookOpen className="w-3.5 h-3.5 text-[#d4af37]" />
@@ -145,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenJournal();
             }}
-            className="relative flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+            className="relative flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             title={UI_TRANSLATIONS.journalBtn[language]}
           >
             <Scroll className="w-3.5 h-3.5 text-[#d4af37]" />

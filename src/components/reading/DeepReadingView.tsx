@@ -1,9 +1,32 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { DrawnCard, Language, ReadingResultData } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { getPositionContextualMeaning, analyzeReading } from '../../services/deepReadingEngine';
 import { audioService } from '../../services/audioService';
-import { RotateCcw, Bookmark, Share2, Copy, Check, Sparkles, Star } from 'lucide-react';
+import { TarotSynergyService } from '../../services/tarotSynergyService';
+import { AstrologyService } from '../../services/astrologyService';
+import { VoiceOracleService } from '../../services/voiceOracleService';
+import { UserProfile } from '../../types/userProfile';
+import { OracleChatDrawer } from './OracleChatDrawer';
+import {
+  RotateCcw,
+  Bookmark,
+  Share2,
+  Copy,
+  Check,
+  Sparkles,
+  Star,
+  Volume2,
+  VolumeX,
+  MessageSquareQuote,
+  Flame,
+  Droplet,
+  Wind,
+  Mountain,
+  Zap,
+  Crown,
+  Scale
+} from 'lucide-react';
 
 interface DeepReadingViewProps {
   reading: ReadingResultData;
@@ -26,13 +49,42 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   const [userNotes, setUserNotes] = useState<string>(reading.userNotes || '');
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
   const { drawnCards, spread, topic, question } = reading;
+
+  useEffect(() => {
+    setUserProfile(AstrologyService.loadProfile());
+    const unsub = VoiceOracleService.subscribeState(setIsSpeaking);
+    return () => {
+      unsub();
+      VoiceOracleService.stop();
+    };
+  }, []);
 
   // Dynamically compute analysis based on active language so it always translates instantly
   const activeAnalysis = useMemo(() => {
     return analyzeReading(topic, drawnCards, spread, language);
   }, [topic, drawnCards, spread, language]);
+
+  // Master Tarot Synergy calculations
+  const elementalDignities = useMemo(() => {
+    return TarotSynergyService.calculateElementalDignities(drawnCards, language);
+  }, [drawnCards, language]);
+
+  const detectedSynergies = useMemo(() => {
+    return TarotSynergyService.detectCardSynergies(drawnCards, language);
+  }, [drawnCards, language]);
+
+  const quintessence = useMemo(() => {
+    return TarotSynergyService.calculateQuintessence(drawnCards, language);
+  }, [drawnCards, language]);
+
+  const polarityGauge = useMemo(() => {
+    return TarotSynergyService.calculatePolarityGauge(drawnCards);
+  }, [drawnCards]);
 
   const handleSave = () => {
     audioService.playCardSlide();
@@ -52,8 +104,12 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       `Question: "${question}"\n` +
       `Spread: ${spread.name[language]}\n` +
       `Date: ${new Date(reading.timestamp).toLocaleDateString()}\n\n` +
+      `--- POLARITY & CERTAINTY ---\n` +
+      `${polarityGauge.verdict[language]} (${polarityGauge.score}%)\n` +
+      `${polarityGauge.explanation[language]}\n\n` +
       `--- CARDS DRAWN ---\n` +
       drawnCards.map((dc, i) => `${i + 1}. ${dc.position.name[language]}: ${dc.card.name[language]} ${dc.isReversed ? '(Reversed)' : '(Upright)'}\n   ${dc.isReversed ? dc.card.reversedMeaning[language] : dc.card.uprightMeaning[language]}`).join('\n\n') +
+      `\n\n--- THE QUINTESSENCE ---\n${quintessence.cardName[language]}: ${quintessence.lesson[language]}` +
       `\n\n--- SUMMARY ---\n${activeAnalysis.summary}`;
 
     navigator.clipboard.writeText(text);
@@ -61,11 +117,21 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const toggleVoiceOracle = () => {
+    if (isSpeaking) {
+      VoiceOracleService.stop();
+    } else {
+      audioService.playChime();
+      const narrativeToRead = `${activeAnalysis.summary} ${activeAnalysis.advice} ${quintessence.lesson[language]}`;
+      VoiceOracleService.speak(narrativeToRead, language);
+    }
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-8 sm:py-12 space-y-8 animate-in fade-in duration-500">
       
       {/* Top Reading Banner */}
-      <div className="text-center space-y-2.5 max-w-2xl mx-auto">
+      <div className="text-center space-y-3 max-w-2xl mx-auto">
         <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[10px] font-mono tracking-widest text-[#d4af37] uppercase">
           <Sparkles className="w-3 h-3 text-[#d4af37]" />
           <span>Oracle Decree</span>
@@ -77,10 +143,46 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         <p className="text-sm sm:text-base text-zinc-200 font-serif italic">
           "{question}"
         </p>
+        
+        {userProfile && (
+          <div className="inline-flex items-center space-x-2 px-3 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-serif text-amber-200/90">
+            <span>Querent: <b>{userProfile.name}</b></span>
+            {userProfile.zodiacSign && (
+              <>
+                <span>•</span>
+                <span>{userProfile.zodiacSign.symbol} {userProfile.zodiacSign.name[language]}</span>
+              </>
+            )}
+          </div>
+        )}
+
         <div className="text-xs font-serif text-[#d4af37]/90 flex items-center justify-center space-x-2">
           <span>{UI_TRANSLATIONS.spreadLabel[language]}: {spread.name[language]}</span>
           <span>•</span>
           <span>{drawnCards.length} {UI_TRANSLATIONS.cardsPick[language]}</span>
+        </div>
+
+        {/* Action Pills: Voice Oracle + Ask Oracle */}
+        <div className="flex items-center justify-center gap-2.5 pt-2">
+          <button
+            onClick={toggleVoiceOracle}
+            className={`h-9 px-4 rounded-full text-xs font-serif flex items-center space-x-2 transition-all border ${
+              isSpeaking
+                ? 'bg-amber-400/20 border-amber-400 text-amber-200 animate-pulse'
+                : 'bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.12] text-amber-200/90'
+            }`}
+          >
+            {isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+            <span>{isSpeaking ? UI_TRANSLATIONS.voiceStopBtn[language] : UI_TRANSLATIONS.voiceListenBtn[language]}</span>
+          </button>
+
+          <button
+            onClick={() => setIsChatOpen(true)}
+            className="h-9 px-4 rounded-full text-xs font-serif flex items-center space-x-2 transition-all border bg-[#d4af37]/15 hover:bg-[#d4af37]/25 border-[#d4af37]/50 text-amber-200 shadow-sm"
+          >
+            <MessageSquareQuote className="w-3.5 h-3.5 text-[#d4af37]" />
+            <span>{UI_TRANSLATIONS.askOracleBtn[language]}</span>
+          </button>
         </div>
       </div>
 
@@ -106,11 +208,118 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         ))}
       </div>
 
+      {/* NEW FEATURE: Polarity & Certainty Gauge */}
+      <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-[#d4af37] space-y-3 shadow-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-[#d4af37]">
+            <Scale className="w-4 h-4" />
+            <span>{UI_TRANSLATIONS.polarityTitle[language]}</span>
+          </div>
+          <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-amber-200">
+            {polarityGauge.score}% Confidence
+          </span>
+        </div>
+
+        {/* Meter bar */}
+        <div className="w-full h-2 rounded-full bg-white/[0.08] overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-purple-500 via-amber-400 to-emerald-400 transition-all duration-700"
+            style={{ width: `${polarityGauge.score}%` }}
+          />
+        </div>
+
+        <div className="text-sm font-serif text-amber-100 font-semibold">
+          {polarityGauge.verdict[language]}
+        </div>
+        <p className="text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed">
+          {polarityGauge.explanation[language]}
+        </p>
+      </div>
+
+      {/* NEW FEATURE: Elemental Dignities & Alchemy Matrix */}
+      <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-cyan-400 space-y-4 shadow-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-cyan-300">
+            <Sparkles className="w-4 h-4" />
+            <span>{UI_TRANSLATIONS.elementalTitle[language]}</span>
+          </div>
+          <span className="text-xs font-mono text-zinc-300">
+            Harmony: <b className="text-amber-200">{elementalDignities.harmonyScore}%</b>
+          </span>
+        </div>
+
+        {/* 4 Elements Distribution Chips */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
+            <Flame className="w-4 h-4 text-amber-400 flex-shrink-0" />
+            <div className="text-xs font-serif">
+              <span className="text-zinc-300">Fire: </span>
+              <b className="text-amber-200">{elementalDignities.fire}</b>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
+            <Droplet className="w-4 h-4 text-blue-400 flex-shrink-0" />
+            <div className="text-xs font-serif">
+              <span className="text-zinc-300">Water: </span>
+              <b className="text-blue-200">{elementalDignities.water}</b>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
+            <Wind className="w-4 h-4 text-cyan-300 flex-shrink-0" />
+            <div className="text-xs font-serif">
+              <span className="text-zinc-300">Air: </span>
+              <b className="text-cyan-200">{elementalDignities.air}</b>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
+            <Mountain className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <div className="text-xs font-serif">
+              <span className="text-zinc-300">Earth: </span>
+              <b className="text-emerald-200">{elementalDignities.earth}</b>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-xs sm:text-sm text-zinc-200 font-serif leading-relaxed pt-1">
+          <b className="text-[#d4af37]">{elementalDignities.alchemyVerdict[language]}:</b> {elementalDignities.elementalAdvice[language]}
+        </div>
+      </div>
+
+      {/* NEW FEATURE: Detected Card Synergies */}
+      {detectedSynergies.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-amber-300 px-1">
+            <Zap className="w-4 h-4 text-amber-400" />
+            <span>{UI_TRANSLATIONS.synergyTitle[language]}</span>
+          </div>
+          {detectedSynergies.map((syn) => (
+            <div
+              key={syn.id}
+              className={`craft-panel p-5 rounded-2xl border-l-4 space-y-2 ${
+                syn.potency === 'profound'
+                  ? 'border-l-amber-400 bg-gradient-to-r from-amber-500/10 to-transparent'
+                  : syn.potency === 'warning'
+                  ? 'border-l-rose-500 bg-gradient-to-r from-rose-500/10 to-transparent'
+                  : 'border-l-purple-400 bg-gradient-to-r from-purple-500/10 to-transparent'
+              }`}
+            >
+              <h4 className="text-sm sm:text-base font-serif font-bold text-amber-200">
+                {syn.title[language]}
+              </h4>
+              <p className="text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed">
+                {syn.description[language]}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* 1. Card-by-card, position-aware readings */}
       <div className="space-y-4">
         {drawnCards.map((dc, i) => {
           const posName = dc.position.name[language];
           const posContext = getPositionContextualMeaning(dc.position.name.en, dc.card, dc.isReversed, language);
+          const natalResonance = AstrologyService.getCardNatalResonance(dc.card, userProfile, language);
 
           return (
             <div
@@ -120,14 +329,24 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
-                  <h3 className="text-lg sm:text-xl font-serif text-[#d4af37] tracking-wide">
-                    {posName} — {dc.card.name[language]}
-                    {dc.isReversed && (
-                      <span className="text-[#c77dff] italic text-sm ml-2 font-sans font-normal">
-                        {UI_TRANSLATIONS.reversedTag[language]}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-serif text-[#d4af37] tracking-wide">
+                      {posName} — {dc.card.name[language]}
+                      {dc.isReversed && (
+                        <span className="text-[#c77dff] italic text-sm ml-2 font-sans font-normal">
+                          {UI_TRANSLATIONS.reversedTag[language]}
+                        </span>
+                      )}
+                    </h3>
+
+                    {/* Natal Resonance Badge if matched */}
+                    {natalResonance && (
+                      <span className="text-[10px] font-serif font-bold px-2 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 animate-pulse">
+                        {natalResonance.badge}
                       </span>
                     )}
-                  </h3>
+                  </div>
+
                   <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-400 font-mono">
                     {dc.card.arcana === 'major'
                       ? 'Major Arcana'
@@ -148,6 +367,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
               <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
                 {dc.isReversed ? dc.card.reversedMeaning[language] : dc.card.uprightMeaning[language]}
               </p>
+
+              {/* Natal Reason if resonant */}
+              {natalResonance && (
+                <div className="p-2.5 rounded-xl bg-[#d4af37]/10 border border-[#d4af37]/30 text-xs font-serif text-amber-200/95 leading-relaxed">
+                  <span className="font-bold text-amber-300">✦ Natal Affinity Note: </span>
+                  {natalResonance.reason}
+                </div>
+              )}
 
               <div className="pt-2.5 border-t border-white/[0.08] text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed">
                 <b className="text-[#d4af37]">{UI_TRANSLATIONS.inThisPosition[language]} ({posName}):</b> {posContext}
@@ -252,6 +479,20 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           </div>
         )}
 
+        {/* NEW FEATURE: The Quintessence Master Root Card */}
+        <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-amber-400 space-y-3 shadow-xl">
+          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-[#d4af37]">
+            <Crown className="w-4 h-4 text-[#d4af37]" />
+            <span>{UI_TRANSLATIONS.quintessenceTitle[language]}</span>
+          </div>
+          <div className="text-base sm:text-lg font-serif font-bold text-amber-100">
+            {quintessence.cardName[language]}
+          </div>
+          <p className="text-xs sm:text-sm text-[#e8e0f5] font-serif leading-relaxed">
+            {quintessence.lesson[language]}
+          </p>
+        </div>
+
         {/* Master Summary Panel */}
         <div className="summary craft-panel p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#1a0f35] to-[#120924] border border-[#d4af37]/60 text-center space-y-3 shadow-2xl">
           <div className="text-[#d4af37] text-xs font-mono uppercase tracking-[0.25em] font-semibold">
@@ -332,6 +573,17 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           <span>{UI_TRANSLATIONS.shuffleAgainBtn[language]}</span>
         </button>
       </div>
+
+      {/* Ask the Oracle Drawer */}
+      <OracleChatDrawer
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        language={language}
+        topic={topic}
+        drawnCards={drawnCards}
+        spread={spread}
+        userProfile={userProfile}
+      />
 
     </div>
   );
