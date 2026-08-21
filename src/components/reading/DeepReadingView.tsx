@@ -3,7 +3,7 @@ import { DrawnCard, Language, ReadingResultData } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { getPositionContextualMeaning, analyzeReading } from '../../services/deepReadingEngine';
 import { audioService } from '../../services/audioService';
-import { RotateCcw, Bookmark, Share2, Copy, Check, Sparkles, Scroll, Star } from 'lucide-react';
+import { RotateCcw, Bookmark, Share2, Copy, Check, Sparkles, Scroll, Star, Eye } from 'lucide-react';
 
 interface DeepReadingViewProps {
   reading: ReadingResultData;
@@ -64,8 +64,13 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-8 sm:py-12 space-y-8 animate-in fade-in duration-700">
       
-      {/* Top Banner */}
-      <div className="text-center space-y-2 max-w-2xl mx-auto">
+      {/* Top Reading Banner */}
+      <div className="text-center space-y-2.5 max-w-2xl mx-auto">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[11px] font-mono tracking-widest text-[#d4af37] uppercase">
+          <Sparkles className="w-3 h-3 text-[#d4af37]" />
+          <span>Oracle Decree</span>
+        </div>
+
         <h1 className="text-2xl sm:text-4xl font-serif tracking-[0.2em] text-[#d4af37] text-shadow-gold">
           {UI_TRANSLATIONS.readingTitle[language]}
         </h1>
@@ -79,6 +84,28 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         </div>
       </div>
 
+      {/* Horizontal Mini Card Gallery Strip */}
+      <div className="flex items-center justify-center gap-3 py-3 overflow-x-auto">
+        {drawnCards.map((dc, i) => (
+          <div
+            key={i}
+            className="flex flex-col items-center space-y-1 p-2 rounded-xl bg-black/40 border border-white/10 flex-shrink-0"
+          >
+            <div className="w-12 h-18 rounded-lg overflow-hidden border border-[#8a7326]/60 bg-black flex items-center justify-center">
+              <img
+                src={`/cards/${dc.card.file}`}
+                alt={dc.card.name[language]}
+                style={{ transform: dc.isReversed ? 'rotate(180deg)' : 'none' }}
+                className="w-full h-full object-contain p-0.5"
+              />
+            </div>
+            <span className="text-[10px] font-serif text-[#d4af37] max-w-[70px] truncate text-center">
+              {dc.card.name[language]}
+            </span>
+          </div>
+        ))}
+      </div>
+
       {/* 1. Card-by-card, position-aware readings */}
       <div className="space-y-4">
         {drawnCards.map((dc, i) => {
@@ -89,10 +116,10 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
             <div
               key={dc.card.id + i}
               style={{ animationDelay: `${i * 0.15}s` }}
-              className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-[#d4af37] border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-3 animate-in fade-in slide-in-from-bottom-3"
+              className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-[#d4af37] space-y-3 animate-in fade-in slide-in-from-bottom-3"
             >
               <div className="flex items-start justify-between gap-4">
-                <div>
+                <div className="space-y-1">
                   <h3 className="text-lg sm:text-xl font-serif text-[#d4af37] tracking-wide">
                     {posName} — {dc.card.name[language]}
                     {dc.isReversed && (
@@ -101,14 +128,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
                       </span>
                     )}
                   </h3>
-                  <div className="text-[11px] uppercase tracking-[0.15em] text-zinc-400 font-mono mt-0.5">
+                  <div className="text-[11px] uppercase tracking-[0.15em] text-zinc-400 font-mono">
                     {dc.card.arcana === 'major'
                       ? 'Major Arcana'
                       : `Minor Arcana · ${dc.card.suit === 'cups' ? 'Cups (Water)' : dc.card.suit === 'pentacles' ? 'Pentacles (Earth)' : dc.card.suit === 'swords' ? 'Swords (Air)' : 'Wands (Fire)'}`}
                   </div>
                 </div>
 
-                <div className="w-14 h-22 rounded-lg overflow-hidden border border-[#8a7326]/70 flex-shrink-0 bg-black shadow-md">
+                <div className="w-14 h-22 rounded-xl overflow-hidden border border-[#8a7326]/70 flex-shrink-0 bg-black shadow-md">
                   <img
                     src={`/cards/${dc.card.file}`}
                     alt={dc.card.name[language]}
@@ -135,7 +162,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         
         {/* Mind */}
         {activeAnalysis.mind && (
-          <div className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-purple-400 border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-2">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-purple-400 space-y-2">
             <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
               {UI_TRANSLATIONS.sectionTitles.mind[language]}
             </h3>
@@ -147,7 +174,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Problems */}
         {activeAnalysis.problems && (
-          <div className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-amber-500 border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-2">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-amber-500 space-y-2">
             <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
               {UI_TRANSLATIONS.sectionTitles.problems[language]}
             </h3>
@@ -159,7 +186,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Hidden Forces */}
         {activeAnalysis.forces && (
-          <div className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-indigo-400 border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-2">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-indigo-400 space-y-2">
             <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
               {UI_TRANSLATIONS.sectionTitles.forces[language]}
             </h3>
@@ -171,7 +198,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Advice */}
         {activeAnalysis.advice && (
-          <div className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-yellow-400 border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-2">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-yellow-400 space-y-2">
             <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
               {UI_TRANSLATIONS.sectionTitles.advice[language]}
             </h3>
@@ -183,7 +210,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Outlook */}
         {activeAnalysis.outlook && (
-          <div className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-rose-400 border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-2">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-rose-400 space-y-2">
             <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
               {UI_TRANSLATIONS.sectionTitles.outlook[language]}
             </h3>
@@ -195,7 +222,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Timeline */}
         {activeAnalysis.timeline && (
-          <div className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-teal-400 border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-2">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-teal-400 space-y-2">
             <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
               {UI_TRANSLATIONS.sectionTitles.timeline[language]}
             </h3>
@@ -207,7 +234,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Archetype */}
         {activeAnalysis.archetype && (
-          <div className="panel p-5 sm:p-6 rounded-xl bg-[#140c2d]/80 border-l-4 border-l-[#d4af37] border-y border-r border-[#8a7326]/40 backdrop-blur-md shadow-lg space-y-3">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-[#d4af37] space-y-3">
             <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
               {UI_TRANSLATIONS.sectionTitles.archetype[language]}
             </h3>
@@ -226,7 +253,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         )}
 
         {/* Master Summary Panel */}
-        <div className="summary panel p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#1a0f35] to-[#120924] border border-[#d4af37]/70 text-center space-y-3 shadow-2xl">
+        <div className="summary craft-panel p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#1a0f35] to-[#120924] border border-[#d4af37]/70 text-center space-y-3 shadow-2xl">
           <div className="text-[#d4af37] text-xs font-mono uppercase tracking-[0.25em] font-semibold">
             • {UI_TRANSLATIONS.sectionTitles.summary[language]} •
           </div>
@@ -238,15 +265,15 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       </div>
 
       {/* Journal Reflection Box & Actions */}
-      <div className="panel p-5 sm:p-6 rounded-2xl bg-black/50 border border-[#8a7326]/50 space-y-3 shadow-xl">
+      <div className="craft-panel p-5 sm:p-6 rounded-2xl space-y-3 shadow-xl">
         <div className="flex items-center justify-between">
           <span className="text-xs sm:text-sm font-serif uppercase tracking-wider text-[#d4af37] font-semibold">
             {UI_TRANSLATIONS.reflectionsTitle[language]}
           </span>
           <button
             onClick={() => setIsFavorite(!isFavorite)}
-            className={`p-1.5 rounded-lg border transition-all ${
-              isFavorite ? 'bg-[#d4af37] text-black border-[#d4af37]' : 'text-zinc-400 border-white/10 hover:text-white'
+            className={`p-2 rounded-xl border transition-all ${
+              isFavorite ? 'bg-[#d4af37] text-black border-[#d4af37]' : 'text-zinc-400 border-white/10 hover:text-white hover:bg-white/5'
             }`}
             title="Favorite"
           >
@@ -259,7 +286,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           value={userNotes}
           onChange={(e) => setUserNotes(e.target.value)}
           placeholder={UI_TRANSLATIONS.reflectionsPlaceholder[language]}
-          className="w-full p-3.5 rounded-xl bg-black/70 border border-white/10 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-serif resize-none focus:outline-none focus:border-[#d4af37]"
+          className="w-full p-3.5 rounded-xl bg-black/60 border border-white/10 text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-serif resize-none focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
         />
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
@@ -278,7 +305,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={handleCopy}
-              className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-serif text-zinc-300 border border-white/10 flex items-center space-x-1.5 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs sm:text-sm font-serif text-zinc-300 border border-white/10 flex items-center space-x-1.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? UI_TRANSLATIONS.copiedBtn[language] : UI_TRANSLATIONS.copyBtn[language]}</span>
@@ -286,7 +313,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
             <button
               onClick={onOpenScrollModal}
-              className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-serif text-[#d4af37] border border-[#8a7326]/60 flex items-center space-x-1.5 transition-colors hover:border-[#d4af37]"
+              className="px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs sm:text-sm font-serif text-[#d4af37] border border-[#8a7326]/60 flex items-center space-x-1.5 transition-colors hover:border-[#d4af37] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
             >
               <Share2 className="w-3.5 h-3.5" />
               <span>{UI_TRANSLATIONS.exportScrollBtn[language]}</span>
@@ -299,7 +326,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       <div className="text-center pt-4">
         <button
           onClick={onResetHome}
-          className="px-8 py-3.5 rounded-xl bg-gradient-to-br from-[#2a1a55] to-[#1a0f35] border border-[#d4af37] text-[#d4af37] font-serif text-sm sm:text-base tracking-[0.15em] uppercase hover:shadow-gold-glow-lg transition-all active:scale-95 flex items-center space-x-2 mx-auto font-medium"
+          className="px-8 py-3.5 rounded-xl bg-gradient-to-br from-[#2f1c5c] via-[#1c0f38] to-[#120826] border border-[#d4af37] text-[#d4af37] font-serif text-sm sm:text-base tracking-[0.18em] uppercase hover:shadow-gold-glow-lg transition-all active:scale-95 flex items-center space-x-2.5 mx-auto font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
         >
           <RotateCcw className="w-4 h-4" />
           <span>{UI_TRANSLATIONS.shuffleAgainBtn[language]}</span>

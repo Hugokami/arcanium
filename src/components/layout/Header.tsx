@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Volume2, VolumeX, Sparkles, BookOpen, Scroll, Music, ChevronDown, Globe } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Volume2, VolumeX, Sparkles, BookOpen, Scroll, Music, ChevronDown, Globe, Check } from 'lucide-react';
 import { Language } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
@@ -27,6 +27,22 @@ export const Header: React.FC<HeaderProps> = ({
   const [showVolumeMenu, setShowVolumeMenu] = useState(false);
   const [volume, setVolume] = useState(audioService.getVolume());
 
+  const langMenuRef = useRef<HTMLDivElement>(null);
+  const volMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
+        setShowLangMenu(false);
+      }
+      if (volMenuRef.current && !volMenuRef.current.contains(event.target as Node)) {
+        setShowVolumeMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleToggleMute = () => {
     const muted = audioService.toggleMute();
     setIsMuted(muted);
@@ -44,54 +60,54 @@ export const Header: React.FC<HeaderProps> = ({
     audioService.setVolume(val);
   };
 
-  const languages: { id: Language; label: string; flag: string }[] = [
-    { id: 'en', label: 'English', flag: '🇬🇧' },
-    { id: 'my', label: 'မြန်မာဘာသာ', flag: '🇲🇲' },
-    { id: 'ja', label: '日本語', flag: '🇯🇵' }
+  const languages: { id: Language; label: string; nativeName: string; flag: string }[] = [
+    { id: 'en', label: 'English', nativeName: 'English', flag: '🇬🇧' },
+    { id: 'my', label: 'Burmese', nativeName: 'မြန်မာဘာသာ', flag: '🇲🇲' },
+    { id: 'ja', label: 'Japanese', nativeName: '日本語', flag: '🇯🇵' }
   ];
 
   const currentLangObj = languages.find(l => l.id === language) || languages[0];
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#090514]/80 border-b border-[#8a7326]/30 transition-all shadow-lg">
+    <header className="sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#080412]/85 border-b border-[#d4af37]/20 transition-all shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
         
-        {/* Left: Arcana Brand */}
+        {/* Left: Brand Identity with Gold Bezel */}
         <button
           onClick={onResetHome}
-          className="group flex items-center space-x-3 text-left focus:outline-none transition-transform active:scale-95"
+          className="group flex items-center space-x-3.5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-xl p-1 transition-transform active:scale-95"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#d4af37]/30 to-[#8a7326]/10 p-[1px] shadow-gold-glow">
-            <div className="w-full h-full rounded-[11px] bg-[#120924] flex items-center justify-center border border-[#d4af37]/40 group-hover:border-[#d4af37] transition-colors">
-              <Sparkles className="w-4 h-4 text-[#d4af37] animate-pulse-slow" />
+          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37]/40 via-[#8a7326]/20 to-transparent p-[1px] shadow-gold-glow">
+            <div className="w-full h-full rounded-[11px] bg-[#120826] flex items-center justify-center border border-[#d4af37]/40 group-hover:border-[#d4af37] transition-colors">
+              <Sparkles className="w-4.5 h-4.5 text-[#d4af37] animate-pulse-slow" />
             </div>
           </div>
           <div>
-            <span className="font-serif text-lg md:text-xl font-normal tracking-[0.2em] text-[#d4af37] text-shadow-gold">
+            <span className="font-serif text-lg sm:text-xl font-normal tracking-[0.22em] text-[#d4af37] text-shadow-gold block">
               ✦ ARCANIUM ✦
             </span>
-            <p className="text-[10px] text-zinc-400 font-serif italic tracking-wide">
+            <p className="text-[10px] text-zinc-400 font-serif italic tracking-wider line-clamp-1">
               {UI_TRANSLATIONS.appSubtitle[language]}
             </p>
           </div>
         </button>
 
-        {/* Right: Controls (Language, Codex, Journal, Audio) */}
+        {/* Right: Craft Controls */}
         <div className="flex items-center space-x-2 sm:space-x-3">
           
-          {/* Language Switcher */}
-          <div className="relative">
+          {/* Language Switcher Dropdown */}
+          <div className="relative" ref={langMenuRef}>
             <button
               onClick={() => setShowLangMenu(!showLangMenu)}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-[#8a7326]/40 hover:border-[#d4af37] text-xs text-[#e8e0f5] transition-all"
+              className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-[#8a7326]/40 hover:border-[#d4af37] text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
             >
               <Globe className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span className="font-serif font-medium">{currentLangObj.label}</span>
-              <ChevronDown className="w-3 h-3 text-zinc-400" />
+              <span className="font-serif font-medium">{currentLangObj.nativeName}</span>
+              <ChevronDown className={`w-3 h-3 text-zinc-400 transition-transform ${showLangMenu ? 'rotate-180' : ''}`} />
             </button>
 
             {showLangMenu && (
-              <div className="absolute right-0 mt-2 w-44 rounded-2xl bg-[#140c2d] border border-[#d4af37]/40 shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-[#130b29] border border-[#d4af37]/40 shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-top-2 backdrop-blur-xl">
                 {languages.map(lang => (
                   <button
                     key={lang.id}
@@ -100,14 +116,17 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowLangMenu(false);
                       audioService.playCardSlide();
                     }}
-                    className={`w-full flex items-center space-x-2 px-3 py-2 rounded-xl text-left text-xs font-serif transition-colors ${
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-serif transition-colors ${
                       language === lang.id
-                        ? 'bg-[#d4af37]/20 text-[#d4af37] font-bold border border-[#d4af37]/30'
+                        ? 'bg-[#d4af37]/20 text-[#d4af37] font-semibold border border-[#d4af37]/30'
                         : 'hover:bg-white/5 text-zinc-300'
                     }`}
                   >
-                    <span>{lang.flag}</span>
-                    <span>{lang.label}</span>
+                    <div className="flex items-center space-x-2.5">
+                      <span className="text-sm">{lang.flag}</span>
+                      <span>{lang.nativeName}</span>
+                    </div>
+                    {language === lang.id && <Check className="w-3.5 h-3.5 text-[#d4af37]" />}
                   </button>
                 ))}
               </div>
@@ -120,33 +139,33 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenCodex();
             }}
-            className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all"
+            className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#d4af37]/60 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
             title={UI_TRANSLATIONS.codexBtn[language]}
           >
             <BookOpen className="w-3.5 h-3.5 text-[#d4af37]" />
             <span className="font-serif">{UI_TRANSLATIONS.codexBtn[language]}</span>
           </button>
 
-          {/* Journal Button */}
+          {/* Journal Button with Count Pill */}
           <button
             onClick={() => {
               audioService.playCardSlide();
               onOpenJournal();
             }}
-            className="relative flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all"
+            className="relative flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#d4af37]/60 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
             title={UI_TRANSLATIONS.journalBtn[language]}
           >
             <Scroll className="w-3.5 h-3.5 text-[#d4af37]" />
             <span className="hidden sm:inline font-serif">{UI_TRANSLATIONS.journalBtn[language]}</span>
             {journalCount > 0 && (
-              <span className="inline-flex items-center justify-center px-1.5 py-0.2 text-[10px] font-mono font-bold rounded-full bg-[#d4af37] text-black">
+              <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-mono font-bold rounded-full bg-[#d4af37] text-black shadow-sm">
                 {journalCount}
               </span>
             )}
           </button>
 
-          {/* Sound Controls */}
-          <div className="relative flex items-center space-x-1 bg-white/5 p-1 rounded-full border border-white/10">
+          {/* Audio Console Hub */}
+          <div className="relative flex items-center space-x-1 bg-white/[0.04] p-1 rounded-full border border-white/10" ref={volMenuRef}>
             {/* Ambient Drone (432Hz) */}
             <button
               onClick={handleToggleAmbient}
@@ -171,18 +190,18 @@ export const Header: React.FC<HeaderProps> = ({
               {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
             </button>
 
-            {/* Volume dropdown */}
+            {/* Volume dropdown arrow */}
             <button
               onClick={() => setShowVolumeMenu(!showVolumeMenu)}
-              className="p-1 text-zinc-400 hover:text-zinc-200"
+              className="p-1 text-zinc-400 hover:text-zinc-200 focus:outline-none"
             >
-              <ChevronDown className="w-2.5 h-2.5" />
+              <ChevronDown className={`w-2.5 h-2.5 transition-transform ${showVolumeMenu ? 'rotate-180' : ''}`} />
             </button>
 
             {showVolumeMenu && (
-              <div className="absolute right-0 top-10 w-44 p-3 rounded-xl bg-[#140c2d] border border-[#d4af37]/40 shadow-2xl z-50">
+              <div className="absolute right-0 top-11 w-48 p-3.5 rounded-2xl bg-[#130b29] border border-[#d4af37]/40 shadow-2xl z-50 backdrop-blur-xl animate-in fade-in">
                 <div className="text-[10px] font-mono uppercase tracking-wider text-[#d4af37] mb-2 flex justify-between">
-                  <span>Volume</span>
+                  <span>Soundscape Volume</span>
                   <span>{Math.round(volume * 100)}%</span>
                 </div>
                 <input

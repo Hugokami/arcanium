@@ -4,7 +4,7 @@ import { TAROT_DECK } from '../../data/tarotDeck';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
 import confetti from 'canvas-confetti';
-import { Sparkles, Eye, RotateCw } from 'lucide-react';
+import { Sparkles, Eye, RotateCw, Hand } from 'lucide-react';
 
 interface CardFanTableProps {
   topic: string;
@@ -71,8 +71,8 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
     const allRevealed = updated.every(c => c.revealed);
     if (allRevealed && updated.length === picksNeeded) {
       confetti({
-        particleCount: 50,
-        spread: 60,
+        particleCount: 55,
+        spread: 65,
         origin: { y: 0.7 },
         colors: ['#d4af37', '#f5dfa8', '#c4b5fd', '#ffffff']
       });
@@ -85,8 +85,8 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
     const updated = drawnCards.map(c => ({ ...c, revealed: true }));
     setDrawnCards(updated);
     confetti({
-      particleCount: 60,
-      spread: 70,
+      particleCount: 65,
+      spread: 75,
       origin: { y: 0.7 },
       colors: ['#d4af37', '#f5dfa8', '#c4b5fd', '#ffffff']
     });
@@ -107,29 +107,35 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
     <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-10 space-y-8 flex flex-col items-center animate-in fade-in duration-500">
       
       {/* Step 3 Header Banner */}
-      <div className="panel p-4 sm:p-6 rounded-2xl bg-[#140c2d]/85 border border-[#8a7326]/60 text-center max-w-2xl w-full shadow-2xl space-y-2">
-        <h2 className="text-[#d4af37] font-serif tracking-[0.15em] text-xs sm:text-sm uppercase font-semibold">
+      <div className="craft-panel p-4 sm:p-6 rounded-2xl text-center max-w-2xl w-full shadow-2xl space-y-2">
+        <h2 className="text-[#d4af37] font-serif tracking-[0.18em] text-xs sm:text-sm uppercase font-semibold">
           {UI_TRANSLATIONS.step3Title[language]} <span className="text-amber-200 font-bold">{picksNeeded === 1 ? UI_TRANSLATIONS.oneCardPick[language] : `${picksNeeded} ${UI_TRANSLATIONS.cardsPick[language]}`}</span>.
         </h2>
-        <p className="text-xs sm:text-sm text-zinc-300 font-serif italic truncate">
+        <p className="text-xs sm:text-sm text-zinc-200 font-serif italic truncate">
           "{question}"
         </p>
-        <div className="text-[11px] font-serif text-[#d4af37]/80">
+        <div className="text-[11px] font-serif text-[#d4af37]">
           {picksLeft > 0 ? (
-            <span>
-              {language === 'my'
-                ? `နောက်ထပ် ${picksLeft} ကတ် ရွေးချယ်ရန် ကျန်ရှိပါသည်`
-                : language === 'ja'
-                ? `あと ${picksLeft} 枚のカードを選んでください`
-                : `Choose ${picksLeft} more card${picksLeft > 1 ? 's' : ''}`}
+            <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25">
+              <Hand className="w-3 h-3 animate-bounce" />
+              <span>
+                {language === 'my'
+                  ? `နောက်ထပ် ${picksLeft} ကတ် ရွေးချယ်ရန် ကျန်ရှိပါသည်`
+                  : language === 'ja'
+                  ? `あと ${picksLeft} 枚のカードを選んでください`
+                  : `Choose ${picksLeft} more card${picksLeft > 1 ? 's' : ''}`}
+              </span>
             </span>
           ) : (
-            <span className="text-emerald-400 font-medium">
-              {language === 'my'
-                ? 'ကတ်များ အားလုံး ရွေးချယ်ပြီးပါပြီ'
-                : language === 'ja'
-                ? 'すべてのカードが選択されました'
-                : 'All cards selected'}
+            <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 font-medium">
+              <span>✓</span>
+              <span>
+                {language === 'my'
+                  ? 'ကတ်များ အားလုံး ရွေးချယ်ပြီးပါပြီ'
+                  : language === 'ja'
+                  ? 'すべてのカードが選択されました'
+                  : 'All cards selected'}
+              </span>
             </span>
           )}
         </div>
@@ -139,7 +145,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
       {!allDrawn && (
         <div className="relative w-full max-w-5xl h-[340px] sm:h-[400px] flex items-center justify-center select-none overflow-visible my-2">
           {/* Subtle cosmic aura beneath the fan */}
-          <div className="absolute bottom-6 w-96 h-20 bg-gradient-to-t from-[#d4af37]/15 to-transparent rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute bottom-4 w-[420px] h-20 bg-gradient-to-t from-[#d4af37]/15 to-transparent rounded-full blur-2xl pointer-events-none" />
 
           <div className="relative w-full max-w-3xl h-full flex items-center justify-center overflow-visible">
             {fanDeck.map((card, i) => {
@@ -164,18 +170,18 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                     transformOrigin: '50% 115%',
                     transform: `translateX(-50%) rotate(${angle}deg) translateY(${isHovered ? -50 : lift}px) scale(${isHovered ? 1.16 : 1})`,
                     zIndex: isHovered ? 100 : i + 10,
-                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s',
+                    transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s',
                   }}
-                  className={`absolute left-1/2 bottom-12 sm:bottom-16 w-24 sm:w-28 h-40 sm:h-48 rounded-xl overflow-hidden shadow-2xl cursor-pointer border border-[#8a7326]/70 ${
+                  className={`absolute left-1/2 bottom-12 sm:bottom-16 w-24 sm:w-28 h-40 sm:h-48 rounded-2xl overflow-hidden shadow-2xl cursor-pointer border border-[#8a7326]/70 ${
                     isTaken
-                      ? 'opacity-15 pointer-events-none grayscale'
+                      ? 'opacity-10 pointer-events-none grayscale'
                       : 'hover:brightness-125 hover:border-[#d4af37] hover:shadow-gold-glow-lg'
                   }`}
                 >
                   <img
                     src="/cards/CardBacks.png"
                     alt="Tarot Back"
-                    className="w-full h-full object-cover pointer-events-none rounded-xl"
+                    className="w-full h-full object-cover pointer-events-none rounded-2xl"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 </div>
@@ -195,8 +201,8 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
             return (
               <div key={pos.id} className="flex flex-col items-center gap-2.5 w-36 sm:w-44 select-none">
                 
-                {/* Slot Label */}
-                <div className="text-[11px] sm:text-xs font-serif uppercase tracking-wider text-[#d4af37] text-center min-h-[2.5em] flex items-center justify-center opacity-90">
+                {/* Slot Label with Brass Pill */}
+                <div className="text-[11px] font-serif uppercase tracking-wider text-[#d4af37] text-center min-h-[2.5em] flex items-center justify-center opacity-90 px-2 py-0.5 rounded-lg bg-black/40 border border-white/5">
                   {pos.name[language]}
                 </div>
 
@@ -204,8 +210,8 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                 <div
                   onClick={() => drawn && handleFlipCard(idx)}
                   style={{ perspective: '1000px' }}
-                  className={`relative w-32 sm:w-40 h-52 sm:h-64 rounded-xl cursor-pointer transition-transform duration-300 ${
-                    drawn ? 'hover:-translate-y-2' : 'border border-dashed border-[#8a7326]/50 bg-white/5 flex items-center justify-center'
+                  className={`relative w-32 sm:w-40 h-52 sm:h-64 rounded-2xl cursor-pointer transition-transform duration-300 ${
+                    drawn ? 'hover:-translate-y-2' : 'border border-dashed border-[#8a7326]/50 bg-black/30 flex items-center justify-center hover:border-[#d4af37]'
                   }`}
                 >
                   {drawn ? (
@@ -213,9 +219,9 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                       style={{
                         transformStyle: 'preserve-3d',
                         transform: `rotateY(${isFlipped ? 180 : 0}deg)`,
-                        transition: 'transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1)',
+                        transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                       }}
-                      className="relative w-full h-full rounded-xl shadow-card-elevated"
+                      className="relative w-full h-full rounded-2xl shadow-card-elevated"
                     >
                       {/* BACK of card */}
                       <div
@@ -223,15 +229,15 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                           backfaceVisibility: 'hidden',
                           WebkitBackfaceVisibility: 'hidden',
                         }}
-                        className="absolute inset-0 w-full h-full rounded-xl overflow-hidden border border-[#8a7326] shadow-md"
+                        className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden border border-[#8a7326] shadow-md"
                       >
                         <img
                           src="/cards/CardBacks.png"
                           alt="Card Back"
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-center">
-                          <span className="text-[10px] font-serif uppercase tracking-widest text-[#d4af37] bg-black/70 px-2 py-0.5 rounded border border-[#8a7326]/50">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-center justify-center">
+                          <span className="text-[10px] font-serif uppercase tracking-widest text-[#d4af37] bg-black/70 px-2.5 py-1 rounded-full border border-[#8a7326]/60 backdrop-blur-sm">
                             {UI_TRANSLATIONS.tapToFlip[language]}
                           </span>
                         </div>
@@ -244,7 +250,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                           WebkitBackfaceVisibility: 'hidden',
                           transform: 'rotateY(180deg)',
                         }}
-                        className="absolute inset-0 w-full h-full rounded-xl overflow-hidden bg-black border border-[#d4af37] shadow-gold-glow flex flex-col"
+                        className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden bg-black border border-[#d4af37] shadow-gold-glow flex flex-col"
                       >
                         <div className="relative flex-1 w-full overflow-hidden bg-black flex items-center justify-center">
                           <img
@@ -253,17 +259,17 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                             style={{
                               transform: drawn.isReversed ? 'rotate(180deg)' : 'none',
                             }}
-                            className="w-full h-full object-contain p-0.5"
+                            className="w-full h-full object-contain p-1"
                           />
 
                           {drawn.isReversed && (
-                            <div className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded bg-rose-950/80 border border-rose-500/40 text-[9px] font-serif text-rose-200">
+                            <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-rose-950/80 border border-rose-500/50 text-[9px] font-serif text-rose-200 shadow-sm">
                               ↺ {UI_TRANSLATIONS.reversedTag[language]}
                             </div>
                           )}
                         </div>
 
-                        <div className="p-1.5 bg-[#120924] border-t border-[#8a7326]/40 text-center">
+                        <div className="p-2 bg-[#120826] border-t border-[#8a7326]/40 text-center">
                           <div className="text-xs font-serif font-bold text-[#d4af37] truncate">
                             {drawn.card.name[language]}
                           </div>
@@ -271,8 +277,8 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                       </div>
                     </div>
                   ) : (
-                    <div className="text-center text-xs font-serif text-zinc-500 p-2 space-y-1">
-                      <div className="text-lg">✦</div>
+                    <div className="text-center text-xs font-serif text-zinc-500 p-2 space-y-1.5">
+                      <div className="text-lg text-[#d4af37]/40">✦</div>
                       <div>Card {idx + 1}</div>
                     </div>
                   )}
@@ -293,11 +299,11 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
             </p>
           )}
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3.5">
             {!allRevealed && (
               <button
                 onClick={handleRevealAll}
-                className="px-6 py-2.5 rounded-xl border border-[#8a7326] bg-white/5 hover:bg-white/10 text-xs sm:text-sm font-serif text-[#d4af37] transition-all hover:border-[#d4af37]"
+                className="px-6 py-2.5 rounded-xl border border-[#8a7326] bg-white/[0.04] hover:bg-white/[0.08] text-xs sm:text-sm font-serif text-[#d4af37] transition-all hover:border-[#d4af37] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
               >
                 {UI_TRANSLATIONS.revealAllBtn[language]}
               </button>
@@ -305,7 +311,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
 
             <button
               onClick={handleReadCards}
-              className="px-8 py-3 rounded-xl bg-gradient-to-br from-[#2a1a55] to-[#1a0f35] border border-[#d4af37] text-[#d4af37] font-serif text-sm sm:text-base tracking-[0.15em] uppercase hover:shadow-gold-glow-lg transition-all active:scale-95 flex items-center space-x-2"
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-br from-[#2f1c5c] via-[#1c0f38] to-[#120826] border border-[#d4af37] text-[#d4af37] font-serif text-sm sm:text-base tracking-[0.18em] uppercase hover:shadow-gold-glow-lg transition-all active:scale-95 flex items-center space-x-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
             >
               <Sparkles className="w-4 h-4" />
               <span>{UI_TRANSLATIONS.readBtn[language]}</span>
