@@ -72,24 +72,17 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#080412]/85 border-b border-[#d4af37]/20 transition-all shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
         
-        {/* Left: Brand Identity with Gold Bezel */}
+        {/* Left: Clean Brand Identity (No square symbol) */}
         <button
           onClick={onResetHome}
-          className="group flex items-center space-x-3.5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-xl p-1 transition-transform active:scale-95"
+          className="group flex flex-col items-start text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-lg py-1 transition-transform active:scale-95"
         >
-          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37]/40 via-[#8a7326]/20 to-transparent p-[1px] shadow-gold-glow">
-            <div className="w-full h-full rounded-[11px] bg-[#120826] flex items-center justify-center border border-[#d4af37]/40 group-hover:border-[#d4af37] transition-colors">
-              <Sparkles className="w-4.5 h-4.5 text-[#d4af37] animate-pulse-slow" />
-            </div>
-          </div>
-          <div>
-            <span className="font-serif text-lg sm:text-xl font-normal tracking-[0.22em] text-[#d4af37] text-shadow-gold block">
-              ✦ ARCANIUM ✦
-            </span>
-            <p className="text-[10px] text-zinc-400 font-serif italic tracking-wider line-clamp-1">
-              {UI_TRANSLATIONS.appSubtitle[language]}
-            </p>
-          </div>
+          <span className="font-serif text-lg sm:text-xl font-normal tracking-[0.24em] text-[#d4af37] text-shadow-gold group-hover:text-amber-200 transition-colors">
+            ✦ ARCANIUM ✦
+          </span>
+          <span className="text-[10px] text-zinc-400 font-serif italic tracking-wide">
+            {UI_TRANSLATIONS.appSubtitle[language]}
+          </span>
         </button>
 
         {/* Right: Craft Controls */}

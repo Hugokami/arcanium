@@ -219,6 +219,11 @@ export const TOPICS = [
       my: 'အချစ်ရေးနှင့် ဆက်ဆံရေး',
       ja: '恋愛・パートナーシップ'
     },
+    description: {
+      en: 'Explore feelings, bonds, emotional depths, and soul connections.',
+      my: 'နှလုံးသားခံစားချက်များ၊ ချစ်ခြင်းမေတ္တာနှင့် ဝိညာဉ်ချင်းချိတ်ဆက်မှုများ။',
+      ja: '愛の絆、深層の感情、魂のパートナーシップを探求します。'
+    },
     defaultQuestion: {
       en: 'Where is my heart and relationship heading?',
       my: 'ကျွန်ုပ်၏ အချစ်ရေးနှင့် နှလုံးသားဆက်ဆံရေး မည်သို့ဖြစ်လာမည်နည်း။',
@@ -233,6 +238,11 @@ export const TOPICS = [
       en: 'Career & Purpose',
       my: 'အလုပ်အကိုင်နှင့် ဘဝရည်မှန်းချက်',
       ja: '仕事・キャリア・使命'
+    },
+    description: {
+      en: 'Uncover career trajectories, hidden ambitions, and professional triumphs.',
+      my: 'အလုပ်အကိုင်လမ်းကြောင်းများ၊ ရည်မှန်းချက်များနှင့် အောင်မြင်မှုနိမိတ်များ။',
+      ja: '天職への導き、潜在能力、そして仕事上の飛躍を見通します。'
     },
     defaultQuestion: {
       en: 'What career opportunity and direction awaits me?',
@@ -249,6 +259,11 @@ export const TOPICS = [
       my: 'စီးပွားဥစ္စာနှင့် ကြွယ်ဝမှု',
       ja: '金運・豊かさ・繁栄'
     },
+    description: {
+      en: 'Navigate financial tides, material security, and prosperity.',
+      my: 'စီးပွားဥစ္စာရေစီးကြောင်း၊ ရုပ်ဝတ္ထုလုံခြုံမှုနှင့် ကြွယ်ဝချမ်းသာခြင်း။',
+      ja: '金運の潮流、現実的な基盤、物質的な豊かさを紐解きます。'
+    },
     defaultQuestion: {
       en: 'How can I unlock financial abundance and security?',
       my: 'စီးပွားဥစ္စာကြွယ်ဝမှုနှင့် တည်ငြိမ်မှုကို မည်သို့ရယူနိုင်မည်နည်း။',
@@ -263,6 +278,11 @@ export const TOPICS = [
       en: 'Personal Growth',
       my: 'စိတ်ပိုင်းဆိုင်ရာ ကြီးထွားမှု',
       ja: '自己成長・魂の進化'
+    },
+    description: {
+      en: 'Awaken spiritual clarity, inner healing, and personal alchemy.',
+      my: 'စိတ်ဝိညာဉ်ကြည်လင်မှု၊ အတွင်းစိတ်ကုစားမှုနှင့် အသိဉာဏ်ပွင့်လင်းခြင်း။',
+      ja: '魂の覚醒、内なる癒やし、自己変容のレッスンを照らします。'
     },
     defaultQuestion: {
       en: 'What inner lesson is calling for my growth?',
@@ -279,6 +299,11 @@ export const TOPICS = [
       my: 'လမ်းဆုံလမ်းခွ ဆုံးဖြတ်ချက်',
       ja: '運命の岐路・決断'
     },
+    description: {
+      en: 'Illuminate forks in the road, weighing outcomes and unspoken risks.',
+      my: 'လမ်းဆုံလမ်းခွများ၊ ရလဒ်များအား ချိန်ဆခြင်းနှင့် မမြင်ရသော အန္တရာယ်များ။',
+      ja: '分かれ道の先にある結末、潜在するリスクと好機を明かします。'
+    },
     defaultQuestion: {
       en: 'What should I know before making this crucial choice?',
       my: 'ဤအရေးကြီးသော ဆုံးဖြတ်ချက်မချမီ မည်သည့်အရာကို ကြိုတင်သိရှိထားသင့်သနည်း။',
@@ -290,9 +315,14 @@ export const TOPICS = [
     id: 'unknown',
     icon: '🔮',
     title: {
-      en: 'The Unknown',
+      en: 'The Sacred Unknown',
       my: 'မသိသေးသော အနာဂတ်နိမိတ်',
       ja: '未知なる啓示・直感'
+    },
+    description: {
+      en: 'Direct cosmic channel for whatever the universe needs you to hear.',
+      my: 'စကြဝဠာက သင့်အား အသိပေးလိုသော တိုက်ရိုက်ကံကြမ္မာသတင်းစကား။',
+      ja: '今、宇宙があなたに最も届けたいメッセージを受け取ります。'
     },
     defaultQuestion: {
       en: 'What message does the universe have for me right now?',
@@ -300,6 +330,41 @@ export const TOPICS = [
       ja: '宇宙が今、私に最も伝えたいメッセージは何ですか？'
     },
     suggestedSpread: 'single'
+  }
+];
+
+export const QUICK_INQUIRIES = [
+  {
+    id: 'q1',
+    text: {
+      en: 'What guidance does the universe have for me today?',
+      my: 'ယနေ့အတွက် စကြဝဠာက မည်သည့်လမ်းညွှန်ချက် ပေးလိုသနည်း။',
+      ja: '今日、宇宙が私に授けたい導きは何ですか？'
+    }
+  },
+  {
+    id: 'q2',
+    text: {
+      en: 'What hidden force or challenge is currently around me?',
+      my: 'ကျွန်ုပ်ပတ်ဝန်းကျင်တွင် မည်သည့် လျှို့ဝှက်စွမ်းအား သို့မဟုတ် စိန်ခေါ်မှု ရှိနေသနည်း။',
+      ja: '今、私の周りで静かに働いている見えない力や試練は何ですか？'
+    }
+  },
+  {
+    id: 'q3',
+    text: {
+      en: 'What should I focus on to achieve true peace and clarity?',
+      my: 'အေးချမ်းမှုနှင့် ရှင်းလင်းပြတ်သားမှုရရှိရန် မည်သည့်အရာကို အဓိက အာရုံစိုက်ရမည်နည်း။',
+      ja: '真の心の平穏と明晰さを得るために、何に意識を向けるべきですか？'
+    }
+  },
+  {
+    id: 'q4',
+    text: {
+      en: 'Where is my most important relationship heading?',
+      my: 'ကျွန်ုပ်၏ အရေးကြီးဆုံး ဆက်ဆံရေးသည် မည်သည့်လားရာသို့ ဦးတည်နေသနည်း။',
+      ja: '私にとって最も大切な関係性は、今後どこに向かいますか？'
+    }
   }
 ];
 

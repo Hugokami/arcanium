@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Language, SpreadDefinition, TopicOption } from '../../types/tarot';
-import { TOPICS, SPREAD_CONFIGS, UI_TRANSLATIONS, getSpreadConfig } from '../../data/translations';
+import { TOPICS, SPREAD_CONFIGS, QUICK_INQUIRIES, UI_TRANSLATIONS, getSpreadConfig } from '../../data/translations';
 import { audioService } from '../../services/audioService';
-import { ArrowRight, Sparkles, Compass, Flame, Shield, HelpCircle } from 'lucide-react';
+import { ArrowRight, Sparkles, Compass, MessageSquare, Flame, Check, HelpCircle } from 'lucide-react';
 
 interface ArcanaFlowSelectorProps {
   language: Language;
@@ -27,6 +27,14 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     setStep(2);
   };
 
+  const handleQuickQuestionClick = (qText: string, topicIndex = 0) => {
+    audioService.playCardSlide();
+    setCustomQuestion(qText);
+    setSelectedTopic(TOPICS[topicIndex]);
+    setSelectedSpread(getSpreadConfig('three'));
+    setStep(2);
+  };
+
   const handleCustomQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!customQuestion.trim()) return;
@@ -42,98 +50,158 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     onStartDrawing(finalTopic, finalQuestion, spread);
   };
 
+  const heroHeadline = {
+    en: 'What mystery seeks your revelation?',
+    my: 'သင်သိရှိလိုသော ကံကြမ္မာခေါင်းစဉ်ကို ရွေးချယ်ပါ',
+    ja: '運命の扉を開く、あなたの問いを選んでください'
+  };
+
+  const heroSubtext = {
+    en: 'Select a domain of your life below, or whisper a personal question to commune with the 78 keys.',
+    my: 'အောက်ပါ ဘဝကဏ္ဍတစ်ခုကို ရွေးချယ်ပါ သို့မဟုတ် သင်သိလိုသော မေးခွန်းကို တိုက်ရိုက်မေးမြန်းပါ။',
+    ja: '以下のテーマを選択するか、心にある個人的な問いをカードに投げかけてください。'
+  };
+
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-8 sm:py-14 space-y-10 animate-in fade-in duration-500">
+    <div className="w-full max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-10 animate-in fade-in duration-500">
       
-      {/* Editorial Title Heading */}
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[11px] font-mono tracking-widest text-[#d4af37] uppercase">
+      {/* Refined Ethereal Hero */}
+      <div className="text-center space-y-3 max-w-2xl mx-auto">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[10px] font-mono tracking-widest text-[#d4af37] uppercase">
           <Sparkles className="w-3 h-3 text-[#d4af37]" />
           <span>78 Keys of Wisdom</span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-normal tracking-[0.2em] text-[#d4af37] text-shadow-gold">
-          ✦ ARCANIUM ✦
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-serif font-normal tracking-[0.15em] text-[#d4af37] text-shadow-gold">
+          {heroHeadline[language]}
         </h1>
-        <p className="text-sm sm:text-base text-zinc-300 font-serif italic tracking-wide max-w-xl mx-auto">
-          {UI_TRANSLATIONS.appSubtitle[language]}
+        <p className="text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed italic">
+          {heroSubtext[language]}
         </p>
       </div>
 
-      {/* STEP 1: What brings you to the cards? */}
+      {/* STEP 1: The 6 Life Domains & Custom Portal */}
       {step === 1 && (
-        <section className="craft-panel p-6 sm:p-10 rounded-2xl space-y-8 animate-in fade-in slide-in-from-bottom-2">
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
           
-          <div className="text-center space-y-1">
-            <h2 className="text-[#d4af37] font-serif tracking-[0.18em] text-xs sm:text-sm uppercase font-semibold">
-              {UI_TRANSLATIONS.step1Title[language]}
-            </h2>
-          </div>
-
-          {/* Topic Buttons Grid */}
-          <div className="flex flex-wrap gap-3 sm:gap-4 justify-center">
-            {TOPICS.map(topic => {
+          {/* 6 Rich Domain Tiles */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {TOPICS.map((topic, i) => {
               const isSelected = selectedTopic.id === topic.id;
+              const desc = topic.description ? topic.description[language] : '';
+
               return (
-                <button
+                <div
                   key={topic.id}
                   onClick={() => handleSelectTopic(topic)}
                   onMouseEnter={() => audioService.playCardHover()}
-                  className={`flex items-center space-x-2.5 px-5 py-3 rounded-xl font-serif text-sm sm:text-base tracking-wide transition-all duration-300 border ${
+                  className={`group relative craft-card p-5 sm:p-6 rounded-2xl cursor-pointer flex flex-col justify-between space-y-4 border ${
                     isSelected
-                      ? 'border-[#d4af37] text-[#d4af37] bg-[#d4af37]/15 shadow-gold-glow -translate-y-1'
-                      : 'border-[#8a7326]/40 hover:border-[#d4af37] text-[#e8e0f5] hover:text-[#d4af37] bg-white/[0.03] hover:bg-white/[0.08] hover:-translate-y-0.5'
+                      ? 'border-[#d4af37] bg-[#d4af37]/15 shadow-gold-glow'
+                      : 'border-[#8a7326]/35 hover:border-[#d4af37]'
                   }`}
                 >
-                  <span className="text-xl">{topic.icon}</span>
-                  <span>{topic.title[language]}</span>
-                </button>
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl sm:text-3xl filter drop-shadow-md group-hover:scale-110 transition-transform">
+                        {topic.icon}
+                      </span>
+                      <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-amber-200/80 group-hover:border-[#d4af37]/40">
+                        {topic.suggestedSpread === 'single'
+                          ? (language === 'my' ? '၁ ကတ်' : language === 'ja' ? '1枚' : '1 Card')
+                          : topic.suggestedSpread === 'three'
+                          ? (language === 'my' ? '၃ ကတ်' : language === 'ja' ? '3枚' : '3 Cards')
+                          : (language === 'my' ? '၅ ကတ်' : language === 'ja' ? '5枚' : '5-Card Cross')}
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif font-semibold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide">
+                      {topic.title[language]}
+                    </h3>
+
+                    {desc && (
+                      <p className="text-xs text-zinc-300 font-serif leading-relaxed line-clamp-2">
+                        {desc}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/75 group-hover:text-[#d4af37] pt-2.5 border-t border-white/10">
+                    <span className="italic">{topic.defaultQuestion[language]}</span>
+                    <ArrowRight className="w-3.5 h-3.5 flex-shrink-0 group-hover:translate-x-1.5 transition-transform ml-2" />
+                  </div>
+                </div>
               );
             })}
           </div>
 
-          {/* Custom Question Input */}
-          <form onSubmit={handleCustomQuestionSubmit} className="max-w-xl mx-auto space-y-3 pt-2">
-            <div className="relative">
-              <input
-                type="text"
-                value={customQuestion}
-                onChange={(e) => setCustomQuestion(e.target.value)}
-                placeholder={UI_TRANSLATIONS.questionPlaceholder[language]}
-                className="w-full px-5 py-3.5 rounded-xl bg-black/50 border border-[#8a7326]/40 focus:border-[#d4af37] focus:outline-none text-sm sm:text-base text-[#e8e0f5] placeholder-zinc-500 font-serif transition-all shadow-inner focus:ring-1 focus:ring-[#d4af37]"
-              />
-              {customQuestion.trim() && (
-                <button
-                  type="submit"
-                  className="absolute right-2.5 top-2.5 px-3.5 py-1.5 rounded-lg bg-[#d4af37] text-black font-serif text-xs font-bold flex items-center space-x-1.5 hover:brightness-110 shadow-sm transition-all"
-                >
-                  <span>{UI_TRANSLATIONS.nextBtn[language]}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              )}
+          {/* Custom Question Whisper Portal */}
+          <div className="craft-panel p-6 sm:p-8 rounded-2xl space-y-4">
+            <div className="flex items-center space-x-2 text-[#d4af37] font-serif text-xs uppercase tracking-wider font-semibold">
+              <MessageSquare className="w-4 h-4 text-[#d4af37]" />
+              <span>
+                {language === 'my'
+                  ? '…သို့မဟုတ် မိမိစိတ်ကြိုက် မေးခွန်းကို ရေးသားမေးမြန်းပါ'
+                  : language === 'ja'
+                  ? '…または、心にある問いを自由に入力してください'
+                  : 'Or whisper your personal inquiry to the cards'}
+              </span>
             </div>
-            <p className="text-[11px] text-zinc-400 text-center font-serif italic">
-              {language === 'my'
-                ? 'အကြံပြုချက်: Enter ခေါက်ပါ သို့မဟုတ် အထက်ပါ ကံကြမ္မာခေါင်းစဉ် တစ်ခုခုကို ရွေးချယ်ပါ'
-                : language === 'ja'
-                ? 'ヒント：Enterキーを押すか、上記のテーマを選択して次に進んでください'
-                : 'Tip: Press Enter or pick any card topic above to proceed'}
-            </p>
-          </form>
 
-        </section>
+            <form onSubmit={handleCustomQuestionSubmit} className="space-y-3">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={customQuestion}
+                  onChange={(e) => setCustomQuestion(e.target.value)}
+                  placeholder={UI_TRANSLATIONS.questionPlaceholder[language]}
+                  className="w-full pl-5 pr-28 py-3.5 rounded-xl bg-black/60 border border-[#8a7326]/40 focus:border-[#d4af37] focus:outline-none text-sm sm:text-base text-[#e8e0f5] placeholder-zinc-500 font-serif transition-all shadow-inner focus:ring-1 focus:ring-[#d4af37]"
+                />
+                {customQuestion.trim() && (
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-2 px-4 py-2 rounded-lg bg-[#d4af37] text-black font-serif text-xs font-bold flex items-center space-x-1.5 hover:brightness-110 shadow-sm transition-all"
+                  >
+                    <span>{UI_TRANSLATIONS.nextBtn[language]}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </form>
+
+            {/* Clickable Quick Inquiry Inspiration Pills */}
+            <div className="space-y-2 pt-1">
+              <span className="text-[10px] uppercase font-mono tracking-wider text-zinc-400 block">
+                {language === 'my' ? 'အမြန်မေးလိုသော မေးခွန်းနမူနာများ:' : language === 'ja' ? '問いのインスピレーション:' : 'Quick Inquiry Inspiration:'}
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {QUICK_INQUIRIES.map((qi, idx) => (
+                  <button
+                    key={qi.id}
+                    onClick={() => handleQuickQuestionClick(qi.text[language], idx % TOPICS.length)}
+                    className="text-[11px] font-serif text-zinc-300 hover:text-[#d4af37] px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-[#d4af37]/10 border border-white/5 hover:border-[#d4af37]/40 transition-all text-left"
+                  >
+                    "{qi.text[language]}"
+                  </button>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
       )}
 
       {/* STEP 2: Choose your spread */}
       {step === 2 && (
-        <section className="craft-panel p-6 sm:p-10 rounded-2xl space-y-8 animate-in fade-in slide-in-from-bottom-2">
+        <section className="craft-panel p-6 sm:p-10 rounded-2xl space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
           
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 border-b border-white/10 pb-4">
-            <div>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="space-y-0.5">
               <h2 className="text-[#d4af37] font-serif tracking-[0.18em] text-xs sm:text-sm uppercase font-semibold">
                 {UI_TRANSLATIONS.step2Title[language]}
               </h2>
-              <p className="text-xs text-zinc-300 font-serif italic mt-0.5">
+              <p className="text-xs text-zinc-300 font-serif italic">
                 {UI_TRANSLATIONS.topicLabel[language]}: <span className="text-[#d4af37] font-semibold">{customQuestion.trim() ? `"${customQuestion}"` : selectedTopic.title[language]}</span>
               </p>
             </div>
@@ -146,19 +214,19 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
             </button>
           </div>
 
-          {/* Spreads Grid with Micro-Layout Previews */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          {/* Spreads Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {SPREAD_CONFIGS.map(spread => (
               <button
                 key={spread.id}
                 onClick={() => handleSelectSpread(spread)}
                 onMouseEnter={() => audioService.playCardHover()}
-                className="group craft-card p-5 rounded-2xl text-left flex flex-col justify-between space-y-4 cursor-pointer"
+                className="group craft-card p-5 sm:p-6 rounded-2xl text-left flex flex-col justify-between space-y-4 cursor-pointer"
               >
                 <div className="space-y-2">
                   <div className="font-serif font-bold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide flex items-center justify-between">
                     <span>{spread.name[language]}</span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/30 text-amber-200">
+                    <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/30 text-amber-200">
                       {spread.cardCount} {spread.cardCount === 1 ? UI_TRANSLATIONS.oneCardPick[language] : UI_TRANSLATIONS.cardsPick[language]}
                     </span>
                   </div>
@@ -167,7 +235,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-2.5 border-t border-white/10">
+                <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-3 border-t border-white/10">
                   <span>{UI_TRANSLATIONS.communeAndDrawBtn[language]}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
                 </div>

@@ -74,6 +74,7 @@ export interface TopicOption {
   id: string;
   icon: string;
   title: LocalizedText;
+  description?: LocalizedText;
   defaultQuestion: LocalizedText;
   suggestedSpread: string;
 }
