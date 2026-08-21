@@ -48,7 +48,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   };
 
   const handleCopy = () => {
-    const text = `✦ ARCANA TAROT READING ✦\n\n` +
+    const text = `✦ ARCANIUM TAROT READING ✦\n\n` +
       `Question: "${question}"\n` +
       `Spread: ${spread.name[language]}\n` +
       `Date: ${new Date(reading.timestamp).toLocaleDateString()}\n\n` +

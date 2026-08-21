@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <span className="font-serif text-lg md:text-xl font-normal tracking-[0.2em] text-[#d4af37] text-shadow-gold">
-              ✦ ARCANA ✦
+              ✦ ARCANIUM ✦
             </span>
             <p className="text-[10px] text-zinc-400 font-serif italic tracking-wide">
               {UI_TRANSLATIONS.appSubtitle[language]}

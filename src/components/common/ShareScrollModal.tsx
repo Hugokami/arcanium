@@ -26,7 +26,7 @@ export const ShareScrollModal: React.FC<ShareScrollModalProps> = ({
   };
 
   const handleCopy = () => {
-    const text = `📜 ARCANA — SACRED TAROT SCROLL 📜\n\n` +
+    const text = `📜 ARCANIUM — SACRED TAROT SCROLL 📜\n\n` +
       `Question: "${reading.question}"\n` +
       `Spread: ${reading.spread.name[language]}\n` +
       `Date: ${new Date(reading.timestamp).toLocaleDateString()}\n\n` +
@@ -84,7 +84,7 @@ export const ShareScrollModal: React.FC<ShareScrollModalProps> = ({
             {/* Scroll Header */}
             <div className="text-center space-y-2 border-b border-[#8a7326]/40 pb-5">
               <div className="text-[#d4af37] text-xs font-mono uppercase tracking-[0.25em]">
-                ✦ SACRED ARCANA DECREE ✦
+                ✦ SACRED ARCANIUM DECREE ✦
               </div>
               <h1 className="text-xl sm:text-2xl font-serif font-normal text-[#d4af37] tracking-wider">
                 {reading.spread.name[language]}

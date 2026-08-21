@@ -48,7 +48,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
       {/* Title Heading */}
       <div className="text-center space-y-3">
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-normal tracking-[0.25em] text-[#d4af37] text-shadow-gold">
-          ✦ ARCANA ✦
+          ✦ ARCANIUM ✦
         </h1>
         <p className="text-sm sm:text-base text-zinc-300 font-serif italic tracking-wide">
           {UI_TRANSLATIONS.appSubtitle[language]}

@@ -2,9 +2,9 @@ import { Language, LocalizedText } from '../types/tarot';
 
 export const UI_TRANSLATIONS = {
   appName: {
-    en: 'ARCANA',
-    my: 'အာကာနာ (ARCANA)',
-    ja: 'ARCANA（アルカナ）'
+    en: 'ARCANIUM',
+    my: 'အာခေးနီးယမ်း (ARCANIUM)',
+    ja: 'ARCANIUM（アルカニウム）'
   },
   appSubtitle: {
     en: 'The cards already know what you seek',

@@ -164,7 +164,7 @@ export function App() {
 
       {/* Footer */}
       <footer className="w-full py-6 text-center border-t border-[#8a7326]/20 backdrop-blur-sm text-xs text-zinc-500 font-serif">
-        <p>✦ ARCANA — 78 Keys of Wisdom • English • မြန်မာ • 日本語 ✦</p>
+        <p>✦ ARCANIUM — 78 Keys of Wisdom • English • မြန်မာ • 日本語 ✦</p>
       </footer>
 
       {/* Modals */}
