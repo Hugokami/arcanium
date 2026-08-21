@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Language, SpreadDefinition, TopicOption } from '../../types/tarot';
 import { TOPICS, SPREAD_CONFIGS, QUICK_INQUIRIES, UI_TRANSLATIONS, getSpreadConfig } from '../../data/translations';
 import { audioService } from '../../services/audioService';
-import { ArrowRight, Sparkles, Compass, MessageSquare, Flame, Check, HelpCircle } from 'lucide-react';
+import { ArrowRight, Sparkles, MessageSquare, Compass, Check } from 'lucide-react';
 
 interface ArcanaFlowSelectorProps {
   language: Language;
@@ -57,7 +57,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
   };
 
   const heroSubtext = {
-    en: 'Select a domain of your life below, or whisper a personal question to commune with the 78 keys.',
+    en: 'Select a domain of your life below, or whisper a personal inquiry to commune with the 78 keys.',
     my: 'အောက်ပါ ဘဝကဏ္ဍတစ်ခုကို ရွေးချယ်ပါ သို့မဟုတ် သင်သိလိုသော မေးခွန်းကို တိုက်ရိုက်မေးမြန်းပါ။',
     ja: '以下のテーマを選択するか、心にある個人的な問いをカードに投げかけてください。'
   };
@@ -65,14 +65,14 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-10 animate-in fade-in duration-500">
       
-      {/* Refined Ethereal Hero */}
+      {/* Ethereal Hero Header */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
         <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[10px] font-mono tracking-widest text-[#d4af37] uppercase">
           <Sparkles className="w-3 h-3 text-[#d4af37]" />
           <span>78 Keys of Wisdom</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-serif font-normal tracking-[0.15em] text-[#d4af37] text-shadow-gold">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-serif font-normal tracking-[0.16em] text-[#d4af37] text-shadow-gold">
           {heroHeadline[language]}
         </h1>
         <p className="text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed italic">
@@ -80,13 +80,13 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
         </p>
       </div>
 
-      {/* STEP 1: The 6 Life Domains & Custom Portal */}
+      {/* STEP 1: Domain Cards & Personal Portal */}
       {step === 1 && (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
           
           {/* 6 Rich Domain Tiles */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {TOPICS.map((topic, i) => {
+            {TOPICS.map((topic) => {
               const isSelected = selectedTopic.id === topic.id;
               const desc = topic.description ? topic.description[language] : '';
 
@@ -95,18 +95,16 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   key={topic.id}
                   onClick={() => handleSelectTopic(topic)}
                   onMouseEnter={() => audioService.playCardHover()}
-                  className={`group relative craft-card p-5 sm:p-6 rounded-2xl cursor-pointer flex flex-col justify-between space-y-4 border ${
-                    isSelected
-                      ? 'border-[#d4af37] bg-[#d4af37]/15 shadow-gold-glow'
-                      : 'border-[#8a7326]/35 hover:border-[#d4af37]'
+                  className={`group relative craft-card p-5 sm:p-6 rounded-2xl cursor-pointer flex flex-col justify-between space-y-4 active:scale-[0.98] ${
+                    isSelected ? 'border-[#d4af37] bg-[#d4af37]/10 shadow-[0_0_24px_rgba(212,175,55,0.25)]' : ''
                   }`}
                 >
-                  <div className="space-y-2.5">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl sm:text-3xl filter drop-shadow-md group-hover:scale-110 transition-transform">
+                      <span className="text-2xl sm:text-3xl filter drop-shadow-md group-hover:scale-105 transition-transform duration-200">
                         {topic.icon}
                       </span>
-                      <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-amber-200/80 group-hover:border-[#d4af37]/40">
+                      <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-amber-200/80 group-hover:border-[#d4af37]/40">
                         {topic.suggestedSpread === 'single'
                           ? (language === 'my' ? '၁ ကတ်' : language === 'ja' ? '1枚' : '1 Card')
                           : topic.suggestedSpread === 'three'
@@ -126,9 +124,9 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/75 group-hover:text-[#d4af37] pt-2.5 border-t border-white/10">
-                    <span className="italic">{topic.defaultQuestion[language]}</span>
-                    <ArrowRight className="w-3.5 h-3.5 flex-shrink-0 group-hover:translate-x-1.5 transition-transform ml-2" />
+                  <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/75 group-hover:text-[#d4af37] pt-2.5 border-t border-white/[0.08]">
+                    <span className="italic truncate max-w-[210px]">{topic.defaultQuestion[language]}</span>
+                    <ArrowRight className="w-3.5 h-3.5 flex-shrink-0 group-hover:translate-x-1 transition-transform ml-1.5" />
                   </div>
                 </div>
               );
@@ -136,7 +134,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
           </div>
 
           {/* Custom Question Whisper Portal */}
-          <div className="craft-panel p-6 sm:p-8 rounded-2xl space-y-4">
+          <div className="craft-panel p-6 sm:p-7 rounded-2xl space-y-4">
             <div className="flex items-center space-x-2 text-[#d4af37] font-serif text-xs uppercase tracking-wider font-semibold">
               <MessageSquare className="w-4 h-4 text-[#d4af37]" />
               <span>
@@ -155,12 +153,12 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   value={customQuestion}
                   onChange={(e) => setCustomQuestion(e.target.value)}
                   placeholder={UI_TRANSLATIONS.questionPlaceholder[language]}
-                  className="w-full pl-5 pr-28 py-3.5 rounded-xl bg-black/60 border border-[#8a7326]/40 focus:border-[#d4af37] focus:outline-none text-sm sm:text-base text-[#e8e0f5] placeholder-zinc-500 font-serif transition-all shadow-inner focus:ring-1 focus:ring-[#d4af37]"
+                  className="w-full pl-4.5 pr-28 py-3.5 rounded-xl bg-black/60 border border-white/[0.1] focus:border-[#d4af37] focus:outline-none text-sm sm:text-base text-[#e8e0f5] placeholder-zinc-500 font-serif transition-all shadow-inner focus:ring-1 focus:ring-[#d4af37]"
                 />
                 {customQuestion.trim() && (
                   <button
                     type="submit"
-                    className="absolute right-2 top-2 px-4 py-2 rounded-lg bg-[#d4af37] text-black font-serif text-xs font-bold flex items-center space-x-1.5 hover:brightness-110 shadow-sm transition-all"
+                    className="absolute right-2 top-2 px-4 py-2 rounded-lg bg-[#d4af37] text-black font-serif text-xs font-bold flex items-center space-x-1.5 hover:brightness-110 shadow-sm transition-all active:scale-95"
                   >
                     <span>{UI_TRANSLATIONS.nextBtn[language]}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -179,7 +177,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   <button
                     key={qi.id}
                     onClick={() => handleQuickQuestionClick(qi.text[language], idx % TOPICS.length)}
-                    className="text-[11px] font-serif text-zinc-300 hover:text-[#d4af37] px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-[#d4af37]/10 border border-white/5 hover:border-[#d4af37]/40 transition-all text-left"
+                    className="text-[11px] font-serif text-zinc-300 hover:text-[#d4af37] px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-[#d4af37]/10 border border-white/[0.06] hover:border-[#d4af37]/40 transition-all text-left active:scale-95"
                   >
                     "{qi.text[language]}"
                   </button>
@@ -192,11 +190,11 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
         </div>
       )}
 
-      {/* STEP 2: Choose your spread */}
+      {/* STEP 2: Choose your spread with Mini Visual Slot Diagrams */}
       {step === 2 && (
         <section className="craft-panel p-6 sm:p-10 rounded-2xl space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
           
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
             <div className="space-y-0.5">
               <h2 className="text-[#d4af37] font-serif tracking-[0.18em] text-xs sm:text-sm uppercase font-semibold">
                 {UI_TRANSLATIONS.step2Title[language]}
@@ -208,36 +206,49 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
 
             <button
               onClick={() => setStep(1)}
-              className="text-xs font-serif text-zinc-400 hover:text-[#d4af37] underline transition-colors"
+              className="text-xs font-serif text-zinc-400 hover:text-[#d4af37] underline transition-colors active:scale-95"
             >
               {UI_TRANSLATIONS.changeTopicBtn[language]}
             </button>
           </div>
 
-          {/* Spreads Grid */}
+          {/* Spreads Grid with Mini Card Slot Diagrams */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {SPREAD_CONFIGS.map(spread => (
               <button
                 key={spread.id}
                 onClick={() => handleSelectSpread(spread)}
                 onMouseEnter={() => audioService.playCardHover()}
-                className="group craft-card p-5 sm:p-6 rounded-2xl text-left flex flex-col justify-between space-y-4 cursor-pointer"
+                className="group craft-card p-5 sm:p-6 rounded-2xl text-left flex flex-col justify-between space-y-4 cursor-pointer active:scale-[0.98]"
               >
-                <div className="space-y-2">
-                  <div className="font-serif font-bold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide flex items-center justify-between">
-                    <span>{spread.name[language]}</span>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="font-serif font-bold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide">
+                      {spread.name[language]}
+                    </div>
                     <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/30 text-amber-200">
                       {spread.cardCount} {spread.cardCount === 1 ? UI_TRANSLATIONS.oneCardPick[language] : UI_TRANSLATIONS.cardsPick[language]}
                     </span>
                   </div>
+
+                  {/* Mini Visual Slot Diagram */}
+                  <div className="flex items-center gap-1.5 py-1">
+                    {Array.from({ length: spread.cardCount }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-5 h-7 rounded border border-[#8a7326]/60 bg-black/40 group-hover:border-[#d4af37] transition-colors"
+                      />
+                    ))}
+                  </div>
+
                   <p className="text-xs text-zinc-300 font-serif leading-relaxed">
                     {spread.subtitle[language]}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-3 border-t border-white/10">
+                <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-3 border-t border-white/[0.08]">
                   <span>{UI_TRANSLATIONS.communeAndDrawBtn[language]}</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
             ))}

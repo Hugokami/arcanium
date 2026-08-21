@@ -8,8 +8,8 @@
     --gold-light: #f5dfa8;
     --gold-dark: #8a7326;
     --midnight-void: #07040f;
-    --midnight-surface: #100822;
-    --midnight-elevated: #180d32;
+    --midnight-surface: #0f0920;
+    --midnight-elevated: #160e2e;
     --accent-purple: #9d4edd;
     --accent-indigo: #6366f1;
     --accent-teal: #14b8a6;
@@ -25,64 +25,92 @@
   }
 }
 
-/* Custom Mystical Scrollbars */
+/* ibelick / UI Craft Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(7, 4, 15, 0.7);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.25);
   border-radius: 9999px;
-  border: 1px solid rgba(212, 175, 55, 0.15);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 175, 55, 0.6);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  background: rgba(212, 175, 55, 0.5);
 }
 
-/* UI Craft Glass Panels */
+/* ibelick Luminous Card & Glass Panels */
 .craft-panel {
-  background: linear-gradient(135deg, rgba(20, 12, 45, 0.85) 0%, rgba(13, 7, 30, 0.9) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 
+  background: linear-gradient(180deg, rgba(22, 14, 46, 0.75) 0%, rgba(13, 8, 28, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.8),
               0 0 1px 1px rgba(212, 175, 55, 0.15),
-              inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+              inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .craft-card {
-  background: linear-gradient(180deg, rgba(24, 14, 52, 0.75) 0%, rgba(14, 8, 32, 0.85) 100%);
-  border: 1px solid rgba(138, 115, 38, 0.35);
-  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6),
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.5),
               inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .craft-card:hover {
-  border-color: rgba(212, 175, 55, 0.8);
+  border-color: rgba(212, 175, 55, 0.6);
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
   box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.8),
-              0 0 20px -2px rgba(212, 175, 55, 0.35),
+              0 0 24px -4px rgba(212, 175, 55, 0.25),
               inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+}
+
+/* Subtle Interactive Buttons */
+.btn-primary {
+  @apply relative inline-flex items-center justify-center font-serif text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  background: linear-gradient(180deg, #dfb76c 0%, #b8903e 100%);
+  color: #07040f;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.btn-secondary {
+  @apply relative inline-flex items-center justify-center font-serif text-xs sm:text-sm tracking-wide transition-all duration-200 active:scale-[0.98];
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e8e4dc;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #d4af37;
 }
 
 /* Text glow effects */
 .text-shadow-gold {
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.2);
+  text-shadow: 0 0 24px rgba(212, 175, 55, 0.45);
 }
 
-.text-shadow-subtle {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+/* Scroll fade edge mask */
+.scroll-fade-x {
+  mask-image: linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
 }
 
-/* Print styles for export scroll */
 @media print {
   body {
     background: white !important;

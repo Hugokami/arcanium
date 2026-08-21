@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Volume2, VolumeX, Sparkles, BookOpen, Scroll, Music, ChevronDown, Globe, Check } from 'lucide-react';
+import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check } from 'lucide-react';
 import { Language } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
@@ -69,10 +69,10 @@ export const Header: React.FC<HeaderProps> = ({
   const currentLangObj = languages.find(l => l.id === language) || languages[0];
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#080412]/85 border-b border-[#d4af37]/20 transition-all shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
+    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#07040f]/80 border-b border-white/[0.08] transition-all">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         
-        {/* Left: Clean Brand Identity (No square symbol) */}
+        {/* Left: Clean Brand Logo & Subtitle */}
         <button
           onClick={onResetHome}
           className="group flex flex-col items-start text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-lg py-1 transition-transform active:scale-95"
@@ -85,14 +85,14 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
         </button>
 
-        {/* Right: Craft Controls */}
-        <div className="flex items-center space-x-2 sm:space-x-3">
+        {/* Right: Controls Hub */}
+        <div className="flex items-center space-x-2 sm:space-x-2.5">
           
           {/* Language Switcher Dropdown */}
           <div className="relative" ref={langMenuRef}>
             <button
               onClick={() => setShowLangMenu(!showLangMenu)}
-              className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-[#8a7326]/40 hover:border-[#d4af37] text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+              className="flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             >
               <Globe className="w-3.5 h-3.5 text-[#d4af37]" />
               <span className="font-serif font-medium">{currentLangObj.nativeName}</span>
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
 
             {showLangMenu && (
-              <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-[#130b29] border border-[#d4af37]/40 shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-top-2 backdrop-blur-xl">
+              <div className="absolute right-0 mt-2 w-48 rounded-xl bg-[#110924] border border-white/[0.12] shadow-2xl p-1 z-50 animate-in fade-in slide-in-from-top-1 backdrop-blur-2xl">
                 {languages.map(lang => (
                   <button
                     key={lang.id}
@@ -109,9 +109,9 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowLangMenu(false);
                       audioService.playCardSlide();
                     }}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left text-xs font-serif transition-colors ${
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left text-xs font-serif transition-all active:scale-[0.98] ${
                       language === lang.id
-                        ? 'bg-[#d4af37]/20 text-[#d4af37] font-semibold border border-[#d4af37]/30'
+                        ? 'bg-[#d4af37]/15 text-[#d4af37] font-semibold border border-[#d4af37]/30'
                         : 'hover:bg-white/5 text-zinc-300'
                     }`}
                   >
@@ -132,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenCodex();
             }}
-            className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#d4af37]/60 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+            className="hidden sm:flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             title={UI_TRANSLATIONS.codexBtn[language]}
           >
             <BookOpen className="w-3.5 h-3.5 text-[#d4af37]" />
@@ -145,26 +145,26 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenJournal();
             }}
-            className="relative flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#d4af37]/60 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+            className="relative flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             title={UI_TRANSLATIONS.journalBtn[language]}
           >
             <Scroll className="w-3.5 h-3.5 text-[#d4af37]" />
             <span className="hidden sm:inline font-serif">{UI_TRANSLATIONS.journalBtn[language]}</span>
             {journalCount > 0 && (
-              <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-mono font-bold rounded-full bg-[#d4af37] text-black shadow-sm">
+              <span className="inline-flex items-center justify-center px-1.5 py-0.2 text-[9px] font-mono font-bold rounded-full bg-[#d4af37] text-black">
                 {journalCount}
               </span>
             )}
           </button>
 
           {/* Audio Console Hub */}
-          <div className="relative flex items-center space-x-1 bg-white/[0.04] p-1 rounded-full border border-white/10" ref={volMenuRef}>
+          <div className="relative flex items-center space-x-1 bg-white/[0.03] p-1 rounded-full border border-white/[0.08]" ref={volMenuRef}>
             {/* Ambient Drone (432Hz) */}
             <button
               onClick={handleToggleAmbient}
-              className={`p-1.5 rounded-full transition-all ${
+              className={`p-1.5 rounded-full transition-all active:scale-90 ${
                 isAmbientOn
-                  ? 'bg-[#d4af37]/25 text-[#d4af37] shadow-gold-glow'
+                  ? 'bg-[#d4af37]/20 text-[#d4af37] shadow-[0_0_12px_rgba(212,175,55,0.4)]'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
               title={UI_TRANSLATIONS.ambientAudio[language]}
@@ -175,7 +175,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Mute/Unmute */}
             <button
               onClick={handleToggleMute}
-              className={`p-1.5 rounded-full transition-all ${
+              className={`p-1.5 rounded-full transition-all active:scale-90 ${
                 isMuted ? 'text-rose-400' : 'text-zinc-300 hover:text-[#d4af37]'
               }`}
               title={UI_TRANSLATIONS.soundFx[language]}
@@ -192,7 +192,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
 
             {showVolumeMenu && (
-              <div className="absolute right-0 top-11 w-48 p-3.5 rounded-2xl bg-[#130b29] border border-[#d4af37]/40 shadow-2xl z-50 backdrop-blur-xl animate-in fade-in">
+              <div className="absolute right-0 top-10 w-48 p-3.5 rounded-xl bg-[#110924] border border-white/[0.12] shadow-2xl z-50 backdrop-blur-2xl animate-in fade-in">
                 <div className="text-[10px] font-mono uppercase tracking-wider text-[#d4af37] mb-2 flex justify-between">
                   <span>Soundscape Volume</span>
                   <span>{Math.round(volume * 100)}%</span>
