@@ -104,13 +104,6 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                       <span className="text-2xl sm:text-3xl filter drop-shadow-md group-hover:scale-105 transition-transform duration-200">
                         {topic.icon}
                       </span>
-                      <span className="text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-amber-200/80 group-hover:border-[#d4af37]/40">
-                        {topic.suggestedSpread === 'single'
-                          ? (language === 'my' ? '၁ ကတ်' : language === 'ja' ? '1枚' : '1 Card')
-                          : topic.suggestedSpread === 'three'
-                          ? (language === 'my' ? '၃ ကတ်' : language === 'ja' ? '3枚' : '3 Cards')
-                          : (language === 'my' ? '၅ ကတ်' : language === 'ja' ? '5枚' : '5-Card Cross')}
-                      </span>
                     </div>
 
                     <h3 className="font-serif font-semibold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide">
