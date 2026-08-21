@@ -8,17 +8,17 @@ export const UI_TRANSLATIONS = {
   },
   appSubtitle: {
     en: 'The cards already know what you seek',
-    my: 'ကတ်ပြားများသည် သင်ရှာဖွေနေသောအဖြေကို ကြိုတင်သိရှိပြီးဖြစ်သည်',
+    my: 'ကတ်ပြားများက သင့်စိတ်ထဲရှိ အဖြေကို ကြိုတင်သိရှိနေပါသည်',
     ja: 'カードは、あなたが求める答えをすでに知っています'
   },
   step1Title: {
     en: 'I. What brings you to the cards?',
-    my: '၁။ သင်သိရှိလိုသော ကံကြမ္မာခေါင်းစဉ်ကို ရွေးချယ်ပါ',
+    my: '၁။ သိရှိလိုသော ကံကြမ္မာအမေးပုစ္ဆာကို ရွေးချယ်ပါ',
     ja: 'I. あなたがカードに尋ねたいテーマは何ですか？'
   },
   questionPlaceholder: {
     en: '…or whisper your own question (optional)',
-    my: '…သို့မဟုတ် သင်မေးလိုသော မေးခွန်းကို တိုက်ရိုက်ရေးသားပါ (စိတ်ကြိုက်)',
+    my: '…သို့မဟုတ် သိလိုရာ မေးခွန်းကို တိုက်ရိုက် ရေးသားမေးမြန်းပါ',
     ja: '…または、心にある質問を自由に入力してください（任意）'
   },
   step2Title: {
@@ -28,7 +28,7 @@ export const UI_TRANSLATIONS = {
   },
   step3Title: {
     en: 'III. Breathe. Focus on your question. Then choose',
-    my: '၃။ အသက်ကို ဖြည်းညင်းစွာရှူသွင်းပါ။ မေးခွန်းကို အာရုံပြု၍ ကတ်များကို ရွေးချယ်ပါ',
+    my: '၃။ စိတ်ကို တည်ငြိမ်စွာထားပြီး အာရုံစူးစိုက်ကာ ကတ်များကို ရွေးချယ်ပါ',
     ja: 'III. 深呼吸をして、心を静めてください。そしてカードを選んでください'
   },
   oneCardPick: {
@@ -38,67 +38,67 @@ export const UI_TRANSLATIONS = {
   },
   cardsPick: {
     en: 'cards',
-    my: 'ကတ်များ',
+    my: 'ကတ်',
     ja: '枚'
   },
   flipHint: {
     en: 'Click each card to reveal its ancient prophecy…',
-    my: 'ကတ်ပြားတစ်ခုချင်းစီကို နှိပ်၍ ကံကြမ္မာနိမိတ်ကို ဖွင့်လှစ်ပါ…',
+    my: 'ကတ်ပြားများကို တစ်ခုချင်း ဖွင့်လှစ်ပြီး ကံကြမ္မာ၏ သတင်းစကားကို ဖတ်ကြားပါ…',
     ja: '各カードをクリックして、運命の託宣を明かしてください…'
   },
   readBtn: {
     en: 'Read the Cards',
-    my: 'ကံကြမ္မာနိမိတ်ဖတ်မည်',
+    my: 'ကံကြမ္မာနိမိတ် ဖတ်ကြားမည်',
     ja: 'カードの啓示を読む'
   },
   revealAllBtn: {
     en: 'Reveal All Cards',
-    my: 'ကတ်အားလုံးကို ဖွင့်မည်',
+    my: 'ကတ်အားလုံးကို တစ်ပြိုင်နက် ဖွင့်မည်',
     ja: 'すべてのカードを表にする'
   },
   shuffleAgainBtn: {
     en: '✦ Shuffle Again ✦',
-    my: '✦ အသစ်ပြန်လည် စတင်မွှေမည် ✦',
+    my: '✦ မေးခွန်းအသစ်ဖြင့် ပြန်လည်စတင်မည် ✦',
     ja: '✦ 新しい問いを立てる（再シャッフル） ✦'
   },
   saveToJournalBtn: {
     en: 'Save to Journal',
-    my: 'မှတ်တမ်းတွင် သိမ်းဆည်းမည်',
+    my: 'မှတ်တမ်းဂျာနယ်တွင် သိမ်းမည်',
     ja: 'ジャーナルに保存'
   },
   savedToJournalBtn: {
     en: 'Saved to Journal ✓',
-    my: 'မှတ်တမ်းတွင် သိမ်းဆည်းပြီး ✓',
+    my: 'မှတ်တမ်းတင်ပြီးပါပြီ ✓',
     ja: 'ジャーナルに保存済み ✓'
   },
   exportScrollBtn: {
     en: 'Export Sacred Scroll',
-    my: 'ရှေးဟောင်းစာလိပ် ထုတ်ယူမည်',
+    my: 'ကံကြမ္မာပေစာလိပ် ထုတ်ယူမည်',
     ja: '預言の巻物をエクスポート'
   },
   codexBtn: {
     en: '78-Card Codex',
-    my: 'ကတ် ၇၈ ပြား ကျမ်းဂန်',
+    my: '၇၈ ပြား တာရော့ကျမ်း',
     ja: '78枚のタロット図鑑'
   },
   journalBtn: {
     en: 'Journal',
-    my: 'မှတ်တမ်းဂျာနယ်',
+    my: 'ဗေဒင်မှတ်တမ်း',
     ja: 'リーディング記録'
   },
   ambientAudio: {
     en: 'Ambient Sound (432Hz)',
-    my: 'စိတ်အေးချမ်းစေသော ဂီတသံ (432Hz)',
+    my: 'စိတ်ငြိမ် အသံလှိုင်း (432Hz)',
     ja: '聖なる環境音（432Hz）'
   },
   soundFx: {
     en: 'Sound FX',
-    my: 'အသံအထူးပြုလုပ်ချက်',
+    my: 'အသံထွက်',
     ja: '効果音'
   },
   reversedTag: {
     en: '(Reversed)',
-    my: '(ပြောင်းပြန်ကျဆင်းမှု)',
+    my: '(ပြောင်းပြန်ကျ)',
     ja: '（逆位置）'
   },
   inThisPosition: {
@@ -109,37 +109,37 @@ export const UI_TRANSLATIONS = {
   sectionTitles: {
     mind: {
       en: "🧠 What's Been on Your Mind",
-      my: "🧠 သင့်စိတ်အတွင်း တွေးတောဖြစ်ပျက်နေသော အခြေအနေ",
+      my: "🧠 စိတ်အတွင်း အလေးထားတွေးတောနေသော အရာ",
       ja: "🧠 心の深層と意識のフォーカス"
     },
     problems: {
       en: "⚡ The Problems You've Been Facing",
-      my: "⚡ သင်ရင်ဆိုင်နေရသော စိန်ခေါ်မှုနှင့် အတားအဆီးများ",
+      my: "⚡ ရင်ဆိုင်နေရသော အခက်အခဲနှင့် စိန်ခေါ်မှုများ",
       ja: "⚡ 直面している試練と摩擦"
     },
     forces: {
       en: "🌙 Hidden Forces at Work",
-      my: "🌙 အတွင်းပိုင်းမှ လှုံ့ဆော်နေသော လျှို့ဝှက်စွမ်းအားများ",
+      my: "🌙 မမြင်ရဘဲ လွှမ်းမိုးနေသော အတွင်းစွမ်းအားများ",
       ja: "🌙 水面下で働く見えない力"
     },
     advice: {
       en: "🕯️ What the Cards Ask of You",
-      my: "🕯️ ကတ်ပြားများက ညွှန်ပြသော လုပ်ဆောင်ရမည့်အကြံပြုချက်",
+      my: "🕯️ ကတ်ပြားများ၏ လမ်းညွှန်အကြံပြုချက်",
       ja: "🕯️ カードが求める行動と心構え"
     },
     outlook: {
       en: "🌅 Where Things Are Heading",
-      my: "🌅 ရှေ့ဆက်ဖြစ်ပေါ်လာမည့် အနာဂတ်လားရာ",
+      my: "🌅 ရှေ့ဆက်ဖြစ်ပေါ်လာမည့် အလားအလာ",
       ja: "🌅 これから向かう未来の展望"
     },
     timeline: {
       en: "⏳ When — The Timing of Things",
-      my: "⏳ အချိန်အခါ သတ်မှတ်ချက်နှင့် အရှိန်အဟုန်",
+      my: "⏳ အချိန်ကာလနှင့် အရှိန်အဟုန် ခန့်မှန်းချက်",
       ja: "⏳ 運命のタイミング・時期の目安"
     },
     archetype: {
       en: "✨ Your Card Archetype",
-      my: "✨ သင့်စိတ်ဝိညာဉ်၏ ပင်ကိုစရိုက်ပုံစံ (Archetype)",
+      my: "✨ သင့်အတွင်းစိတ်၏ မူလစရိုက်လက္ခဏာ (Archetype)",
       ja: "✨ あなたの魂の元型（アーキタイプ）"
     },
     summary: {
@@ -155,12 +155,12 @@ export const UI_TRANSLATIONS = {
   },
   reflectionsTitle: {
     en: 'Personal Reflections & Notes',
-    my: 'ကိုယ်ပိုင် ခံစားချက်နှင့် အတွေးအမြင် မှတ်တမ်း',
+    my: 'ကိုယ်ပိုင်ခံစားချက်နှင့် အတွေးအမြင် မှတ်စု',
     ja: '個人的な気づきと瞑想ノート'
   },
   reflectionsPlaceholder: {
     en: 'Jot down any personal feelings, insights, or intuitions from this reading...',
-    my: 'ဤနိမိတ်ဖတ်ခြင်းမှ သင်ရရှိသော စိတ်ခံစားချက်၊ အသိဉာဏ်နှင့် အတွေးများကို ဤနေရာတွင် မှတ်တမ်းတင်ပါ...',
+    my: 'ဤဗေဒင်နိမိတ်မှ ရရှိသော အသိဉာဏ်၊ အတွေးနှင့် စိတ်ခံစားချက်များကို ဤနေရာတွင် မှတ်တမ်းတင်ပါ...',
     ja: 'このリーディングから得た直感、気づき、感情をここに記録してください...'
   },
   copyBtn: {
@@ -216,7 +216,7 @@ export const TOPICS = [
     icon: '💞',
     title: {
       en: 'Love & Relationships',
-      my: 'အချစ်ရေးနှင့် ဆက်ဆံရေး',
+      my: 'အချစ်ရေးနှင့် သံယောဇဉ်',
       ja: '恋愛・パートナーシップ'
     },
     description: {
@@ -256,12 +256,12 @@ export const TOPICS = [
     icon: '💰',
     title: {
       en: 'Money & Abundance',
-      my: 'စီးပွားဥစ္စာနှင့် ကြွယ်ဝမှု',
+      my: 'စီးပွားဥစ္စာနှင့် ကြွယ်ဝချမ်းသာမှု',
       ja: '金運・豊かさ・繁栄'
     },
     description: {
       en: 'Navigate financial tides, material security, and prosperity.',
-      my: 'စီးပွားဥစ္စာရေစီးကြောင်း၊ ရုပ်ဝတ္ထုလုံခြုံမှုနှင့် ကြွယ်ဝချမ်းသာခြင်း။',
+      my: 'ငွေကြေးစီးဆင်းမှု၊ ရုပ်ဝတ္ထုလုံခြုံမှုနှင့် စီးပွားလာဘ်လာဘ။',
       ja: '金運の潮流、現実的な基盤、物質的な豊かさを紐解きます。'
     },
     defaultQuestion: {
@@ -276,7 +276,7 @@ export const TOPICS = [
     icon: '🌱',
     title: {
       en: 'Personal Growth',
-      my: 'စိတ်ပိုင်းဆိုင်ရာ ကြီးထွားမှု',
+      my: 'အတွင်းစိတ် ရင့်ကျက်ဖွံ့ဖြိုးမှုနှင့် ကုစားခြင်း',
       ja: '自己成長・魂の進化'
     },
     description: {
@@ -296,7 +296,7 @@ export const TOPICS = [
     icon: '⚔️',
     title: {
       en: 'A Crossroads Decision',
-      my: 'လမ်းဆုံလမ်းခွ ဆုံးဖြတ်ချက်',
+      my: 'ဘဝအလှည့်အပြောင်း လမ်းခွဲနှင့် အဆုံးအဖြတ်',
       ja: '運命の岐路・決断'
     },
     description: {
@@ -316,7 +316,7 @@ export const TOPICS = [
     icon: '🔮',
     title: {
       en: 'The Sacred Unknown',
-      my: 'မသိသေးသော အနာဂတ်နိမိတ်',
+      my: 'စကြဝဠာ၏ လျှို့ဝှက်နိမိတ်နှင့် သတင်းစကား',
       ja: '未知なる啓示・直感'
     },
     description: {
@@ -373,7 +373,7 @@ export const SPREAD_CONFIGS = [
     id: 'single',
     name: {
       en: '☉ One Card',
-      my: '☉ တစ်ကတ်ခင်းကျင်းမှု',
+      my: '☉ တစ်ကတ်နိမိတ် ခင်းကျင်းမှု',
       ja: '☉ ワンオラクル（1枚）'
     },
     subtitle: {
@@ -467,7 +467,7 @@ export const SPREAD_CONFIGS = [
     id: 'cross',
     name: {
       en: '✦ Five-Card Cross',
-      my: '✦ ငါးကတ်ကြက်ခြေခတ် ခင်းကျင်းမှု',
+      my: '✦ ငါးကတ် ကြက်ခြေခတ် ခင်းကျင်းမှု',
       ja: '✦ 5カード・クロス（5枚）'
     },
     subtitle: {
@@ -553,7 +553,7 @@ export const SPREAD_CONFIGS = [
     id: 'celtic',
     name: {
       en: '✧ Relationship Spread',
-      my: '✧ အချစ်ရေးနှင့် ဆက်ဆံရေးခင်းကျင်းမှု',
+      my: '✧ အချစ်ရေးနှင့် သံယောဇဉ် ခင်းကျင်းမှု',
       ja: '✧ リレーションシップ・スプレッド（5枚）'
     },
     subtitle: {
