@@ -9,6 +9,7 @@ import { CardEncyclopediaModal } from './components/encyclopedia/CardEncyclopedi
 import { ShareScrollModal } from './components/common/ShareScrollModal';
 import { UserProfileModal } from './components/profile/UserProfileModal';
 import { DailyCardModal } from './components/reading/DailyCardModal';
+import { EntranceIntro } from './components/layout/EntranceIntro';
 
 import { DrawnCard, JournalEntry, Language, ReadingResultData, SpreadDefinition } from './types/tarot';
 import { SPREAD_CONFIGS, TOPICS } from './data/translations';
@@ -36,6 +37,9 @@ export function App() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
     return AstrologyService.loadProfile();
   });
+
+  // Intro Animation State
+  const [showIntro, setShowIntro] = useState<boolean>(true);
 
   // Modals
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
@@ -223,6 +227,14 @@ export function App() {
         onClose={() => setIsDailyCardOpen(false)}
         language={language}
       />
+
+      {/* Fullscreen Entrance Intro Animation */}
+      {showIntro && (
+        <EntranceIntro
+          language={language}
+          onComplete={() => setShowIntro(false)}
+        />
+      )}
 
     </div>
   );
