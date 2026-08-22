@@ -1,7 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { DrawnCard, Language, ReadingResultData } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
-import { getPositionContextualMeaning, analyzeReading } from '../../services/deepReadingEngine';
+import {
+  getPositionContextualMeaning,
+  analyzeReading,
+  calculateCelticCrossSynthesis,
+  calculateChakraAlignment,
+  calculateDecisionForkSynthesis,
+  calculateRelationshipMirrorSynthesis
+} from '../../services/deepReadingEngine';
 import { audioService } from '../../services/audioService';
 import { TarotSynergyService } from '../../services/tarotSynergyService';
 import { AstrologyService } from '../../services/astrologyService';
@@ -40,7 +47,11 @@ import {
   Compass,
   Sparkle,
   Heart,
-  Users
+  Users,
+  GitFork,
+  Activity,
+  ShieldCheck,
+  Award
 } from 'lucide-react';
 
 interface DeepReadingViewProps {
@@ -99,6 +110,35 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
     return analyzeReading(topic, drawnCards, spread, language, userProfile, partnerProfile);
   }, [topic, drawnCards, spread, language, userProfile, partnerProfile]);
 
+  // Specialized Spread Hermeneutic Syntheses
+  const celticCrossSynthesis = useMemo(() => {
+    if (spread.id === 'celtic_cross' || drawnCards.length >= 10) {
+      return calculateCelticCrossSynthesis(drawnCards, language);
+    }
+    return null;
+  }, [spread.id, drawnCards, language]);
+
+  const chakraSynthesis = useMemo(() => {
+    if (spread.id === 'chakra_spread' || (drawnCards.length === 7 && spread.id.includes('chakra'))) {
+      return calculateChakraAlignment(drawnCards, language);
+    }
+    return null;
+  }, [spread.id, drawnCards, language]);
+
+  const decisionForkSynthesis = useMemo(() => {
+    if (spread.id === 'decision_fork' || (drawnCards.length === 5 && spread.id.includes('decision'))) {
+      return calculateDecisionForkSynthesis(drawnCards, language);
+    }
+    return null;
+  }, [spread.id, drawnCards, language]);
+
+  const relationshipMirrorSynthesis = useMemo(() => {
+    if (spread.id === 'celtic' || spread.id === 'relationship' || (drawnCards.length === 5 && topic === 'love')) {
+      return calculateRelationshipMirrorSynthesis(drawnCards, language, userProfile, partnerProfile);
+    }
+    return null;
+  }, [spread.id, topic, drawnCards, language, userProfile, partnerProfile]);
+
   // Master Tarot Synergy calculations
   const elementalDignities = useMemo(() => {
     return TarotSynergyService.calculateElementalDignities(drawnCards, language);
@@ -110,6 +150,10 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
   const quintessence = useMemo(() => {
     return TarotSynergyService.calculateQuintessence(drawnCards, language);
+  }, [drawnCards, language]);
+
+  const extendedQuintessence = useMemo(() => {
+    return TarotSynergyService.calculateExtendedQuintessence(drawnCards, language);
   }, [drawnCards, language]);
 
   const polarityGauge = useMemo(() => {
@@ -509,6 +553,275 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         </div>
       )}
 
+      {/* 1. 10-Card Celtic Cross Grand Synthesis Panel */}
+      {celticCrossSynthesis && (
+        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-[#d4af37]/60 bg-gradient-to-b from-[#180e2f] via-[#0d071d] to-black space-y-6 shadow-[0_0_40px_rgba(212,175,55,0.2)] animate-in fade-in duration-500">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-[#d4af37]">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif font-bold text-[#d4af37]">
+                {language === 'my' ? '၁၀ ကတ် ဆဲလ်တစ်ကြက်ခြေခတ် မဟာပေါင်းစပ်သုံးသပ်ချက်' : language === 'ja' ? 'ケルト十字 10カード・神聖秘儀総合統合' : '10-Card Celtic Cross Grand Hermeneutic Synthesis'}
+              </h3>
+            </div>
+            <span className="text-xs font-mono px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-200 font-bold">
+              {celticCrossSynthesis.crossTension.harmonyScore}% Harmony
+            </span>
+          </div>
+
+          {/* Central Axis & Cross Tension */}
+          <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-2">
+            <div className="text-xs font-mono text-amber-400 uppercase tracking-wider">
+              ✦ {celticCrossSynthesis.crossTension.title[language]}
+            </div>
+            <p className="text-xs sm:text-sm text-zinc-200 font-serif leading-relaxed">
+              {celticCrossSynthesis.crossTension.analysis[language]}
+            </p>
+          </div>
+
+          {/* Grid: Spiritual Vertical Axis & Temporal Stream */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/20 space-y-2">
+              <div className="text-xs font-mono text-purple-300 font-bold uppercase tracking-wider">
+                🌌 Spiritual Axis (Root ↔ Crown)
+              </div>
+              <div className="text-xs text-zinc-300 font-serif space-y-1">
+                <div><b>Root:</b> {celticCrossSynthesis.spiritualAxis.rootFoundation[language]}</div>
+                <div><b>Crown:</b> {celticCrossSynthesis.spiritualAxis.crownAspiration[language]}</div>
+                <div className="text-[11px] text-purple-200 italic pt-1">{celticCrossSynthesis.spiritualAxis.axisAlignment[language]}</div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/20 space-y-2">
+              <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-wider">
+                ⏳ Temporal Stream (Karma ↔ Manifestation)
+              </div>
+              <div className="text-xs text-zinc-300 font-serif space-y-1">
+                <div><b>Past:</b> {celticCrossSynthesis.temporalStream.karmicPast[language]}</div>
+                <div><b>Present:</b> {celticCrossSynthesis.temporalStream.presentDynamic[language]}</div>
+                <div><b>Future:</b> {celticCrossSynthesis.temporalStream.approachingWave[language]}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Staff of Destiny 4 Pillars */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-serif">
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-amber-300 font-bold">Internal Stance:</span>
+              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.querentStance[language]}</p>
+            </div>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-amber-300 font-bold">External Mirror:</span>
+              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.environmentalMirror[language]}</p>
+            </div>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-amber-300 font-bold">Hopes & Shadow Fears:</span>
+              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.hopesAndFearsPolarity[language]}</p>
+            </div>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-emerald-300 font-bold">Ultimate Culmination:</span>
+              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.finalManifestation[language]}</p>
+            </div>
+          </div>
+
+          {/* Waite Grand Verdict */}
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-[#d4af37]/40 text-center space-y-1.5">
+            <div className="text-[10px] font-mono text-[#d4af37] uppercase tracking-widest font-bold">
+              • A.E. Waite Oracular Synthesis •
+            </div>
+            <p className="text-xs sm:text-sm font-serif italic text-amber-100 leading-relaxed">
+              "{celticCrossSynthesis.destinyVerdict[language]}"
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* 2. 7-Chakra Ascending Kundalini Matrix Panel */}
+      {chakraSynthesis && (
+        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-purple-500/40 bg-gradient-to-b from-[#1c0a2f] via-[#0e051c] to-black space-y-6 shadow-[0_0_40px_rgba(168,85,247,0.2)] animate-in fade-in duration-500">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300">
+                <Activity className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-purple-200">
+                  {language === 'my' ? 'စွမ်းအင်စက်ဝန်း ၇ ခု ကုစားဆန်းစစ်မှု (7-Chakra Alignment)' : language === 'ja' ? '7チャクラ・クンダリーニ完全診断マトリックス' : '7-Chakra Ascending Kundalini Alignment Matrix'}
+                </h3>
+                <p className="text-xs text-zinc-400 font-serif">
+                  {chakraSynthesis.overallAlignment[language]}
+                </p>
+              </div>
+            </div>
+            <span className="text-xs font-mono px-3 py-1 rounded-full bg-purple-400/15 border border-purple-400/40 text-purple-200 font-bold">
+              {chakraSynthesis.vitalityScore}% Kundalini Vitality
+            </span>
+          </div>
+
+          {/* Chakra Centers Vertical Stack */}
+          <div className="space-y-3">
+            {chakraSynthesis.chakraCenters.map((ch) => (
+              <div
+                key={ch.chakraId}
+                className="p-3.5 rounded-2xl bg-black/40 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-purple-400/40 transition-colors"
+              >
+                <div className="flex items-center space-x-3">
+                  <div
+                    className="w-3 h-3 rounded-full shrink-0 shadow-md"
+                    style={{ backgroundColor: ch.color }}
+                  />
+                  <div>
+                    <div className="text-xs font-serif font-bold text-amber-100 flex items-center space-x-1.5">
+                      <span>{ch.name[language]}</span>
+                      <span className="text-[10px] font-mono text-zinc-400">({ch.sanskritName} • {ch.element})</span>
+                    </div>
+                    <p className="text-xs text-zinc-300 font-serif pt-0.5">{ch.insight[language]}</p>
+                    <p className="text-[11px] text-amber-200/80 font-serif italic pt-0.5">{ch.healingPrescription[language]}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2 shrink-0 self-end sm:self-center">
+                  <span className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full border ${
+                    ch.status === 'open' ? 'bg-emerald-950/60 border-emerald-400/50 text-emerald-300' :
+                    ch.status === 'blocked' ? 'bg-rose-950/60 border-rose-400/50 text-rose-300' :
+                    'bg-amber-950/60 border-amber-400/50 text-amber-300'
+                  }`}>
+                    {ch.status}
+                  </span>
+                  <div className="w-8 h-12 rounded-lg bg-black border border-white/10 overflow-hidden flex items-center justify-center">
+                    <img
+                      src={`/cards/${ch.card.file}`}
+                      alt={ch.card.name[language]}
+                      style={{ transform: ch.isReversed ? 'rotate(180deg)' : 'none' }}
+                      className="w-full h-full object-contain p-0.5"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-xs text-purple-200 font-serif leading-relaxed text-center">
+            {chakraSynthesis.kundaliniGuidance[language]}
+          </div>
+        </div>
+      )}
+
+      {/* 3. Two Paths Decision Fork Synthesis Panel */}
+      {decisionForkSynthesis && (
+        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#1c1308] via-[#0f0904] to-black space-y-6 shadow-[0_0_40px_rgba(245,158,11,0.2)] animate-in fade-in duration-500">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300">
+                <GitFork className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-amber-200">
+                  {language === 'my' ? 'လမ်းနှစ်ခွ ရွေးချယ်မှု နှိုင်းယှဉ်ချက် (Decision Fork)' : language === 'ja' ? '運命の分岐点・二者択一 比較マトリックス' : 'Two Paths Decision Fork Oracular Comparison'}
+                </h3>
+                <p className="text-xs text-zinc-400 font-serif">
+                  {decisionForkSynthesis.baseCrossroads[language]}
+                </p>
+              </div>
+            </div>
+            <span className="text-xs font-mono px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-200 font-bold">
+              {decisionForkSynthesis.recommendedPath}
+            </span>
+          </div>
+
+          {/* Side by side comparison */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {/* Path A */}
+            <div className="p-4 rounded-2xl bg-black/50 border border-amber-500/30 space-y-3">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <span className="text-sm font-serif font-bold text-amber-300">
+                  {decisionForkSynthesis.pathA.title[language]}
+                </span>
+                <span className="text-xs font-mono font-bold text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                  {decisionForkSynthesis.pathA.viabilityScore}% Viable
+                </span>
+              </div>
+              <div className="space-y-1.5 text-xs font-serif text-zinc-200">
+                <div><b>Trajectory:</b> {decisionForkSynthesis.pathA.trajectory[language]}</div>
+                <div><b>Outcome:</b> {decisionForkSynthesis.pathA.outcome[language]}</div>
+                <div className="text-emerald-300">{decisionForkSynthesis.pathA.advantages[language]}</div>
+                <div className="text-rose-300">{decisionForkSynthesis.pathA.hiddenRisks[language]}</div>
+              </div>
+            </div>
+
+            {/* Path B */}
+            <div className="p-4 rounded-2xl bg-black/50 border border-cyan-500/30 space-y-3">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <span className="text-sm font-serif font-bold text-cyan-300">
+                  {decisionForkSynthesis.pathB.title[language]}
+                </span>
+                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-0.5 rounded-full border border-cyan-400/30">
+                  {decisionForkSynthesis.pathB.viabilityScore}% Viable
+                </span>
+              </div>
+              <div className="space-y-1.5 text-xs font-serif text-zinc-200">
+                <div><b>Trajectory:</b> {decisionForkSynthesis.pathB.trajectory[language]}</div>
+                <div><b>Outcome:</b> {decisionForkSynthesis.pathB.outcome[language]}</div>
+                <div className="text-emerald-300">{decisionForkSynthesis.pathB.advantages[language]}</div>
+                <div className="text-rose-300">{decisionForkSynthesis.pathB.hiddenRisks[language]}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-100 font-serif italic text-center leading-relaxed">
+            "{decisionForkSynthesis.oracularVerdict[language]}"
+          </div>
+        </div>
+      )}
+
+      {/* 4. Relationship Mirror Matrix Panel */}
+      {relationshipMirrorSynthesis && (
+        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-pink-500/40 bg-gradient-to-b from-[#220a1e] via-[#12040f] to-black space-y-5 shadow-[0_0_40px_rgba(244,114,182,0.2)] animate-in fade-in duration-500">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300">
+                <Heart className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif font-bold text-pink-200">
+                {language === 'my' ? 'သံယောဇဉ် အချစ်ရေး နှလုံးသား ပေါင်းကူးသုံးသပ်ချက်' : language === 'ja' ? 'リレーションシップ・魂の鏡像分析' : 'Interpersonal Relationship Mirror & Soul Synthesis'}
+              </h3>
+            </div>
+            <span className="text-xs font-mono px-3 py-1 rounded-full bg-pink-400/15 border border-pink-400/40 text-pink-200 font-bold">
+              {relationshipMirrorSynthesis.harmonicResonanceScore}% Harmonic Resonance
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-serif">
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-pink-300 font-bold">Querent Energy:</span>
+              <p className="text-zinc-200">{relationshipMirrorSynthesis.querentArchetype[language]}</p>
+            </div>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-pink-300 font-bold">Counterpart Energy:</span>
+              <p className="text-zinc-200">{relationshipMirrorSynthesis.partnerArchetype[language]}</p>
+            </div>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-amber-300 font-bold">Central Nexus:</span>
+              <p className="text-zinc-200">{relationshipMirrorSynthesis.nexusBond[language]}</p>
+            </div>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
+              <span className="text-rose-400 font-bold">Growth Friction:</span>
+              <p className="text-zinc-200">{relationshipMirrorSynthesis.coreFriction[language]}</p>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 text-xs font-serif">
+            <span className="text-emerald-300 font-bold">The Forward Bridge:</span>
+            <p className="text-zinc-200">{relationshipMirrorSynthesis.forwardBridge[language]}</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-pink-500/10 border border-pink-500/30 text-xs sm:text-sm text-pink-100 font-serif italic text-center leading-relaxed">
+            "{relationshipMirrorSynthesis.relationalAlchemyCounsel[language]}"
+          </div>
+        </div>
+      )}
+
       {/* Card-by-card, position-aware readings */}
       <div className="space-y-4">
         {drawnCards.map((dc, i) => {
@@ -713,18 +1026,37 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           </div>
         )}
 
-        {/* The Quintessence Master Root Card */}
-        <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-amber-400 space-y-3 shadow-xl">
-          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-[#d4af37]">
-            <Crown className="w-4 h-4 text-[#d4af37]" />
-            <span>{UI_TRANSLATIONS.quintessenceTitle[language]}</span>
+        {/* The Quintessence Master Root Card (Primary & Shadow) */}
+        <div className="craft-panel p-6 sm:p-7 rounded-3xl border-l-4 border-l-amber-400 space-y-4 shadow-xl bg-gradient-to-br from-amber-950/20 via-black/50 to-black">
+          <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+            <div className="flex items-center space-x-2 text-sm sm:text-base font-serif font-bold text-[#d4af37]">
+              <Crown className="w-4 h-4 text-[#d4af37]" />
+              <span>{UI_TRANSLATIONS.quintessenceTitle[language]}</span>
+            </div>
+            <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-200">
+              Arcanum {extendedQuintessence.number}
+            </span>
           </div>
-          <div className="text-base sm:text-lg font-serif font-bold text-amber-100">
-            {quintessence.cardName[language]}
+
+          <div className="space-y-1.5">
+            <div className="text-base sm:text-lg font-serif font-bold text-amber-100 flex items-center space-x-2">
+              <span>✦ {extendedQuintessence.cardName[language]}</span>
+            </div>
+            <p className="text-xs sm:text-sm text-[#e8e0f5] font-serif leading-relaxed">
+              {extendedQuintessence.lesson[language]}
+            </p>
           </div>
-          <p className="text-xs sm:text-sm text-[#e8e0f5] font-serif leading-relaxed">
-            {quintessence.lesson[language]}
-          </p>
+
+          {/* Shadow Quintessence Complement */}
+          <div className="p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/20 space-y-1">
+            <div className="text-xs font-serif font-bold text-purple-300 flex items-center justify-between">
+              <span>🌑 Shadow Quintessence: {extendedQuintessence.shadowCardName[language]}</span>
+              <span className="text-[10px] font-mono text-purple-400">Arcanum {extendedQuintessence.shadowNumber}</span>
+            </div>
+            <p className="text-xs text-purple-200/90 font-serif italic leading-relaxed">
+              {extendedQuintessence.shadowLesson[language]}
+            </p>
+          </div>
         </div>
 
         {/* Manifestation Affirmation & Micro-Ritual Prescription */}

@@ -1,6 +1,7 @@
-import React from 'react';
-import { X, Sparkles, Heart, Briefcase, Compass, Eye, ShieldAlert } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Sparkles, Heart, Briefcase, Compass, Eye, ShieldAlert, BookOpen } from 'lucide-react';
 import { DrawnCard, Language, TarotCard } from '../../types/tarot';
+import { EsotericCorrespondenceService } from '../../services/esotericCorrespondenceService';
 
 interface CardInspectorModalProps {
   drawnCard: DrawnCard | null;
@@ -13,9 +14,11 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
   language,
   onClose
 }) => {
+  const [activeTab, setActiveTab] = useState<'prophecy' | 'waite' | 'kabbalah'>('prophecy');
   if (!drawnCard) return null;
 
   const { card, isReversed, position } = drawnCard;
+  const esoteric = EsotericCorrespondenceService.getEsotericData(card.id);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
@@ -62,6 +65,12 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
                 🪐 {card.astrology[language]}
               </div>
             )}
+
+            {esoteric?.chakraResonance && (
+              <div className="text-[10px] font-mono text-purple-300">
+                ✦ {esoteric.chakraResonance[language]}
+              </div>
+            )}
           </div>
 
           {/* Right: Rich Arcana Symbolism Breakdown */}
@@ -75,68 +84,138 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
               </h2>
             </div>
 
-            {/* Keywords */}
-            <div className="flex flex-wrap gap-1.5">
-              {(isReversed ? card.reversedKeywords[language] : card.uprightKeywords[language]).map((kw, i) => (
-                <span
-                  key={i}
-                  className="px-2.5 py-0.5 rounded-full text-xs font-serif bg-[#d4af37]/15 border border-[#d4af37]/35 text-amber-200"
-                >
-                  {kw}
-                </span>
-              ))}
+            {/* Navigation Tabs */}
+            <div className="flex space-x-1 p-1 rounded-xl bg-white/5 text-xs font-serif">
+              <button
+                onClick={() => setActiveTab('prophecy')}
+                className={`px-3 py-1 rounded-lg transition-all ${activeTab === 'prophecy' ? 'bg-[#d4af37] text-black font-bold' : 'text-zinc-400 hover:text-white'}`}
+              >
+                Prophecy
+              </button>
+              <button
+                onClick={() => setActiveTab('waite')}
+                className={`px-3 py-1 rounded-lg flex items-center space-x-1 transition-all ${activeTab === 'waite' ? 'bg-[#d4af37] text-black font-bold' : 'text-zinc-400 hover:text-white'}`}
+              >
+                <BookOpen className="w-3 h-3" />
+                <span>Waite Key</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('kabbalah')}
+                className={`px-3 py-1 rounded-lg flex items-center space-x-1 transition-all ${activeTab === 'kabbalah' ? 'bg-[#d4af37] text-black font-bold' : 'text-zinc-400 hover:text-white'}`}
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>Kabbalah</span>
+              </button>
             </div>
 
-            {/* Core Meaning in this spread */}
-            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] space-y-1.5">
-              <div className="text-xs font-serif font-bold text-[#d4af37] flex items-center space-x-1.5">
-                <Eye className="w-3.5 h-3.5" />
-                <span>{isReversed ? 'Reversed Shadow Warning' : 'Upright Core Prophecy'}</span>
-              </div>
-              <p className="text-xs sm:text-sm text-zinc-200 font-serif leading-relaxed">
-                {isReversed ? card.reversedMeaning[language] : card.uprightMeaning[language]}
-              </p>
-            </div>
+            {activeTab === 'prophecy' && (
+              <div className="space-y-3">
+                {/* Keywords */}
+                <div className="flex flex-wrap gap-1.5">
+                  {(isReversed ? card.reversedKeywords[language] : card.uprightKeywords[language]).map((kw, i) => (
+                    <span
+                      key={i}
+                      className="px-2.5 py-0.5 rounded-full text-xs font-serif bg-[#d4af37]/15 border border-[#d4af37]/35 text-amber-200"
+                    >
+                      {kw}
+                    </span>
+                  ))}
+                </div>
 
-            {/* Specialized Meanings: Love & Career */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-              {card.loveMeaning && (
-                <div className="p-3 rounded-xl bg-pink-950/20 border border-pink-500/20 space-y-1">
-                  <div className="text-[11px] font-serif font-semibold text-pink-300 flex items-center space-x-1">
-                    <Heart className="w-3 h-3" />
-                    <span>Love Alchemy</span>
+                {/* Core Meaning in this spread */}
+                <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] space-y-1.5">
+                  <div className="text-xs font-serif font-bold text-[#d4af37] flex items-center space-x-1.5">
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>{isReversed ? 'Reversed Shadow Warning' : 'Upright Core Prophecy'}</span>
                   </div>
-                  <p className="text-[11px] text-zinc-300 font-serif leading-relaxed">
-                    {isReversed ? card.loveMeaning.reversed[language] : card.loveMeaning.upright[language]}
+                  <p className="text-xs sm:text-sm text-zinc-200 font-serif leading-relaxed">
+                    {isReversed ? card.reversedMeaning[language] : card.uprightMeaning[language]}
                   </p>
                 </div>
-              )}
 
-              {card.careerMeaning && (
-                <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-500/20 space-y-1">
-                  <div className="text-[11px] font-serif font-semibold text-amber-300 flex items-center space-x-1">
-                    <Briefcase className="w-3 h-3" />
-                    <span>Career & Purpose</span>
-                  </div>
-                  <p className="text-[11px] text-zinc-300 font-serif leading-relaxed">
-                    {isReversed ? card.careerMeaning.reversed[language] : card.careerMeaning.upright[language]}
-                  </p>
-                </div>
-              )}
-            </div>
+                {/* Specialized Meanings: Love & Career */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                  {card.loveMeaning && (
+                    <div className="p-2.5 rounded-xl bg-pink-950/20 border border-pink-500/20 space-y-1">
+                      <div className="text-[11px] font-serif font-semibold text-pink-300 flex items-center space-x-1">
+                        <Heart className="w-3 h-3" />
+                        <span>Love Alchemy</span>
+                      </div>
+                      <p className="text-[11px] text-zinc-300 font-serif leading-relaxed">
+                        {isReversed ? card.loveMeaning.reversed[language] : card.loveMeaning.upright[language]}
+                      </p>
+                    </div>
+                  )}
 
-            {/* Spiritual Lesson */}
-            {card.spiritualMeaning && (
-              <div className="p-3 rounded-xl bg-purple-950/20 border border-purple-500/20 space-y-1">
-                <div className="text-[11px] font-serif font-semibold text-purple-300 flex items-center space-x-1">
-                  <Compass className="w-3 h-3" />
-                  <span>Soul Lesson</span>
+                  {card.careerMeaning && (
+                    <div className="p-2.5 rounded-xl bg-amber-950/20 border border-amber-500/20 space-y-1">
+                      <div className="text-[11px] font-serif font-semibold text-amber-300 flex items-center space-x-1">
+                        <Briefcase className="w-3 h-3" />
+                        <span>Career & Purpose</span>
+                      </div>
+                      <p className="text-[11px] text-zinc-300 font-serif leading-relaxed">
+                        {isReversed ? card.careerMeaning.reversed[language] : card.careerMeaning.upright[language]}
+                      </p>
+                    </div>
+                  )}
                 </div>
-                <p className="text-[11px] text-zinc-300 font-serif leading-relaxed">
-                  {isReversed ? card.spiritualMeaning.reversed[language] : card.spiritualMeaning.upright[language]}
-                </p>
               </div>
             )}
+
+            {activeTab === 'waite' && (
+              <div className="p-4 rounded-2xl bg-black/40 border border-white/10 text-xs sm:text-sm font-serif space-y-3 text-zinc-200">
+                <div className="text-xs font-mono uppercase tracking-widest text-[#d4af37] flex items-center space-x-1.5">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>A.E. Waite: The Pictorial Key to the Tarot (1910)</span>
+                </div>
+                <p className="italic leading-relaxed text-zinc-300">
+                  {esoteric?.waiteOriginalKey?.[language] || card.uprightMeaning[language]}
+                </p>
+                <div className="pt-2 border-t border-white/10 text-xs text-amber-200">
+                  <b>Sacred Symbols: </b> {card.symbolism[language].join(' • ')}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'kabbalah' && (
+              <div className="p-4 rounded-2xl bg-black/40 border border-white/10 text-xs sm:text-sm font-serif space-y-2.5 text-zinc-200">
+                <div className="text-xs font-mono uppercase tracking-widest text-purple-300 flex items-center space-x-1.5">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Hermetic Kabbalah & Tree of Life</span>
+                </div>
+                {esoteric?.hebrewLetter && (
+                  <div className="p-2 rounded-xl bg-purple-950/30 border border-purple-500/20 text-xs text-purple-200">
+                    <b>Hebrew Letter:</b> {esoteric.hebrewLetter[language]}
+                  </div>
+                )}
+                {esoteric?.kabbalahTreeOfLife && (
+                  <div className="p-2 rounded-xl bg-amber-950/30 border border-amber-500/20 text-xs text-amber-200">
+                    <b>Tree of Life:</b> {esoteric.kabbalahTreeOfLife[language]}
+                  </div>
+                )}
+                {esoteric?.decanateAstrology && (
+                  <div className="p-2 rounded-xl bg-cyan-950/30 border border-cyan-500/20 text-xs text-cyan-200">
+                    <b>Astrological Decan:</b> {esoteric.decanateAstrology[language]}
+                  </div>
+                )}
+                {esoteric?.goldenDawnTitle && (
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10 text-xs text-zinc-300">
+                    <b>Golden Dawn Title:</b> {esoteric.goldenDawnTitle[language]}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Oracle Advice & Shadow */}
+            <div className="pt-2 border-t border-white/[0.08] space-y-2 text-xs font-serif">
+              <div className="text-amber-200/90">
+                <span className="font-bold text-[#d4af37]">Oracle Advice:</span> {card.advice[language]}
+              </div>
+              <div className="text-rose-300/90 flex items-start space-x-1">
+                <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
+                <span><b className="text-rose-400">Shadow Warning:</b> {card.shadowWarning[language]}</span>
+              </div>
+            </div>
 
           </div>
 

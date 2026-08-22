@@ -46,6 +46,103 @@ export interface TarotCard {
   shadowWarning: LocalizedText;
   yesNo: LocalizedText;
   symbolism: LocalizedStringArray;
+  hebrewLetter?: LocalizedText;
+  kabbalahTreeOfLife?: LocalizedText;
+  goldenDawnTitle?: LocalizedText;
+  decanateAstrology?: LocalizedText;
+  waiteOriginalKey?: LocalizedText;
+  chakraResonance?: LocalizedText;
+  timingSeason?: LocalizedText;
+}
+
+export interface CelticCrossSynthesis {
+  crossTension: {
+    title: LocalizedText;
+    analysis: LocalizedText;
+    harmonyScore: number;
+  };
+  spiritualAxis: {
+    rootFoundation: LocalizedText;
+    crownAspiration: LocalizedText;
+    axisAlignment: LocalizedText;
+  };
+  temporalStream: {
+    karmicPast: LocalizedText;
+    presentDynamic: LocalizedText;
+    approachingWave: LocalizedText;
+  };
+  staffOfDestiny: {
+    querentStance: LocalizedText;
+    environmentalMirror: LocalizedText;
+    hopesAndFearsPolarity: LocalizedText;
+    finalManifestation: LocalizedText;
+  };
+  destinyVerdict: LocalizedText;
+}
+
+export interface ChakraCenterAnalysis {
+  chakraId: string;
+  name: LocalizedText;
+  sanskritName: string;
+  element: string;
+  color: string;
+  card: TarotCard;
+  isReversed: boolean;
+  status: 'open' | 'balanced' | 'blocked' | 'overactive';
+  insight: LocalizedText;
+  healingPrescription: LocalizedText;
+}
+
+export interface ChakraAlignmentSynthesis {
+  vitalityScore: number; // 0 - 100
+  overallAlignment: LocalizedText;
+  blockedChakrasCount: number;
+  dominantCenter: LocalizedText;
+  chakraCenters: ChakraCenterAnalysis[];
+  kundaliniGuidance: LocalizedText;
+}
+
+export interface DecisionForkSynthesis {
+  baseCrossroads: LocalizedText;
+  pathA: {
+    title: LocalizedText;
+    trajectory: LocalizedText;
+    outcome: LocalizedText;
+    viabilityScore: number;
+    advantages: LocalizedText;
+    hiddenRisks: LocalizedText;
+  };
+  pathB: {
+    title: LocalizedText;
+    trajectory: LocalizedText;
+    outcome: LocalizedText;
+    viabilityScore: number;
+    advantages: LocalizedText;
+    hiddenRisks: LocalizedText;
+  };
+  oracularVerdict: LocalizedText;
+  recommendedPath: 'Path A' | 'Path B' | 'Synthesized Middle Way';
+}
+
+export interface RelationshipMirrorSynthesis {
+  querentArchetype: LocalizedText;
+  partnerArchetype: LocalizedText;
+  nexusBond: LocalizedText;
+  coreFriction: LocalizedText;
+  forwardBridge: LocalizedText;
+  harmonicResonanceScore: number;
+  relationalAlchemyCounsel: LocalizedText;
+}
+
+export interface ExtendedQuintessenceResult {
+  number: number;
+  cardId: string;
+  cardName: LocalizedText;
+  lesson: LocalizedText;
+  shadowNumber: number;
+  shadowCardId: string;
+  shadowCardName: LocalizedText;
+  shadowLesson: LocalizedText;
 }
 
 export interface SpreadPosition {

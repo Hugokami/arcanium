@@ -500,6 +500,39 @@ export class TarotSynergyService {
   }
 
   /**
+   * 3b. Calculate Extended Primary & Shadow Quintessence
+   */
+  public static calculateExtendedQuintessence(drawnCards: DrawnCard[], lang: Language): {
+    number: number;
+    cardId: string;
+    cardName: { en: string; my: string; ja: string };
+    lesson: { en: string; my: string; ja: string };
+    shadowNumber: number;
+    shadowCardId: string;
+    shadowCardName: { en: string; my: string; ja: string };
+    shadowLesson: { en: string; my: string; ja: string };
+  } {
+    const primary = this.calculateQuintessence(drawnCards, lang);
+    const shadowNum = (22 - primary.number) % 22 || 9;
+    const shadowTarget = this.calculateQuintessence([{ card: { number: shadowNum, arcana: 'major' } as any, isReversed: false, position: {} as any, revealed: true }], lang);
+
+    return {
+      number: primary.number,
+      cardId: primary.cardId,
+      cardName: primary.cardName,
+      lesson: primary.lesson,
+      shadowNumber: shadowNum,
+      shadowCardId: shadowTarget.cardId,
+      shadowCardName: shadowTarget.cardName,
+      shadowLesson: {
+        en: `Shadow Reflection: Unconscious resistance or blindspots relating to ${shadowTarget.cardName.en}. Integrate this to unlock full manifestation.`,
+        my: `မသိစိတ်အရိပ်ရောင်ပြန်ဟပ်မှု: ${shadowTarget.cardName.my} တွင် ပိတ်ဆို့နေသော အတွင်းစိတ်များကို သတိပြု၍ ပြုပြင်ကုစားပါ။`,
+        ja: `影の統合課題：【${shadowTarget.cardName.ja}】に関連する無意識の抵抗や死角。これを統合することで真の自己実現が解放されます。`
+      }
+    };
+  }
+
+  /**
    * 4. Calculate Polarity and Certainty Gauge (Yes / No / Maybe)
    */
   public static calculatePolarityGauge(drawnCards: DrawnCard[]): PolarityGaugeResult {

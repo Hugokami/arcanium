@@ -855,3 +855,345 @@ export function analyzeReading(
     summary
   };
 }
+
+/* =========================================================================
+   SPECIALIZED SPREAD HERMENEUTIC SYNTHESIS ENGINES (A.E. WAITE & ESOTERIC)
+========================================================================= */
+
+import {
+  CelticCrossSynthesis,
+  ChakraAlignmentSynthesis,
+  ChakraCenterAnalysis,
+  DecisionForkSynthesis,
+  RelationshipMirrorSynthesis
+} from '../types/tarot';
+
+/**
+ * 1. 10-Card Celtic Cross Grand Hermeneutic Synthesis
+ */
+export function calculateCelticCrossSynthesis(drawnCards: DrawnCard[], lang: Language): CelticCrossSynthesis | null {
+  if (drawnCards.length < 10) return null;
+
+  const [present, challenge, root, past, crown, future, self, env, hopesFears, outcome] = drawnCards;
+
+  // Cross Tension & Harmony Score
+  const challengeFriction = challenge.isReversed || /tower|devil|death|three of swords|nine of swords|ten of swords/i.test(challenge.card.file);
+  const presentUpright = !present.isReversed;
+  const crossHarmony = (presentUpright ? 40 : 15) + (challengeFriction ? 10 : 35) + (!root.isReversed ? 15 : 0);
+
+  return {
+    crossTension: {
+      title: {
+        en: `Central Axis: ${present.card.name.en} crossed by ${challenge.card.name.en}`,
+        my: `ဗဟိုအချက်အချာ: ${present.card.name.my} ကို ${challenge.card.name.my} ဖြင့် စိန်ခေါ်ဖြတ်သန်းမှု`,
+        ja: `中心軸：【${present.card.name.ja}】と交差する試練【${challenge.card.name.ja}】`
+      },
+      analysis: {
+        en: `Your focal reality is anchored in "${present.card.uprightKeywords.en.slice(0, 2).join(', ')}", while the crossing dynamic demands addressing "${challenge.isReversed ? challenge.card.reversedKeywords.en.slice(0, 2).join(', ') : challenge.card.uprightKeywords.en.slice(0, 2).join(', ')}".`,
+        my: `လက်ရှိ အခြေအနေသည် "${present.card.uprightKeywords.my.slice(0, 2).join(', ')}" ပေါ်တွင် အခြေတည်နေပြီး၊ ရင်ဆိုင်ဖြေရှင်းရမည့် အတားအဆီးမှာ "${challenge.isReversed ? challenge.card.reversedKeywords.my.slice(0, 2).join(', ') : challenge.card.uprightKeywords.my.slice(0, 2).join(', ')}" ဖြစ်ပါသည်။`,
+        ja: `現在の基盤は「${present.card.uprightKeywords.ja.slice(0, 2).join('・')}」に根ざしており、直面する試練は「${challenge.isReversed ? challenge.card.reversedKeywords.ja.slice(0, 2).join('・') : challenge.card.uprightKeywords.ja.slice(0, 2).join('・')}」の克服を求めています。`
+      },
+      harmonyScore: Math.min(95, Math.max(30, crossHarmony))
+    },
+    spiritualAxis: {
+      rootFoundation: {
+        en: `Subconscious Origin: ${root.card.name.en} (${root.card.uprightKeywords.en[0]})`,
+        my: `မသိစိတ်အခြေခံဇစ်မြစ်: ${root.card.name.my} (${root.card.uprightKeywords.my[0]})`,
+        ja: `潜在的根源：【${root.card.name.ja}】（${root.card.uprightKeywords.ja[0]}）`
+      },
+      crownAspiration: {
+        en: `Conscious Crown Aspiration: ${crown.card.name.en} (${crown.card.uprightKeywords.en[0]})`,
+        my: `သိစိတ်ရည်မှန်းချက်: ${crown.card.name.my} (${crown.card.uprightKeywords.my[0]})`,
+        ja: `顕在的志向・冠：【${crown.card.name.ja}】（${crown.card.uprightKeywords.ja[0]}）`
+      },
+      axisAlignment: {
+        en: `The distance between your unconscious root (${root.card.name.en}) and conscious goal (${crown.card.name.en}) is bridged through conscious intentionality.`,
+        my: `မသိစိတ်ဇစ်မြစ် (${root.card.name.my}) နှင့် သိစိတ်ရည်မှန်းချက် (${crown.card.name.my}) ကြားရှိ ကွာဟချက်ကို သတိတရားဖြင့် ပေါင်းကူးတံတားထိုးနိုင်ပါသည်။`,
+        ja: `潜在意識の根（${root.card.name.ja}）と顕在意識の頂（${crown.card.name.ja}）の間の距離は、自覚的な意思によって統合されます。`
+      }
+    },
+    temporalStream: {
+      karmicPast: {
+        en: `Passing Karma: ${past.card.name.en}`,
+        my: `ကုန်လွန်ခဲ့သော ကံအကျိုးပေး: ${past.card.name.my}`,
+        ja: `去りゆく過去のカルマ：【${past.card.name.ja}】`
+      },
+      presentDynamic: {
+        en: `Active Fulcrum: ${present.card.name.en}`,
+        my: `လက်ရှိလည်ပတ်နေသော အင်အား: ${present.card.name.my}`,
+        ja: `現在の活動力：【${present.card.name.ja}】`
+      },
+      approachingWave: {
+        en: `Approaching Wave: ${future.card.name.en}`,
+        my: `နီးကပ်လာသော ကံကြမ္မာလှိုင်း: ${future.card.name.my}`,
+        ja: `接近する未来の波動：【${future.card.name.ja}】`
+      }
+    },
+    staffOfDestiny: {
+      querentStance: {
+        en: `Internal Self: ${self.card.name.en} — ${self.isReversed ? 'Experiencing inward transition' : 'Operating with clarity and purpose'}`,
+        my: `မိမိ၏ အတွင်းစိတ်ရပ်တည်ချက်: ${self.card.name.my} — ${self.isReversed ? 'အတွင်းစိတ် အပြောင်းအလဲကို ဖြတ်သန်းနေရသည်' : 'ရှင်းလင်းပြတ်သားသော ဦးတည်ချက်ဖြင့် လုပ်ဆောင်နေသည်'}`,
+        ja: `内なる自己の構え：【${self.card.name.ja}】— ${self.isReversed ? '内的な変容と再構築の最中' : '明晰な意図を持って行動中'}`
+      },
+      environmentalMirror: {
+        en: `External Environment: ${env.card.name.en} — Reflected circumstances and interpersonal field`,
+        my: `ပတ်ဝန်းကျင်မှ ထင်ဟပ်မှု: ${env.card.name.my} — ပြင်ပအခြေအနေများနှင့် ဆက်ဆံရေးများ`,
+        ja: `外的な環境と他者からの影響：【${env.card.name.ja}】`
+      },
+      hopesAndFearsPolarity: {
+        en: `Subconscious Gate: ${hopesFears.card.name.en} — Both your secret hope and shadow fear mirror here`,
+        my: `မသိစိတ်တံခါးဝ: ${hopesFears.card.name.my} — လျှို့ဝှက်မျှော်လင့်ချက်နှင့် စိုးရိမ်ပူပန်မှုတို့ ထင်ဟပ်နေသည်`,
+        ja: `希望と恐れの鏡：【${hopesFears.card.name.ja}】`
+      },
+      finalManifestation: {
+        en: `Ultimate Culmination: ${outcome.card.name.en} — The synthesized horizon of this sacred cycle`,
+        my: `နောက်ဆုံးအကျိုးရလဒ်: ${outcome.card.name.my} — ဤသံသရာစက်ဝန်း၏ အောင်မြင်သော အသီးအပွင့်`,
+        ja: `最終的な結実：【${outcome.card.name.ja}】`
+      }
+    },
+    destinyVerdict: {
+      en: `The Celtic Cross illuminates a pivotal threshold. By integrating the crossing lesson (${challenge.card.name.en}), you step directly into ${outcome.card.name.en}'s fulfillment.`,
+      my: `ဆဲလ်တစ်ကြက်ခြေခတ် ခင်းကျင်းမှုအရ အရေးပါသော အချိုးအကွေ့သို့ ရောက်ရှိနေပါသည်။ စိန်ခေါ်မှု (${challenge.card.name.my}) ကို ကျော်လွှားနိုင်ပါက ${outcome.card.name.my} ပြသသော အောင်မြင်မှုဆီသို့ အရောက်လှမ်းနိုင်ပါလိမ့်မည်။`,
+      ja: `ケルト十字は重要な運命の岐路を照らし出しています。試練【${challenge.card.name.ja}】の教訓を統合することで、最終結果【${outcome.card.name.ja}】の成就へと導かれます。`
+    }
+  };
+}
+
+/**
+ * 2. 7-Chakra Ascending Kundalini Alignment Synthesis
+ */
+export function calculateChakraAlignment(drawnCards: DrawnCard[], lang: Language): ChakraAlignmentSynthesis | null {
+  if (drawnCards.length < 7) return null;
+
+  const CHAKRA_METADATA = [
+    { id: 'root', name: { en: 'Root Chakra', my: 'မူလဒါရ (အခြေခံစွမ်းအင်ဗဟို)', ja: '第1チャクラ（ルート・基底）' }, sanskrit: 'Muladhara', element: 'Earth', color: '#ef4444' },
+    { id: 'sacral', name: { en: 'Sacral Chakra', my: 'ဆွာဓိဌာန (ဖန်တီးမှုနှင့် စိတ်ခံစားမှု)', ja: '第2チャクラ（セイクラル・仙骨）' }, sanskrit: 'Svadhisthana', element: 'Water', color: '#f97316' },
+    { id: 'solar', name: { en: 'Solar Plexus', my: 'မဏိပူရ (စွမ်းအားနှင့် သန္နိဋ္ဌာန်)', ja: '第3チャクラ（ソーラープレクサス・太陽神経叢）' }, sanskrit: 'Manipura', element: 'Fire', color: '#eab308' },
+    { id: 'heart', name: { en: 'Heart Chakra', my: 'အနာဟတ (မေတ္တာနှင့် သဟဇာတ)', ja: '第4チャクラ（ハート・心臓）' }, sanskrit: 'Anahata', element: 'Air', color: '#10b981' },
+    { id: 'throat', name: { en: 'Throat Chakra', my: 'ဝိသုဒ္ဓိ (အမှန်တရားနှင့် ဆက်သွယ်ရေး)', ja: '第5チャクラ（スロート・喉）' }, sanskrit: 'Vishuddha', element: 'Ether', color: '#06b6d4' },
+    { id: 'third_eye', name: { en: 'Third Eye', my: 'အာညာ (ဉာဏ်အမြင်နှင့် အသိ)', ja: '第6チャクラ（サードアイ・眉間）' }, sanskrit: 'Ajna', element: 'Light', color: '#6366f1' },
+    { id: 'crown', name: { en: 'Crown Chakra', my: 'သဟသြာရ (စကြဝဠာနှင့် တစ်သားတည်း)', ja: '第7チャクラ（クラウン・頭頂）' }, sanskrit: 'Sahasrara', element: 'Cosmic Spirit', color: '#a855f7' },
+  ];
+
+  let openCount = 0;
+  let blockedCount = 0;
+
+  const chakraCenters: ChakraCenterAnalysis[] = CHAKRA_METADATA.map((meta, idx) => {
+    const dc = drawnCards[idx];
+    const isReversed = dc.isReversed;
+    const isMajor = dc.card.arcana === 'major';
+    const isHeavy = /tower|devil|death|three of swords|nine of swords|ten of swords|five of pentacles/i.test(dc.card.file);
+
+    let status: 'open' | 'balanced' | 'blocked' | 'overactive' = 'balanced';
+    if (isReversed || isHeavy) {
+      status = 'blocked';
+      blockedCount++;
+    } else if (isMajor) {
+      status = 'open';
+      openCount++;
+    }
+
+    const insight = {
+      en: `${dc.card.name.en}${isReversed ? ' (Reversed)' : ''} channels ${status === 'blocked' ? 'restricted flow needing clearing' : 'radiant vitality'} into your ${meta.name.en}.`,
+      my: `${dc.card.name.my}${isReversed ? ' (ပြောင်းပြန်)' : ''} က ${meta.name.my} တွင် ${status === 'blocked' ? 'ပိတ်ဆို့နေသော စွမ်းအင်ကို သန့်စင်ရန် လိုအပ်ကြောင်း' : 'တောက်ပသော စွမ်းအင်စီးဆင်းနေကြောင်း'} ဖော်ပြနေပါသည်။`,
+      ja: `【${dc.card.name.ja}${isReversed ? '（逆位置）' : ''}】が、${meta.name.ja}において${status === 'blocked' ? '浄化を要するエネルギーの滞り' : '高次の調和した生命力'}をもたらしています。`
+    };
+
+    const healingPrescription = {
+      en: status === 'blocked'
+        ? `Prescription: Meditate with ${meta.element} frequency, breathe into ${meta.sanskrit}, and release ${dc.card.reversedKeywords.en[0] || 'tension'}.`
+        : `Prescription: Harmonize and channel ${dc.card.uprightKeywords.en[0] || 'light'} outward.`,
+      my: status === 'blocked'
+        ? `ကုစားမှု: ${meta.element} ဓာတ်စွမ်းအင်ဖြင့် တရားထိုင်ပါ၊ ${meta.sanskrit} ဗဟိုသို့ အာရုံပြု၍ အတားအဆီးများကို ဖယ်ရှားပါ။`
+        : `ကုစားမှု: ${meta.name.my} ၏ စွမ်းအင်ကောင်းများကို အခြားသူများနှင့် မျှဝေပါ။`,
+      ja: status === 'blocked'
+        ? `処方箋：${meta.element}の瞑想を行い、${meta.sanskrit}へ深く呼吸を送り滞りを解放してください。`
+        : `処方箋：活性化したエネルギーを現実に活かし、調和を保ちましょう。`
+    };
+
+    return {
+      chakraId: meta.id,
+      name: meta.name,
+      sanskritName: meta.sanskrit,
+      element: meta.element,
+      color: meta.color,
+      card: dc.card,
+      isReversed,
+      status,
+      insight,
+      healingPrescription
+    };
+  });
+
+  const vitalityScore = Math.max(30, Math.min(98, Math.round(((7 - blockedCount) / 7) * 85 + (openCount * 3))));
+
+  return {
+    vitalityScore,
+    overallAlignment: {
+      en: `${7 - blockedCount} of 7 Chakras Harmoniously Activated`,
+      my: `စွမ်းအင်ဗဟို ၇ ခုအနက် ${7 - blockedCount} ခုသည် အပြည့်အဝ ပွင့်လန်းလျက်ရှိသည်`,
+      ja: `7つのチャクラ中 ${7 - blockedCount} 箇所が完全に調和・活性化`
+    },
+    blockedChakrasCount: blockedCount,
+    dominantCenter: chakraCenters.find(c => c.status === 'open')?.name || chakraCenters[3].name,
+    chakraCenters,
+    kundaliniGuidance: {
+      en: `Your spiritual Kundalini spine is radiating at ${vitalityScore}% vitality. Focus breath and awareness into the ${blockedCount > 0 ? 'blocked energy gates' : 'radiant heart and crown'}.`,
+      my: `သင်၏ ဝိညာဉ်ရေးရာ စွမ်းအင်လိုင်းမကြီးသည် ${vitalityScore}% ရှင်သန်လျက် ရှိပါသည်။ ${blockedCount > 0 ? 'ပိတ်ဆို့နေသော ဗဟိုများကို အထူးဂရုပြု ကုစားပါ' : 'နှလုံးသားနှင့် ဦးထိပ်ဗဟိုများ အထူးကောင်းမွန်နေပါသည်'}။`,
+      ja: `クンダリーニの脊髄エネルギーは現在【${vitalityScore}%】の生命力で脈動しています。${blockedCount > 0 ? '滞りのあるチャクラを重点的にヒーリングしてください。' : 'ハートとクラウンが神聖な輝きを放っています。'}`
+    }
+  };
+}
+
+/**
+ * 3. 5-Card Decision Fork Synthesis
+ */
+export function calculateDecisionForkSynthesis(drawnCards: DrawnCard[], lang: Language): DecisionForkSynthesis | null {
+  if (drawnCards.length < 5) return null;
+
+  const [base, trajA, outA, trajB, outB] = drawnCards;
+
+  // Path A Score
+  let scoreA = 60;
+  if (!trajA.isReversed) scoreA += 15;
+  if (!outA.isReversed) scoreA += 20;
+  if (/sun|star|world|ace of pentacles|ten of cups|six of wands/i.test(outA.card.file)) scoreA += 15;
+  if (/tower|devil|death|three of swords|ten of swords/i.test(outA.card.file)) scoreA -= 25;
+
+  // Path B Score
+  let scoreB = 60;
+  if (!trajB.isReversed) scoreB += 15;
+  if (!outB.isReversed) scoreB += 20;
+  if (/sun|star|world|ace of pentacles|ten of cups|six of wands/i.test(outB.card.file)) scoreB += 15;
+  if (/tower|devil|death|three of swords|ten of swords/i.test(outB.card.file)) scoreB -= 25;
+
+  const finalScoreA = Math.max(20, Math.min(96, scoreA));
+  const finalScoreB = Math.max(20, Math.min(96, scoreB));
+
+  const recommended: 'Path A' | 'Path B' | 'Synthesized Middle Way' =
+    Math.abs(finalScoreA - finalScoreB) <= 5 ? 'Synthesized Middle Way' : finalScoreA > finalScoreB ? 'Path A' : 'Path B';
+
+  return {
+    baseCrossroads: {
+      en: `Present Standpoint: ${base.card.name.en} — "${base.card.uprightKeywords.en.slice(0, 2).join(', ')}"`,
+      my: `လက်ရှိ လမ်းဆုံအခြေအနေ: ${base.card.name.my} — "${base.card.uprightKeywords.my.slice(0, 2).join(', ')}"`,
+      ja: `現在の分岐点：【${base.card.name.ja}】—「${base.card.uprightKeywords.ja.slice(0, 2).join('・')}」`
+    },
+    pathA: {
+      title: { en: 'Path A (First Option)', my: 'ပထမ ရွေးချယ်မှု လမ်းကြောင်း (Path A)', ja: '選択肢A（第1の道）' },
+      trajectory: {
+        en: `Immediate Momentum: ${trajA.card.name.en}${trajA.isReversed ? ' (Reversed)' : ''}`,
+        my: `ချက်ချင်းဖြစ်ပေါ်လာမည့် အရှိန်: ${trajA.card.name.my}`,
+        ja: `当面の進展動向：【${trajA.card.name.ja}${trajA.isReversed ? '（逆位置）' : ''}】`
+      },
+      outcome: {
+        en: `Ultimate Destination: ${outA.card.name.en}`,
+        my: `နောက်ဆုံး ရောက်ရှိမည့် ရလဒ်: ${outA.card.name.my}`,
+        ja: `最終到達点：【${outA.card.name.ja}】`
+      },
+      viabilityScore: finalScoreA,
+      advantages: {
+        en: `Strengths: ${outA.card.uprightKeywords.en.slice(0, 2).join(', ')}`,
+        my: `အားသာချက်များ: ${outA.card.uprightKeywords.my.slice(0, 2).join(', ')}`,
+        ja: `利点：${outA.card.uprightKeywords.ja.slice(0, 2).join('・')}`
+      },
+      hiddenRisks: {
+        en: `Caveat: ${outA.card.shadowWarning.en}`,
+        my: `သတိပြုရန်: ${outA.card.shadowWarning.my}`,
+        ja: `留意点：${outA.card.shadowWarning.ja}`
+      }
+    },
+    pathB: {
+      title: { en: 'Path B (Second Option)', my: 'ဒုတိယ ရွေးချယ်မှု လမ်းကြောင်း (Path B)', ja: '選択肢B（第2の道）' },
+      trajectory: {
+        en: `Immediate Momentum: ${trajB.card.name.en}${trajB.isReversed ? ' (Reversed)' : ''}`,
+        my: `ချက်ချင်းဖြစ်ပေါ်လာမည့် အရှိန်: ${trajB.card.name.my}`,
+        ja: `当面の進展動向：【${trajB.card.name.ja}${trajB.isReversed ? '（逆位置）' : ''}】`
+      },
+      outcome: {
+        en: `Ultimate Destination: ${outB.card.name.en}`,
+        my: `နောက်ဆုံး ရောက်ရှိမည့် ရလဒ်: ${outB.card.name.my}`,
+        ja: `最終到達点：【${outB.card.name.ja}】`
+      },
+      viabilityScore: finalScoreB,
+      advantages: {
+        en: `Strengths: ${outB.card.uprightKeywords.en.slice(0, 2).join(', ')}`,
+        my: `အားသာချက်များ: ${outB.card.uprightKeywords.my.slice(0, 2).join(', ')}`,
+        ja: `利点：${outB.card.uprightKeywords.ja.slice(0, 2).join('・')}`
+      },
+      hiddenRisks: {
+        en: `Caveat: ${outB.card.shadowWarning.en}`,
+        my: `သတိပြုရန်: ${outB.card.shadowWarning.my}`,
+        ja: `留意点：${outB.card.shadowWarning.ja}`
+      }
+    },
+    oracularVerdict: {
+      en: recommended === 'Synthesized Middle Way'
+        ? `Both paths hold equitable spiritual viability (${finalScoreA}% vs ${finalScoreB}%). A synthesized blend of both is optimal.`
+        : `${recommended} demonstrates higher cosmic harmony (${recommended === 'Path A' ? finalScoreA : finalScoreB}% vs ${recommended === 'Path A' ? finalScoreB : finalScoreA}%). Align with ${recommended === 'Path A' ? outA.card.name.en : outB.card.name.en}.`,
+      my: recommended === 'Synthesized Middle Way'
+        ? `လမ်းကြောင်းနှစ်ခုလုံးသည် အလားတူ ကောင်းမွန်နေပါသည် (${finalScoreA}% နှင့် ${finalScoreB}%)။ နှစ်ခုစလုံးကို ပေါင်းစပ်အသုံးချခြင်းက အကောင်းဆုံး ဖြစ်ပါလိမ့်မည်။`
+        : `${recommended === 'Path A' ? 'ပထမလမ်းကြောင်း (Path A)' : 'ဒုတိယလမ်းကြောင်း (Path B)'} က စကြဝဠာစွမ်းအင် ပိုမိုအားကောင်းနေပါသည် (${recommended === 'Path A' ? finalScoreA : finalScoreB}% နှင့် ${recommended === 'Path A' ? finalScoreB : finalScoreA}%)။`,
+      ja: recommended === 'Synthesized Middle Way'
+        ? `双方の道は同等の霊的調和度を示しています（${finalScoreA}% vs ${finalScoreB}%）。両者の利点を融合させた中道が最善です。`
+        : `【${recommended === 'Path A' ? '選択肢A' : '選択肢B'}】がより高い運命の調和度を示しています（${recommended === 'Path A' ? finalScoreA : finalScoreB}%）。【${recommended === 'Path A' ? outA.card.name.ja : outB.card.name.ja}】の示す方角へ進んでください。`
+    },
+    recommendedPath: recommended
+  };
+}
+
+/**
+ * 4. 5-Card Relationship Mirror & Synastry Synthesis
+ */
+export function calculateRelationshipMirrorSynthesis(
+  drawnCards: DrawnCard[],
+  lang: Language,
+  userProfile?: UserProfile | null,
+  partnerProfile?: UserProfile | null
+): RelationshipMirrorSynthesis | null {
+  if (drawnCards.length < 5) return null;
+
+  const [you, them, bond, challenge, pathForward] = drawnCards;
+  const querentName = userProfile?.name || (lang === 'my' ? 'သင်' : lang === 'ja' ? 'あなた' : 'You');
+  const partnerName = partnerProfile?.name || (lang === 'my' ? 'လက်တွဲဖော်' : lang === 'ja' ? 'お相手' : 'Them');
+
+  let score = 70;
+  if (!you.isReversed) score += 5;
+  if (!them.isReversed) score += 5;
+  if (!bond.isReversed) score += 10;
+  if (!pathForward.isReversed) score += 10;
+
+  return {
+    querentArchetype: {
+      en: `${querentName}'s Stance: ${you.card.name.en} (${you.card.uprightKeywords.en[0]})`,
+      my: `${querentName} ၏ ရပ်တည်ချက်: ${you.card.name.my} (${you.card.uprightKeywords.my[0]})`,
+      ja: `【${querentName}様】の現在地：【${you.card.name.ja}】（${you.card.uprightKeywords.ja[0]}）`
+    },
+    partnerArchetype: {
+      en: `${partnerName}'s Stance: ${them.card.name.en} (${them.card.uprightKeywords.en[0]})`,
+      my: `${partnerName} ၏ ရပ်တည်ချက်: ${them.card.name.my} (${them.card.uprightKeywords.my[0]})`,
+      ja: `【${partnerName}様】の現在地：【${them.card.name.ja}】（${them.card.uprightKeywords.ja[0]}）`
+    },
+    nexusBond: {
+      en: `The Central Nexus: ${bond.card.name.en} — The soul bridge connecting both hearts`,
+      my: `နှစ်ဦးကြား ဗဟိုနှလုံးသားချိတ်ဆက်မှု: ${bond.card.name.my} — ဝိညာဉ်ချင်း ပေါင်းကူးတံတား`,
+      ja: `二人の結節点（ソウル・ネクサス）：【${bond.card.name.ja}】`
+    },
+    coreFriction: {
+      en: `The Karmic Challenge: ${challenge.card.name.en} — "${challenge.isReversed ? challenge.card.reversedKeywords.en[0] : challenge.card.uprightKeywords.en[0]}"`,
+      my: `ရင်ဆိုင်ဖြေရှင်းရမည့် စိန်ခေါ်မှု: ${challenge.card.name.my} — "${challenge.isReversed ? challenge.card.reversedKeywords.my[0] : challenge.card.uprightKeywords.my[0]}"`,
+      ja: `魂の成長課題・摩擦：【${challenge.card.name.ja}】`
+    },
+    forwardBridge: {
+      en: `The Harmonious Path Forward: ${pathForward.card.name.en} — ${pathForward.card.uprightMeaning.en}`,
+      my: `ရှေ့ဆက်ရမည့် လမ်းကြောင်း: ${pathForward.card.name.my} — ${pathForward.card.uprightMeaning.my}`,
+      ja: `未来への架け橋：【${pathForward.card.name.ja}】— ${pathForward.card.uprightMeaning.ja}`
+    },
+    harmonicResonanceScore: Math.max(40, Math.min(98, score)),
+    relationalAlchemyCounsel: {
+      en: `Harmonize ${querentName}'s ${you.card.element} with ${partnerName}'s ${them.card.element}. Use ${bond.card.name.en}'s sacred light to dissolve ${challenge.card.name.en}'s tension.`,
+      my: `${querentName} ၏ ${you.card.element} ဓာတ်နှင့် ${partnerName} ၏ ${them.card.element} ဓာတ်ကို ချိန်ညှိပါ။ ${bond.card.name.my} ၏ အလင်းရောင်ဖြင့် ${challenge.card.name.my} ၏ အတားအဆီးကို ဖြေလျှော့ပါ။`,
+      ja: `【${querentName}様】の${you.card.element}と【${partnerName}様】の${them.card.element}を調和させ、【${bond.card.name.ja}】の神聖な光で【${challenge.card.name.ja}】の摩擦を愛へと昇華させてください。`
+    }
+  };
+}
