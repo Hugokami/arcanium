@@ -1,148 +1,174 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" fill="none">
   <defs>
-    <!-- Emerald & Jade Sacred Life Gradients -->
-    <radialGradient id="growthAura" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#10b981" stop-opacity="0.45" />
-      <stop offset="60%" stop-color="#047857" stop-opacity="0.18" />
+    <!-- Sacred Emerald & Mint Jade Gradients -->
+    <radialGradient id="growthAuraGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.4" />
+      <stop offset="60%" stop-color="#059669" stop-opacity="0.15" />
       <stop offset="100%" stop-color="#064e3b" stop-opacity="0" />
     </radialGradient>
 
-    <linearGradient id="lotusGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" stop-color="#064e3b" />
-      <stop offset="35%" stop-color="#059669" />
+    <linearGradient id="sproutGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#065f46" />
+      <stop offset="35%" stop-color="#10b981" />
       <stop offset="70%" stop-color="#34d399" />
       <stop offset="100%" stop-color="#a7f3d0" />
     </linearGradient>
 
-    <linearGradient id="seedGold" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="moonGold" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fef08a" />
-      <stop offset="50%" stop-color="#34d399" />
-      <stop offset="100%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#6ee7b7" />
+      <stop offset="100%" stop-color="#047857" />
     </linearGradient>
 
-    <filter id="emeraldGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3.2" result="blur" />
+    <filter id="emeraldBloom" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
 
-    <filter id="sporeGlow" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="sporeBloom" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="1.5" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
 
     <style>
-      .bg-aura {
-        animation: pulseGrowthAura 4s ease-in-out infinite;
-        transform-origin: center;
-      }
-      .sacred-lotus-bloom {
-        animation: breathLotus 4.5s ease-in-out infinite;
-        transform-origin: 60px 75px;
-      }
-      .seed-of-life-rings {
-        animation: spinSeedOfLife 36s linear infinite;
+      .aura-breath {
+        animation: breathGrowthAura 4s ease-in-out infinite;
         transform-origin: 60px 60px;
       }
-      .ascending-spore-1 {
-        animation: riseSpore1 3.2s ease-in-out infinite;
+      .seed-bloom-group {
+        animation: levitateSprout 4.5s ease-in-out infinite;
+        transform-origin: 60px 60px;
       }
-      .ascending-spore-2 {
-        animation: riseSpore2 4s ease-in-out 1.2s infinite;
+      .sacred-rings-spin {
+        animation: spinSacredRings 36s linear infinite;
+        transform-origin: 60px 60px;
       }
-      .ascending-spore-3 {
-        animation: riseSpore3 3.6s ease-in-out 2.1s infinite;
+      .crystal-pulse {
+        animation: pulseCrystal 2.8s ease-in-out infinite;
+        transform-origin: 60px 32px;
       }
-      .crown-crystal {
-        animation: crystalPulse 2.8s ease-in-out infinite;
-        transform-origin: 60px 38px;
+      .spore-1 {
+        animation: floatSpore1 3.2s ease-in-out infinite;
+      }
+      .spore-2 {
+        animation: floatSpore2 4s ease-in-out 1.2s infinite;
+      }
+      .spore-3 {
+        animation: floatSpore3 3.6s ease-in-out 2s infinite;
+      }
+      .twinkle-star {
+        animation: starTwinkle 2.5s ease-in-out infinite;
       }
 
-      @keyframes breathLotus {
-        0%, 100% { transform: scale(1) translateY(0); }
-        50% { transform: scale(1.05) translateY(-3px); filter: drop-shadow(0 0 8px #34d399); }
+      @keyframes levitateSprout {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-4px) scale(1.03); }
       }
-      @keyframes spinSeedOfLife {
+      @keyframes breathGrowthAura {
+        0%, 100% { transform: scale(0.92); opacity: 0.65; }
+        50% { transform: scale(1.15); opacity: 1; }
+      }
+      @keyframes spinSacredRings {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-      @keyframes pulseGrowthAura {
-        0%, 100% { transform: scale(0.92); opacity: 0.65; }
-        50% { transform: scale(1.14); opacity: 1; }
+      @keyframes pulseCrystal {
+        0%, 100% { transform: scale(0.85); opacity: 0.8; }
+        50% { transform: scale(1.25); opacity: 1; filter: drop-shadow(0 0 6px #a7f3d0); }
       }
-      @keyframes riseSpore1 {
+      @keyframes floatSpore1 {
         0% { transform: translateY(14px) scale(0.6); opacity: 0; }
         35% { opacity: 0.9; }
         80% { opacity: 0.8; }
-        100% { transform: translateY(-24px) scale(1.1); opacity: 0; }
+        100% { transform: translateY(-22px) scale(1.1); opacity: 0; }
       }
-      @keyframes riseSpore2 {
+      @keyframes floatSpore2 {
         0% { transform: translateY(18px) scale(0.5); opacity: 0; }
         40% { opacity: 0.85; }
-        85% { opacity: 0.75; }
-        100% { transform: translateY(-26px) scale(0.9); opacity: 0; }
+        85% { opacity: 0.7; }
+        100% { transform: translateY(-24px) scale(0.9); opacity: 0; }
       }
-      @keyframes riseSpore3 {
+      @keyframes floatSpore3 {
         0% { transform: translateY(12px) scale(0.7); opacity: 0; }
         30% { opacity: 0.95; }
         100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
       }
-      @keyframes crystalPulse {
-        0%, 100% { transform: scale(0.9); opacity: 0.8; }
-        50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 6px #a7f3d0); }
+      @keyframes starTwinkle {
+        0%, 100% { opacity: 0.2; transform: scale(0.6); }
+        50% { opacity: 1; transform: scale(1.2); }
       }
     </style>
   </defs>
 
-  <!-- Ambient Emerald Glow -->
-  <circle cx="60" cy="60" r="54" fill="url(#growthAura)" class="bg-aura" />
+  <!-- Ambient Radiant Emerald Aura -->
+  <circle cx="60" cy="60" r="54" fill="url(#growthAuraGlow)" class="aura-breath" />
 
-  <!-- Sacred Seed of Life Orbiting Halo -->
-  <g class="seed-of-life-rings">
-    <circle cx="60" cy="60" r="48" stroke="#10b981" stroke-opacity="0.2" stroke-width="0.8" />
-    <circle cx="60" cy="60" r="42" stroke="url(#seedGold)" stroke-width="0.9" stroke-dasharray="3 6" stroke-opacity="0.7" />
-    
-    <!-- 6 Sacred Hexagonal Orbital Nodes -->
-    <circle cx="60" cy="18" r="1.8" fill="#a7f3d0" filter="url(#sporeGlow)" />
-    <circle cx="96.3" cy="39" r="1.5" fill="#34d399" />
-    <circle cx="96.3" cy="81" r="1.5" fill="#34d399" />
-    <circle cx="60" cy="102" r="1.8" fill="#a7f3d0" />
-    <circle cx="23.7" cy="81" r="1.5" fill="#34d399" />
-    <circle cx="23.7" cy="39" r="1.5" fill="#34d399" />
+  <!-- Sacred Geometry Matrix Ring (Flower of Life Halo) -->
+  <g class="sacred-rings-spin">
+    <circle cx="60" cy="60" r="50" stroke="#10b981" stroke-opacity="0.2" stroke-width="0.75" />
+    <circle cx="60" cy="60" r="44" stroke="url(#moonGold)" stroke-width="0.9" stroke-dasharray="3 6" stroke-opacity="0.65" />
+    <circle cx="60" cy="16" r="1.8" fill="#a7f3d0" filter="url(#sporeBloom)" />
+    <circle cx="98" cy="38" r="1.5" fill="#34d399" />
+    <circle cx="98" cy="82" r="1.5" fill="#34d399" />
+    <circle cx="60" cy="104" r="1.8" fill="#a7f3d0" />
+    <circle cx="22" cy="82" r="1.5" fill="#34d399" />
+    <circle cx="22" cy="38" r="1.5" fill="#34d399" />
   </g>
 
-  <!-- Ascending Light Spores -->
-  <g class="ascending-spore-1" transform="translate(36, 55)">
-    <circle cx="0" cy="0" r="2.5" fill="#a7f3d0" filter="url(#sporeGlow)" />
+  <!-- Ascending Bio-Luminescent Light Spores -->
+  <g class="spore-1" transform="translate(34, 56)">
+    <circle cx="0" cy="0" r="2.4" fill="#a7f3d0" filter="url(#sporeBloom)" />
   </g>
-  <g class="ascending-spore-2" transform="translate(84, 52)">
-    <circle cx="0" cy="0" r="2" fill="#6ee7b7" filter="url(#sporeGlow)" />
+  <g class="spore-2" transform="translate(86, 52)">
+    <circle cx="0" cy="0" r="2" fill="#6ee7b7" filter="url(#sporeBloom)" />
   </g>
-  <g class="ascending-spore-3" transform="translate(60, 30)">
-    <circle cx="0" cy="0" r="2.8" fill="#ffffff" filter="url(#sporeGlow)" />
+  <g class="spore-3" transform="translate(60, 24)">
+    <circle cx="0" cy="0" r="2.8" fill="#ffffff" filter="url(#sporeBloom)" />
   </g>
 
-  <!-- Sacred Blooming Lotus & Tree of Life Core -->
-  <g class="sacred-lotus-bloom" filter="url(#emeraldGlow)">
-    <!-- Root Sacred Spiral Base -->
-    <path d="M60 84 C48 84, 42 78, 42 72 Q60 76 78 72 C78 78, 72 84, 60 84 Z" fill="#064e3b" stroke="#34d399" stroke-width="0.8" />
+  <!-- Twinkles -->
+  <g class="twinkle-star" transform="translate(26, 26)">
+    <path d="M0 -3.5 Q0 0 3.5 0 Q0 0 0 3.5 Q0 0 -3.5 0 Q0 0 0 -3.5 Z" fill="#a7f3d0" filter="url(#sporeBloom)" />
+  </g>
+  <g class="twinkle-star" transform="translate(94, 26)" style="animation-delay: 1.2s;">
+    <path d="M0 -3.5 Q0 0 3.5 0 Q0 0 0 3.5 Q0 0 -3.5 0 Q0 0 0 -3.5 Z" fill="#fef08a" filter="url(#sporeBloom)" />
+  </g>
 
-    <!-- Outer Lotus Petals (Left & Right) -->
-    <path d="M60 76 C42 66, 26 56, 32 44 C42 42, 54 58, 60 76 Z" fill="url(#lotusGrad)" opacity="0.85" stroke="#a7f3d0" stroke-width="0.75" />
-    <path d="M60 76 C78 66, 94 56, 88 44 C78 42, 66 58, 60 76 Z" fill="url(#lotusGrad)" opacity="0.85" stroke="#a7f3d0" stroke-width="0.75" />
+  <!-- Sprouting Sacred Moon & Celestial Petals (Main Group) -->
+  <g class="seed-bloom-group" filter="url(#emeraldBloom)">
+    <!-- Radiant Golden Crescent Moon Cradle -->
+    <path d="M42 40 C38 52, 42 68, 54 78 C66 88, 82 86, 88 80 C74 84, 58 78, 50 68 C42 58, 42 46, 42 40 Z"
+          fill="url(#moonGold)"
+          stroke="#a7f3d0"
+          stroke-width="0.8" />
 
-    <!-- Mid Petals -->
-    <path d="M60 76 C48 62, 38 48, 44 38 C54 36, 58 54, 60 76 Z" fill="url(#lotusGrad)" opacity="0.9" stroke="#6ee7b7" stroke-width="0.8" />
-    <path d="M60 76 C72 62, 82 48, 76 38 C66 36, 62 54, 60 76 Z" fill="url(#lotusGrad)" opacity="0.9" stroke="#6ee7b7" stroke-width="0.8" />
+    <!-- Left Sprouting Crystal Leaf -->
+    <path d="M58 74 C44 64, 38 50, 44 42 C54 44, 56 60, 58 74 Z"
+          fill="url(#sproutGrad)"
+          stroke="#a7f3d0"
+          stroke-width="0.8"
+          opacity="0.85" />
 
-    <!-- Central Rising Core Petal -->
-    <path d="M60 76 C52 58, 52 42, 60 32 C68 42, 68 58, 60 76 Z" fill="url(#lotusGrad)" stroke="#ffffff" stroke-width="1" />
+    <!-- Right Sprouting Crystal Leaf -->
+    <path d="M62 74 C76 64, 82 50, 76 42 C66 44, 64 60, 62 74 Z"
+          fill="url(#sproutGrad)"
+          stroke="#a7f3d0"
+          stroke-width="0.8"
+          opacity="0.85" />
 
-    <!-- Crown Awakening Crystal & Radiance -->
-    <g class="crown-crystal">
-      <circle cx="60" cy="32" r="3" fill="#ffffff" filter="url(#sporeGlow)" />
-      <line x1="60" y1="22" x2="60" y2="28" stroke="#fef08a" stroke-width="1.2" stroke-linecap="round" />
-      <line x1="53" y1="26" x2="57" y2="29" stroke="#a7f3d0" stroke-width="1" stroke-linecap="round" />
-      <line x1="67" y1="26" x2="63" y2="29" stroke="#a7f3d0" stroke-width="1" stroke-linecap="round" />
+    <!-- Central Awakening Seed / Rising Lotus Spire -->
+    <path d="M60 76 C54 60, 54 44, 60 32 C66 44, 66 60, 60 76 Z"
+          fill="url(#sproutGrad)"
+          stroke="#ffffff"
+          stroke-width="1" />
+
+    <!-- Center Fibonacci Spiral Tendril Highlight -->
+    <path d="M60 72 Q60 56 60 38" stroke="#ffffff" stroke-width="0.75" stroke-linecap="round" opacity="0.8" />
+
+    <!-- Apex Illuminating Crown Crystal -->
+    <g class="crystal-pulse">
+      <polygon points="60,24 63,30 60,35 57,30" fill="#ffffff" filter="url(#sporeBloom)" />
+      <circle cx="60" cy="30" r="1.5" fill="#fef08a" />
     </g>
   </g>
 </svg>
