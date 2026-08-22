@@ -222,7 +222,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                   {/* Layer 1 Top Front */}
                   <div className="absolute inset-0 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.25)] bg-[#0b0813] flex flex-col items-center justify-center p-2">
                     <img
-                      src="/cards/card-back.jpg"
+                      src="/cards/CardBacks.png"
                       alt="Tarot Back"
                       className="w-full h-full object-cover rounded-xl opacity-90 group-hover:opacity-100 transition-opacity"
                     />
@@ -360,7 +360,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                           /* Card Back (Click to reveal) */
                           <div className="relative w-full h-full bg-[#120a24] flex flex-col items-center justify-center p-1">
                             <img
-                              src="/cards/card-back.jpg"
+                              src="/cards/CardBacks.png"
                               alt="Card Back"
                               className="w-full h-full object-cover rounded-lg"
                             />
@@ -437,7 +437,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                       }`}
                     >
                       <img
-                        src="/cards/card-back.jpg"
+                        src="/cards/CardBacks.png"
                         alt="Card Back"
                         className="w-full h-full object-cover"
                       />
