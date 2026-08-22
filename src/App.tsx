@@ -73,11 +73,13 @@ export function App() {
 
   // Complete card selection and analyze (Step 4)
   const handleFinishReading = (drawnCards: DrawnCard[]) => {
+    const profile = AstrologyService.loadProfile();
     const analysis = analyzeReading(
       activeTopic,
       drawnCards,
       activeSpread,
-      language
+      language,
+      profile
     );
 
     const readingData: ReadingResultData = {

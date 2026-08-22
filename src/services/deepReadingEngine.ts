@@ -1,4 +1,5 @@
 import { DrawnCard, Language, SpreadDefinition, DeepAnalysisResult, TarotCard } from '../types/tarot';
+import { UserProfile } from '../types/userProfile';
 
 const SUIT_REALM = {
   cups: {
@@ -240,7 +241,8 @@ export function analyzeReading(
   topic: string,
   drawnCards: DrawnCard[],
   spread: SpreadDefinition,
-  lang: Language
+  lang: Language,
+  userProfile?: UserProfile | null
 ): DeepAnalysisResult {
   const cards = drawnCards.map(d => ({
     ...d.card,
@@ -265,10 +267,20 @@ export function analyzeReading(
   const topSuitEntry = sortedSuits[0];
   const topSuitKey = topSuitEntry ? (topSuitEntry[0] as 'cups' | 'pentacles' | 'swords' | 'wands') : null;
 
+  const querentName = userProfile?.name || '';
+  const zodiac = userProfile?.zodiacSign;
+  const lifePath = userProfile?.lifePathNumber;
+
   /* ================= 1. MIND SECTION ================= */
   let mind = '';
   if (lang === 'my') {
     const parts: string[] = [];
+    if (querentName) {
+      parts.push(`${querentName} ၏ ကံကြမ္မာခရီးစဉ်အတွက် —`);
+    }
+    if (zodiac) {
+      parts.push(`မွေးရာပါ ${zodiac.name.my} (${zodiac.element} ဓာတ်) ၏ စရိုက်သဘာဝနှင့် ပေါင်းစပ်ကြည့်ပါက`);
+    }
     if (topSuitKey) {
       parts.push(`လတ်တလောတွင် စိတ်အာရုံသည် ${SUIT_REALM[topSuitKey].my} ပေါ်၌ အဓိက သက်ရောက်နေပါသည် (${topSuitEntry[1].length} ကတ်အထိ ဤဓာတ်သဘာဝ ကျရောက်နေသောကြောင့် ဖြစ်ပါသည်)။`);
     }
@@ -286,6 +298,12 @@ export function analyzeReading(
     mind = parts.join(' ');
   } else if (lang === 'ja') {
     const parts: string[] = [];
+    if (querentName) {
+      parts.push(`【${querentName}さんの魂の旅路において】`);
+    }
+    if (zodiac) {
+      parts.push(`生まれ持つ${zodiac.name.ja}（${zodiac.element}のエレメント）の資質と照らし合わせると、`);
+    }
     if (topSuitKey) {
       parts.push(`あなたの意識のアンテナは現在、【${SUIT_REALM[topSuitKey].ja}】に強くチューニングされています（展開されたカードのうち${topSuitEntry[1].length}枚がこのスートに属しています）。`);
     }
@@ -303,8 +321,14 @@ export function analyzeReading(
     mind = parts.join(' ');
   } else {
     const parts: string[] = [];
+    if (querentName) {
+      parts.push(`For ${querentName}'s spiritual path:`);
+    }
+    if (zodiac) {
+      parts.push(`interfacing with your natal ${zodiac.name.en} (${zodiac.element} element),`);
+    }
     if (topSuitKey) {
-      parts.push(`Your inner life is currently tuned to ${SUIT_REALM[topSuitKey].en} — ${topSuitEntry[1].length} of your cards belong to that suit, so it claims most of your mental bandwidth.`);
+      parts.push(`your inner life is currently tuned to ${SUIT_REALM[topSuitKey].en} — ${topSuitEntry[1].length} of your cards belong to that suit, claiming most of your mental bandwidth.`);
     }
     if (majors.length >= Math.ceil(cards.length / 2)) {
       parts.push(`With ${majors.length} Major Arcana in play, this isn't a small worry — deeper currents of fate and identity are working in you. You may feel that something larger than daily logistics is at stake.`);
@@ -430,6 +454,9 @@ export function analyzeReading(
     if (adviceCard) {
       parts.push(`**${adviceCard.name.my}** ၏ လမ်းညွှန်ချက်ကို အလေးထားစေချင်ပါသည် — "${adviceCard.kw}" ကို လက်ကိုင်ထားပြီး ရှေ့ခြေတစ်လှမ်းကို စတင်ပြင်ဆင်ပါ။`);
     }
+    if (lifePath) {
+      parts.push(`သင့် Life Path နံပါတ် #${lifePath} ၏ ဉာဏ်ပညာစွမ်းအင်အရ မိမိကိုယ်ကို အပြည့်အဝ ယုံကြည်မှုရှိပါ။`);
+    }
     if (reversed.length > 0) {
       parts.push(`ပြောင်းပြန်ကတ်များ ကျရောက်နေသဖြင့် အပြင်ဘက်သို့ အတင်းတွန်းအားမပေးမီ မိမိ၏ အတွင်းစိတ်ကို အရင်ဆုံး အေးချမ်းရှင်းလင်းအောင် ပြုပြင်ပါ။ အနားယူပါ၊ သုံးသပ်ပါ၊ ပြီးမှ ယုံကြည်မှုအပြည့်ဖြင့် ရှေ့ဆက်ပါ။`);
     } else {
@@ -441,6 +468,9 @@ export function analyzeReading(
     if (adviceCard) {
       parts.push(`**【${adviceCard.name.ja}】**の助言を真摯に受け止めてください — 「${adviceCard.kw}」。これがあなたの最大のテコとなります。`);
     }
+    if (lifePath) {
+      parts.push(`あなたのライフパスナンバー【#${lifePath}】の波動が、直感的な確信を後押ししています。`);
+    }
     if (reversed.length > 0) {
       parts.push(`逆位置のカードがある場合、まず「内側の調整」が先決です。外側に無理に押し出す前に、休息と内省によって自らを解き放ち、その後に動いてください。`);
     } else {
@@ -451,6 +481,9 @@ export function analyzeReading(
     const parts: string[] = [];
     if (adviceCard) {
       parts.push(`Take ${adviceCard.name.en}'s counsel seriously: ${adviceCard.kw.toLowerCase()}. Build your next step around it.`);
+    }
+    if (lifePath) {
+      parts.push(`Channelling your Life Path #${lifePath} core mastery will grant you clarity.`);
     }
     parts.push(reversed.length
       ? `Where cards fall reversed, the instruction is inward first — unblock yourself before pushing outward. Rest, reflect, then act.`
@@ -618,11 +651,14 @@ export function analyzeReading(
   /* ================= 8. MASTER SUMMARY ================= */
   let summary = '';
   if (lang === 'my') {
-    summary = `"${topic}" နှင့် ပတ်သက်၍ အနှစ်ချုပ်မှာ: ကတ်ပြားများအရ မိမိ၏ စိတ်အာရုံသည် ${topSuitKey ? SUIT_REALM[topSuitKey].my.split(' — ')[0] : 'ဘဝကဏ္ဍ'} ဘက်သို့ ဦးတည်နေပြီး၊ ${reversed.length ? 'အတွင်းစိတ် အတားအဆီးများကို ဖြေလျှော့ရန် လိုအပ်နေချိန်တွင်' : 'စိတ်ဆန္ဒနှင့် စွမ်းအင်များ ညီညွတ်စွာ စီးဆင်းနေကာ'} နောက်ဆုံး၌ ${outcomeCard ? outcomeCard.name.my : 'အသစ်သော အခွင့်အလမ်း'} ဆီသို့ ဦးတည်နေကြောင်း ဖော်ပြနေပါသည်။ တာရော့ကတ်ပြားများသည် အနာဂတ်ရာသီဥတုကို ပြသပေးသော လမ်းညွှန်ဖြစ်ပြီး ကံကြမ္မာစတီယာရင်ကို အမှန်တကယ် ကိုင်တွယ်မောင်းနှင်သူမှာ သင်ကိုယ်တိုင်သာ ဖြစ်ပါသည်။`;
+    const greeting = querentName ? `${querentName} အတွက် ` : '';
+    summary = `${greeting}"${topic}" နှင့် ပတ်သက်၍ အနှစ်ချုပ်မှာ: ကတ်ပြားများအရ မိမိ၏ စိတ်အာရုံသည် ${topSuitKey ? SUIT_REALM[topSuitKey].my.split(' — ')[0] : 'ဘဝကဏ္ဍ'} ဘက်သို့ ဦးတည်နေပြီး၊ ${reversed.length ? 'အတွင်းစိတ် အတားအဆီးများကို ဖြေလျှော့ရန် လိုအပ်နေချိန်တွင်' : 'စိတ်ဆန္ဒနှင့် စွမ်းအင်များ ညီညွတ်စွာ စီးဆင်းနေကာ'} နောက်ဆုံး၌ ${outcomeCard ? outcomeCard.name.my : 'အသစ်သော အခွင့်အလမ်း'} ဆီသို့ ဦးတည်နေကြောင်း ဖော်ပြနေပါသည်။ တာရော့ကတ်ပြားများသည် အနာဂတ်ရာသီဥတုကို ပြသပေးသော လမ်းညွှန်ဖြစ်ပြီး ကံကြမ္မာစတီယာရင်ကို အမှန်တကယ် ကိုင်တွယ်မောင်းနှင်သူမှာ သင်ကိုယ်တိုင်သာ ဖြစ်ပါသည်။`;
   } else if (lang === 'ja') {
-    summary = `「${topic}」について：カードは、あなたの意識が【${topSuitKey ? SUIT_REALM[topSuitKey].ja.split(' — ')[0] : '多面的な波動'}】に向かい、${reversed.length ? '内なる滞りを手放す試練' : '稀に見る意志と感情の調和'}を経て、最終的に【${outcomeCard ? outcomeCard.name.ja : '未踏の未来'}】へと向かっていることを示しています。タロットは運命の天気予報を示すものであり、船の舵を握っているのは、いつでもあなた自身です。`;
+    const greeting = querentName ? `【${querentName}様へ】` : '';
+    summary = `${greeting}「${topic}」について：カードは、あなたの意識が【${topSuitKey ? SUIT_REALM[topSuitKey].ja.split(' — ')[0] : '多面的な波動'}】に向かい、${reversed.length ? '内なる滞りを手放す試練' : '稀に見る意志と感情の調和'}を経て、最終的に【${outcomeCard ? outcomeCard.name.ja : '未踏の未来'}】へと向かっていることを示しています。タロットは運命の天気予報を示すものであり、船の舵を握っているのは、いつでもあなた自身です。`;
   } else {
-    summary = `On "${topic}": the cards tell of a mind occupied by ${topSuitKey ? SUIT_REALM[topSuitKey].en.split(' — ')[0] : 'shifting currents'}, tested by ${reversed.length ? 'inner blockages seeking release' : 'a rare alignment of will and feeling'}, and moving toward ${outcomeCard ? outcomeCard.name.en : 'an unwritten close'}. The cards do not decide for you — they only show the weather. You still hold the wheel.`;
+    const greeting = querentName ? `For ${querentName} — ` : '';
+    summary = `${greeting}On "${topic}": the cards tell of a mind occupied by ${topSuitKey ? SUIT_REALM[topSuitKey].en.split(' — ')[0] : 'shifting currents'}, tested by ${reversed.length ? 'inner blockages seeking release' : 'a rare alignment of will and feeling'}, and moving toward ${outcomeCard ? outcomeCard.name.en : 'an unwritten close'}. The cards do not decide for you — they only show the weather. You still hold the wheel.`;
   }
 
   return {

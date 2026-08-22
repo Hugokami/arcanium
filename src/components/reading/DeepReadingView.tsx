@@ -83,8 +83,8 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
   // Dynamically compute analysis based on active language so it always translates instantly
   const activeAnalysis = useMemo(() => {
-    return analyzeReading(topic, drawnCards, spread, language);
-  }, [topic, drawnCards, spread, language]);
+    return analyzeReading(topic, drawnCards, spread, language, userProfile);
+  }, [topic, drawnCards, spread, language, userProfile]);
 
   // Master Tarot Synergy calculations
   const elementalDignities = useMemo(() => {
