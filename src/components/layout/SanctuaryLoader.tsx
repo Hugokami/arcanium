@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Sun, Moon, Eye, Shield } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Language } from '../../types/tarot';
 import { audioService } from '../../services/audioService';
 
@@ -20,7 +20,14 @@ const CRITICAL_ASSETS = [
   '/cards/17-TheStar.png',
   '/cards/18-TheMoon.png',
   '/cards/19-TheSun.png',
-  '/cards/21-TheWorld.png'
+  '/cards/21-TheWorld.png',
+  '/animations/sanctuary-loader.svg',
+  '/animations/topic-love.svg',
+  '/animations/topic-career.svg',
+  '/animations/topic-fortune.svg',
+  '/animations/topic-growth.svg',
+  '/animations/topic-decision.svg',
+  '/animations/topic-general.svg'
 ];
 
 export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
@@ -70,7 +77,7 @@ export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
       }
     };
 
-    // Preload card images
+    // Preload critical assets
     CRITICAL_ASSETS.forEach(src => {
       const img = new Image();
       img.src = src;
@@ -78,7 +85,7 @@ export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
       img.onerror = updateProgress;
     });
 
-    // Micro-delay simulation for high-craft atmospheric feel
+    // Smooth rhythmic progression
     const timer = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -87,7 +94,7 @@ export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
           setTimeout(() => {
             setIsFadingOut(true);
             audioService.playSingingBowl(432);
-            setTimeout(onLoaded, 700);
+            setTimeout(onLoaded, 800);
           }, 450);
           return 100;
         }
@@ -97,68 +104,67 @@ export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
         else if (next > 35) setStatusIndex(1);
         return next;
       });
-    }, 120);
+    }, 110);
 
     return () => clearInterval(timer);
   }, [onLoaded]);
 
   return (
     <div
-      className={`fixed inset-0 z-[9990] bg-[#080410] flex flex-col items-center justify-center p-4 sm:p-6 text-center transition-opacity duration-700 select-none overflow-hidden ${
-        isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      className={`fixed inset-0 z-[9990] bg-[#040208] flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden transition-all duration-1000 ease-out ${
+        isFadingOut ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
-      {/* Mystical Background Astrolabe Glow */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 sm:opacity-25 overflow-hidden">
-        <div className="w-[260px] h-[260px] sm:w-[500px] sm:h-[500px] rounded-full border border-[#d4af37]/40 animate-spin-slow" />
-        <div className="w-[200px] h-[200px] sm:w-[380px] sm:h-[380px] rounded-full border border-dashed border-[#d4af37]/30 animate-reverse-spin" />
-        <div className="w-[140px] h-[140px] sm:w-[240px] sm:h-[240px] rounded-full bg-[#d4af37]/10 blur-3xl" />
+      {/* Deep Space Radial Aura & Astrolabe Atmosphere */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+        <div className="w-[340px] h-[340px] sm:w-[580px] sm:h-[580px] rounded-full bg-gradient-to-b from-[#8a5cf6]/10 to-[#d4af37]/15 blur-3xl animate-pulse-slow" />
+        <div className="w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] rounded-full border border-[#d4af37]/15 animate-spin-slow pointer-events-none" />
+        <div className="w-[200px] h-[200px] sm:w-[360px] sm:h-[360px] rounded-full border border-dashed border-[#8a5cf6]/20 animate-reverse-spin pointer-events-none" />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center max-w-sm sm:max-w-md w-full space-y-6 sm:space-y-7">
+      <div className="relative z-10 flex flex-col items-center max-w-sm sm:max-w-md w-full space-y-6 sm:space-y-8">
         
-        {/* Animated Sacred Seal Emblem */}
-        <div className="relative group">
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-[#d4af37] bg-gradient-to-b from-[#1c1232] to-[#0c0617] flex items-center justify-center shadow-[0_0_40px_rgba(212,175,55,0.4)] transition-transform duration-500 hover:scale-105">
-            <div className="relative flex items-center justify-center">
-              <Sun className="w-12 h-12 text-[#d4af37] animate-spin-slow" />
-              <Eye className="w-6 h-6 text-amber-100 absolute" />
-            </div>
-          </div>
-          <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#d4af37]/20 border border-[#d4af37]/50 flex items-center justify-center animate-bounce">
-            <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
-          </div>
+        {/* Masterwork Animated SVG Emblem */}
+        <div className="relative w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center filter drop-shadow-[0_0_35px_rgba(212,175,55,0.4)]">
+          <img
+            src="/animations/sanctuary-loader.svg"
+            alt="Sanctuary Astrolabe"
+            className="w-full h-full object-contain pointer-events-none select-none"
+          />
         </div>
 
-        {/* Branding & Status text */}
-        <div className="space-y-2.5">
-          <h1 className="text-xl sm:text-2xl font-serif font-normal tracking-[0.25em] text-[#d4af37] text-shadow-gold uppercase">
+        {/* Branding & Poetic Status Typography */}
+        <div className="space-y-3">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[10px] font-mono tracking-[0.25em] text-[#d4af37] uppercase">
+            <Sparkles className="w-3 h-3 text-[#d4af37]" />
+            <span>Sacred Sanctuary</span>
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl font-display font-bold tracking-[0.3em] text-[#d4af37] text-shadow-gold uppercase">
             ARCANIUM
           </h1>
-          <p className="text-xs sm:text-sm font-serif italic text-amber-200/90 h-5 transition-all duration-300">
+          
+          <p className="text-xs sm:text-sm font-serif italic text-amber-200/90 h-6 transition-all duration-300">
             {statusMessages[statusIndex][language]}
           </p>
         </div>
 
-        {/* Progress Bar & Numerical Percentage */}
-        <div className="w-full max-w-xs space-y-2">
-          <div className="h-1.5 w-full rounded-full bg-white/[0.08] p-0.5 overflow-hidden border border-white/[0.1]">
+        {/* Luxury Progress Bar & Numerical Metrics */}
+        <div className="w-full max-w-xs space-y-2.5 pt-1">
+          <div className="h-1.5 w-full rounded-full bg-white/[0.06] p-0.5 overflow-hidden border border-white/[0.1] shadow-inner">
             <div
-              className="h-full bg-gradient-to-r from-amber-600 via-[#d4af37] to-amber-200 rounded-full transition-all duration-200 shadow-[0_0_12px_rgba(212,175,55,0.8)]"
+              className="h-full bg-gradient-to-r from-amber-600 via-[#d4af37] to-amber-100 rounded-full transition-all duration-200 shadow-[0_0_15px_rgba(212,175,55,0.9)]"
               style={{ width: `${progress}%` }}
             />
           </div>
 
-          <div className="flex justify-between items-center text-[10px] font-mono tracking-widest text-[#d4af37]/80">
-            <span>SANCTUARY ATTUNEMENT</span>
-            <span className="font-bold text-amber-200">{progress}%</span>
+          <div className="flex items-center justify-between text-[11px] font-mono tracking-wider text-amber-200/60 px-1">
+            <span>HARMONIZING</span>
+            <span className="text-[#d4af37] font-semibold">{progress}%</span>
           </div>
         </div>
 
       </div>
-
-      {/* Outer subtle vignette */}
-      <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(0,0,0,0.9)]" />
     </div>
   );
 };

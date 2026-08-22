@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Master Celestial Gradients -->
+    <radialGradient id="loaderAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.45" />
+      <stop offset="45%" stop-color="#8a5cf6" stop-opacity="0.2" />
+      <stop offset="75%" stop-color="#1e1436" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#07040f" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="goldBeamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="30%" stop-color="#fde047" />
+      <stop offset="65%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#78350f" />
+    </linearGradient>
+
+    <linearGradient id="violetGoldRing" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c084fc" />
+      <stop offset="50%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#fef08a" />
+    </linearGradient>
+
+    <radialGradient id="oculusIris" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#93c5fd" />
+      <stop offset="60%" stop-color="#3b82f6" />
+      <stop offset="85%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <filter id="sanctuaryGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="coreShine" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      .bg-sacred-aura {
+        animation: pulseSacredAura 4s ease-in-out infinite;
+        transform-origin: 100px 100px;
+      }
+      .astrolabe-outer-ring {
+        animation: rotateAstrolabeCW 32s linear infinite;
+        transform-origin: 100px 100px;
+      }
+      .astrolabe-inner-ring {
+        animation: rotateAstrolabeCCW 22s linear infinite;
+        transform-origin: 100px 100px;
+      }
+      .merkabah-star {
+        animation: merkabahBreath 5s ease-in-out infinite;
+        transform-origin: 100px 100px;
+      }
+      .oculus-group {
+        animation: oculusBlink 3.8s ease-in-out infinite;
+        transform-origin: 100px 100px;
+      }
+      .oculus-pupil {
+        animation: pupilVortex 3.8s ease-in-out infinite;
+        transform-origin: 100px 100px;
+      }
+      .orbiting-planetary-node-1 {
+        animation: orbitNode1 12s linear infinite;
+        transform-origin: 100px 100px;
+      }
+      .orbiting-planetary-node-2 {
+        animation: orbitNode2 8s linear infinite reverse;
+        transform-origin: 100px 100px;
+      }
+      .stardust-twinkle-1 {
+        animation: starSparkle 2.4s ease-in-out infinite;
+      }
+      .stardust-twinkle-2 {
+        animation: starSparkle 3.1s ease-in-out 1.2s infinite;
+      }
+      .stardust-twinkle-3 {
+        animation: starSparkle 2.8s ease-in-out 0.6s infinite;
+      }
+
+      @keyframes rotateAstrolabeCW {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes rotateAstrolabeCCW {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(-360deg); }
+      }
+      @keyframes pulseSacredAura {
+        0%, 100% { transform: scale(0.92); opacity: 0.7; }
+        50% { transform: scale(1.15); opacity: 1; }
+      }
+      @keyframes merkabahBreath {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.05) rotate(15deg); filter: drop-shadow(0 0 10px #d4af37); }
+      }
+      @keyframes oculusBlink {
+        0%, 100% { transform: scaleY(1); }
+        48% { transform: scaleY(1.08); }
+        50% { transform: scaleY(0.12); }
+        52% { transform: scaleY(1.08); }
+      }
+      @keyframes pupilVortex {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px #93c5fd); }
+        50% { transform: scale(1.25); filter: drop-shadow(0 0 10px #60a5fa); }
+      }
+      @keyframes orbitNode1 {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes orbitNode2 {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes starSparkle {
+        0%, 100% { opacity: 0.2; transform: scale(0.65); }
+        50% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 6px #fffbeb); }
+      }
+    </style>
+  </defs>
+
+  <!-- Ambient Cosmic Aura Glow -->
+  <circle cx="100" cy="100" r="92" fill="url(#loaderAura)" class="bg-sacred-aura" />
+
+  <!-- Outer Astrological Zodiac Coordinate Ring -->
+  <g class="astrolabe-outer-ring">
+    <circle cx="100" cy="100" r="86" stroke="#d4af37" stroke-opacity="0.2" stroke-width="0.8" />
+    <circle cx="100" cy="100" r="80" stroke="url(#goldBeamGrad)" stroke-width="1.2" stroke-opacity="0.8" stroke-dasharray="3 6 1 6" />
+    <circle cx="100" cy="100" r="74" stroke="#c084fc" stroke-opacity="0.3" stroke-width="0.6" stroke-dasharray="8 4" />
+
+    <!-- 12 Cardinal Celestial Rays & Degree Marks -->
+    <line x1="100" y1="14" x2="100" y2="24" stroke="#fffbeb" stroke-width="1.5" />
+    <line x1="100" y1="176" x2="100" y2="186" stroke="#fffbeb" stroke-width="1.5" />
+    <line x1="14" y1="100" x2="24" y2="100" stroke="#fffbeb" stroke-width="1.5" />
+    <line x1="176" y1="100" x2="186" y2="100" stroke="#fffbeb" stroke-width="1.5" />
+
+    <line x1="39.2" y1="39.2" x2="46.3" y2="46.3" stroke="#fde047" stroke-width="1" />
+    <line x1="160.8" y1="160.8" x2="153.7" y2="153.7" stroke="#fde047" stroke-width="1" />
+    <line x1="39.2" y1="160.8" x2="46.3" y2="153.7" stroke="#fde047" stroke-width="1" />
+    <line x1="160.8" y1="39.2" x2="153.7" y2="46.3" stroke="#fde047" stroke-width="1" />
+
+    <!-- Orbiting Diamond Jewels on Ring -->
+    <circle cx="100" cy="20" r="2.5" fill="#ffffff" filter="url(#coreShine)" />
+    <circle cx="180" cy="100" r="2.2" fill="#fde047" />
+    <circle cx="100" cy="180" r="2.5" fill="#ffffff" filter="url(#coreShine)" />
+    <circle cx="20" cy="100" r="2.2" fill="#fde047" />
+  </g>
+
+  <!-- Inner Sacred Geometry Counter-Rotating Matrix -->
+  <g class="astrolabe-inner-ring">
+    <circle cx="100" cy="100" r="62" stroke="url(#violetGoldRing)" stroke-width="1" stroke-dasharray="6 4 2 4" stroke-opacity="0.8" />
+    <circle cx="100" cy="100" r="48" stroke="#d4af37" stroke-width="0.75" stroke-opacity="0.5" />
+    
+    <!-- 8-Pointed Star Reticle Lines -->
+    <polygon points="100,52 134,134 48,82 152,82 66,134" stroke="#fde047" stroke-width="0.6" stroke-opacity="0.4" fill="none" />
+  </g>
+
+  <!-- Elliptical Armillary Spheres in 3D Orbit -->
+  <g class="orbiting-planetary-node-1">
+    <ellipse cx="100" cy="100" rx="68" ry="24" stroke="url(#goldBeamGrad)" stroke-width="1" fill="none" opacity="0.65" transform="rotate(35 100 100)" />
+    <circle cx="156" cy="78" r="3" fill="#ffffff" filter="url(#coreShine)" />
+  </g>
+  <g class="orbiting-planetary-node-2">
+    <ellipse cx="100" cy="100" rx="64" ry="22" stroke="#c084fc" stroke-width="0.8" fill="none" opacity="0.55" transform="rotate(-45 100 100)" />
+    <circle cx="44" cy="74" r="2.5" fill="#fef08a" filter="url(#coreShine)" />
+  </g>
+
+  <!-- Twinkling Stardust Sparkles -->
+  <g class="stardust-twinkle-1" transform="translate(38, 38)">
+    <path d="M0 -5 Q0 0 5 0 Q0 0 0 5 Q0 0 -5 0 Q0 0 0 -5 Z" fill="#ffffff" filter="url(#coreShine)" />
+  </g>
+  <g class="stardust-twinkle-2" transform="translate(162, 44)">
+    <path d="M0 -4.5 Q0 0 4.5 0 Q0 0 0 4.5 Q0 0 -4.5 0 Q0 0 0 -4.5 Z" fill="#fde047" filter="url(#coreShine)" />
+  </g>
+  <g class="stardust-twinkle-3" transform="translate(42, 156)">
+    <path d="M0 -4 Q0 0 4 0 Q0 0 0 4 Q0 0 -4 0 Q0 0 0 -4 Z" fill="#c084fc" />
+  </g>
+
+  <!-- Sacred 12-Point Merkabah Radiance Assembly -->
+  <g class="merkabah-star" filter="url(#sanctuaryGlow)">
+    <!-- Golden Solar Diamond Core -->
+    <polygon points="100,56 109,82 135,73 118,94 144,100 118,106 135,127 109,118 100,144 91,118 65,127 82,106 56,100 82,94 65,73 91,82"
+             fill="rgba(212, 175, 55, 0.15)"
+             stroke="url(#goldBeamGrad)"
+             stroke-width="1.2" />
+
+    <!-- Central Hermetic Oculus Eye of Arcanium -->
+    <g class="oculus-group">
+      <!-- Outer Mystic Almond Eyelid -->
+      <path d="M66 100 Q100 78 134 100 Q100 122 66 100 Z"
+            fill="#090514"
+            stroke="url(#goldBeamGrad)"
+            stroke-width="2.2"
+            stroke-linejoin="round" />
+
+      <path d="M70 100 Q100 82 130 100 Q100 118 70 100 Z"
+            fill="none"
+            stroke="#fffbeb"
+            stroke-width="0.6"
+            opacity="0.8" />
+
+      <!-- Iris Sphere Vortex -->
+      <circle cx="100" cy="100" r="13" fill="url(#oculusIris)" stroke="#fde047" stroke-width="1" />
+
+      <!-- Focus Pupil -->
+      <circle cx="100" cy="100" r="5.5" fill="#000000" class="oculus-pupil" />
+      <circle cx="102" cy="98" r="1.8" fill="#ffffff" />
+    </g>
+
+    <!-- Core Starlight Jewel -->
+    <circle cx="100" cy="100" r="2" fill="#ffffff" filter="url(#coreShine)" />
+  </g>
+</svg>
