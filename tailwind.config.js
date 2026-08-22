@@ -24,10 +24,12 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['Cinzel', 'Cormorant Garamond', 'Georgia', 'serif'],
-        display: ['Cinzel Decorative', 'Cinzel', 'serif'],
-        sans: ['Plus Jakarta Sans', 'Outfit', 'Inter', 'sans-serif'],
-        mono: ['Fira Code', 'monospace']
+        serif: ['"Cinzel"', '"Cormorant Garamond"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'Georgia', 'serif'],
+        display: ['"Cinzel Decorative"', '"Cinzel"', '"Noto Serif JP"', 'serif'],
+        body: ['"Cormorant Garamond"', '"Philosopher"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'Georgia', 'serif'],
+        cosmic: ['"Philosopher"', '"Cormorant Garamond"', 'serif'],
+        sans: ['"Cormorant Garamond"', '"Philosopher"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'serif'],
+        mono: ['"Space Grotesk"', '"Cinzel"', 'monospace']
       },
       boxShadow: {
         'gold-glow': '0 0 25px -5px rgba(223, 183, 108, 0.35)',

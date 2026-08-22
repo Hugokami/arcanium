@@ -17,11 +17,22 @@
   }
 
   body {
-    @apply bg-[#07040f] text-[#e8e4dc] selection:bg-[#d4af37]/30 selection:text-amber-200 antialiased;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    @apply bg-[#07040f] text-[#e8e4dc] selection:bg-[#d4af37]/30 selection:text-amber-200 antialiased font-serif;
+    font-family: 'Cormorant Garamond', 'Philosopher', 'Cinzel', 'Noto Serif JP', 'Noto Serif Myanmar', Georgia, serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'liga', 'dlig';
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.02em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', 'Cinzel Decorative', 'Noto Serif JP', 'Noto Serif Myanmar', serif;
+    letter-spacing: 0.06em;
+  }
+
+  button, input, textarea, select {
+    font-family: 'Cormorant Garamond', 'Cinzel', 'Noto Serif JP', 'Noto Serif Myanmar', Georgia, serif;
   }
 }
 
