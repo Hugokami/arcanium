@@ -339,13 +339,17 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                     return '/animations/spread-single.svg';
                   case 'three':
                     return '/animations/spread-trinity.svg';
-                  case 'decision_fork':
-                  case 'five_cross':
+                  case 'cross':
                     return '/animations/spread-cross.svg';
+                  case 'celtic':
+                    return '/animations/spread-relationship.svg';
+                  case 'decision_fork':
+                    return '/animations/spread-fork.svg';
+                  case 'chakra_spread':
                   case 'chakra_seven':
                   case 'seven':
                     return '/animations/spread-chakra.svg';
-                  case 'celtic':
+                  case 'celtic_cross':
                     return '/animations/spread-celtic.svg';
                   default:
                     return '/animations/spread-single.svg';

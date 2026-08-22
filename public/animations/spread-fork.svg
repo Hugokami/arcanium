@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 80" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="pathAGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+
+    <linearGradient id="pathBGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+
+    <linearGradient id="crossroadsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="50%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#78350f" />
+    </linearGradient>
+
+    <filter id="forkGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      .crossroads-card {
+        animation: crossPulse 3.6s ease-in-out infinite;
+        transform-origin: 50px 65px;
+      }
+      .path-a-card {
+        animation: swayPathA 3.8s ease-in-out infinite;
+        transform-origin: 24px 34px;
+      }
+      .outcome-a-card {
+        animation: glowOutcomeA 3.8s ease-in-out 0.4s infinite;
+        transform-origin: 24px 12px;
+      }
+      .path-b-card {
+        animation: swayPathB 3.8s ease-in-out 0.2s infinite;
+        transform-origin: 76px 34px;
+      }
+      .outcome-b-card {
+        animation: glowOutcomeB 3.8s ease-in-out 0.6s infinite;
+        transform-origin: 76px 12px;
+      }
+      .branch-stream {
+        animation: dashStream 2.8s linear infinite;
+      }
+
+      @keyframes crossPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); filter: drop-shadow(0 0 8px rgba(212,175,55,0.7)); }
+      }
+      @keyframes swayPathA {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-2px); }
+      }
+      @keyframes glowOutcomeA {
+        0%, 100% { filter: drop-shadow(0 0 2px #38bdf8); }
+        50% { filter: drop-shadow(0 0 8px #38bdf8); transform: scale(1.04); }
+      }
+      @keyframes swayPathB {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-2px); }
+      }
+      @keyframes glowOutcomeB {
+        0%, 100% { filter: drop-shadow(0 0 2px #f43f5e); }
+        50% { filter: drop-shadow(0 0 8px #f43f5e); transform: scale(1.04); }
+      }
+      @keyframes dashStream {
+        0% { stroke-dashoffset: 24; }
+        100% { stroke-dashoffset: 0; }
+      }
+    </style>
+  </defs>
+
+  <!-- Diverging Decision Branch Energy Streams -->
+  <!-- Left Branch A (Cyan) -->
+  <path d="M50 56 C40 48, 24 44, 24 22" stroke="url(#pathAGrad)" stroke-width="1.2" stroke-dasharray="3 3" class="branch-stream" fill="none" opacity="0.85" />
+  <!-- Right Branch B (Rose) -->
+  <path d="M50 56 C60 48, 76 44, 76 22" stroke="url(#pathBGrad)" stroke-width="1.2" stroke-dasharray="3 3" class="branch-stream" fill="none" opacity="0.85" />
+
+  <!-- 1. Bottom: THE CROSSROADS (Position 1) -->
+  <g class="crossroads-card" filter="url(#forkGlow)">
+    <rect x="39" y="52" width="22" height="25" rx="3" fill="#180e30" stroke="url(#crossroadsGrad)" stroke-width="1.3" />
+    <circle cx="50" cy="64.5" r="3.5" stroke="#fef08a" stroke-width="0.8" fill="rgba(212, 175, 55, 0.3)" />
+    <circle cx="50" cy="64.5" r="1.5" fill="#ffffff" />
+  </g>
+
+  <!-- LEFT PATH A: (Cards 2 & 3) -->
+  <!-- 2. Path A Flow / Trajectory -->
+  <g class="path-a-card">
+    <rect x="15" y="27" width="18" height="22" rx="2.5" fill="#082f49" stroke="#38bdf8" stroke-width="0.85" opacity="0.9" />
+    <circle cx="24" cy="38" r="2.5" fill="#7dd3fc" />
+  </g>
+  <!-- 3. Path A Final Outcome -->
+  <g class="outcome-a-card">
+    <rect x="15" y="4" width="18" height="20" rx="2.5" fill="#0c4a6e" stroke="#0284c7" stroke-width="1.1" />
+    <polygon points="24,8 26,13 31,13 27,16 28,21 24,18 20,21 21,16 17,13 22,13" fill="#38bdf8" />
+  </g>
+
+  <!-- RIGHT PATH B: (Cards 4 & 5) -->
+  <!-- 4. Path B Flow / Trajectory -->
+  <g class="path-b-card">
+    <rect x="67" y="27" width="18" height="22" rx="2.5" fill="#4c0519" stroke="#fb7185" stroke-width="0.85" opacity="0.9" />
+    <circle cx="76" cy="38" r="2.5" fill="#fda4af" />
+  </g>
+  <!-- 5. Path B Final Outcome -->
+  <g class="outcome-b-card">
+    <rect x="67" y="4" width="18" height="20" rx="2.5" fill="#881337" stroke="#e11d48" stroke-width="1.1" />
+    <polygon points="76,8 78,13 83,13 79,16 80,21 76,18 72,21 73,16 69,13 74,13" fill="#fb7185" />
+  </g>
+</svg>

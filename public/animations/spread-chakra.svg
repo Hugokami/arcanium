@@ -10,7 +10,7 @@
       <stop offset="100%" stop-color="#a855f7" />
     </linearGradient>
 
-    <filter id="chakraGlow" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="chakraGlow" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur stdDeviation="1.5" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
@@ -19,51 +19,84 @@
       .chakra-wave {
         animation: waveTravel 3s linear infinite;
       }
-      .node-crown { animation: pulseNode 2.5s ease-in-out infinite; }
-      .node-heart { animation: pulseNode 2.5s ease-in-out 0.8s infinite; }
-      .node-root { animation: pulseNode 2.5s ease-in-out 1.6s infinite; }
+      .node-crown { animation: pulseChakraNode 2.4s ease-in-out infinite; transform-origin: 50px 7px; }
+      .node-thirdeye { animation: pulseChakraNode 2.4s ease-in-out 0.4s infinite; transform-origin: 50px 17px; }
+      .node-throat { animation: pulseChakraNode 2.4s ease-in-out 0.8s infinite; transform-origin: 50px 27px; }
+      .node-heart { animation: pulseChakraNode 2.4s ease-in-out 1.2s infinite; transform-origin: 50px 38px; }
+      .node-solar { animation: pulseChakraNode 2.4s ease-in-out 1.6s infinite; transform-origin: 50px 49px; }
+      .node-sacral { animation: pulseChakraNode 2.4s ease-in-out 2.0s infinite; transform-origin: 50px 60px; }
+      .node-root { animation: pulseChakraNode 2.4s ease-in-out 2.4s infinite; transform-origin: 50px 71px; }
 
       @keyframes waveTravel {
-        0% { stroke-dashoffset: 60; }
+        0% { stroke-dashoffset: 70; }
         100% { stroke-dashoffset: 0; }
       }
-      @keyframes pulseNode {
-        0%, 100% { transform: scale(1); opacity: 0.8; }
-        50% { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 4px #ffffff); }
+      @keyframes pulseChakraNode {
+        0%, 100% { transform: scale(1); opacity: 0.85; }
+        50% { transform: scale(1.35); opacity: 1; filter: drop-shadow(0 0 5px #ffffff); }
       }
     </style>
   </defs>
 
-  <!-- Central Prismatic Spinal Beam -->
-  <line x1="50" y1="8" x2="50" y2="72" stroke="url(#chakraSpine)" stroke-width="1.8" stroke-linecap="round" />
-  <line x1="50" y1="8" x2="50" y2="72" stroke="#ffffff" stroke-width="0.75" stroke-dasharray="4 6" class="chakra-wave" opacity="0.9" />
+  <!-- Central Prismatic Kundalini Light Spine -->
+  <line x1="50" y1="4" x2="50" y2="76" stroke="url(#chakraSpine)" stroke-width="2" stroke-linecap="round" />
+  <line x1="50" y1="4" x2="50" y2="76" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="4 6" class="chakra-wave" opacity="0.9" />
 
-  <!-- 7 Ascending Chakra Cards & Nodes -->
-  <!-- 7. Crown (Purple) -->
-  <rect x="36" y="6" width="28" height="7.5" rx="2" fill="#2e1065" stroke="#c084fc" stroke-width="0.7" opacity="0.9" />
-  <circle cx="50" cy="9.75" r="2.2" fill="#c084fc" class="node-crown" filter="url(#chakraGlow)" />
+  <!-- 7 Ascending Chakra Tarot Cards (Position 1 to 7) -->
+  
+  <!-- 7. Crown Chakra (Purple / Sahasrara) -->
+  <g class="node-crown">
+    <rect x="32" y="3" width="36" height="8.5" rx="2" fill="#2e1065" stroke="#c084fc" stroke-width="0.85" />
+    <circle cx="50" cy="7.25" r="2.2" fill="#e9d5ff" filter="url(#chakraGlow)" />
+    <line x1="36" y1="7.25" x2="44" y2="7.25" stroke="#c084fc" stroke-width="0.6" stroke-opacity="0.7" />
+    <line x1="56" y1="7.25" x2="64" y2="7.25" stroke="#c084fc" stroke-width="0.6" stroke-opacity="0.7" />
+  </g>
 
-  <!-- 6. Third Eye (Indigo) -->
-  <rect x="37" y="16" width="26" height="7.5" rx="2" fill="#1e1b4b" stroke="#818cf8" stroke-width="0.7" opacity="0.9" />
-  <circle cx="50" cy="19.75" r="1.8" fill="#818cf8" />
+  <!-- 6. Third Eye Chakra (Indigo / Ajna) -->
+  <g class="node-thirdeye">
+    <rect x="33" y="13.5" width="34" height="8.5" rx="2" fill="#1e1b4b" stroke="#818cf8" stroke-width="0.8" />
+    <circle cx="50" cy="17.75" r="2" fill="#c7d2fe" />
+    <line x1="37" y1="17.75" x2="44" y2="17.75" stroke="#818cf8" stroke-width="0.5" stroke-opacity="0.7" />
+    <line x1="56" y1="17.75" x2="63" y2="17.75" stroke="#818cf8" stroke-width="0.5" stroke-opacity="0.7" />
+  </g>
 
-  <!-- 5. Throat (Cyan) -->
-  <rect x="37" y="26" width="26" height="7.5" rx="2" fill="#083344" stroke="#22d3ee" stroke-width="0.7" opacity="0.9" />
-  <circle cx="50" cy="29.75" r="1.8" fill="#22d3ee" />
+  <!-- 5. Throat Chakra (Cyan / Vishuddha) -->
+  <g class="node-throat">
+    <rect x="33" y="24" width="34" height="8.5" rx="2" fill="#083344" stroke="#22d3ee" stroke-width="0.8" />
+    <circle cx="50" cy="28.25" r="2" fill="#a5f3fc" />
+    <line x1="37" y1="28.25" x2="44" y2="28.25" stroke="#22d3ee" stroke-width="0.5" stroke-opacity="0.7" />
+    <line x1="56" y1="28.25" x2="63" y2="28.25" stroke="#22d3ee" stroke-width="0.5" stroke-opacity="0.7" />
+  </g>
 
-  <!-- 4. Heart (Emerald) -->
-  <rect x="35" y="36" width="30" height="8" rx="2" fill="#064e3b" stroke="#34d399" stroke-width="0.8" opacity="0.95" />
-  <circle cx="50" cy="40" r="2.2" fill="#34d399" class="node-heart" filter="url(#chakraGlow)" />
+  <!-- 4. Heart Chakra (Emerald / Anahata) - Center Jewel -->
+  <g class="node-heart">
+    <rect x="31" y="34.5" width="38" height="9" rx="2.5" fill="#064e3b" stroke="#34d399" stroke-width="1.1" />
+    <circle cx="50" cy="39" r="2.5" fill="#6ee7b7" filter="url(#chakraGlow)" />
+    <line x1="35" y1="39" x2="44" y2="39" stroke="#34d399" stroke-width="0.7" stroke-opacity="0.8" />
+    <line x1="56" y1="39" x2="65" y2="39" stroke="#34d399" stroke-width="0.7" stroke-opacity="0.8" />
+  </g>
 
-  <!-- 3. Solar Plexus (Yellow) -->
-  <rect x="37" y="46.5" width="26" height="7.5" rx="2" fill="#422006" stroke="#facc15" stroke-width="0.7" opacity="0.9" />
-  <circle cx="50" cy="50.25" r="1.8" fill="#facc15" />
+  <!-- 3. Solar Plexus Chakra (Yellow / Manipura) -->
+  <g class="node-solar">
+    <rect x="33" y="45.5" width="34" height="8.5" rx="2" fill="#422006" stroke="#facc15" stroke-width="0.8" />
+    <circle cx="50" cy="49.75" r="2" fill="#fef08a" />
+    <line x1="37" y1="49.75" x2="44" y2="49.75" stroke="#facc15" stroke-width="0.5" stroke-opacity="0.7" />
+    <line x1="56" y1="49.75" x2="63" y2="49.75" stroke="#facc15" stroke-width="0.5" stroke-opacity="0.7" />
+  </g>
 
-  <!-- 2. Sacral (Orange) -->
-  <rect x="37" y="56.5" width="26" height="7.5" rx="2" fill="#431407" stroke="#fb923c" stroke-width="0.7" opacity="0.9" />
-  <circle cx="50" cy="60.25" r="1.8" fill="#fb923c" />
+  <!-- 2. Sacral Chakra (Orange / Svadhisthana) -->
+  <g class="node-sacral">
+    <rect x="33" y="56" width="34" height="8.5" rx="2" fill="#431407" stroke="#fb923c" stroke-width="0.8" />
+    <circle cx="50" cy="60.25" r="2" fill="#fed7aa" />
+    <line x1="37" y1="60.25" x2="44" y2="60.25" stroke="#fb923c" stroke-width="0.5" stroke-opacity="0.7" />
+    <line x1="56" y1="60.25" x2="63" y2="60.25" stroke="#fb923c" stroke-width="0.5" stroke-opacity="0.7" />
+  </g>
 
-  <!-- 1. Root (Red) -->
-  <rect x="36" y="66.5" width="28" height="7.5" rx="2" fill="#450a0a" stroke="#f87171" stroke-width="0.7" opacity="0.9" />
-  <circle cx="50" cy="70.25" r="2.2" fill="#f87171" class="node-root" filter="url(#chakraGlow)" />
+  <!-- 1. Root Chakra (Red / Muladhara) -->
+  <g class="node-root">
+    <rect x="32" y="66.5" width="36" height="8.5" rx="2" fill="#450a0a" stroke="#f87171" stroke-width="0.85" />
+    <circle cx="50" cy="70.75" r="2.2" fill="#fca5a5" filter="url(#chakraGlow)" />
+    <line x1="36" y1="70.75" x2="44" y2="70.75" stroke="#f87171" stroke-width="0.6" stroke-opacity="0.7" />
+    <line x1="56" y1="70.75" x2="64" y2="70.75" stroke="#f87171" stroke-width="0.6" stroke-opacity="0.7" />
+  </g>
 </svg>

@@ -6,73 +6,101 @@
       <stop offset="100%" stop-color="#78350f" />
     </linearGradient>
 
-    <filter id="celticGlow" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="celticGlow" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur stdDeviation="1.8" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
 
     <style>
-      .celtic-center {
-        animation: breathCenter 4s ease-in-out infinite;
-        transform-origin: 32px 40px;
+      .celtic-center-group {
+        animation: breathCenter 3.8s ease-in-out infinite;
+        transform-origin: 30px 40px;
       }
-      .staff-outcome {
-        animation: pulseOutcome 3s ease-in-out infinite;
-        transform-origin: 80px 14px;
+      .staff-card-10 {
+        animation: pulseStaff10 3.2s ease-in-out infinite;
+        transform-origin: 82px 11px;
       }
       .celtic-ring {
-        animation: spinCeltic 20s linear infinite;
-        transform-origin: 32px 40px;
+        animation: spinCelticRing 22s linear infinite;
+        transform-origin: 30px 40px;
+      }
+      .energy-link {
+        animation: linkFade 3s ease-in-out infinite;
       }
 
       @keyframes breathCenter {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(212,175,55,0.4)); }
+        50% { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(212,175,55,0.85)); }
+      }
+      @keyframes pulseStaff10 {
         0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.06); filter: drop-shadow(0 0 6px rgba(212,175,55,0.7)); }
+        50% { transform: scale(1.08); filter: drop-shadow(0 0 8px #fde047); }
       }
-      @keyframes pulseOutcome {
-        0%, 100% { opacity: 0.85; transform: scale(1); }
-        50% { opacity: 1; transform: scale(1.08); filter: drop-shadow(0 0 8px #fde047); }
-      }
-      @keyframes spinCeltic {
+      @keyframes spinCelticRing {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+      }
+      @keyframes linkFade {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.85; }
       }
     </style>
   </defs>
 
-  <!-- Left: Celtic Cross Sacred Circle -->
+  <!-- Left: Celtic Sacred Cross Ring -->
   <g class="celtic-ring">
-    <circle cx="32" cy="40" r="22" stroke="#d4af37" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.5" />
+    <circle cx="30" cy="40" r="23" stroke="#d4af37" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.4" />
   </g>
 
-  <!-- Left: The Sacred Cross (Positions 1-6) -->
-  <!-- 5. Crown (Top) -->
-  <rect x="25" y="8" width="14" height="20" rx="2" fill="#0d081e" stroke="#d4af37" stroke-width="0.75" opacity="0.8" />
-  <!-- 3. Root (Bottom) -->
-  <rect x="25" y="52" width="14" height="20" rx="2" fill="#0d081e" stroke="#d4af37" stroke-width="0.75" opacity="0.8" />
-  <!-- 4. Past (Left) -->
-  <rect x="8" y="30" width="14" height="20" rx="2" fill="#0d081e" stroke="#d4af37" stroke-width="0.75" opacity="0.8" />
-  <!-- 6. Future (Right) -->
-  <rect x="42" y="30" width="14" height="20" rx="2" fill="#0d081e" stroke="#d4af37" stroke-width="0.75" opacity="0.8" />
+  <!-- Connection line between Cross and Staff -->
+  <line x1="45" y1="40" x2="72" y2="40" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="2 2" class="energy-link" />
 
-  <!-- 1. Present + 2. Crossing Obstacle Center -->
-  <g class="celtic-center" filter="url(#celticGlow)">
-    <rect x="24" y="29" width="16" height="22" rx="2.5" fill="#180e30" stroke="url(#celticGold)" stroke-width="1.2" />
-    <!-- Crossing Obstacle Card (Rotated 90 deg across) -->
-    <rect x="21" y="33" width="22" height="14" rx="2" fill="#281440" stroke="#fef08a" stroke-width="0.8" opacity="0.9" />
-    <circle cx="32" cy="40" r="2.5" fill="#ffffff" />
+  <!-- ================= LEFT: 6 CARDS OF THE SACRED CROSS ================= -->
+  
+  <!-- 5. Top: Crown / Potential (Position 5) -->
+  <rect x="23" y="6" width="14" height="20" rx="2" fill="#0e0720" stroke="#d4af37" stroke-width="0.8" opacity="0.85" />
+  <circle cx="30" cy="16" r="1.5" fill="#fde047" />
+
+  <!-- 3. Bottom: Root / Basis (Position 3) -->
+  <rect x="23" y="54" width="14" height="20" rx="2" fill="#0e0720" stroke="#d4af37" stroke-width="0.8" opacity="0.85" />
+  <circle cx="30" cy="64" r="1.5" fill="#fde047" />
+
+  <!-- 4. Left: Past Karma (Position 4) -->
+  <rect x="6" y="30" width="14" height="20" rx="2" fill="#0e0720" stroke="#d4af37" stroke-width="0.8" opacity="0.85" />
+  <circle cx="13" cy="40" r="1.5" fill="#a78bfa" />
+
+  <!-- 6. Right: Future Destination (Position 6) -->
+  <rect x="40" y="30" width="14" height="20" rx="2" fill="#0e0720" stroke="#d4af37" stroke-width="0.8" opacity="0.85" />
+  <circle cx="47" cy="40" r="1.5" fill="#38bdf8" />
+
+  <!-- 1 & 2. Center: 1. The Present + 2. The Crossing Challenge (Positions 1 & 2) -->
+  <g class="celtic-center-group" filter="url(#celticGlow)">
+    <!-- 1. Present Heart Card -->
+    <rect x="22" y="28" width="16" height="24" rx="2.5" fill="#180e30" stroke="url(#celticGold)" stroke-width="1.3" />
+    
+    <!-- 2. Crossing Challenge Card (Transverse 90° across) -->
+    <rect x="18" y="32" width="24" height="16" rx="2" fill="#2d134d" stroke="#fef08a" stroke-width="0.9" opacity="0.92" />
+    <circle cx="30" cy="40" r="2.8" fill="#ffffff" />
+    <circle cx="30" cy="40" r="1.2" fill="#d4af37" />
   </g>
 
-  <!-- Right: Vertical Destiny Staff (Positions 7-10) -->
-  <!-- 10. Outcome (Top Master Card) -->
-  <g class="staff-outcome" filter="url(#celticGlow)">
-    <rect x="73" y="6" width="14" height="16" rx="2" fill="#1a0f30" stroke="url(#celticGold)" stroke-width="1.1" />
-    <circle cx="80" cy="14" r="2" fill="#fde047" />
+  <!-- ================= RIGHT: 4 CARDS OF THE DESTINY STAFF ================= -->
+  
+  <!-- 10. Staff Top: Final Outcome (Position 10 - Master Jewel) -->
+  <g class="staff-card-10" filter="url(#celticGlow)">
+    <rect x="73" y="4" width="18" height="15" rx="2.5" fill="#1c0e35" stroke="url(#celticGold)" stroke-width="1.3" />
+    <polygon points="82,7 84,11 89,11 85,14 86,18 82,15 78,18 79,14 75,11 80,11" fill="#fde047" />
   </g>
-  <!-- 9. Hopes & Fears -->
-  <rect x="73" y="24" width="14" height="14" rx="2" fill="#0d081e" stroke="#c084fc" stroke-width="0.75" opacity="0.85" />
-  <!-- 8. Environment -->
-  <rect x="73" y="40" width="14" height="14" rx="2" fill="#0d081e" stroke="#c084fc" stroke-width="0.75" opacity="0.85" />
-  <!-- 7. Self / Querent -->
-  <rect x="73" y="56" width="14" height="14" rx="2" fill="#0d081e" stroke="#c084fc" stroke-width="0.75" opacity="0.85" />
+
+  <!-- 9. Staff: Hopes and Fears (Position 9) -->
+  <rect x="74" y="23" width="16" height="14" rx="2" fill="#0d081e" stroke="#c084fc" stroke-width="0.85" opacity="0.9" />
+  <circle cx="82" cy="30" r="2" fill="#c084fc" />
+
+  <!-- 8. Staff: External Environment (Position 8) -->
+  <rect x="74" y="41" width="16" height="14" rx="2" fill="#0d081e" stroke="#818cf8" stroke-width="0.85" opacity="0.9" />
+  <circle cx="82" cy="48" r="2" fill="#818cf8" />
+
+  <!-- 7. Staff Bottom: Self / Querent (Position 7) -->
+  <rect x="74" y="59" width="16" height="14" rx="2" fill="#0d081e" stroke="#38bdf8" stroke-width="0.85" opacity="0.9" />
+  <circle cx="82" cy="66" r="2" fill="#38bdf8" />
 </svg>
