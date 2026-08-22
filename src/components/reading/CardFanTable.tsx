@@ -39,6 +39,13 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
   const [takenIndices, setTakenIndices] = useState<number[]>([]);
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
   const [hoveredFanIndex, setHoveredFanIndex] = useState<number | null>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Initialize 3 purely randomly shuffled decks on mount
   useEffect(() => {
@@ -396,22 +403,28 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
 
           {/* THE 3D FAN OF CARDS */}
           {picksLeft > 0 && (
-            <div className="w-full py-4 sm:py-8 flex flex-col items-center overflow-hidden">
+            <div className="w-full py-4 sm:py-8 flex flex-col items-center overflow-visible">
               <div className="text-center text-[11px] sm:text-xs font-serif text-amber-200/90 mb-3 sm:mb-4 animate-pulse px-2">
                 ✦ {language === 'my' ? 'ကတ်ပြားပေါ်သို့ မျှားတင်ပြီး ကံကြမ္မာကတ်ကို နှိပ်၍ ဆွဲယူပါ' : language === 'ja' ? 'カードに触れて直感で1枚ずつ引いてください' : 'Hover and click to draw your destiny'} ✦
               </div>
 
               {/* Fan Deck Arc Container */}
-              <div className="relative h-36 sm:h-52 w-full max-w-full sm:max-w-3xl flex justify-center items-end select-none overflow-visible">
+              <div className="relative h-36 sm:h-52 w-full max-w-full sm:max-w-3xl flex justify-center items-end select-none overflow-visible px-4">
                 {fanDeck.map((card, idx) => {
                   const isTaken = takenIndices.includes(idx);
                   const isHovered = hoveredFanIndex === idx;
                   const total = fanDeck.length;
-                  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-                  // Calculate angle for fan (-34 deg to +34 deg)
-                  const angle = ((idx - total / 2) / (total / 2)) * (isMobile ? 32 : 36);
-                  const xOffset = (idx - total / 2) * (isMobile ? 11.5 : 26);
-                  const yOffset = Math.abs(idx - total / 2) * (isMobile ? 1.6 : 2.8);
+                  const isMobile = windowWidth < 640;
+                  const isSmallMobile = windowWidth < 380;
+                  
+                  // Calculate dynamic angle and spacing based on screen width
+                  const maxAngle = isSmallMobile ? 22 : isMobile ? 26 : 34;
+                  const xStep = isSmallMobile ? 7.6 : isMobile ? 8.8 : 20;
+                  const yCurve = isSmallMobile ? 0.9 : isMobile ? 1.2 : 2.2;
+
+                  const angle = ((idx - total / 2) / (total / 2)) * maxAngle;
+                  const xOffset = (idx - total / 2) * xStep;
+                  const yOffset = Math.abs(idx - total / 2) * yCurve;
 
                   return (
                     <div
@@ -428,12 +441,12 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                         transform: isTaken
                           ? `translate(${xOffset}px, 60px) scale(0.6) rotate(${angle}deg)`
                           : isHovered
-                          ? `translate(${xOffset}px, ${isMobile ? -25 : -35}px) scale(${isMobile ? 1.12 : 1.18}) rotate(0deg)`
+                          ? `translate(${xOffset}px, ${isMobile ? -20 : -32}px) scale(${isMobile ? 1.12 : 1.18}) rotate(0deg)`
                           : `translate(${xOffset}px, ${yOffset}px) rotate(${angle}deg)`,
                         zIndex: isHovered ? 40 : idx,
                         opacity: isTaken ? 0.2 : 1
                       }}
-                      className={`absolute bottom-0 w-12 h-20 sm:w-16 sm:h-26 md:w-20 md:h-32 rounded-lg sm:rounded-xl overflow-hidden border border-[#8a7326] bg-[#120a24] shadow-[0_0_10px_rgba(0,0,0,0.8)] cursor-pointer transition-all duration-200 ease-out origin-bottom ${
+                      className={`absolute bottom-0 w-10 h-16 sm:w-16 sm:h-26 md:w-20 md:h-32 rounded-lg sm:rounded-xl overflow-hidden border border-[#8a7326] bg-[#120a24] shadow-[0_0_10px_rgba(0,0,0,0.8)] cursor-pointer transition-all duration-200 ease-out origin-bottom ${
                         isTaken ? 'pointer-events-none' : 'hover:border-[#d4af37] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]'
                       }`}
                     >
