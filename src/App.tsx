@@ -9,6 +9,10 @@ import { CardEncyclopediaModal } from './components/encyclopedia/CardEncyclopedi
 import { ShareScrollModal } from './components/common/ShareScrollModal';
 import { UserProfileModal } from './components/profile/UserProfileModal';
 import { DailyCardModal } from './components/reading/DailyCardModal';
+import { BirthMatrixModal } from './components/numerology/BirthMatrixModal';
+import { DeckThemeModal } from './components/settings/DeckThemeModal';
+import { DailyPulseModal } from './components/daily/DailyPulseModal';
+import { TreeOfLifeModal } from './components/astral/TreeOfLifeModal';
 import { EntranceIntro } from './components/layout/EntranceIntro';
 import { SanctuaryLoader } from './components/layout/SanctuaryLoader';
 
@@ -49,6 +53,9 @@ export function App() {
   const [isScrollOpen, setIsScrollOpen] = useState<boolean>(false);
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const [isDailyCardOpen, setIsDailyCardOpen] = useState<boolean>(false);
+  const [isBirthMatrixOpen, setIsBirthMatrixOpen] = useState<boolean>(false);
+  const [isDeckThemeOpen, setIsDeckThemeOpen] = useState<boolean>(false);
+  const [isTreeOfLifeOpen, setIsTreeOfLifeOpen] = useState<boolean>(false);
 
   // Journal Persistence
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => {
@@ -161,6 +168,9 @@ export function App() {
         onOpenCodex={() => setIsCodexOpen(true)}
         onOpenProfile={() => setIsProfileOpen(true)}
         onOpenDailyCard={() => setIsDailyCardOpen(true)}
+        onOpenBirthMatrix={() => setIsBirthMatrixOpen(true)}
+        onOpenDeckTheme={() => setIsDeckThemeOpen(true)}
+        onOpenTreeOfLife={() => setIsTreeOfLifeOpen(true)}
         onResetHome={handleResetHome}
         journalCount={journalEntries.length}
         userProfile={userProfile}
@@ -237,12 +247,39 @@ export function App() {
         onProfileUpdated={(profile) => setUserProfile(profile)}
       />
 
-      {/* Daily Card of the Day Modal */}
-      <DailyCardModal
-        isOpen={isDailyCardOpen}
-        onClose={() => setIsDailyCardOpen(false)}
-        language={language}
-      />
+      {/* Daily Card / Pulse Modal */}
+      {isDailyCardOpen && (
+        <DailyPulseModal
+          language={language}
+          onClose={() => setIsDailyCardOpen(false)}
+        />
+      )}
+
+      {/* Lifetime Numerological Birth Blueprint Modal */}
+      {isBirthMatrixOpen && (
+        <BirthMatrixModal
+          userProfile={userProfile}
+          language={language}
+          onClose={() => setIsBirthMatrixOpen(false)}
+          onUpdateProfile={(profile) => setUserProfile(profile)}
+        />
+      )}
+
+      {/* Sacred Deck Artistry & Card Backs Modal */}
+      {isDeckThemeOpen && (
+        <DeckThemeModal
+          language={language}
+          onClose={() => setIsDeckThemeOpen(false)}
+        />
+      )}
+
+      {/* Kabbalistic Tree of Life Astral Overlay Modal */}
+      {isTreeOfLifeOpen && (
+        <TreeOfLifeModal
+          language={language}
+          onClose={() => setIsTreeOfLifeOpen(false)}
+        />
+      )}
 
       {/* Fullscreen Entrance Intro Animation */}
       {showIntro && (

@@ -8,6 +8,7 @@ export interface CardEsotericData {
   waiteOriginalKey: LocalizedText;
   chakraResonance: LocalizedText;
   timingSeason: LocalizedText;
+  traditionalOmens?: LocalizedText;
 }
 
 export class EsotericCorrespondenceService {
@@ -305,8 +306,17 @@ export class EsotericCorrespondenceService {
    * Helper to retrieve full esoteric attributes for any card
    */
   public static getEsotericData(cardId: string): Partial<CardEsotericData> {
+    const data = this.CORRESPONDENCES[cardId] || {};
+
     if (this.CORRESPONDENCES[cardId]) {
-      return this.CORRESPONDENCES[cardId];
+      return {
+        ...data,
+        traditionalOmens: data.traditionalOmens || {
+          en: 'Waite 1910 Traditional Divinatory Omen: Portends significant spiritual shifts, catalytic encounters, and karmic realignment in worldly affairs.',
+          my: '၁၉၁၀ ရိုးရာ နိမိတ်ဖတ်မှတ်ချက်: ဝိညာဉ်ရေးရာ အပြောင်းအလဲများ၊ ကံကြမ္မာအလှည့်အပြောင်းနှင့် မမျှော်လင့်သော ကံကောင်းမှုများကို ညွှန်ပြသည်။',
+          ja: '1910年 伝統的兆候・神託：人生の重大な霊的変容、予期せぬ運命の転換、カルマの清算を告げる瑞兆。'
+        }
+      };
     }
 
     // Generic Golden Dawn / Decanate generator for Minor Arcana
@@ -333,6 +343,20 @@ export class EsotericCorrespondenceService {
           en: isWands ? 'Spring / Aries-Leo-Sagittarius' : isCups ? 'Summer / Cancer-Scorpio-Pisces' : isSwords ? 'Autumn / Gemini-Libra-Aquarius' : 'Winter / Taurus-Virgo-Capricorn',
           my: isWands ? 'နွေဦး / မီးရာသီခွင်များ' : isCups ? 'မိုးကာလ / ရေရာသီခွင်များ' : isSwords ? 'ဆောင်းဦး / လေရာသီခွင်များ' : 'ဆောင်းကာလ / မြေရာသီခွင်များ',
           ja: isWands ? '春 / 火の星座期' : isCups ? '夏 / 水の星座期' : isSwords ? '秋 / 風の星座期' : '冬 / 地の星座期'
+        },
+        traditionalOmens: {
+          en: isWands ? 'Traditional Omen: Sudden news of creative enterprise, travel, or an energetic ally arriving.' :
+              isCups ? 'Traditional Omen: Joyful emotional reunion, invitation to celebrations, or heartfelt message.' :
+              isSwords ? 'Traditional Omen: Swift legal or analytical resolution; a decisive truth cutting through deceit.' :
+              'Traditional Omen: Material reward, commercial contract fruition, or tangible security established.',
+          my: isWands ? 'ရိုးရာနိမိတ်: စီးပွားရေးအခွင့်အလမ်းသစ်၊ ခရီးသွားခြင်း သို့မဟုတ် အကူအညီပေးမည့် မိတ်ဆွေသစ် ရောက်ရှိလာခြင်း။' :
+              isCups ? 'ရိုးရာနိမိတ်: ဝမ်းမြောက်ဖွယ် နှလုံးသားဆုံတွေ့မှု၊ ပွဲလမ်းသဘင် ဖိတ်ကြားလွှာ သို့မဟုတ် မေတ္တာသတင်းစကား။' :
+              isSwords ? 'ရိုးရာနိမိတ်: ဥပဒေရေးရာ သို့မဟုတ် အငြင်းပွားမှု ရှင်းလင်းပြတ်သားစွာ ပြီးဆုံးခြင်း။' :
+              'ရိုးရာနိမိတ်: ငွေကြေးဥစ္စာ တိုးပွားခြင်း၊ စာချုပ်စာတမ်း အောင်မြင်ခြင်း သို့မဟုတ် ခိုင်မာသော အကျိုးအမြတ်။',
+          ja: isWands ? '伝統的兆候：創造的な事業の進展、旅立ちの知らせ、熱心な協力者の出現。' :
+              isCups ? '伝統的兆候：愛の再会、祝宴への招待状、心温まる吉報の到来。' :
+              isSwords ? '伝統的兆候：知的な解決、契約や議論の電光石火の決着、真実の開示。' :
+              '伝統的兆候：物質的報酬、商取引の成就、確固たる経済的基盤の確立。'
         }
       };
     }

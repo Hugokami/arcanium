@@ -53,6 +53,7 @@ export interface TarotCard {
   waiteOriginalKey?: LocalizedText;
   chakraResonance?: LocalizedText;
   timingSeason?: LocalizedText;
+  traditionalOmens?: LocalizedText;
 }
 
 export interface CelticCrossSynthesis {

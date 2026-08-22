@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Heart, Briefcase, Compass, Eye, ShieldAlert, BookOpen } from 'lucide-react';
+import { X, Sparkles, Heart, Briefcase, Compass, Eye, ShieldAlert, BookOpen, UserCheck } from 'lucide-react';
 import { DrawnCard, Language, TarotCard } from '../../types/tarot';
 import { EsotericCorrespondenceService } from '../../services/esotericCorrespondenceService';
+import { CourtPersonaService } from '../../services/courtPersonaService';
 
 interface CardInspectorModalProps {
   drawnCard: DrawnCard | null;
@@ -14,11 +15,12 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
   language,
   onClose
 }) => {
-  const [activeTab, setActiveTab] = useState<'prophecy' | 'waite' | 'kabbalah'>('prophecy');
+  const [activeTab, setActiveTab] = useState<'prophecy' | 'persona' | 'waite' | 'kabbalah'>('prophecy');
   if (!drawnCard) return null;
 
   const { card, isReversed, position } = drawnCard;
   const esoteric = EsotericCorrespondenceService.getEsotericData(card.id);
+  const courtPersona = CourtPersonaService.getCourtPersona(card);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
@@ -76,22 +78,38 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
           {/* Right: Rich Arcana Symbolism Breakdown */}
           <div className="sm:col-span-7 space-y-4 text-left">
             <div>
-              <div className="text-xs font-mono uppercase text-amber-400/80 tracking-wider">
-                {position.name[language]}
+              <div className="flex items-center justify-between">
+                <div className="text-xs font-mono uppercase text-amber-400/80 tracking-wider">
+                  {position.name[language]}
+                </div>
+                {courtPersona && (
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-400/50 text-emerald-300">
+                    Orbit Archetype
+                  </span>
+                )}
               </div>
-              <h2 className="text-xl sm:text-2xl font-serif font-bold text-amber-100 tracking-wide">
+              <h2 className="text-xl sm:text-2xl font-serif font-bold text-amber-100 tracking-wide mt-0.5">
                 {card.name[language]}
               </h2>
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex space-x-1 p-1 rounded-xl bg-white/5 text-xs font-serif">
+            <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-white/5 text-xs font-serif">
               <button
                 onClick={() => setActiveTab('prophecy')}
                 className={`px-3 py-1 rounded-lg transition-all ${activeTab === 'prophecy' ? 'bg-[#d4af37] text-black font-bold' : 'text-zinc-400 hover:text-white'}`}
               >
                 Prophecy
               </button>
+              {courtPersona && (
+                <button
+                  onClick={() => setActiveTab('persona')}
+                  className={`px-3 py-1 rounded-lg flex items-center space-x-1 transition-all ${activeTab === 'persona' ? 'bg-[#d4af37] text-black font-bold' : 'text-zinc-400 hover:text-white'}`}
+                >
+                  <UserCheck className="w-3 h-3" />
+                  <span>Orbit Persona</span>
+                </button>
+              )}
               <button
                 onClick={() => setActiveTab('waite')}
                 className={`px-3 py-1 rounded-lg flex items-center space-x-1 transition-all ${activeTab === 'waite' ? 'bg-[#d4af37] text-black font-bold' : 'text-zinc-400 hover:text-white'}`}
@@ -107,6 +125,21 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
                 <span>Kabbalah</span>
               </button>
             </div>
+
+            {activeTab === 'persona' && courtPersona && (
+              <div className="p-4 rounded-2xl bg-black/50 border border-emerald-500/30 text-xs sm:text-sm font-serif space-y-3 text-zinc-200">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <span className="font-bold text-emerald-300">{courtPersona.roleTitle[language]}</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-200">{courtPersona.mbtiResonance}</span>
+                </div>
+                <p className="text-zinc-300 leading-relaxed">{courtPersona.personaArchetype[language]}</p>
+                <div className="space-y-1.5 pt-1 text-xs">
+                  <div><b className="text-amber-300">Behavioral Signals:</b> {courtPersona.behavioralSignals[language]}</div>
+                  <div><b className="text-emerald-300">How to Navigate:</b> {courtPersona.relationshipAdvice[language]}</div>
+                  <div><b className="text-rose-400">Shadow Traps:</b> {courtPersona.shadowPitfall[language]}</div>
+                </div>
+              </div>
+            )}
 
             {activeTab === 'prophecy' && (
               <div className="space-y-3">
@@ -171,6 +204,11 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
                 <p className="italic leading-relaxed text-zinc-300">
                   {esoteric?.waiteOriginalKey?.[language] || card.uprightMeaning[language]}
                 </p>
+                {esoteric?.traditionalOmens && (
+                  <div className="p-2.5 rounded-xl bg-amber-950/20 border border-[#d4af37]/30 text-xs text-amber-200">
+                    <b>📜 Historical Divinatory Omen: </b> {esoteric.traditionalOmens[language]}
+                  </div>
+                )}
                 <div className="pt-2 border-t border-white/10 text-xs text-amber-200">
                   <b>Sacred Symbols: </b> {card.symbolism[language].join(' • ')}
                 </div>

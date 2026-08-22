@@ -5,6 +5,7 @@ import { audioService } from '../../services/audioService';
 import { AstrologyService, ZODIAC_SIGNS } from '../../services/astrologyService';
 import { UserProfile, ZodiacSignId } from '../../types/userProfile';
 import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3, Heart, Coins, Sprout, Scale, Eye, Users, AlertCircle, Trash2 } from 'lucide-react';
+import { DeckCutRitual } from '../ritual/DeckCutRitual';
 
 interface ArcanaFlowSelectorProps {
   language: Language;
@@ -15,7 +16,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
   language,
   onStartDrawing
 }) => {
-  const [step, setStep] = useState<1 | 2>(1);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedTopic, setSelectedTopic] = useState<TopicOption>(TOPICS[0]);
   const [customQuestion, setCustomQuestion] = useState<string>('');
   const [selectedSpread, setSelectedSpread] = useState<SpreadDefinition>(
@@ -166,9 +167,14 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
 
     audioService.playSingingBowl(324);
     setSelectedSpread(spread);
+    setStep(3);
+    window.scrollTo({ top: 100, behavior: 'smooth' });
+  };
+
+  const handleFinishRitual = () => {
     const finalQuestion = customQuestion.trim() || selectedTopic.defaultQuestion[language];
     const finalTopic = customQuestion.trim() ? customQuestion.trim() : selectedTopic.title[language];
-    onStartDrawing(finalTopic, finalQuestion, spread, partnerProfile);
+    onStartDrawing(finalTopic, finalQuestion, selectedSpread, partnerProfile);
   };
 
   const heroHeadline = {
@@ -687,6 +693,34 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
             })}
           </div>
 
+        </section>
+      )}
+
+      {/* STEP 3: 1910 TACTILE DECK CUTTING RITUAL */}
+      {step === 3 && (
+        <section className="space-y-6 animate-in fade-in duration-300">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                audioService.playCardSlide();
+                setStep(2);
+              }}
+              className="text-xs font-serif text-zinc-400 hover:text-amber-200 flex items-center space-x-1.5"
+            >
+              <span>← Back to Spreads</span>
+            </button>
+            <button
+              onClick={handleFinishRitual}
+              className="text-xs font-serif text-[#d4af37] hover:underline"
+            >
+              Skip Ritual →
+            </button>
+          </div>
+
+          <DeckCutRitual
+            language={language}
+            onCompleteRitual={handleFinishRitual}
+          />
         </section>
       )}
 

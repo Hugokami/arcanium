@@ -15,10 +15,12 @@ import { AstrologyService } from '../../services/astrologyService';
 import { VoiceOracleService } from '../../services/voiceOracleService';
 import { LunarTransitService } from '../../services/lunarTransitService';
 import { RitualAffirmationService } from '../../services/ritualAffirmationService';
+import { CourtPersonaService, CourtCardPersona } from '../../services/courtPersonaService';
 import { UserProfile } from '../../types/userProfile';
 import { OracleChatDrawer } from './OracleChatDrawer';
 import { SpatialSpreadAltar } from './SpatialSpreadAltar';
 import { CardInspectorModal } from './CardInspectorModal';
+import { TreeOfLifeModal } from '../astral/TreeOfLifeModal';
 import {
   RotateCcw,
   Bookmark,
@@ -51,7 +53,8 @@ import {
   GitFork,
   Activity,
   ShieldCheck,
-  Award
+  Award,
+  UserCheck
 } from 'lucide-react';
 
 interface DeepReadingViewProps {
@@ -77,6 +80,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   const [copied, setCopied] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [isTreeOfLifeOpen, setIsTreeOfLifeOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'altar' | 'analysis'>('altar');
   const [inspectedCard, setInspectedCard] = useState<DrawnCard | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -155,6 +159,15 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   const extendedQuintessence = useMemo(() => {
     return TarotSynergyService.calculateExtendedQuintessence(drawnCards, language);
   }, [drawnCards, language]);
+
+  const courtPersonasInSpread = useMemo(() => {
+    return drawnCards
+      .map(dc => ({
+        drawnCard: dc,
+        persona: CourtPersonaService.getCourtPersona(dc.card)
+      }))
+      .filter((item): item is { drawnCard: DrawnCard; persona: CourtCardPersona } => item.persona !== null);
+  }, [drawnCards]);
 
   const polarityGauge = useMemo(() => {
     return TarotSynergyService.calculatePolarityGauge(drawnCards);
@@ -311,6 +324,17 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           >
             <MessageSquareQuote className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>{UI_TRANSLATIONS.askOracleBtn[language]}</span>
+          </button>
+
+          <button
+            onClick={() => {
+              audioService.playCardSlide();
+              setIsTreeOfLifeOpen(true);
+            }}
+            className="h-9 px-4 rounded-full text-xs font-serif flex items-center space-x-2 transition-all border bg-purple-950/30 hover:bg-purple-900/40 border-purple-500/40 text-purple-200 shadow-sm"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-purple-300" />
+            <span>{language === 'my' ? 'ကဘ္ဗလာ ဝိညာဉ်အပင်' : language === 'ja' ? '生命の樹マップ' : 'Tree of Life'}</span>
           </button>
         </div>
       </div>
@@ -550,6 +574,56 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
               </p>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* People in Your Orbit — Court Card Archetype Matrix */}
+      {courtPersonasInSpread.length > 0 && (
+        <div className="craft-panel p-6 sm:p-7 rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-950/20 via-[#0d071d] to-black space-y-4 shadow-xl">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300">
+                <UserCheck className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-emerald-300">
+                  {language === 'my' ? 'သင့်ပတ်ဝန်းကျင်ရှိ လူပုဂ္ဂိုလ်များ (Court Card Archetypes)' : language === 'ja' ? 'あなたの軌道上の人物像（コートカード分析）' : 'People in Your Orbit • Court Card Typology'}
+                </h3>
+                <p className="text-xs text-zinc-400 font-serif">
+                  {language === 'my' ? 'အကဲဖြတ်ထားသော ကတ်များမှ တိုက်ရိုက်သက်ရောက်နေသော လူပုဂ္ဂိုလ်ပုံစံများ' : language === 'ja' ? '展開されたカードが示す実生活の重要人物と関係性' : 'Real-world allies, mentors, rivals, or messengers present in your spread'}
+                </p>
+              </div>
+            </div>
+            <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-400/15 border border-emerald-400/40 text-emerald-200 font-bold">
+              {courtPersonasInSpread.length} {courtPersonasInSpread.length === 1 ? 'Persona' : 'Personas'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {courtPersonasInSpread.map(({ drawnCard, persona }, idx) => (
+              <div key={idx} className="p-4 rounded-2xl bg-black/60 border border-emerald-500/25 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-serif font-bold text-amber-200 flex items-center space-x-2">
+                    <span>👑 {drawnCard.card.name[language]}</span>
+                    <span className="text-[10px] text-zinc-400 font-mono">({drawnCard.position.name[language]})</span>
+                  </div>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-300">
+                    {persona.mbtiResonance}
+                  </span>
+                </div>
+                <div className="text-xs font-serif font-bold text-emerald-300">
+                  {persona.roleTitle[language]}
+                </div>
+                <p className="text-xs text-zinc-300 font-serif leading-relaxed">
+                  {persona.personaArchetype[language]}
+                </p>
+                <div className="pt-2 border-t border-white/5 space-y-1 text-xs font-serif">
+                  <div><span className="text-amber-300 font-bold">🧭 Guidance: </span><span className="text-zinc-300">{persona.relationshipAdvice[language]}</span></div>
+                  <div><span className="text-rose-400 font-bold">⚠️ Warning: </span><span className="text-zinc-300">{persona.shadowPitfall[language]}</span></div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -1207,6 +1281,15 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         language={language}
         onClose={() => setInspectedCard(null)}
       />
+
+      {/* Tree of Life Astral Overlay Modal */}
+      {isTreeOfLifeOpen && (
+        <TreeOfLifeModal
+          drawnCards={drawnCards}
+          language={language}
+          onClose={() => setIsTreeOfLifeOpen(false)}
+        />
+      )}
 
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check, Sun, Compass } from 'lucide-react';
+import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check, Sun, Compass, Layers, Sparkles } from 'lucide-react';
 import { Language } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
@@ -12,6 +12,9 @@ interface HeaderProps {
   onOpenCodex: () => void;
   onOpenProfile: () => void;
   onOpenDailyCard: () => void;
+  onOpenBirthMatrix?: () => void;
+  onOpenDeckTheme?: () => void;
+  onOpenTreeOfLife?: () => void;
   onResetHome: () => void;
   journalCount: number;
   userProfile?: UserProfile | null;
@@ -24,6 +27,9 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCodex,
   onOpenProfile,
   onOpenDailyCard,
+  onOpenBirthMatrix,
+  onOpenDeckTheme,
+  onOpenTreeOfLife,
   onResetHome,
   journalCount,
   userProfile
@@ -99,7 +105,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Right: Controls Hub */}
         <div className="flex items-center space-x-1.5 sm:space-x-2">
           
-          {/* Daily Oracle Button */}
+          {/* Daily Oracle / Pulse Button */}
           <button
             onClick={() => {
               audioService.playCardFlip();
@@ -111,6 +117,51 @@ export const Header: React.FC<HeaderProps> = ({
             <Sun className="w-3.5 h-3.5 text-amber-400 animate-spin-slow" />
             <span className="hidden md:inline font-serif tracking-wide">{UI_TRANSLATIONS.dailyCardBtn[language]}</span>
           </button>
+
+          {/* Birth Blueprint Button */}
+          {onOpenBirthMatrix && (
+            <button
+              onClick={() => {
+                audioService.playCardSlide();
+                onOpenBirthMatrix();
+              }}
+              className="hidden lg:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-amber-200/90 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              title="Tarot Birth Blueprint"
+            >
+              <Compass className="w-3.5 h-3.5 text-[#d4af37]" />
+              <span className="font-serif">Blueprint</span>
+            </button>
+          )}
+
+          {/* Deck Artistry / Card Back Theme Button */}
+          {onOpenDeckTheme && (
+            <button
+              onClick={() => {
+                audioService.playCardSlide();
+                onOpenDeckTheme();
+              }}
+              className="hidden xl:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              title="Sacred Deck Artistry"
+            >
+              <Layers className="w-3.5 h-3.5 text-[#d4af37]" />
+              <span className="font-serif">Decks</span>
+            </button>
+          )}
+
+          {/* Tree of Life Astral Map Button */}
+          {onOpenTreeOfLife && (
+            <button
+              onClick={() => {
+                audioService.playCardSlide();
+                onOpenTreeOfLife();
+              }}
+              className="hidden md:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-purple-950/30 hover:bg-purple-900/40 border border-purple-500/40 text-xs text-purple-200 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              title="Kabbalistic Tree of Life"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-purple-300" />
+              <span className="font-serif">Tree of Life</span>
+            </button>
+          )}
 
           {/* Natal Profile Button */}
           <button
