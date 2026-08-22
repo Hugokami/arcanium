@@ -271,75 +271,144 @@ export function analyzeReading(
   const zodiac = userProfile?.zodiacSign;
   const lifePath = userProfile?.lifePathNumber;
 
+  // Detect domain category
+  const topicLower = (topic || '').toLowerCase();
+  const domain: 'love' | 'career' | 'fortune' | 'growth' | 'decision' | 'general' =
+    topicLower.includes('love') || topicLower.includes('heart') || topicLower.includes('relationship') || topicLower.includes('အချစ်') || topicLower.includes('ချစ်ခြင်း') || topicLower.includes('恋愛') || topicLower.includes('愛')
+      ? 'love'
+      : topicLower.includes('career') || topicLower.includes('purpose') || topicLower.includes('work') || topicLower.includes('အလုပ်') || topicLower.includes('ဘဝလမ်းကြောင်း') || topicLower.includes('仕事') || topicLower.includes('キャリア')
+      ? 'career'
+      : topicLower.includes('money') || topicLower.includes('abundance') || topicLower.includes('fortune') || topicLower.includes('wealth') || topicLower.includes('ငွေကြေး') || topicLower.includes('စီးပွား') || topicLower.includes('金運') || topicLower.includes('富')
+      ? 'fortune'
+      : topicLower.includes('growth') || topicLower.includes('personal') || topicLower.includes('spiritual') || topicLower.includes('တိုးတက်') || topicLower.includes('စိတ်ခွန်အား') || topicLower.includes('自己探求') || topicLower.includes('成長')
+      ? 'growth'
+      : topicLower.includes('decision') || topicLower.includes('crossroad') || topicLower.includes('choice') || topicLower.includes('ဆုံးဖြတ်') || topicLower.includes('လမ်းဆုံ') || topicLower.includes('決断') || topicLower.includes('選択')
+      ? 'decision'
+      : 'general';
+
+  const domainLabels = {
+    love: {
+      en: 'Heart, Romance & Sacred Relationships',
+      my: 'နှလုံးသား၊ အချစ်ရေးနှင့် သံယောဇဉ်ဆက်ဆံရေး',
+      ja: '愛・パートナーシップ・魂の絆'
+    },
+    career: {
+      en: 'Career, Vocation & Soul Ambition',
+      my: 'အလုပ်အကိုင်၊ ဂုဏ်သိက္ခာနှင့် ဘဝရည်မှန်းချက်',
+      ja: 'キャリア・天職・自己実現'
+    },
+    fortune: {
+      en: 'Prosperity, Wealth & Material Flow',
+      my: 'ဥစ္စာဓန၊ စီးပွားရေးနှင့် ရုပ်ဝတ္ထုစီးဆင်းမှု',
+      ja: '金運・豊かさ・物質的繁栄'
+    },
+    growth: {
+      en: 'Spiritual Awakening & Inner Healing',
+      my: 'စိတ်ဝိညာဉ်နိုးကြားမှုနှင့် အတွင်းစိတ်ကုစားခြင်း',
+      ja: '自己変容・魂の癒やし・精神的覚醒'
+    },
+    decision: {
+      en: 'Crossroads & Strategic Destiny Choices',
+      my: 'လမ်းဆုံလမ်းခွနှင့် မဟာဗျူဟာမြောက် ရွေးချယ်မှု',
+      ja: '運命の岐路・二者択一の重大決断'
+    },
+    general: {
+      en: 'Cosmic Wisdom & The Sacred Unknown',
+      my: 'စကြဝဠာဉာဏ်ပညာနှင့် မသိသောကံကြမ္မာနိမိတ်',
+      ja: '大いなる宇宙の叡智・未知なる神託'
+    }
+  };
+
   /* ================= 1. MIND SECTION ================= */
   let mind = '';
   if (lang === 'my') {
     const parts: string[] = [];
     if (querentName) {
-      parts.push(`${querentName} ၏ ကံကြမ္မာခရီးစဉ်အတွက် —`);
+      parts.push(`${querentName} ၏ **${domainLabels[domain].my}** ကဏ္ဍအတွက် —`);
+    } else {
+      parts.push(`**${domainLabels[domain].my}** နှင့် ပတ်သက်သော ကံကြမ္မာခရီးတွင် —`);
     }
     if (zodiac) {
-      parts.push(`မွေးရာပါ ${zodiac.name.my} (${zodiac.element} ဓာတ်) ၏ စရိုက်သဘာဝနှင့် ပေါင်းစပ်ကြည့်ပါက`);
+      parts.push(`မွေးရာပါ ${zodiac.name.my} (${zodiac.element} ဓာတ်) ၏ စရိုက်သဘာဝနှင့် ပေါင်းစပ်ချိန်ညှိကြည့်ပါက`);
     }
     if (topSuitKey) {
-      parts.push(`လတ်တလောတွင် စိတ်အာရုံသည် ${SUIT_REALM[topSuitKey].my} ပေါ်၌ အဓိက သက်ရောက်နေပါသည် (${topSuitEntry[1].length} ကတ်အထိ ဤဓာတ်သဘာဝ ကျရောက်နေသောကြောင့် ဖြစ်ပါသည်)။`);
+      parts.push(`လက်ရှိ စိတ်အာရုံသည် ${SUIT_REALM[topSuitKey].my} ပေါ်တွင် အဓိက သက်ရောက်လွှမ်းမိုးနေပါသည် (${topSuitEntry[1].length} ကတ်အထိ ဤဓာတ်သဘာဝ ကျရောက်နေသောကြောင့် ဖြစ်ပါသည်)။`);
+    }
+    if (domain === 'love') {
+      parts.push(`နှလုံးသားနယ်ပယ်တွင် မိမိ၏ စိတ်ခံစားမှု၊ နွေးထွေးမှုနှင့် နားလည်မှုမျှဝေနိုင်စွမ်းတို့မှာ အလွန်ပင် ထိလွယ်ရှလွယ် ဖြစ်နေပြီး အတွင်းစိတ်၏ စစ်မှန်သော ဆန္ဒကို ရှာဖွေနေချိန် ဖြစ်ပါသည်။`);
+    } else if (domain === 'career') {
+      parts.push(`အလုပ်အကိုင်နယ်ပယ်တွင် မိမိ၏ ကျွမ်းကျင်မှု၊ အသိအမှတ်ပြုခံရမှုနှင့် ရှေ့ဆက်တိုးတက်လိုသော ရည်မှန်းချက်တို့က အတွင်းစိတ်ကို အားမာန်အပြည့် လှုံ့ဆော်ပေးနေပါသည်။`);
+    } else if (domain === 'fortune') {
+      parts.push(`ငွေကြေးစီးပွားနယ်ပယ်တွင် ရေရှည်တည်ငြိမ်မှုနှင့် အခွင့်အလမ်းသစ်များကို ဖမ်းဆုပ်ရန်အတွက် စိတ်ပိုင်းဖြတ်မှုများ ရှိနေပါသည်။`);
+    } else if (domain === 'decision') {
+      parts.push(`ရွေးချယ်မှုပြုလုပ်ရာတွင် စိတ်နှစ်ခွဖြစ်နေမှုများကို ကျော်လွန်၍ ဉာဏ်ပညာရှိသော လမ်းကြောင်းမှန်ကို ဆုံးဖြတ်ရန် စိတ်အားထက်သန်နေပါသည်။`);
     }
     if (majors.length >= Math.ceil(cards.length / 2)) {
-      parts.push(`မဟာကံကြမ္မာကတ်ကြီးများ (Major Arcana) ${majors.length} ပြားအထိ ပါဝင်နေသဖြင့် ဤကိစ္စသည် သာမန်ကိစ္စမဟုတ်ဘဲ ဘဝ၏ ကြီးမားသော ကံကြမ္မာအလှည့်အပြောင်းနှင့် စိတ်ဝိညာဉ်ရွေးချယ်မှု ဖြစ်ကြောင်း ညွှန်ပြနေပါသည်။`);
-    } else if (majors.length === 0) {
-      parts.push(`မဟာကံကြမ္မာကတ်ကြီးများ မပါဘဲ လက်တွေ့ကျသော ကတ်များချည်း ကျရောက်နေသဖြင့် အဆုံးအဖြတ်သည် ကြိုတင်သတ်မှတ်ထားသော ကံကြမ္မာထက် ကိုယ်တိုင်၏ နေ့စဉ်လုပ်ဆောင်ချက်နှင့် ရွေးချယ်မှုများအပေါ်တွင်သာ တိုက်ရိုက် မူတည်နေပါသည်။`);
+      parts.push(`မဟာကံကြမ္မာကတ်ကြီးများ (Major Arcana) ${majors.length} ပြားအထိ ပါဝင်နေသဖြင့် ဤကိစ္စသည် သာမန်ကိစ္စမဟုတ်ဘဲ ဘဝ၏ ကြီးမားသော ကံကြမ္မာအလှည့်အပြောင်း ဖြစ်ကြောင်း ညွှန်ပြနေပါသည်။`);
     }
     if (reversed.length > 0) {
       const rNames = reversed.map(c => c.name.my).join('၊ ');
-      parts.push(`ပြောင်းပြန်ကျဆင်းနေသော ${rNames} ကတ်များအရ စိတ်ထဲတွင် မတင်မကျဖြစ်နေခြင်း၊ သံသယဖြစ်နေခြင်း သို့မဟုတ် အတွင်းစိတ်၏ မသိမသာ တွန့်ဆုတ်နေမှုများကို သတိပြုမိစေပါသည်။`);
-    } else {
-      parts.push(`ကတ်အားလုံး အတည့်ကျရောက်နေသဖြင့် မိမိ၏ စိတ်ဆန္ဒနှင့် ပြင်ပလှုပ်ရှားမှုများမှာ အလွန်ပင် ဟန်ချက်ညီညီ စီးဆင်းနေပါသည်။`);
+      parts.push(`ပြောင်းပြန်ကျဆင်းနေသော ${rNames} ကတ်များအရ စိတ်ထဲတွင် သံသယဖြစ်နေခြင်း သို့မဟုတ် မသိမသာ တွန့်ဆုတ်နေမှုများကို သတိပြုမိစေပါသည်။`);
     }
     mind = parts.join(' ');
   } else if (lang === 'ja') {
     const parts: string[] = [];
     if (querentName) {
-      parts.push(`【${querentName}さんの魂の旅路において】`);
+      parts.push(`【${querentName}様の「${domainLabels[domain].ja}」における探求路】`);
+    } else {
+      parts.push(`【${domainLabels[domain].ja}の領域において】`);
     }
     if (zodiac) {
-      parts.push(`生まれ持つ${zodiac.name.ja}（${zodiac.element}のエレメント）の資質と照らし合わせると、`);
+      parts.push(`生まれ持つ${zodiac.name.ja}（${zodiac.element}のエレメント）の資質と共鳴し、`);
     }
     if (topSuitKey) {
-      parts.push(`あなたの意識のアンテナは現在、【${SUIT_REALM[topSuitKey].ja}】に強くチューニングされています（展開されたカードのうち${topSuitEntry[1].length}枚がこのスートに属しています）。`);
+      parts.push(`あなたの意識のアンテナは現在、【${SUIT_REALM[topSuitKey].ja}】に深くチューニングされています（展開されたカードのうち${topSuitEntry[1].length}枚がこのスートに属しています）。`);
+    }
+    if (domain === 'love') {
+      parts.push(`愛と人間関係において、魂の純粋な共鳴と真実の理解を求める強いエネルギーが働いています。`);
+    } else if (domain === 'career') {
+      parts.push(`キャリアと天職において、あなたの内なる才能を開花させ、確固たる価値を築く好機が訪れています。`);
+    } else if (domain === 'fortune') {
+      parts.push(`豊かさの循環において、過去の不安を手放し、新たな繁栄の基盤を受け入れる準備が整いつつあります。`);
+    } else if (domain === 'decision') {
+      parts.push(`重要な岐路において、恐れからの選択ではなく、魂の成長を促す真の道を見極めようとしています。`);
     }
     if (majors.length >= Math.ceil(cards.length / 2)) {
-      parts.push(`大アルカナが${majors.length}枚も現れていることから、これは単なる日常の些事ではなく、あなたの魂の成長と宿命に関わる重大な転換期であることを示しています。`);
-    } else if (majors.length === 0) {
-      parts.push(`大アルカナが現れていないということは、運命の強制力ではなく、あなた自身の現実的で日々の選択によって未来が完全に委ねられていることを意味します。`);
+      parts.push(`大アルカナが${majors.length}枚も現れていることから、これは単なる日常の出来事ではなく、魂の宿命に関わる重大な転換点です。`);
     }
     if (reversed.length > 0) {
       const rNames = reversed.map(c => c.name.ja).join('、');
-      parts.push(`逆位置で現れた【${rNames}】は、無意識の抵抗やエネルギーの滞り、あるいは心の中の葛藤を暗示しています。`);
-    } else {
-      parts.push(`すべてのカードが正位置で現れており、あなたの意識と内なる意志は稀に見る調和と明晰さを保っています。`);
+      parts.push(`逆位置で現れた【${rNames}】は、無意識の抵抗や手放すべき執着を優しく浮き彫りにしています。`);
     }
     mind = parts.join(' ');
   } else {
     const parts: string[] = [];
     if (querentName) {
-      parts.push(`For ${querentName}'s spiritual path:`);
+      parts.push(`For ${querentName}'s inquiry into **${domainLabels[domain].en}**:`);
+    } else {
+      parts.push(`Tuned to the sphere of **${domainLabels[domain].en}**:`);
     }
     if (zodiac) {
       parts.push(`interfacing with your natal ${zodiac.name.en} (${zodiac.element} element),`);
     }
     if (topSuitKey) {
-      parts.push(`your inner life is currently tuned to ${SUIT_REALM[topSuitKey].en} — ${topSuitEntry[1].length} of your cards belong to that suit, claiming most of your mental bandwidth.`);
+      parts.push(`your focus is firmly anchored in ${SUIT_REALM[topSuitKey].en} — ${topSuitEntry[1].length} cards emphasize this domain.`);
+    }
+    if (domain === 'love') {
+      parts.push(`In the heart realm, authentic emotional connection, open vulnerability, and mutual reciprocity are seeking alignment.`);
+    } else if (domain === 'career') {
+      parts.push(`In your professional sphere, ambition, leadership, and aligning daily work with your higher purpose are demanding expression.`);
+    } else if (domain === 'fortune') {
+      parts.push(`In material matters, building sustainable foundation and shifting into an expansive abundance mindset are paramount.`);
+    } else if (domain === 'decision') {
+      parts.push(`At this crossroads, moving beyond fear-based hesitation into clear intuitive alignment will unveil the true path.`);
     }
     if (majors.length >= Math.ceil(cards.length / 2)) {
-      parts.push(`With ${majors.length} Major Arcana in play, this isn't a small worry — deeper currents of fate and identity are working in you. You may feel that something larger than daily logistics is at stake.`);
-    } else if (majors.length === 0) {
-      parts.push(`No Major Arcana appeared — your mind is occupied by practical, everyday matters rather than grand destiny. That means the outcome lives firmly in your own hands.`);
+      parts.push(`With ${majors.length} Major Arcana in play, profound currents of destiny and pivotal soul lessons are at work.`);
     }
     if (reversed.length > 0) {
       const rNames = reversed.map(c => c.name.en).join(', ');
-      parts.push(`The reversed ${rNames} suggest internal resistance: parts of you may be blocked, tired, or quietly at war with what you consciously want.`);
-    } else {
-      parts.push(`Every card stands upright — your conscious mind and inner current are aligned. That clarity is rare; use it.`);
+      parts.push(`The reversed cards (${rNames}) highlight inner friction or self-doubt that you are invited to heal.`);
     }
     mind = parts.join(' ');
   }
@@ -360,37 +429,55 @@ export function analyzeReading(
   if (lang === 'my') {
     const parts: string[] = [];
     if (obstacleCard) {
-      parts.push(`ဤနေရာတွင် အဓိက ရင်ဆိုင်ရမည့် အခက်အခဲကို ကတ်ပြားများက ရှင်းရှင်းလင်းလင်း ဖော်ပြထားပါသည် — **${obstacleCard.name.my}${obstacleCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** ဖြစ်ပြီး "${obstacleCard.kw}" သည် ရှေ့တွင် ပိတ်ဆို့နေသော နံရံတစ်ခု ဖြစ်နေပါသည်။`);
+      parts.push(`ဤ **${domainLabels[domain].my}** ခရီးစဉ်တွင် အဓိက ရင်ဆိုင်ရမည့် အတားအဆီးမှာ **${obstacleCard.name.my}${obstacleCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** ဖြစ်ပြီး "${obstacleCard.kw}" ကြောင့် ရှေ့သို့ တိုးရန် နှောင့်နှေးမှုများ ဖြစ်ပေါ်နေရပါသည်။`);
+    }
+    if (domain === 'love') {
+      parts.push(`အချစ်ရေးနှင့် ပတ်သက်၍ အဓိက သတိပြုရမည့် အချက်မှာ နားလည်မှုလွဲမှားခြင်း၊ မျှော်လင့်ချက်များလွန်းခြင်း သို့မဟုတ် စိတ်ခံစားချက်ကို ပွင့်လင်းစွာ မဖော်ပြနိုင်ခြင်းတို့ ဖြစ်နိုင်ပါသည်။`);
+    } else if (domain === 'career') {
+      parts.push(`အလုပ်အကိုင်တွင် အဓိက စိန်ခေါ်မှုမှာ လုပ်ငန်းခွင်ဖိအားများ၊ ဦးတည်ချက်မရှင်းလင်းခြင်း သို့မဟုတ် အပြောင်းအလဲကို စိုးရိမ်နေခြင်းတို့ ဖြစ်နိုင်ပါသည်။`);
+    } else if (domain === 'fortune') {
+      parts.push(`ငွေကြေးကိစ္စတွင် မလိုအပ်သော အသုံးစရိတ်များ၊ ဇဝေဇဝါဖြစ်ဖွယ် ရင်းနှီးမြှုပ်နှံမှုများ သို့မဟုတ် တွန့်တိုစိုးရိမ်စိတ်များကို သတိပြုသင့်ပါသည်။`);
+    } else if (domain === 'decision') {
+      parts.push(`ဆုံးဖြတ်ချက်တွင် အဓိက အဟန့်အတားမှာ မဆုံးဖြတ်နိုင်ဘဲ အချိန်ဆွဲနေခြင်း သို့မဟုတ် သူတပါး၏ သဘောထားကို အလွန်အမင်း အလေးထားမိနေခြင်း ဖြစ်ပါသည်။`);
     }
     if (intenseCards.length > 0) {
-      parts.push(`${intenseCards.map(c => c.name.my).join('၊ ')} ကဲ့သို့သော ကတ်များက မကြာသေးမီက ကြုံတွေ့ခဲ့ရသော စိတ်ဖိစီးမှုနှင့် အပြောင်းအလဲ မုန်တိုင်းများကို ညွှန်ပြနေပါသည်။`);
-    }
-    if (parts.length === 0) {
-      parts.push(`အလွန်အမင်း ပြင်းထန်သော ဆိုးကျိုးကတ်များ မရှိပါ — အဓိက စိန်ခေါ်မှုမှာ စိတ်မပြတ်သားမှု၊ တွေဝေမှု သို့မဟုတ် အချိန်အခါသင့်ကို စောင့်ဆိုင်းရန် လိုအပ်နေသော သဘောသာ ဖြစ်ပါသည်။`);
+      parts.push(`${intenseCards.map(c => c.name.my).join('၊ ')} ကဲ့သို့သော ကတ်များက မကြာသေးမီက ကြုံတွေ့ခဲ့ရသော အပြောင်းအလဲ မုန်တိုင်းများကို ညွှန်ပြနေပါသည်။`);
     }
     problems = parts.join(' ');
   } else if (lang === 'ja') {
     const parts: string[] = [];
     if (obstacleCard) {
-      parts.push(`スプレッドはあなたの摩擦の核心を明示しています — **【${obstacleCard.name.ja}${obstacleCard.isReversed ? '（逆位置）' : ''}】**、すなわち「${obstacleCard.kw}」こそが、あなたが乗り越えるべき壁です。`);
+      parts.push(`【${domainLabels[domain].ja}】における最大の障壁は、**【${obstacleCard.name.ja}${obstacleCard.isReversed ? '（逆位置）' : ''}】**、すなわち「${obstacleCard.kw}」のエネルギーです。`);
+    }
+    if (domain === 'love') {
+      parts.push(`愛の領域では、言葉にできない誤解や過去の傷から来る防衛心が、相手との距離感を生んでいる可能性があります。`);
+    } else if (domain === 'career') {
+      parts.push(`仕事面では、多忙によるエネルギーの分散や、周囲の期待に振り回されることが前進を阻む要因となっています。`);
+    } else if (domain === 'fortune') {
+      parts.push(`金銭面では、衝動的な判断や「足りない」という欠乏の恐れが、豊かさの循環を一時的に停滞させています。`);
+    } else if (domain === 'decision') {
+      parts.push(`決断においては、完璧を求めすぎるあまり選択を先延ばしにしてしまう心理的ブレーキが課題です。`);
     }
     if (intenseCards.length > 0) {
-      parts.push(`【${intenseCards.map(c => c.name.ja).join('、')}】のようなカードは、最近の激動やストレスの根源を示唆しています。`);
-    }
-    if (parts.length === 0) {
-      parts.push(`過度に過酷なカードは見当たらず、あなたの直面している課題は、激しい対立というよりも「躊躇」「バランスの乱れ」「言葉足らず」といった内省的なものです。`);
+      parts.push(`【${intenseCards.map(c => c.name.ja).join('、')}】は、最近のストレスや変革期に伴う摩擦を物語っています。`);
     }
     problems = parts.join(' ');
   } else {
     const parts: string[] = [];
     if (obstacleCard) {
-      parts.push(`The spread names your core friction directly: **${obstacleCard.name.en}${obstacleCard.isReversed ? ' (reversed)' : ''}** — ${obstacleCard.kw.toLowerCase()}. This is the wall you keep meeting.`);
+      parts.push(`In your journey through **${domainLabels[domain].en}**, the focal obstacle is **${obstacleCard.name.en}${obstacleCard.isReversed ? ' (reversed)' : ''}** — ${obstacleCard.kw.toLowerCase()}.`);
+    }
+    if (domain === 'love') {
+      parts.push(`In relationships, the friction stems from unspoken assumptions, emotional guardedness, or projecting past wounds onto present dynamics.`);
+    } else if (domain === 'career') {
+      parts.push(`Professionally, the barrier lies in scattered focus, workplace friction, or holding back from claiming your authority.`);
+    } else if (domain === 'fortune') {
+      parts.push(`Financially, scarcity fears, hesitation to invest wisely, or unclear boundaries regarding resources form the current bottleneck.`);
+    } else if (domain === 'decision') {
+      parts.push(`Regarding your decision, overanalyzing edge cases and fearing mistakes is delaying necessary movement.`);
     }
     if (intenseCards.length > 0) {
-      parts.push(`Cards like ${intenseCards.map(c => c.name.en).join(', ')} point to turbulence. Expect these themes to be the source of recent stress around "${topic}".`);
-    }
-    if (parts.length === 0) {
-      parts.push(`No overtly harsh cards appear — your difficulties are subtler: hesitation, imbalance, or things left unsaid rather than open conflict.`);
+      parts.push(`Cards like ${intenseCards.map(c => c.name.en).join(', ')} echo recent turbulence in this area.`);
     }
     problems = parts.join(' ');
   }
@@ -406,37 +493,38 @@ export function analyzeReading(
   if (lang === 'my') {
     const parts: string[] = [];
     if (hiddenCard) {
-      parts.push(`မျက်နှာပြင်အောက်တွင် **${hiddenCard.name.my}${hiddenCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** က "${hiddenCard.kw}" အဖြစ် တိတ်တဆိတ် စွမ်းအင်ပေးနေပါသည်။ ကိုယ်တိုင် ရိပ်မိနေသော်လည်း ရှင်းရှင်းလင်းလင်း နာမည်မတပ်ရသေးသော အတွင်းစွမ်းအား ဖြစ်ပါသည်။`);
+      parts.push(`မျက်နှာပြင်အောက်တွင် **${hiddenCard.name.my}${hiddenCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** က "${hiddenCard.kw}" အဖြစ် **${domainLabels[domain].my}** ကဏ္ဍအတွက် တိတ်တဆိတ် စွမ်းအင်စီးဆင်းပေးနေပါသည်။`);
     }
     if (topSuitKey === 'swords') {
-      parts.push(`ဓားကတ်များ များနေခြင်းက အတွေးလွန်ခြင်းသည် ကိုယ့်ကိုယ်ကိုယ် ပြန်လည်ထိခိုက်စေသော ဓားသွားလို ဖြစ်လာနိုင်ကြောင်း သတိပေးနေပါသည်။`);
-    }
-    if (topSuitKey === 'cups') {
-      parts.push(`ဖလားကတ်များ အားကောင်းနေခြင်းက အတိတ်မှ စိတ်ခံစားချက်ဟောင်းများနှင့် သံယောဇဉ်ကြိုးများက နောက်ကွယ်မှ လွှမ်းမိုးနေကြောင်း ပြသနေပါသည်။`);
+      parts.push(`ဓားကတ်များ များနေခြင်းက အတွေးလွန်ခြင်းသည် လက်တွေ့ထက် ပိုမိုပြင်းထန်သော စိတ်ဖိစီးမှုကို ဖြစ်စေနိုင်ကြောင်း သတိပေးနေပါသည်။`);
+    } else if (topSuitKey === 'cups') {
+      parts.push(`ဖလားကတ်များ အားကောင်းနေခြင်းက နက်ရှိုင်းသော မေတ္တာနှင့် အတွင်းစိတ်ခံစားချက်များက နောက်ကွယ်မှ အဓိက တွန်းအားပေးနေကြောင်း ပြသနေပါသည်။`);
+    } else if (topSuitKey === 'wands') {
+      parts.push(`မီးဓာတ်ကတ်များက မဆုတ်မနစ်သော စိတ်အားထက်သန်မှုစွမ်းအင် နောက်ကွယ်တွင် အပြည့်အဝ ရှိနေကြောင်း ဖော်ပြနေပါသည်။`);
+    } else if (topSuitKey === 'pentacles') {
+      parts.push(`မြေဓာတ်ကတ်များက ခိုင်မာသော အခြေခံအုတ်မြစ် တည်ဆောက်ရန် စကြဝဠာက အားပေးနေကြောင်း ပြသနေပါသည်။`);
     }
     forces = parts.join(' ');
   } else if (lang === 'ja') {
     const parts: string[] = [];
     if (hiddenCard) {
-      parts.push(`水面下において、**【${hiddenCard.name.ja}${hiddenCard.isReversed ? '（逆位置）' : ''}】**が「${hiddenCard.kw}」として静かに働いています。あなたは薄々感じながらも、まだ言葉にしていなかった力です。`);
+      parts.push(`【${domainLabels[domain].ja}】の水面下において、**【${hiddenCard.name.ja}${hiddenCard.isReversed ? '（逆位置）' : ''}】**が「${hiddenCard.kw}」の神秘的な力として静かに働いています。`);
     }
     if (topSuitKey === 'swords') {
-      parts.push(`ソードの多さは、「考えすぎ」そのものが見えない力となり、現実以上に自らを縛っている危険性を警告しています。`);
-    }
-    if (topSuitKey === 'cups') {
-      parts.push(`カップの強さは、過去の感情や未完了の想いが、底流で出来事を引き寄せていることを示しています。`);
+      parts.push(`思考の刃が鋭利になりすぎていないか、客観的な静寂を取り戻すことが促されています。`);
+    } else if (topSuitKey === 'cups') {
+      parts.push(`豊かな感情の泉が、魂と魂を繋ぐ見えない架け橋となっています。`);
     }
     forces = parts.join(' ');
   } else {
     const parts: string[] = [];
     if (hiddenCard) {
-      parts.push(`${hiddenCard.name.en}${hiddenCard.isReversed ? ' (reversed)' : ''} works beneath the surface: ${hiddenCard.kw.toLowerCase()}. You sense it but haven't fully named it yet.`);
+      parts.push(`Operating beneath the surface of **${domainLabels[domain].en}**, **${hiddenCard.name.en}${hiddenCard.isReversed ? ' (reversed)' : ''}** channels the power of ${hiddenCard.kw.toLowerCase()}.`);
     }
     if (topSuitKey === 'swords') {
-      parts.push(`An excess of Swords warns that overthinking itself has become a force — the stories you tell yourself may be sharper than reality.`);
-    }
-    if (topSuitKey === 'cups') {
-      parts.push(`Strong Cups energy means old feelings and unfinished emotional business are pulling strings from below.`);
+      parts.push(`Excess air/swords energy signals that overthinking itself has become an invisible force.`);
+    } else if (topSuitKey === 'cups') {
+      parts.push(`Deep water/cups currents ensure that authentic emotional truth will inevitably rise to the surface.`);
     }
     forces = parts.join(' ');
   }
@@ -452,42 +540,56 @@ export function analyzeReading(
   if (lang === 'my') {
     const parts: string[] = [];
     if (adviceCard) {
-      parts.push(`**${adviceCard.name.my}** ၏ လမ်းညွှန်ချက်ကို အလေးထားစေချင်ပါသည် — "${adviceCard.kw}" ကို လက်ကိုင်ထားပြီး ရှေ့ခြေတစ်လှမ်းကို စတင်ပြင်ဆင်ပါ။`);
+      parts.push(`ကတ်ပြားများ၏ တိုက်ရိုက် လမ်းညွှန်ချက်အရ **${adviceCard.name.my}** ကို အလေးထားပါ — "${adviceCard.kw}" ကို လက်ကိုင်ထား၍ **${domainLabels[domain].my}** အတွက် အောက်ပါအတိုင်း ဆောင်ရွက်ပါ:`);
+    }
+    if (domain === 'love') {
+      parts.push(`ချစ်ခြင်းမေတ္တာတွင် သံသယများကို ဘေးဖယ်၍ ပွင့်လင်းရိုးသားသော ဆက်သွယ်မှုကို တည်ဆောက်ပါ။ မိမိကိုယ်ကို ချစ်တတ်မှသာ တပါးသူကို အပြည့်အဝ ချစ်နိုင်ပါလိမ့်မည်။`);
+    } else if (domain === 'career') {
+      parts.push(`လုပ်ငန်းခွင်တွင် မိမိ၏ တန်ဖိုးကို ယုံကြည်ပြီး မဟာဗျူဟာကျကျ စီမံလုပ်ဆောင်ပါ။ စိတ်ရှည်သည်းခံမှုနှင့် စိတ်အားထက်သန်မှုကို ပေါင်းစပ်ပါ။`);
+    } else if (domain === 'fortune') {
+      parts.push(`စီးပွားဥစ္စာတွင် စနစ်တကျ ဘဏ္ဍာရေးစီမံခန့်ခွဲမှုကို အလေးပေးပြီး ရေရှည်အကျိုးရှိမည့် အခွင့်အလမ်းများကို စိစစ်ဖမ်းဆုပ်ပါ။`);
+    } else if (domain === 'decision') {
+      parts.push(`ဆုံးဖြတ်ချက်ချရာတွင် အကြောက်တရားကြောင့် မဟုတ်ဘဲ မိမိ၏ ရေရှည် ပျော်ရွှင်မှုနှင့် ဂုဏ်သိက္ခာကို အခြေခံ၍ ရဲရဲဝံ့ဝံ့ ဆုံးဖြတ်ပါ။`);
     }
     if (lifePath) {
       parts.push(`သင့် Life Path နံပါတ် #${lifePath} ၏ ဉာဏ်ပညာစွမ်းအင်အရ မိမိကိုယ်ကို အပြည့်အဝ ယုံကြည်မှုရှိပါ။`);
-    }
-    if (reversed.length > 0) {
-      parts.push(`ပြောင်းပြန်ကတ်များ ကျရောက်နေသဖြင့် အပြင်ဘက်သို့ အတင်းတွန်းအားမပေးမီ မိမိ၏ အတွင်းစိတ်ကို အရင်ဆုံး အေးချမ်းရှင်းလင်းအောင် ပြုပြင်ပါ။ အနားယူပါ၊ သုံးသပ်ပါ၊ ပြီးမှ ယုံကြည်မှုအပြည့်ဖြင့် ရှေ့ဆက်ပါ။`);
-    } else {
-      parts.push(`ကတ်များအားလုံး အတည့်ကျရောက်နေသဖြင့် မတွန့်ဆုတ်ဘဲ ရဲရဲဝံ့ဝံ့ ရှေ့ဆက်လှမ်းပါ။ အခွင့်အလမ်းတံခါး ပွင့်နေပါပြီ။`);
     }
     advice = parts.join(' ');
   } else if (lang === 'ja') {
     const parts: string[] = [];
     if (adviceCard) {
-      parts.push(`**【${adviceCard.name.ja}】**の助言を真摯に受け止めてください — 「${adviceCard.kw}」。これがあなたの最大のテコとなります。`);
+      parts.push(`**【${adviceCard.name.ja}】**からの神聖な助言 — 「${adviceCard.kw}」。【${domainLabels[domain].ja}】を好転させる最大の鍵となります：`);
+    }
+    if (domain === 'love') {
+      parts.push(`愛において、防衛壁を緩め、真摯な言葉で心を通わせてください。自分自身を尊ぶことが、相手からの真の愛を引き寄せます。`);
+    } else if (domain === 'career') {
+      parts.push(`仕事において、自己価値を信じて主導権を握りましょう。長期的なビジョンに立ち返ることが突破口を開きます。`);
+    } else if (domain === 'fortune') {
+      parts.push(`豊かさにおいて、堅実な管理と分かち合いの精神がさらなる富の循環を呼び込みます。`);
+    } else if (domain === 'decision') {
+      parts.push(`決断において、周囲の雑音を遮断し、魂が最も軽やかに感じる道を選択してください。`);
     }
     if (lifePath) {
       parts.push(`あなたのライフパスナンバー【#${lifePath}】の波動が、直感的な確信を後押ししています。`);
-    }
-    if (reversed.length > 0) {
-      parts.push(`逆位置のカードがある場合、まず「内側の調整」が先決です。外側に無理に押し出す前に、休息と内省によって自らを解き放ち、その後に動いてください。`);
-    } else {
-      parts.push(`正位置の勢いは、迷いのない果断な行動を促しています。扉は開かれています。躊躇こそが最大の障害です。`);
     }
     advice = parts.join(' ');
   } else {
     const parts: string[] = [];
     if (adviceCard) {
-      parts.push(`Take ${adviceCard.name.en}'s counsel seriously: ${adviceCard.kw.toLowerCase()}. Build your next step around it.`);
+      parts.push(`Take **${adviceCard.name.en}**'s counsel directly: **${adviceCard.kw.toLowerCase()}**. Apply this directly to **${domainLabels[domain].en}**:`);
+    }
+    if (domain === 'love') {
+      parts.push(`In love, lower defensive walls, practice radical honesty, and lead with heartfelt presence. Mutual respect will follow.`);
+    } else if (domain === 'career') {
+      parts.push(`Professionally, stand firm in your competence, communicate with clarity, and execute with disciplined passion.`);
+    } else if (domain === 'fortune') {
+      parts.push(`Financially, honor thoughtful stewardship while opening your mindset to receive new streams of abundance.`);
+    } else if (domain === 'decision') {
+      parts.push(`For your decision, choose the path that expands your soul rather than the one merely seeking short-term comfort.`);
     }
     if (lifePath) {
-      parts.push(`Channelling your Life Path #${lifePath} core mastery will grant you clarity.`);
+      parts.push(`Channeling your Life Path #${lifePath} gifts will illuminate the optimal move.`);
     }
-    parts.push(reversed.length
-      ? `Where cards fall reversed, the instruction is inward first — unblock yourself before pushing outward. Rest, reflect, then act.`
-      : `The upright deck urges decisive motion — the door is open now; hesitation is your only real enemy.`);
     advice = parts.join(' ');
   }
 
@@ -508,33 +610,47 @@ export function analyzeReading(
   if (lang === 'my') {
     const parts: string[] = [];
     if (outcomeCard) {
-      parts.push(`လက်ရှိ ရပ်တည်ချက်အတိုင်း ဆက်လက်လျှောက်လှမ်းပါက **${outcomeCard.name.my}${outcomeCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** ပြသသော အခြေအနေသို့ ရောက်ရှိပါလိမ့်မည် — "${outcomeCard.kw}"။`);
+      parts.push(`ဤလမ်းညွှန်ချက်အတိုင်း ရှေ့သို့ လှမ်းချီပါက **${domainLabels[domain].my}** တွင် **${outcomeCard.name.my}${outcomeCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** ပြသသော အကျိုးရလဒ်သို့ ရောက်ရှိပါလိမ့်မည် — "${outcomeCard.kw}"။`);
     }
-    if (majors.length >= Math.ceil(cards.length / 2)) {
-      parts.push(`မဟာကံကြမ္မာကတ်ကြီးများ ဦးဆောင်နေသဖြင့် အရာရာသည် သဘာဝစီးဆင်းမှုအတိုင်း ဖြစ်ပေါ်လာမည် ဖြစ်ပြီး ကိုယ့်ဘက်မှ အတင်းအကျပ် ထိန်းချုပ်ရန်ထက် အခြေအနေကို ပညာဉာဏ်ရှိရှိ ရင်ဆိုင်ကြိုဆိုရန် လိုအပ်ပါသည်။`);
-    } else {
-      parts.push(`လက်တွေ့ကတ်များ များပြားသဖြင့် အနာဂတ်သည် ကျောက်ထွင်းထားသလို မသေချာသေးပါ — မိမိ၏ နေ့စဉ် ဆုံးဖြတ်ချက်မှန်ကန်မှုများဖြင့် ကံကြမ္မာရလဒ်ကို ပိုမိုကောင်းမွန်အောင် ဖန်တီးနိုင်ပါသည်။`);
+    if (domain === 'love') {
+      parts.push(`ဆက်ဆံရေးတွင် ပိုမိုနက်ရှိုင်းသော နားလည်မှုနှင့် စိတ်အေးချမ်းရွှင်လန်းဖွယ် ရလဒ်များ ပွင့်လန်းလာမည် ဖြစ်ပါသည်။`);
+    } else if (domain === 'career') {
+      parts.push(`အလုပ်အကိုင်တွင် အသီးအပွင့်များ ရရှိလာပြီး မိမိ၏ စွမ်းဆောင်ရည်ကို ထင်ရှားစွာ သက်သေပြနိုင်ပါလိမ့်မည်။`);
+    } else if (domain === 'fortune') {
+      parts.push(`ဘဏ္ဍာရေးတွင် တည်ငြိမ်မှုနှင့် အောင်မြင်မှု အခွင့်အလမ်းများ စီးဆင်းလာမည် ဖြစ်ပါသည်။`);
+    } else if (domain === 'decision') {
+      parts.push(`ရွေးချယ်မှုအပြီးတွင် သံသယများ ကင်းစင်သွားပြီး ရှင်းလင်းပြတ်သားသော အနာဂတ်လမ်းကို မြင်တွေ့ရပါလိမ့်မည်။`);
     }
     outlook = parts.join(' ');
   } else if (lang === 'ja') {
     const parts: string[] = [];
     if (outcomeCard) {
-      parts.push(`現在の歩みの先には、**【${outcomeCard.name.ja}${outcomeCard.isReversed ? '（逆位置）' : ''}】**が示す境地が待っています — 「${outcomeCard.kw}」。`);
+      parts.push(`この導きに従うことで、【${domainLabels[domain].ja}】の先には**【${outcomeCard.name.ja}${outcomeCard.isReversed ? '（逆位置）' : ''}】**が示す境地が待っています — 「${outcomeCard.kw}」。`);
     }
-    if (majors.length >= Math.ceil(cards.length / 2)) {
-      parts.push(`大アルカナが主導しているため、あなたが無理に抗おうとしなくとも、運命の大きなうねりが展開していきます。無理に支配しようとせず、品格を持って迎えることが鍵です。`);
-    } else {
-      parts.push(`小アルカナが中心であるため、未来はまだ確定していません。日々の小さな積み重ねと選択が、全体の結末をいくらでも変えることができます。`);
+    if (domain === 'love') {
+      parts.push(`関係性に真の調和と深い精神的絆が結実します。`);
+    } else if (domain === 'career') {
+      parts.push(`努力が正当に評価され、確固たる地位と充実感がもたらされます。`);
+    } else if (domain === 'fortune') {
+      parts.push(`物質的・精神的な豊かさが安定した循環を築きます。`);
+    } else if (domain === 'decision') {
+      parts.push(`決断によって霧が晴れ、確信に満ちた前進が可能となります。`);
     }
     outlook = parts.join(' ');
   } else {
     const parts: string[] = [];
     if (outcomeCard) {
-      parts.push(`Following the current path leads toward ${outcomeCard.name.en}${outcomeCard.isReversed ? ' (reversed)' : ''}: ${outcomeCard.kw.toLowerCase()}.`);
+      parts.push(`Following this counsel leads **${domainLabels[domain].en}** directly toward **${outcomeCard.name.en}${outcomeCard.isReversed ? ' (reversed)' : ''}**: ${outcomeCard.kw.toLowerCase()}.`);
     }
-    parts.push(majors.length >= Math.ceil(cards.length / 2)
-      ? `Because fate-cards dominate, much will unfold whether you push or not — your task is to meet it well, not to control it.`
-      : `Because everyday cards dominate, nothing is fixed yet — small consistent choices on your side can bend the whole ending.`);
+    if (domain === 'love') {
+      parts.push(`A higher octave of mutual respect, trust, and shared joy awaits.`);
+    } else if (domain === 'career') {
+      parts.push(`Recognition, tangible progress, and alignment with your true vocational power unfold.`);
+    } else if (domain === 'fortune') {
+      parts.push(`Financial clarity, sustainable growth, and a grounded sense of security establish themselves.`);
+    } else if (domain === 'decision') {
+      parts.push(`The fog clears, leaving you with total confidence in your chosen destiny.`);
+    }
     outlook = parts.join(' ');
   }
 
@@ -652,13 +768,13 @@ export function analyzeReading(
   let summary = '';
   if (lang === 'my') {
     const greeting = querentName ? `${querentName} အတွက် ` : '';
-    summary = `${greeting}"${topic}" နှင့် ပတ်သက်၍ အနှစ်ချုပ်မှာ: ကတ်ပြားများအရ မိမိ၏ စိတ်အာရုံသည် ${topSuitKey ? SUIT_REALM[topSuitKey].my.split(' — ')[0] : 'ဘဝကဏ္ဍ'} ဘက်သို့ ဦးတည်နေပြီး၊ ${reversed.length ? 'အတွင်းစိတ် အတားအဆီးများကို ဖြေလျှော့ရန် လိုအပ်နေချိန်တွင်' : 'စိတ်ဆန္ဒနှင့် စွမ်းအင်များ ညီညွတ်စွာ စီးဆင်းနေကာ'} နောက်ဆုံး၌ ${outcomeCard ? outcomeCard.name.my : 'အသစ်သော အခွင့်အလမ်း'} ဆီသို့ ဦးတည်နေကြောင်း ဖော်ပြနေပါသည်။ တာရော့ကတ်ပြားများသည် အနာဂတ်ရာသီဥတုကို ပြသပေးသော လမ်းညွှန်ဖြစ်ပြီး ကံကြမ္မာစတီယာရင်ကို အမှန်တကယ် ကိုင်တွယ်မောင်းနှင်သူမှာ သင်ကိုယ်တိုင်သာ ဖြစ်ပါသည်။`;
+    summary = `${greeting}"${domainLabels[domain].my}" နှင့် ပတ်သက်၍ အနှစ်ချုပ်မှာ: ကတ်ပြားများအရ မိမိ၏ စိတ်အာရုံသည် ${topSuitKey ? SUIT_REALM[topSuitKey].my.split(' — ')[0] : 'ဘဝကဏ္ဍ'} ဘက်သို့ ဦးတည်နေပြီး၊ ${reversed.length ? 'အတွင်းစိတ် အတားအဆီးများကို ဖြေလျှော့ရန် လိုအပ်နေချိန်တွင်' : 'စိတ်ဆန္ဒနှင့် စွမ်းအင်များ ညီညွတ်စွာ စီးဆင်းနေကာ'} နောက်ဆုံး၌ ${outcomeCard ? outcomeCard.name.my : 'အသစ်သော အခွင့်အလမ်း'} ဆီသို့ ဦးတည်နေကြောင်း ဖော်ပြနေပါသည်။ တာရော့ကတ်ပြားများသည် အနာဂတ်ရာသီဥတုကို ပြသပေးသော လမ်းညွှန်ဖြစ်ပြီး ကံကြမ္မာစတီယာရင်ကို အမှန်တကယ် ကိုင်တွယ်မောင်းနှင်သူမှာ သင်ကိုယ်တိုင်သာ ဖြစ်ပါသည်။`;
   } else if (lang === 'ja') {
     const greeting = querentName ? `【${querentName}様へ】` : '';
-    summary = `${greeting}「${topic}」について：カードは、あなたの意識が【${topSuitKey ? SUIT_REALM[topSuitKey].ja.split(' — ')[0] : '多面的な波動'}】に向かい、${reversed.length ? '内なる滞りを手放す試練' : '稀に見る意志と感情の調和'}を経て、最終的に【${outcomeCard ? outcomeCard.name.ja : '未踏の未来'}】へと向かっていることを示しています。タロットは運命の天気予報を示すものであり、船の舵を握っているのは、いつでもあなた自身です。`;
+    summary = `${greeting}「${domainLabels[domain].ja}」について：カードは、あなたの意識が【${topSuitKey ? SUIT_REALM[topSuitKey].ja.split(' — ')[0] : '多面的な波動'}】に向かい、${reversed.length ? '内なる滞りを手放す試練' : '稀に見る意志と感情の調和'}を経て、最終的に【${outcomeCard ? outcomeCard.name.ja : '未踏の未来'}】へと向かっていることを示しています。タロットは運命の天気予報を示すものであり、船の舵を握っているのは、いつでもあなた自身です。`;
   } else {
     const greeting = querentName ? `For ${querentName} — ` : '';
-    summary = `${greeting}On "${topic}": the cards tell of a mind occupied by ${topSuitKey ? SUIT_REALM[topSuitKey].en.split(' — ')[0] : 'shifting currents'}, tested by ${reversed.length ? 'inner blockages seeking release' : 'a rare alignment of will and feeling'}, and moving toward ${outcomeCard ? outcomeCard.name.en : 'an unwritten close'}. The cards do not decide for you — they only show the weather. You still hold the wheel.`;
+    summary = `${greeting}On **${domainLabels[domain].en}**: the cards reveal a querent tuned to ${topSuitKey ? SUIT_REALM[topSuitKey].en.split(' — ')[0] : 'shifting currents'}, guided through ${reversed.length ? 'inner blockages seeking release' : 'a harmonious alignment of will and feeling'}, and moving steadily toward ${outcomeCard ? outcomeCard.name.en : 'an auspicious outcome'}. The cards do not dictate your fate — they illuminate the weather. You hold the wheel.`;
   }
 
   return {

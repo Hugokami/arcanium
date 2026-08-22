@@ -45,14 +45,14 @@ export const EntranceIntro: React.FC<EntranceIntroProps> = ({
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Fullscreen Video (Unmuted default, no UI overlay buttons) */}
+      {/* Fullscreen Video (Unmuted default, perfectly framed on mobile portrait without cropping) */}
       <video
         ref={videoRef}
         src="/intro.mp4"
         playsInline
         autoPlay
         onEnded={handleFinish}
-        className="w-full h-full object-cover select-none"
+        className="w-full h-full object-contain select-none"
       />
 
       {/* Subtle bottom touch hint that fades out */}

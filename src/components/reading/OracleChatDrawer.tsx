@@ -237,47 +237,24 @@ export const OracleChatDrawer: React.FC<OracleChatDrawerProps> = ({
       </div>
 
       {/* Quick Prompt Chips */}
-      <div className="p-3 border-t border-white/[0.06] bg-black/30 space-y-1.5">
-        <div className="text-[10px] font-mono text-zinc-300 uppercase tracking-wider px-1">
-          {language === 'my' ? 'အမေးများသော မေးခွန်းများ:' : language === 'ja' ? '導きの問い:' : 'Inquiry Prompts:'}
+      {/* Inquiry Prompt Chips */}
+      <div className="p-4 border-t border-white/[0.08] bg-black/60 space-y-2 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+        <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest px-1 flex items-center space-x-1.5">
+          <Sparkles className="w-3 h-3 text-[#d4af37]" />
+          <span>{language === 'my' ? 'နိမိတ်လမ်းညွှန် မေးခွန်းများ (နှိပ်၍ မေးမြန်းပါ):' : language === 'ja' ? '神託への問い（タップして質問）:' : 'Guided Inquiry Invocations (Tap to Ask):'}</span>
         </div>
-        <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+        <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto pt-1">
           {quickQuestions.map((q, idx) => (
             <button
               key={idx}
               onClick={() => handleSend(q)}
-              className="text-[11px] font-serif text-amber-200/90 hover:text-amber-100 bg-white/[0.04] hover:bg-[#d4af37]/15 border border-white/[0.08] hover:border-[#d4af37]/40 px-2.5 py-1 rounded-full transition-all text-left truncate max-w-full"
+              className="text-xs font-serif text-amber-200/90 hover:text-amber-100 bg-white/[0.04] hover:bg-[#d4af37]/20 border border-white/[0.08] hover:border-[#d4af37]/50 px-3.5 py-2 rounded-xl transition-all text-left shadow-sm active:scale-95 flex items-center space-x-1.5"
             >
-              {q}
+              <span>✦</span>
+              <span>{q}</span>
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Input Box */}
-      <div className="p-3 sm:p-4 border-t border-white/[0.08] bg-black/60 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className="flex items-center space-x-2"
-        >
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={language === 'my' ? 'မေးခွန်းကို ဤနေရာတွင် မေးမြန်းပါ…' : language === 'ja' ? '神託への質問を入力…' : 'Ask the Oracle anything…'}
-            className="flex-1 px-3.5 py-2.5 bg-black/60 border border-white/[0.12] focus:border-[#d4af37] rounded-xl text-xs sm:text-sm text-amber-100 placeholder:text-zinc-500 focus:outline-none transition-colors font-serif"
-          />
-          <button
-            type="submit"
-            disabled={!input.trim()}
-            className="p-2.5 rounded-xl bg-[#d4af37] text-zinc-950 hover:brightness-110 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-all flex-shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.3)]"
-          >
-            <Send className="w-4 h-4" />
-          </button>
-        </form>
       </div>
     </div>
   );

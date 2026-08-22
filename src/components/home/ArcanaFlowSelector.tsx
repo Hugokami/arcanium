@@ -315,60 +315,6 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
             })}
           </div>
 
-          {/* Custom Question Whisper Portal */}
-          <div className="craft-panel p-6 sm:p-7 rounded-2xl space-y-4">
-            <div className="flex items-center space-x-2 text-[#d4af37] font-serif text-xs uppercase tracking-wider font-semibold">
-              <MessageSquare className="w-4 h-4 text-[#d4af37]" />
-              <span>
-                {language === 'my'
-                  ? '…သို့မဟုတ် မိမိစိတ်ကြိုက် မေးခွန်းကို ရေးသားမေးမြန်းပါ'
-                  : language === 'ja'
-                  ? '…または、心にある問いを自由に入力してください'
-                  : 'Or whisper your personal inquiry to the cards'}
-              </span>
-            </div>
-
-            <form onSubmit={handleCustomQuestionSubmit} className="space-y-3">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={customQuestion}
-                  onChange={(e) => setCustomQuestion(e.target.value)}
-                  placeholder={UI_TRANSLATIONS.questionPlaceholder[language]}
-                  className="w-full pl-4.5 pr-28 py-3.5 rounded-xl bg-black/60 border border-white/[0.1] focus:border-[#d4af37] focus:outline-none text-sm sm:text-base text-[#e8e0f5] placeholder-zinc-500 font-serif transition-all shadow-inner focus:ring-1 focus:ring-[#d4af37]"
-                />
-                {customQuestion.trim() && (
-                  <button
-                    type="submit"
-                    className="absolute right-2 top-2 px-4 py-2 rounded-lg bg-[#d4af37] text-black font-serif text-xs font-bold flex items-center space-x-1.5 hover:brightness-110 shadow-sm transition-all active:scale-95"
-                  >
-                    <span>{UI_TRANSLATIONS.nextBtn[language]}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-            </form>
-
-            {/* Clickable Quick Inquiry Inspiration Pills */}
-            <div className="space-y-2 pt-1">
-              <span className="text-[10px] uppercase font-mono tracking-wider text-zinc-400 block">
-                {language === 'my' ? 'အမြန်မေးလိုသော မေးခွန်းနမူနာများ:' : language === 'ja' ? '問いのインスピレーション:' : 'Quick Inquiry Inspiration:'}
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {QUICK_INQUIRIES.map((qi, idx) => (
-                  <button
-                    key={qi.id}
-                    onClick={() => handleQuickQuestionClick(qi.text[language], idx % TOPICS.length)}
-                    className="text-[11px] font-serif text-zinc-300 hover:text-[#d4af37] px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-[#d4af37]/10 border border-white/[0.06] hover:border-[#d4af37]/40 transition-all text-left active:scale-95"
-                  >
-                    "{qi.text[language]}"
-                  </button>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
         </div>
       )}
 
