@@ -177,8 +177,12 @@ export const OracleChatDrawer: React.FC<OracleChatDrawerProps> = ({
       {/* Header */}
       <div className="p-4 sm:p-5 border-b border-white/[0.08] flex items-center justify-between bg-black/40">
         <div className="flex items-center space-x-3">
-          <div className="p-2 rounded-xl bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#d4af37]">
-            <Wand2 className="w-5 h-5 animate-pulse" />
+          <div className="w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0 flex items-center justify-center filter drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            <img
+              src="/animations/oracle-crystal-ball.svg"
+              alt="Oracle Crystal Ball"
+              className="w-full h-full object-contain pointer-events-none"
+            />
           </div>
           <div>
             <h3 className="font-serif font-semibold text-sm sm:text-base text-[#d4af37] tracking-wider">

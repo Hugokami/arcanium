@@ -322,46 +322,66 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
             </button>
           </div>
 
-          {/* Spreads Grid with Mini Card Slot Diagrams */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-            {SPREAD_CONFIGS.map(spread => (
-              <button
-                key={spread.id}
-                onClick={() => handleSelectSpread(spread)}
-                onMouseEnter={() => audioService.playCardHover()}
-                className="group craft-card p-5 sm:p-6 rounded-2xl text-left flex flex-col justify-between space-y-4 cursor-pointer active:scale-[0.98]"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="font-serif font-bold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide">
-                      {spread.name[language]}
+          {/* Spreads Grid with Animated Vector Spread Diagrams */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 max-w-3xl mx-auto">
+            {SPREAD_CONFIGS.map(spread => {
+              const getSpreadSvg = (spreadId: string) => {
+                switch (spreadId) {
+                  case 'single':
+                    return '/animations/spread-single.svg';
+                  case 'three':
+                    return '/animations/spread-trinity.svg';
+                  case 'decision_fork':
+                  case 'five_cross':
+                    return '/animations/spread-cross.svg';
+                  case 'chakra_seven':
+                  case 'seven':
+                    return '/animations/spread-chakra.svg';
+                  case 'celtic':
+                    return '/animations/spread-celtic.svg';
+                  default:
+                    return '/animations/spread-single.svg';
+                }
+              };
+
+              return (
+                <button
+                  key={spread.id}
+                  onClick={() => handleSelectSpread(spread)}
+                  onMouseEnter={() => audioService.playCardHover()}
+                  className="group craft-card p-5 sm:p-6 rounded-2xl text-left flex flex-col justify-between space-y-4 cursor-pointer active:scale-[0.98] hover:border-[#d4af37] hover:shadow-[0_0_28px_rgba(212,175,55,0.25)] transition-all duration-300"
+                >
+                  <div className="space-y-3 w-full">
+                    <div className="flex items-center justify-between">
+                      <div className="font-serif font-bold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide">
+                        {spread.name[language]}
+                      </div>
+                      <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/30 text-amber-200">
+                        {spread.cardCount} {spread.cardCount === 1 ? UI_TRANSLATIONS.oneCardPick[language] : UI_TRANSLATIONS.cardsPick[language]}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/30 text-amber-200">
-                      {spread.cardCount} {spread.cardCount === 1 ? UI_TRANSLATIONS.oneCardPick[language] : UI_TRANSLATIONS.cardsPick[language]}
-                    </span>
-                  </div>
 
-                  {/* Mini Visual Slot Diagram */}
-                  <div className="flex items-center flex-wrap gap-1.5 py-1">
-                    {Array.from({ length: spread.cardCount }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="w-5 h-7 rounded border border-[#8a7326]/60 bg-black/40 group-hover:border-[#d4af37] transition-colors"
+                    {/* Animated Spread Diagram */}
+                    <div className="w-full h-20 sm:h-24 py-1 flex items-center justify-center bg-black/40 rounded-xl border border-white/[0.06] group-hover:border-[#d4af37]/50 group-hover:bg-[#d4af37]/5 transition-all duration-300 overflow-hidden">
+                      <img
+                        src={getSpreadSvg(spread.id)}
+                        alt={spread.name.en}
+                        className="h-full w-auto object-contain pointer-events-none group-hover:scale-108 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]"
                       />
-                    ))}
+                    </div>
+
+                    <p className="text-xs text-zinc-300 font-serif leading-relaxed line-clamp-2">
+                      {spread.subtitle[language]}
+                    </p>
                   </div>
 
-                  <p className="text-xs text-zinc-300 font-serif leading-relaxed">
-                    {spread.subtitle[language]}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-3 border-t border-white/[0.08]">
-                  <span>{UI_TRANSLATIONS.communeAndDrawBtn[language]}</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </button>
-            ))}
+                  <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-3 border-t border-white/[0.08]">
+                    <span>{UI_TRANSLATIONS.communeAndDrawBtn[language]}</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </button>
+              );
+            })}
           </div>
 
         </section>
