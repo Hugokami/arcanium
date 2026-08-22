@@ -4,7 +4,7 @@ import { TOPICS, SPREAD_CONFIGS, QUICK_INQUIRIES, UI_TRANSLATIONS, getSpreadConf
 import { audioService } from '../../services/audioService';
 import { AstrologyService } from '../../services/astrologyService';
 import { UserProfile } from '../../types/userProfile';
-import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3 } from 'lucide-react';
+import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3, Heart, Coins, Sprout, Scale, Eye } from 'lucide-react';
 
 interface ArcanaFlowSelectorProps {
   language: Language;
@@ -108,6 +108,47 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     ja: '出生ホロスコープを調律し、心にある個人的な問いをカードに投げかけてください。'
   };
 
+  const renderTopicSvgIcon = (topicId: string) => {
+    switch (topicId) {
+      case 'love':
+        return (
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-110 group-hover:bg-rose-500/20 group-hover:border-rose-400/60 shadow-[0_0_20px_rgba(244,63,94,0.25)] transition-all duration-300">
+            <Heart className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
+          </div>
+        );
+      case 'career':
+        return (
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:bg-amber-500/20 group-hover:border-amber-400/60 shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all duration-300">
+            <Compass className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-45 transition-transform duration-500" />
+          </div>
+        );
+      case 'fortune':
+        return (
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-300 group-hover:scale-110 group-hover:bg-yellow-500/20 group-hover:border-yellow-400/60 shadow-[0_0_20px_rgba(234,179,8,0.25)] transition-all duration-300">
+            <Coins className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+          </div>
+        );
+      case 'growth':
+        return (
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-500/20 group-hover:border-emerald-400/60 shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all duration-300">
+            <Sprout className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-y-0.5 transition-transform" />
+          </div>
+        );
+      case 'decision':
+        return (
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 group-hover:bg-purple-500/20 group-hover:border-purple-400/60 shadow-[0_0_20px_rgba(168,85,247,0.25)] transition-all duration-300">
+            <Scale className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform" />
+          </div>
+        );
+      default:
+        return (
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#d4af37]/10 border border-[#d4af37]/35 flex items-center justify-center text-[#d4af37] group-hover:scale-110 group-hover:bg-[#d4af37]/20 group-hover:border-[#d4af37]/70 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300">
+            <Eye className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-10 animate-in fade-in duration-500">
       
@@ -205,7 +246,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
         /* NATAL AFFINITY ACTIVE BADGE */
         <div className="craft-panel p-4 rounded-2xl max-w-xl mx-auto flex items-center justify-between gap-4 border border-[#d4af37]/40 bg-[#d4af37]/5 shadow-lg">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/50 flex items-center justify-center text-lg">
+            <div className="w-10 h-10 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/50 flex items-center justify-center text-lg font-serif text-[#d4af37] font-bold">
               {userProfile.zodiacSign?.symbol || '♈'}
             </div>
             <div className="text-left space-y-0.5">
@@ -234,7 +275,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
       {step === 1 && userProfile && !isEditingProfile && (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
           
-          {/* 6 Rich Domain Tiles */}
+          {/* 6 Rich Domain Tiles with SVG Animations */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {TOPICS.map((topic) => {
               const isSelected = selectedTopic.id === topic.id;
@@ -251,9 +292,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl sm:text-3xl filter drop-shadow-md group-hover:scale-105 transition-transform duration-200">
-                        {topic.icon}
-                      </span>
+                      {renderTopicSvgIcon(topic.id)}
                     </div>
 
                     <h3 className="font-serif font-semibold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide">

@@ -112,24 +112,24 @@ export const UI_TRANSLATIONS = {
     ja: '音声停止'
   },
   polarityTitle: {
-    en: '⚖️ Certainty & Cosmic Polarity',
-    my: '⚖️ အဖြေ၏ သေချာမှုနှင့် စကြဝဠာချိန်ခွင်လျှာ (Polarity)',
-    ja: '⚖️ 運命の極性と確信度（Yes/No・ポラリティ）'
+    en: 'Certainty & Cosmic Polarity',
+    my: 'အဖြေ၏ သေချာမှုနှင့် စကြဝဠာချိန်ခွင်လျှာ (Polarity)',
+    ja: '運命の極性と確信度（Yes/No・ポラリティ）'
   },
   elementalTitle: {
-    en: '🜂 Elemental Dignities & Alchemy',
-    my: '🜂 ဓာတ်ကြီးလေးပါး ချိန်ခွင်လျှာနှင့် ဓာတုပေါင်းစပ်မှု (Elemental Alchemy)',
-    ja: '🜂 四大元素の品格と錬金術的調和'
+    en: 'Elemental Dignities & Alchemy',
+    my: 'ဓာတ်ကြီးလေးပါး ချိန်ခွင်လျှာနှင့် ဓာတုပေါင်းစပ်မှု (Elemental Alchemy)',
+    ja: '四大元素の品格と錬金術的調和'
   },
   synergyTitle: {
-    en: '⚡ Card Synergy & Sacred Alchemy',
-    my: '⚡ ကတ်ပြားများအကြား အထူး ပေါင်းစပ်စွမ်းအင် (Card Synergy)',
-    ja: '⚡ カード間の特別なシナジー（聖なる共鳴）'
+    en: 'Card Synergy & Sacred Alchemy',
+    my: 'ကတ်ပြားများအကြား အထူး ပေါင်းစပ်စွမ်းအင် (Card Synergy)',
+    ja: 'カード間の特別なシナジー（聖なる共鳴）'
   },
   quintessenceTitle: {
-    en: '👑 The Quintessence (Master Shadow Key)',
-    my: '👑 ကံကြမ္မာ၏ အဓိက မာစတာသော့ချက် (The Quintessence)',
-    ja: '👑 クインテッセンス（運命を統べる根源のマスターキー）'
+    en: 'The Quintessence (Master Key)',
+    my: 'ကံကြမ္မာ၏ အဓိက မာစတာသော့ချက် (The Quintessence)',
+    ja: 'クインテッセンス（運命を統べる根源のマスターキー）'
   },
   altarViewBtn: {
     en: 'Altar View',
@@ -147,9 +147,9 @@ export const UI_TRANSLATIONS = {
     ja: '月相と天体配置のエネルギー'
   },
   ritualTitle: {
-    en: '🕯️ Manifestation Affirmation & Micro-Ritual',
-    my: '🕯️ အဓိဋ္ဌာန်ပြုချက်နှင့် မင်္ဂလာယတြာ အစီအမံ',
-    ja: '🕯️ 現実化のアファメーションと聖なる小儀式'
+    en: 'Manifestation Affirmation & Micro-Ritual',
+    my: 'အဓိဋ္ဌာန်ပြုချက်နှင့် မင်္ဂလာယတြာ အစီအမံ',
+    ja: '現実化のアファメーションと聖なる小儀式'
   },
   cardInspectorHint: {
     en: 'Click any card to inspect its deep esoteric symbolism',
@@ -178,39 +178,39 @@ export const UI_TRANSLATIONS = {
   },
   sectionTitles: {
     mind: {
-      en: "🧠 What's Been on Your Mind",
-      my: "🧠 စိတ်အတွင်း အလေးထားတွေးတောနေသော အရာ",
-      ja: "🧠 心の深層と意識のフォーカス"
+      en: "What's Been on Your Mind",
+      my: "စိတ်အတွင်း အလေးထားတွေးတောနေသော အရာ",
+      ja: "心の深層と意識のフォーカス"
     },
     problems: {
-      en: "⚡ The Problems You've Been Facing",
-      my: "⚡ ရင်ဆိုင်နေရသော အခက်အခဲနှင့် စိန်ခေါ်မှုများ",
-      ja: "⚡ 直面している試練と摩擦"
+      en: "The Problems You've Been Facing",
+      my: "ရင်ဆိုင်နေရသော အခက်အခဲနှင့် စိန်ခေါ်မှုများ",
+      ja: "直面している試練と摩擦"
     },
     forces: {
-      en: "🌙 Hidden Forces at Work",
-      my: "🌙 မမြင်ရဘဲ လွှမ်းမိုးနေသော အတွင်းစွမ်းအားများ",
-      ja: "🌙 水面下で働く見えない力"
+      en: "Hidden Forces at Work",
+      my: "မမြင်ရဘဲ လွှမ်းမိုးနေသော အတွင်းစွမ်းအားများ",
+      ja: "水面下で働く見えない力"
     },
     advice: {
-      en: "🕯️ What the Cards Ask of You",
-      my: "🕯️ ကတ်ပြားများ၏ လမ်းညွှန်အကြံပြုချက်",
-      ja: "🕯️ カードが求める行動と心構え"
+      en: "What the Cards Ask of You",
+      my: "ကတ်ပြားများ၏ လမ်းညွှန်အကြံပြုချက်",
+      ja: "カードが求める行動と心構え"
     },
     outlook: {
-      en: "🌅 Where Things Are Heading",
-      my: "🌅 ရှေ့ဆက်ဖြစ်ပေါ်လာမည့် အလားအလာ",
-      ja: "🌅 これから向かう未来の展望"
+      en: "Where Things Are Heading",
+      my: "ရှေ့ဆက်ဖြစ်ပေါ်လာမည့် အလားအလာ",
+      ja: "これから向かう未来の展望"
     },
     timeline: {
-      en: "⏳ When — The Timing of Things",
-      my: "⏳ အချိန်ကာလနှင့် အရှိန်အဟုန် ခန့်မှန်းချက်",
-      ja: "⏳ 運命のタイミング・時期の目安"
+      en: "When — The Timing of Things",
+      my: "အချိန်ကာလနှင့် အရှိန်အဟုန် ခန့်မှန်းချက်",
+      ja: "運命のタイミング・時期の目安"
     },
     archetype: {
-      en: "✨ Your Card Archetype",
-      my: "✨ သင့်အတွင်းစိတ်၏ မူလစရိုက်လက္ခဏာ (Archetype)",
-      ja: "✨ あなたの魂の元型（アーキタイプ）"
+      en: "Your Card Archetype",
+      my: "သင့်အတွင်းစိတ်၏ မူလစရိုက်လက္ခဏာ (Archetype)",
+      ja: "あなたの魂の元型（アーキタイプ）"
     },
     summary: {
       en: "The Oracle's Synthesis",

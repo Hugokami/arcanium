@@ -34,7 +34,10 @@ import {
   LayoutGrid,
   FileText,
   Gem,
-  Wind as WindIcon,
+  Sprout,
+  Sun,
+  Eye,
+  Compass,
   Sparkle
 } from 'lucide-react';
 
@@ -486,11 +489,16 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         
         {/* Mind */}
         {activeAnalysis.mind && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-purple-400 space-y-2">
-            <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
-              {UI_TRANSLATIONS.sectionTitles.mind[language]}
-            </h3>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-purple-400 space-y-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-sm">
+                <Eye className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+                {UI_TRANSLATIONS.sectionTitles.mind[language]}
+              </h3>
+            </div>
+            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
               {activeAnalysis.mind}
             </p>
           </div>
@@ -498,11 +506,16 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Problems */}
         {activeAnalysis.problems && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-amber-500 space-y-2">
-            <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
-              {UI_TRANSLATIONS.sectionTitles.problems[language]}
-            </h3>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-amber-500 space-y-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-300 shadow-sm">
+                <Zap className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+                {UI_TRANSLATIONS.sectionTitles.problems[language]}
+              </h3>
+            </div>
+            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
               {activeAnalysis.problems}
             </p>
           </div>
@@ -510,11 +523,16 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Hidden Forces */}
         {activeAnalysis.forces && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-indigo-400 space-y-2">
-            <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
-              {UI_TRANSLATIONS.sectionTitles.forces[language]}
-            </h3>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-indigo-400 space-y-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-300 shadow-sm">
+                <Moon className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+                {UI_TRANSLATIONS.sectionTitles.forces[language]}
+              </h3>
+            </div>
+            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
               {activeAnalysis.forces}
             </p>
           </div>
@@ -522,11 +540,16 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Advice */}
         {activeAnalysis.advice && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-yellow-400 space-y-2">
-            <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
-              {UI_TRANSLATIONS.sectionTitles.advice[language]}
-            </h3>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-yellow-400 space-y-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-yellow-500/15 border border-yellow-500/30 flex items-center justify-center text-yellow-300 shadow-sm">
+                <Flame className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+                {UI_TRANSLATIONS.sectionTitles.advice[language]}
+              </h3>
+            </div>
+            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
               {activeAnalysis.advice}
             </p>
           </div>
@@ -534,11 +557,16 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Outlook */}
         {activeAnalysis.outlook && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-rose-400 space-y-2">
-            <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
-              {UI_TRANSLATIONS.sectionTitles.outlook[language]}
-            </h3>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-rose-400 space-y-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-300 shadow-sm">
+                <Sun className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+                {UI_TRANSLATIONS.sectionTitles.outlook[language]}
+              </h3>
+            </div>
+            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
               {activeAnalysis.outlook}
             </p>
           </div>
@@ -546,11 +574,16 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Timeline */}
         {activeAnalysis.timeline && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-teal-400 space-y-2">
-            <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
-              {UI_TRANSLATIONS.sectionTitles.timeline[language]}
-            </h3>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-teal-400 space-y-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-300 shadow-sm">
+                <Compass className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+                {UI_TRANSLATIONS.sectionTitles.timeline[language]}
+              </h3>
+            </div>
+            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
               {activeAnalysis.timeline}
             </p>
           </div>
@@ -559,9 +592,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         {/* Archetype */}
         {activeAnalysis.archetype && (
           <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-[#d4af37] space-y-3">
-            <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
-              {UI_TRANSLATIONS.sectionTitles.archetype[language]}
-            </h3>
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-[#d4af37]/15 border border-[#d4af37]/30 flex items-center justify-center text-[#d4af37] shadow-sm">
+                <Crown className="w-4 h-4" />
+              </div>
+              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+                {UI_TRANSLATIONS.sectionTitles.archetype[language]}
+              </h3>
+            </div>
             <div className="text-base sm:text-lg font-serif font-bold text-amber-200">
               {activeAnalysis.archetype.name}
             </div>
@@ -590,7 +628,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           </p>
         </div>
 
-        {/* NEW FEATURE: Manifestation Affirmation & Micro-Ritual Prescription */}
+        {/* Manifestation Affirmation & Micro-Ritual Prescription */}
         <div className="craft-panel p-6 sm:p-7 rounded-2xl border-l-4 border-l-emerald-400 space-y-4 shadow-xl bg-gradient-to-br from-emerald-950/15 via-black/40 to-black/60">
           <div className="flex items-center space-x-2 text-sm sm:text-base font-serif font-bold text-emerald-300">
             <Sparkles className="w-4 h-4 text-emerald-400" />
@@ -607,22 +645,34 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
             </p>
           </div>
 
-          {/* Micro-Rituals Grid */}
+          {/* Micro-Rituals Grid with Glowing SVG Icons */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-serif">
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1">
-              <span className="text-amber-300 font-semibold block">🕯️ Candle & Color:</span>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
+              <span className="text-amber-300 font-semibold flex items-center space-x-1.5">
+                <Flame className="w-3.5 h-3.5 text-amber-400" />
+                <span>Candle & Color:</span>
+              </span>
               <span className="text-zinc-200">{ritualPrescription.candleColor[language]}</span>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1">
-              <span className="text-cyan-300 font-semibold block">💎 Sacred Crystal:</span>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
+              <span className="text-cyan-300 font-semibold flex items-center space-x-1.5">
+                <Gem className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Sacred Crystal:</span>
+              </span>
               <span className="text-zinc-200">{ritualPrescription.crystal[language]}</span>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1">
-              <span className="text-purple-300 font-semibold block">🌿 Sacred Herbs/Scent:</span>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
+              <span className="text-purple-300 font-semibold flex items-center space-x-1.5">
+                <Sprout className="w-3.5 h-3.5 text-purple-400" />
+                <span>Sacred Herbs/Scent:</span>
+              </span>
               <span className="text-zinc-200">{ritualPrescription.sacredHerb[language]}</span>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1">
-              <span className="text-emerald-300 font-semibold block">🌬️ Breath Meditation:</span>
+            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
+              <span className="text-emerald-300 font-semibold flex items-center space-x-1.5">
+                <Wind className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Breath Meditation:</span>
+              </span>
               <span className="text-zinc-200">{ritualPrescription.breathRitual[language]}</span>
             </div>
           </div>
