@@ -19,7 +19,6 @@ interface DeckStream {
   id: number;
   title: { en: string; my: string; ja: string };
   subtitle: { en: string; my: string; ja: string };
-  pillar: string;
   cards: TarotCard[];
 }
 
@@ -41,11 +40,11 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([]);
   const [hoveredFanIndex, setHoveredFanIndex] = useState<number | null>(null);
 
-  // Initialize 3 shuffled decks on mount
+  // Initialize 3 purely randomly shuffled decks on mount
   useEffect(() => {
     const fullShuffled = [...TAROT_DECK].sort(() => Math.random() - 0.5);
     
-    // Split 78 cards into 3 balanced piles of 26 cards
+    // Split 78 cards into 3 purely randomized piles of 26 cards without topics
     const pile1 = fullShuffled.slice(0, 26);
     const pile2 = fullShuffled.slice(26, 52);
     const pile3 = fullShuffled.slice(52, 78);
@@ -54,46 +53,43 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
       {
         id: 1,
         title: {
-          en: 'Deck I: Past Karma & Intuition',
-          my: 'ပထမကတ်တွဲ: အတိတ်ကံနှင့် အတွင်းစိတ်အာရုံ (Left Pillar)',
-          ja: '第一のデッキ：過去の因果と直感の柱'
+          en: 'Deck I',
+          my: 'ပထမ ကတ်တွဲ (Deck I)',
+          ja: '第1のデッキ'
         },
         subtitle: {
-          en: 'Attuned to subconscious roots, memory, and hidden truths.',
-          my: 'မသိစိတ်အခြေခံ၊ အတိတ်အကျိုးပေးနှင့် မမြင်ရသော အမှန်တရားများ။',
-          ja: '潜在意識の根源、魂の記憶、隠された真実に感応。'
+          en: '26 Randomly Shuffled Cards',
+          my: 'ကျပန်းမွှေထားသော ကတ် ၂၆ ပြား',
+          ja: '26枚のシャッフルされたカード'
         },
-        pillar: 'Left Pillar (Water & Air)',
         cards: pile1
       },
       {
         id: 2,
         title: {
-          en: 'Deck II: Present Will & Manifestation',
-          my: 'ဒုတိယကတ်တွဲ: ပစ္စုပ္ပန် သန္နိဋ္ဌာန်နှင့် လက်တွေ့ဖန်တီးမှု (Center Pillar)',
-          ja: '第二のデッキ：現在の意志と具現化の柱'
+          en: 'Deck II',
+          my: 'ဒုတိယ ကတ်တွဲ (Deck II)',
+          ja: '第2のデッキ'
         },
         subtitle: {
-          en: 'Attuned to active choices, courage, and earthly reality.',
-          my: 'လက်ရှိရွေးချယ်မှု၊ စိတ်ခွန်အားနှင့် မျက်မှောက်ဘဝ ရလဒ်များ။',
-          ja: '能動的選択、決断の勇気、現実の具現化に感応。'
+          en: '26 Randomly Shuffled Cards',
+          my: 'ကျပန်းမွှေထားသော ကတ် ၂၆ ပြား',
+          ja: '26枚のシャッフルされたカード'
         },
-        pillar: 'Center Pillar (Fire & Earth)',
         cards: pile2
       },
       {
         id: 3,
         title: {
-          en: 'Deck III: Future Destiny & Higher Vision',
-          my: 'တတိယကတ်တွဲ: အနာဂတ် ကံကြမ္မာနှင့် ဉာဏ်အလင်း (Right Pillar)',
-          ja: '第三のデッキ：未来の宿命と高次の叡智の柱'
+          en: 'Deck III',
+          my: 'တတိယ ကတ်တွဲ (Deck III)',
+          ja: '第3のデッキ'
         },
         subtitle: {
-          en: 'Attuned to cosmic evolution, potential, and spiritual guidance.',
-          my: 'စကြဝဠာကံကြမ္မာ၊ အလားအလာသစ်များနှင့် စိတ်ဝိညာဉ်လမ်းပြမှု။',
-          ja: '宇宙的展開、魂の可能性、高次の導きに感応。'
+          en: '26 Randomly Shuffled Cards',
+          my: 'ကျပန်းမွှေထားသော ကတ် ၂၆ ပြား',
+          ja: '26枚のシャッフルされたカード'
         },
-        pillar: 'Right Pillar (Spirit & Cosmos)',
         cards: pile3
       }
     ];
@@ -180,7 +176,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-10 space-y-8 flex flex-col items-center animate-in fade-in duration-500">
       
-      {/* ================= STAGE 1: CHOOSE FROM 3 SHUFFLED DECKS ================= */}
+      {/* ================= STAGE 1: CHOOSE FROM 3 RANDOMLY SHUFFLED DECKS ================= */}
       {selectionStage === 'choose_deck' && (
         <div className="w-full max-w-4xl space-y-8 text-center animate-in fade-in zoom-in-95 duration-500">
           
@@ -191,20 +187,20 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
             </div>
             <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#d4af37] tracking-wide">
               {language === 'my'
-                ? 'မွှေပြီးသော ကတ်တွဲ ၃ ခုအနက် မိမိအာရုံကျရာ ကတ်တွဲကို ရွေးချယ်ပါ'
+                ? 'ကျပန်းမွှေထားသော ကတ်တွဲ ၃ ခုအနက် တစ်ခုကို ရွေးချယ်ပါ'
                 : language === 'ja'
-                ? 'シャッフルされた3つのデッキから、直感に従い1つお選びください'
-                : 'Choose your Deck from the Sacred 3-Fold Cut'}
+                ? 'シャッフルされた3つのデッキから1つお選びください'
+                : 'Choose 1 of the 3 Randomly Shuffled Decks'}
             </h2>
             <p className="text-xs sm:text-sm text-zinc-300 font-serif italic">
               "{question}"
             </p>
             <p className="text-[11px] text-amber-200/80 font-serif">
               {language === 'my'
-                ? 'ကတ်ပြား ၇၈ ပြားကို စွမ်းအင်လမ်းကြောင်း ၃ ခုအဖြစ် ခွဲဝေထားပါသည်။ သင် ရွေးချယ်သော ကတ်တွဲမှ ကံကြမ္မာကတ်များကို ဆက်လက်ရွေးချယ်ပါမည်။'
+                ? 'ကတ်ပြား ၇၈ ပြားကို ကတ်တွဲ ၃ တွဲအဖြစ် ကျပန်းခွဲဝေထားပါသည်။ သင် ရွေးချယ်သော ကတ်တွဲမှ ကံကြမ္မာကတ်များကို ဆက်လက်ရွေးချယ်ပါမည်။'
                 : language === 'ja'
-                ? '78枚のカードが3つのエネルギーの柱に分けられています。選ばれたデッキから最終的なカードを引きます。'
-                : 'The 78 cards are divided into three cosmic streams. Your chosen deck will open for the final draw.'}
+                ? '78枚のカードが均等に3つのデッキにランダムに分けられています。カードを引くデッキを1つお選びください。'
+                : 'The 78 cards are randomly divided into 3 equal decks. Select a deck to open its cards for your draw.'}
             </p>
           </div>
 
@@ -236,10 +232,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                   </div>
                 </div>
 
-                <div className="text-center space-y-2 w-full">
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#d4af37]/80">
-                    {stream.pillar}
-                  </div>
+                <div className="text-center space-y-1.5 w-full">
                   <h3 className="text-base sm:text-lg font-serif font-bold text-amber-100 group-hover:text-[#d4af37] transition-colors">
                     {stream.title[language]}
                   </h3>
@@ -250,7 +243,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
 
                 <div className="w-full pt-3 border-t border-white/[0.08] flex items-center justify-center text-xs font-serif text-[#d4af37] font-semibold group-hover:underline">
                   <span>
-                    {language === 'my' ? 'ဤကတ်တွဲကို ဖွင့်မည် ✦' : language === 'ja' ? 'このデッキを開く ✦' : 'Commune with this Deck ✦'}
+                    {language === 'my' ? 'ဤကတ်တွဲကို ရွေးချယ်မည် ✦' : language === 'ja' ? 'このデッキを選ぶ ✦' : 'Select this Deck ✦'}
                   </span>
                 </div>
               </button>
