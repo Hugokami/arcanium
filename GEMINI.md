@@ -15,3 +15,14 @@
 ## 3. Mobile Spatial Clearance & Fan Bounds
 - Never hardcode desktop card fan dimensions or step counts on mobile screens.
 - Use dynamic viewport width listeners with minimum `>50px` horizontal clearance margins and container `overflow-visible`.
+
+## 4. Astrological Synastry & Partner Attunement
+- For interpersonal/love readings, gatekeep spread draw until counterpart profile (Zodiac sign or DOB) is attuned.
+- Compute elemental chemistry, compatibility %, and composite numerological soul keys across all hermeneutic analytical lenses.
+
+## 5. Authentic A.E. Waite 1910 & Esoteric Correspondences
+- Ground card interpretations in authentic Arthur Edward Waite *The Pictorial Key to the Tarot* (1910) commentaries, Hebrew letter attributions, 22 Kabbalistic Tree of Life paths, Golden Dawn titles, and Astrological Decanates.
+
+## 6. Dedicated Spread Syntheses & Dual Quintessence
+- Provide dedicated structural syntheses for major spread formats (Celtic Cross 10-Card, 7-Chakra Kundalini Axis, 2-Path Decision Fork, Relationship Mirror).
+- Always compute both Primary Master Quintessence and complementary Shadow Quintessence (`(22 - Primary) % 22`).
