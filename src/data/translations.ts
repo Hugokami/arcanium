@@ -131,6 +131,31 @@ export const UI_TRANSLATIONS = {
     my: '👑 ကံကြမ္မာ၏ အဓိက မာစတာသော့ချက် (The Quintessence)',
     ja: '👑 クインテッセンス（運命を統べる根源のマスターキー）'
   },
+  altarViewBtn: {
+    en: 'Altar View',
+    my: 'နိမိတ်ပလ္လင် ခင်းကျင်းပုံ',
+    ja: '祭壇スプレッド配置'
+  },
+  analysisViewBtn: {
+    en: 'Deep Analysis',
+    my: 'အသေးစိတ် ဗေဒင်သုံးသပ်ချက်',
+    ja: '深層リーディング'
+  },
+  lunarPhaseTitle: {
+    en: 'Lunar Transit & Cosmic Weather',
+    my: 'ယနေ့ လနက္ခတ်နှင့် ကောင်းကင်ရာသီဥတု',
+    ja: '月相と天体配置のエネルギー'
+  },
+  ritualTitle: {
+    en: '🕯️ Manifestation Affirmation & Micro-Ritual',
+    my: '🕯️ အဓိဋ္ဌာန်ပြုချက်နှင့် မင်္ဂလာယတြာ အစီအမံ',
+    ja: '🕯️ 現実化のアファメーションと聖なる小儀式'
+  },
+  cardInspectorHint: {
+    en: 'Click any card to inspect its deep esoteric symbolism',
+    my: 'ကတ်တစ်ခုချင်းစီ၏ အသေးစိတ် အဓိပ္ပာယ်နှင့် နက္ခတ်ကို ကြည့်ရန် ကတ်ကို နှိပ်ပါ',
+    ja: 'カードをクリックすると詳細な象徴体系と星位を閲覧できます'
+  },
   ambientAudio: {
     en: 'Ambient Sound (432Hz)',
     my: 'စိတ်ငြိမ် အသံလှိုင်း (432Hz)',
