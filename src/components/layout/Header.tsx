@@ -82,18 +82,18 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Left: Clean Brand Logo & Subtitle */}
         <button
           onClick={onResetHome}
-          className="group flex flex-col items-start text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-lg py-1 transition-transform active:scale-95"
+          className="group flex flex-col items-start text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-lg py-1 transition-transform active:scale-95 flex-shrink-0"
         >
-          <span className="font-serif text-lg sm:text-xl font-normal tracking-[0.24em] text-[#d4af37] text-shadow-gold group-hover:text-amber-200 transition-colors">
+          <span className="font-serif text-base sm:text-lg md:text-xl font-normal tracking-[0.2em] text-[#d4af37] text-shadow-gold group-hover:text-amber-200 transition-colors">
             ✦ ARCANIUM ✦
           </span>
-          <span className="text-[10px] text-zinc-400 font-serif italic tracking-wide">
+          <span className="hidden sm:inline text-[10px] text-zinc-400 font-serif italic tracking-wide">
             {UI_TRANSLATIONS.appSubtitle[language]}
           </span>
         </button>
 
         {/* Right: Controls Hub */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2">
+        <div className="flex items-center space-x-1 sm:space-x-2">
           
           {/* Daily Oracle Button */}
           <button
@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardFlip();
               onOpenDailyCard();
             }}
-            className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-400/60 text-xs text-amber-200 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95 shadow-sm"
+            className="flex items-center space-x-1 sm:space-x-1.5 h-8 px-2 sm:px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-400/60 text-xs text-amber-200 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95 shadow-sm"
             title={UI_TRANSLATIONS.dailyCardBtn[language]}
           >
             <Sun className="w-3.5 h-3.5 text-amber-400 animate-spin-slow" />
@@ -114,11 +114,11 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenProfile();
             }}
-            className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+            className="flex items-center space-x-1 sm:space-x-1.5 h-8 px-2 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             title={UI_TRANSLATIONS.profileBtn[language]}
           >
             <Compass className="w-3.5 h-3.5 text-[#d4af37]" />
-            <span className="font-serif max-w-[90px] truncate">
+            <span className="hidden sm:inline font-serif max-w-[80px] truncate">
               {userProfile?.zodiacSign ? `${userProfile.zodiacSign.symbol} ${userProfile.name.split(' ')[0]}` : UI_TRANSLATIONS.profileBtn[language]}
             </span>
           </button>
@@ -127,10 +127,12 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative" ref={langMenuRef}>
             <button
               onClick={() => setShowLangMenu(!showLangMenu)}
-              className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              className="flex items-center space-x-1 sm:space-x-1.5 h-8 px-2 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
             >
               <Globe className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span className="font-serif font-medium">{currentLangObj.nativeName}</span>
+              <span className="font-serif font-medium text-[11px] sm:text-xs">
+                {language === 'en' ? 'EN' : language === 'my' ? 'မြန်' : 'JP'}
+              </span>
               <ChevronDown className={`w-3 h-3 text-zinc-400 transition-transform ${showLangMenu ? 'rotate-180' : ''}`} />
             </button>
 

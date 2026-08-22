@@ -310,7 +310,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
 
           {/* SPREAD SLOTS (Where drawn cards land) */}
           <div className="w-full max-w-4xl py-2">
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
               {spread.positions.map((pos, idx) => {
                 const drawn = drawnCards[idx];
                 const isCurrentPickSlot = drawnCards.length === idx;
@@ -323,14 +323,14 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                     }`}
                   >
                     {/* Position Label */}
-                    <span className="text-[10px] font-mono tracking-wider text-amber-300/80 mb-1.5 uppercase max-w-[100px] truncate text-center">
+                    <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-amber-300/80 mb-1 uppercase max-w-[80px] sm:max-w-[100px] truncate text-center">
                       {pos.name[language]}
                     </span>
 
                     {/* Card Slot */}
                     <div
                       onClick={() => drawn && !drawn.revealed && handleFlipCard(idx)}
-                      className={`relative w-20 h-32 sm:w-24 sm:h-38 rounded-xl overflow-hidden border-2 transition-all duration-500 flex items-center justify-center ${
+                      className={`relative w-16 h-24 sm:w-20 sm:h-32 md:w-24 md:h-38 rounded-xl overflow-hidden border-2 transition-all duration-500 flex items-center justify-center ${
                         drawn
                           ? drawn.revealed
                             ? 'border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.4)] cursor-default'
@@ -358,16 +358,16 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                           </div>
                         ) : (
                           /* Card Back (Click to reveal) */
-                          <div className="relative w-full h-full bg-[#120a24] flex flex-col items-center justify-center p-1">
+                          <div className="relative w-full h-full bg-[#120a24] flex flex-col items-center justify-center p-0.5 sm:p-1">
                             <img
                               src="/cards/CardBacks.png"
                               alt="Card Back"
                               className="w-full h-full object-cover rounded-lg"
                             />
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 hover:bg-black/20 transition-colors">
-                              <Eye className="w-5 h-5 text-[#d4af37] animate-pulse" />
-                              <span className="text-[9px] font-serif text-amber-200 mt-1 font-semibold">
-                                {language === 'my' ? 'ကတ်ကိုဖွင့်မည်' : language === 'ja' ? 'めくる' : 'Click to reveal'}
+                              <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-[#d4af37] animate-pulse" />
+                              <span className="text-[8px] sm:text-[9px] font-serif text-amber-200 mt-0.5 font-semibold text-center px-0.5">
+                                {language === 'my' ? 'ဖွင့်မည်' : language === 'ja' ? 'めくる' : 'Reveal'}
                               </span>
                             </div>
                           </div>
@@ -381,9 +381,9 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                     </div>
 
                     {/* Card Name Under Slot */}
-                    <div className="mt-1 text-center max-w-[100px] h-4">
+                    <div className="mt-1 text-center max-w-[80px] sm:max-w-[100px] h-4">
                       {drawn && drawn.revealed && (
-                        <span className="text-[10px] font-serif text-[#d4af37] font-semibold truncate block">
+                        <span className="text-[9px] sm:text-[10px] font-serif text-[#d4af37] font-semibold truncate block">
                           {drawn.card.name[language]}
                         </span>
                       )}
@@ -396,21 +396,22 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
 
           {/* THE 3D FAN OF CARDS */}
           {picksLeft > 0 && (
-            <div className="w-full py-8 flex flex-col items-center">
-              <div className="text-center text-xs font-serif text-amber-200/90 mb-4 animate-pulse">
+            <div className="w-full py-4 sm:py-8 flex flex-col items-center overflow-hidden">
+              <div className="text-center text-[11px] sm:text-xs font-serif text-amber-200/90 mb-3 sm:mb-4 animate-pulse px-2">
                 ✦ {language === 'my' ? 'ကတ်ပြားပေါ်သို့ မျှားတင်ပြီး ကံကြမ္မာကတ်ကို နှိပ်၍ ဆွဲယူပါ' : language === 'ja' ? 'カードに触れて直感で1枚ずつ引いてください' : 'Hover and click to draw your destiny'} ✦
               </div>
 
               {/* Fan Deck Arc Container */}
-              <div className="relative h-44 sm:h-52 w-full max-w-3xl flex justify-center items-end select-none">
+              <div className="relative h-36 sm:h-52 w-full max-w-full sm:max-w-3xl flex justify-center items-end select-none overflow-visible">
                 {fanDeck.map((card, idx) => {
                   const isTaken = takenIndices.includes(idx);
                   const isHovered = hoveredFanIndex === idx;
                   const total = fanDeck.length;
-                  // Calculate angle for fan (-38 deg to +38 deg)
-                  const angle = ((idx - total / 2) / (total / 2)) * 36;
-                  const xOffset = (idx - total / 2) * (window.innerWidth < 640 ? 18 : 28);
-                  const yOffset = Math.abs(idx - total / 2) * 2.8;
+                  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+                  // Calculate angle for fan (-34 deg to +34 deg)
+                  const angle = ((idx - total / 2) / (total / 2)) * (isMobile ? 32 : 36);
+                  const xOffset = (idx - total / 2) * (isMobile ? 11.5 : 26);
+                  const yOffset = Math.abs(idx - total / 2) * (isMobile ? 1.6 : 2.8);
 
                   return (
                     <div
@@ -427,12 +428,12 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                         transform: isTaken
                           ? `translate(${xOffset}px, 60px) scale(0.6) rotate(${angle}deg)`
                           : isHovered
-                          ? `translate(${xOffset}px, -35px) scale(1.18) rotate(0deg)`
+                          ? `translate(${xOffset}px, ${isMobile ? -25 : -35}px) scale(${isMobile ? 1.12 : 1.18}) rotate(0deg)`
                           : `translate(${xOffset}px, ${yOffset}px) rotate(${angle}deg)`,
                         zIndex: isHovered ? 40 : idx,
                         opacity: isTaken ? 0.2 : 1
                       }}
-                      className={`absolute bottom-0 w-16 h-26 sm:w-20 sm:h-32 rounded-xl overflow-hidden border border-[#8a7326] bg-[#120a24] shadow-[0_0_12px_rgba(0,0,0,0.8)] cursor-pointer transition-all duration-200 ease-out origin-bottom ${
+                      className={`absolute bottom-0 w-12 h-20 sm:w-16 sm:h-26 md:w-20 md:h-32 rounded-lg sm:rounded-xl overflow-hidden border border-[#8a7326] bg-[#120a24] shadow-[0_0_10px_rgba(0,0,0,0.8)] cursor-pointer transition-all duration-200 ease-out origin-bottom ${
                         isTaken ? 'pointer-events-none' : 'hover:border-[#d4af37] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]'
                       }`}
                     >

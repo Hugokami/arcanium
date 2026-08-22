@@ -255,7 +255,7 @@ export const OracleChatDrawer: React.FC<OracleChatDrawerProps> = ({
       </div>
 
       {/* Input Box */}
-      <div className="p-3 sm:p-4 border-t border-white/[0.08] bg-black/60">
+      <div className="p-3 sm:p-4 border-t border-white/[0.08] bg-black/60 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]">
         <form
           onSubmit={(e) => {
             e.preventDefault();

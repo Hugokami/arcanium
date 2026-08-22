@@ -104,18 +104,18 @@ export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-[9990] bg-[#080410] flex flex-col items-center justify-center p-6 text-center transition-opacity duration-700 select-none ${
+      className={`fixed inset-0 z-[9990] bg-[#080410] flex flex-col items-center justify-center p-4 sm:p-6 text-center transition-opacity duration-700 select-none overflow-hidden ${
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
       {/* Mystical Background Astrolabe Glow */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-25">
-        <div className="w-[380px] h-[380px] sm:w-[540px] sm:h-[540px] rounded-full border border-[#d4af37]/40 animate-spin-slow" />
-        <div className="w-[280px] h-[280px] sm:w-[420px] sm:h-[420px] rounded-full border border-dashed border-[#d4af37]/30 animate-reverse-spin" />
-        <div className="w-[180px] h-[180px] sm:w-[260px] sm:h-[260px] rounded-full bg-[#d4af37]/10 blur-3xl" />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 sm:opacity-25 overflow-hidden">
+        <div className="w-[260px] h-[260px] sm:w-[500px] sm:h-[500px] rounded-full border border-[#d4af37]/40 animate-spin-slow" />
+        <div className="w-[200px] h-[200px] sm:w-[380px] sm:h-[380px] rounded-full border border-dashed border-[#d4af37]/30 animate-reverse-spin" />
+        <div className="w-[140px] h-[140px] sm:w-[240px] sm:h-[240px] rounded-full bg-[#d4af37]/10 blur-3xl" />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center max-w-md w-full space-y-7">
+      <div className="relative z-10 flex flex-col items-center max-w-sm sm:max-w-md w-full space-y-6 sm:space-y-7">
         
         {/* Animated Sacred Seal Emblem */}
         <div className="relative group">

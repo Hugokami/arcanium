@@ -375,7 +375,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   </div>
 
                   {/* Mini Visual Slot Diagram */}
-                  <div className="flex items-center gap-1.5 py-1">
+                  <div className="flex items-center flex-wrap gap-1.5 py-1">
                     {Array.from({ length: spread.cardCount }).map((_, i) => (
                       <div
                         key={i}

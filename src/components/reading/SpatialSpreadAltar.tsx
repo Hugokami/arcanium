@@ -32,7 +32,7 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
         }}
         className={`group relative flex flex-col items-center cursor-pointer transition-all duration-300 hover:scale-105 ${extraClasses}`}
       >
-        <div className="relative w-16 h-26 sm:w-20 sm:h-32 rounded-xl overflow-hidden border-2 border-[#d4af37]/60 group-hover:border-amber-300 shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] bg-black transition-all">
+        <div className="relative w-14 h-22 sm:w-18 sm:h-28 md:w-20 md:h-32 rounded-xl overflow-hidden border-2 border-[#d4af37]/60 group-hover:border-amber-300 shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] bg-black transition-all">
           <img
             src={`/cards/${dc.card.file}`}
             alt={dc.card.name[language]}
@@ -46,11 +46,11 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
           )}
         </div>
         
-        <div className="mt-1.5 text-center max-w-[90px]">
-          <div className="text-[9px] font-mono uppercase tracking-wider text-amber-300/80 truncate">
+        <div className="mt-1 text-center max-w-[80px] sm:max-w-[90px]">
+          <div className="text-[8px] sm:text-[9px] font-mono uppercase tracking-wider text-amber-300/80 truncate">
             {positionLabel || dc.position.name[language]}
           </div>
-          <div className="text-[11px] font-serif font-semibold text-amber-100 truncate group-hover:text-amber-200">
+          <div className="text-[10px] sm:text-[11px] font-serif font-semibold text-amber-100 truncate group-hover:text-amber-200">
             {dc.card.name[language]}
           </div>
         </div>
