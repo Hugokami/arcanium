@@ -76,24 +76,28 @@ export const Header: React.FC<HeaderProps> = ({
   const currentLangObj = languages.find(l => l.id === language) || languages[0];
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#07040f]/80 border-b border-white/[0.08] transition-all">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#06040d]/85 border-b border-white/[0.08] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
         
         {/* Left: Clean Brand Logo & Subtitle */}
         <button
           onClick={onResetHome}
           className="group flex flex-col items-start text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-lg py-1 transition-transform active:scale-95 flex-shrink-0"
         >
-          <span className="font-serif text-base sm:text-lg md:text-xl font-normal tracking-[0.2em] text-[#d4af37] text-shadow-gold group-hover:text-amber-200 transition-colors">
-            ✦ ARCANIUM ✦
-          </span>
-          <span className="hidden sm:inline text-[10px] text-zinc-400 font-serif italic tracking-wide">
+          <div className="flex items-center space-x-1.5">
+            <span className="text-[#d4af37] text-xs animate-pulse">✦</span>
+            <span className="font-display text-base sm:text-lg md:text-xl font-bold tracking-[0.25em] text-[#d4af37] text-shadow-gold group-hover:text-amber-200 transition-colors uppercase">
+              ARCANIUM
+            </span>
+            <span className="text-[#d4af37] text-xs animate-pulse">✦</span>
+          </div>
+          <span className="hidden sm:inline text-[10px] text-amber-200/60 font-serif italic tracking-wider">
             {UI_TRANSLATIONS.appSubtitle[language]}
           </span>
         </button>
 
         {/* Right: Controls Hub */}
-        <div className="flex items-center space-x-1 sm:space-x-2">
+        <div className="flex items-center space-x-1.5 sm:space-x-2">
           
           {/* Daily Oracle Button */}
           <button
@@ -101,11 +105,11 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardFlip();
               onOpenDailyCard();
             }}
-            className="flex items-center space-x-1 sm:space-x-1.5 h-8 px-2 sm:px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-400/60 text-xs text-amber-200 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95 shadow-sm"
+            className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-400/60 text-xs text-amber-200 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95 shadow-sm hover:shadow-[0_0_15px_rgba(245,158,11,0.25)]"
             title={UI_TRANSLATIONS.dailyCardBtn[language]}
           >
             <Sun className="w-3.5 h-3.5 text-amber-400 animate-spin-slow" />
-            <span className="hidden md:inline font-serif">{UI_TRANSLATIONS.dailyCardBtn[language]}</span>
+            <span className="hidden md:inline font-serif tracking-wide">{UI_TRANSLATIONS.dailyCardBtn[language]}</span>
           </button>
 
           {/* Natal Profile Button */}

@@ -211,49 +211,58 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
             </p>
           </div>
 
-          {/* 3 Glowing Decks Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-4">
+          {/* 3 Glowing Decks Grid with Double-Bezel Nested Architecture */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 max-w-4xl mx-auto pt-4">
             {deckStreams.map((stream) => (
-              <button
+              <div
                 key={stream.id}
                 onClick={() => handleSelectDeck(stream)}
                 onMouseEnter={() => audioService.playCardHover()}
-                className="group relative craft-card p-6 sm:p-7 rounded-3xl text-left flex flex-col justify-between items-center space-y-6 cursor-pointer hover:border-[#d4af37] hover:shadow-[0_0_35px_rgba(212,175,55,0.3)] transition-all duration-300 active:scale-95"
+                className="group craft-bezel-outer cursor-pointer active:scale-[0.98]"
               >
-                {/* 3D Stacked Card Pile Visual */}
-                <div className="relative w-28 h-44 sm:w-32 sm:h-48 my-2">
-                  {/* Layer 3 Bottom */}
-                  <div className="absolute inset-0 rounded-2xl bg-zinc-900 border border-[#d4af37]/30 shadow-lg translate-x-2 translate-y-2 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform" />
-                  {/* Layer 2 Middle */}
-                  <div className="absolute inset-0 rounded-2xl bg-zinc-900 border border-[#d4af37]/50 shadow-lg translate-x-1 translate-y-1 group-hover:translate-x-1.5 group-hover:translate-y-1.5 transition-transform" />
-                  {/* Layer 1 Top Front */}
-                  <div className="absolute inset-0 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.25)] bg-[#0b0813] flex flex-col items-center justify-center p-2">
-                    <img
-                      src="/cards/CardBacks.png"
-                      alt="Tarot Back"
-                      className="w-full h-full object-cover rounded-xl opacity-90 group-hover:opacity-100 transition-opacity"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors">
-                      <Sparkles className="w-8 h-8 text-[#d4af37] group-hover:scale-125 transition-transform" />
+                <div className="craft-bezel-inner p-6 sm:p-7 flex flex-col justify-between items-center space-y-6 h-full text-center">
+                  
+                  {/* 3D Stacked Card Pile Visual */}
+                  <div className="relative w-28 h-44 sm:w-32 sm:h-48 my-2">
+                    {/* Layer 3 Bottom */}
+                    <div className="absolute inset-0 rounded-2xl bg-zinc-900 border border-[#d4af37]/30 shadow-lg translate-x-2 translate-y-2 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300" />
+                    {/* Layer 2 Middle */}
+                    <div className="absolute inset-0 rounded-2xl bg-zinc-900 border border-[#d4af37]/50 shadow-lg translate-x-1 translate-y-1 group-hover:translate-x-1.5 group-hover:translate-y-1.5 transition-transform duration-300" />
+                    {/* Layer 1 Top Front */}
+                    <div className="absolute inset-0 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-[0_0_24px_rgba(212,175,55,0.3)] bg-[#0b0813] flex flex-col items-center justify-center p-2 group-hover:border-amber-200 transition-colors duration-300">
+                      <img
+                        src="/cards/CardBacks.png"
+                        alt="Tarot Back"
+                        className="w-full h-full object-cover rounded-xl opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/15 transition-colors">
+                        <Sparkles className="w-8 h-8 text-[#d4af37] group-hover:scale-125 transition-transform duration-300 filter drop-shadow-[0_0_8px_#d4af37]" />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="text-center space-y-1.5 w-full">
-                  <h3 className="text-base sm:text-lg font-serif font-bold text-amber-100 group-hover:text-[#d4af37] transition-colors">
-                    {stream.title[language]}
-                  </h3>
-                  <p className="text-xs text-zinc-300 font-serif leading-relaxed">
-                    {stream.subtitle[language]}
-                  </p>
-                </div>
+                  <div className="space-y-1.5 w-full">
+                    <h3 className="text-base sm:text-lg font-serif font-bold text-amber-100 group-hover:text-[#d4af37] transition-colors">
+                      {stream.title[language]}
+                    </h3>
+                    <p className="text-xs text-zinc-300 font-serif leading-relaxed">
+                      {stream.subtitle[language]}
+                    </p>
+                  </div>
 
-                <div className="w-full pt-3 border-t border-white/[0.08] flex items-center justify-center text-xs font-serif text-[#d4af37] font-semibold group-hover:underline">
-                  <span>
-                    {language === 'my' ? 'ဤကတ်တွဲကို ရွေးချယ်မည် ✦' : language === 'ja' ? 'このデッキを選ぶ ✦' : 'Select this Deck ✦'}
-                  </span>
+                  <div className="w-full pt-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs font-serif text-[#d4af37] font-semibold">
+                    <span>
+                      {language === 'my' ? 'ဤကတ်တွဲကို ရွေးမည်' : language === 'ja' ? 'このデッキを選ぶ' : 'Select Deck'}
+                    </span>
+                    
+                    {/* Button-in-Button Trailing Icon */}
+                    <div className="w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] group-hover:bg-[#d4af37]/20 group-hover:border-[#d4af37]/40 flex items-center justify-center flex-shrink-0 transition-colors">
+                      <Sparkles className="w-3 h-3 text-amber-200 group-hover:rotate-45 transition-transform" />
+                    </div>
+                  </div>
+
                 </div>
-              </button>
+              </div>
             ))}
           </div>
 
