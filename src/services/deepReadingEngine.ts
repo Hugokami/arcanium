@@ -1,5 +1,6 @@
 import { DrawnCard, Language, SpreadDefinition, DeepAnalysisResult, TarotCard } from '../types/tarot';
 import { UserProfile } from '../types/userProfile';
+import { AstrologyService } from './astrologyService';
 
 const SUIT_REALM = {
   cups: {
@@ -100,9 +101,20 @@ const NUM_TIMING = {
   }
 };
 
-export function getPositionContextualMeaning(positionName: string, card: TarotCard, isReversed: boolean, lang: Language): string {
+export function getPositionContextualMeaning(
+  positionName: string,
+  card: TarotCard,
+  isReversed: boolean,
+  lang: Language,
+  userProfile?: UserProfile | null,
+  partnerProfile?: UserProfile | null
+): string {
   const kw = isReversed ? card.reversedKeywords[lang][0] : card.uprightKeywords[lang][0];
   const cName = card.name[lang];
+  const qName = userProfile?.name || (lang === 'my' ? 'သင်' : lang === 'ja' ? 'あなた' : 'you');
+  const pName = partnerProfile?.name || (lang === 'my' ? 'သူ/သူမ' : lang === 'ja' ? 'お相手' : 'they');
+  const pSign = partnerProfile?.zodiacSign ? ` (${partnerProfile.zodiacSign.name[lang]})` : '';
+  const uSign = userProfile?.zodiacSign ? ` (${userProfile.zodiacSign.name[lang]})` : '';
 
   if (lang === 'my') {
     switch (positionName) {
@@ -135,13 +147,13 @@ export function getPositionContextualMeaning(positionName: string, card: TarotCa
         return `လက်ရှိ အခြေအနေ ဆက်လက်စီးဆင်းပါက "${kw}" က နောက်ဆုံးရလဒ်ကို ပုံဖော်ပါလိမ့်မည်။`;
       case 'You':
       case 'သင့်ဘက်မှ စွမ်းအင်':
-        return `သင်သည် "${kw}" စွမ်းအင်ဖြင့် ဤဆက်ဆံရေးထဲသို့ ဝင်ရောက်လာခြင်း ဖြစ်ပါသည်။`;
+        return `${qName}${uSign} သည် "${kw}" စွမ်းအင်ဖြင့် ဤဆက်ဆံရေးထဲသို့ ဝင်ရောက်လာခြင်း ဖြစ်ပါသည်။`;
       case 'Them':
       case 'သူ့ဘက်မှ စွမ်းအင်':
-        return `သူ/သူမသည် "${kw}" စိတ်ခံစားချက်နှင့် သဘောထားကို သယ်ဆောင်လာပါသည်။`;
+        return `${pName}${pSign} သည် "${kw}" စိတ်ခံစားချက်နှင့် အတွင်းစိတ်သဘောထားကို သယ်ဆောင်လာပါသည်။`;
       case 'The Bond':
       case 'နှစ်ဦးကြား သံယောဇဉ်':
-        return `နှစ်ဦးကြားတွင် "${kw}" စီးဆင်းနေပြီး ၎င်းသည် ဆက်ဆံရေး၏ အစစ်အမှန် အရောင်အသွေး ဖြစ်ပါသည်။`;
+        return `${qName} နှင့် ${pName} ကြားတွင် "${kw}" စီးဆင်းနေပြီး ၎င်းသည် ဆက်ဆံရေး၏ အစစ်အမှန် အရောင်အသွေး ဖြစ်ပါသည်။`;
       case 'The Challenge':
       case 'ရင်ဆိုင်ရမည့် စိန်ခေါ်မှု':
         return `နှစ်ဦးကြား ပွတ်တိုက်မှု အချက်မှာ "${kw}" ဖြစ်ပြီး ၎င်းသည် နှစ်ဦးစလုံး၏ နားလည်မှုကို စမ်းသပ်ပါလိမ့်မည်။`;
@@ -175,7 +187,7 @@ export function getPositionContextualMeaning(positionName: string, card: TarotCa
         return `あなたを阻んでいる壁は「${kw}」です — その正体を直視して認識することで、障害の力は半減します。`;
       case 'The Advice':
       case '導きの助言':
-        return `カードは「${kw}」を行動指針とするよう助言しています。これがあなたの最大の突破口です。`;
+        return `カードは「${kw}」を行動指针とするよう助言しています。これがあなたの最大の突破口です。`;
       case 'The Hidden Force':
       case '水面下の潜在力':
         return `水面下で静かに、「${kw}」の力が出来事の舵を取っています。`;
@@ -184,13 +196,13 @@ export function getPositionContextualMeaning(positionName: string, card: TarotCa
         return `現在の流れが保たれれば、「${kw}」が最終的な結末を決定づけるでしょう。`;
       case 'You':
       case 'あなたの心境':
-        return `あなたは「${kw}」のエネルギーを抱いて、この絆に向き合っています。`;
+        return `【${qName}様${uSign}】は「${kw}」のエネルギーを抱いて、この絆に向き合っています。`;
       case 'Them':
       case '相手の心境':
-        return `相手は「${kw}」という心象風景をこの関係に持ち込んでいます。`;
+        return `【${pName}様${pSign}】は「${kw}」という心象風景をこの関係に持ち込んでいます。`;
       case 'The Bond':
       case '二人の絆の本質':
-        return `二人の間には「${kw}」が流れており、これがこの繋がりの本物の質感です。`;
+        return `【${qName}様】と【${pName}様】の間には「${kw}」が流れており、これがこの繋がりの本物の質感です。`;
       case 'The Challenge':
       case '乗り越えるべき試練':
         return `二人が直面する摩擦の根源は「${kw}」であり、互いの器が試されています。`;
@@ -223,11 +235,11 @@ export function getPositionContextualMeaning(positionName: string, card: TarotCa
     case 'The Outcome':
       return `if the current holds, expect ${kw.toLowerCase()} to define the result.`;
     case 'You':
-      return `you arrive carrying ${kw.toLowerCase()} into this connection.`;
+      return `${qName}${uSign} arrives carrying ${kw.toLowerCase()} into this connection.`;
     case 'Them':
-      return `they come with ${kw.toLowerCase()} — this is what they bring.`;
+      return `${pName}${pSign} comes with ${kw.toLowerCase()} — this is what they bring into the bond.`;
     case 'The Bond':
-      return `between you flows ${kw.toLowerCase()} — the true texture of the connection.`;
+      return `between ${qName} and ${pName} flows ${kw.toLowerCase()} — the true texture of the connection.`;
     case 'The Challenge':
       return `the friction point is ${kw.toLowerCase()}. It will test you both.`;
     case 'The Path Forward':
@@ -242,7 +254,8 @@ export function analyzeReading(
   drawnCards: DrawnCard[],
   spread: SpreadDefinition,
   lang: Language,
-  userProfile?: UserProfile | null
+  userProfile?: UserProfile | null,
+  partnerProfile?: UserProfile | null
 ): DeepAnalysisResult {
   const cards = drawnCards.map(d => ({
     ...d.card,
@@ -271,10 +284,14 @@ export function analyzeReading(
   const zodiac = userProfile?.zodiacSign;
   const lifePath = userProfile?.lifePathNumber;
 
+  const partnerName = partnerProfile?.name || '';
+  const partnerZodiac = partnerProfile?.zodiacSign;
+  const synastry = userProfile && partnerProfile ? AstrologyService.calculateSynastry(userProfile, partnerProfile, lang) : null;
+
   // Detect domain category
   const topicLower = (topic || '').toLowerCase();
   const domain: 'love' | 'career' | 'fortune' | 'growth' | 'decision' | 'general' =
-    topicLower.includes('love') || topicLower.includes('heart') || topicLower.includes('relationship') || topicLower.includes('အချစ်') || topicLower.includes('ချစ်ခြင်း') || topicLower.includes('恋愛') || topicLower.includes('愛')
+    topicLower.includes('love') || topicLower.includes('heart') || topicLower.includes('relationship') || topicLower.includes('အချစ်') || topicLower.includes('ချစ်ခြင်း') || topicLower.includes('恋愛') || topicLower.includes('愛') || Boolean(partnerProfile)
       ? 'love'
       : topicLower.includes('career') || topicLower.includes('purpose') || topicLower.includes('work') || topicLower.includes('အလုပ်') || topicLower.includes('ဘဝလမ်းကြောင်း') || topicLower.includes('仕事') || topicLower.includes('キャリア')
       ? 'career'
@@ -288,9 +305,9 @@ export function analyzeReading(
 
   const domainLabels = {
     love: {
-      en: 'Heart, Romance & Sacred Relationships',
-      my: 'နှလုံးသား၊ အချစ်ရေးနှင့် သံယောဇဉ်ဆက်ဆံရေး',
-      ja: '愛・パートナーシップ・魂の絆'
+      en: partnerName ? `Sacred Synastry & Connection with ${partnerName}` : 'Heart, Romance & Sacred Relationships',
+      my: partnerName ? `${partnerName} နှင့် စိတ်ဝိညာဉ် ဇာတာခွင် ဆက်နွှယ်မှု` : 'နှလုံးသား၊ အချစ်ရေးနှင့် သံယောဇဉ်ဆက်ဆံရေး',
+      ja: partnerName ? `【${partnerName}様】との神聖なシナストリーと絆` : '愛・パートナーシップ・魂の絆'
     },
     career: {
       en: 'Career, Vocation & Soul Ambition',
@@ -323,19 +340,26 @@ export function analyzeReading(
   let mind = '';
   if (lang === 'my') {
     const parts: string[] = [];
-    if (querentName) {
+    if (partnerName && synastry) {
+      parts.push(`${querentName ? querentName : 'သင်'} (${zodiac ? zodiac.name.my : ''}) နှင့် ${partnerName} (${partnerZodiac ? partnerZodiac.name.my : ''}) တို့၏ **${domainLabels[domain].my}** အတွက် —`);
+      parts.push(`နက္ခတ်ဗေဒ သဟဇာတအရ "${synastry.elementalChemistry.my}" စွမ်းအင် စီးဆင်းနေပြီး`);
+    } else if (querentName) {
       parts.push(`${querentName} ၏ **${domainLabels[domain].my}** ကဏ္ဍအတွက် —`);
     } else {
       parts.push(`**${domainLabels[domain].my}** နှင့် ပတ်သက်သော ကံကြမ္မာခရီးတွင် —`);
     }
-    if (zodiac) {
+    if (!partnerName && zodiac) {
       parts.push(`မွေးရာပါ ${zodiac.name.my} (${zodiac.element} ဓာတ်) ၏ စရိုက်သဘာဝနှင့် ပေါင်းစပ်ချိန်ညှိကြည့်ပါက`);
     }
     if (topSuitKey) {
       parts.push(`လက်ရှိ စိတ်အာရုံသည် ${SUIT_REALM[topSuitKey].my} ပေါ်တွင် အဓိက သက်ရောက်လွှမ်းမိုးနေပါသည် (${topSuitEntry[1].length} ကတ်အထိ ဤဓာတ်သဘာဝ ကျရောက်နေသောကြောင့် ဖြစ်ပါသည်)။`);
     }
     if (domain === 'love') {
-      parts.push(`နှလုံးသားနယ်ပယ်တွင် မိမိ၏ စိတ်ခံစားမှု၊ နွေးထွေးမှုနှင့် နားလည်မှုမျှဝေနိုင်စွမ်းတို့မှာ အလွန်ပင် ထိလွယ်ရှလွယ် ဖြစ်နေပြီး အတွင်းစိတ်၏ စစ်မှန်သော ဆန္ဒကို ရှာဖွေနေချိန် ဖြစ်ပါသည်။`);
+      if (partnerName) {
+        parts.push(`နှစ်ဦးကြားတွင် ခံစားချက်ဖလှယ်မှု၊ အပြန်အလှန်နားလည်မှုနှင့် သံယောဇဉ်ခိုင်မာစေရေးတို့သည် အဓိက အာရုံစူးစိုက်ရာ ဖြစ်နေပါသည်။`);
+      } else {
+        parts.push(`နှလုံးသားနယ်ပယ်တွင် မိမိ၏ စိတ်ခံစားမှု၊ နွေးထွေးမှုနှင့် နားလည်မှုမျှဝေနိုင်စွမ်းတို့မှာ အလွန်ပင် ထိလွယ်ရှလွယ် ဖြစ်နေပြီး အတွင်းစိတ်၏ စစ်မှန်သော ဆန္ဒကို ရှာဖွေနေချိန် ဖြစ်ပါသည်။`);
+      }
     } else if (domain === 'career') {
       parts.push(`အလုပ်အကိုင်နယ်ပယ်တွင် မိမိ၏ ကျွမ်းကျင်မှု၊ အသိအမှတ်ပြုခံရမှုနှင့် ရှေ့ဆက်တိုးတက်လိုသော ရည်မှန်းချက်တို့က အတွင်းစိတ်ကို အားမာန်အပြည့် လှုံ့ဆော်ပေးနေပါသည်။`);
     } else if (domain === 'fortune') {
@@ -353,12 +377,15 @@ export function analyzeReading(
     mind = parts.join(' ');
   } else if (lang === 'ja') {
     const parts: string[] = [];
-    if (querentName) {
+    if (partnerName && synastry) {
+      parts.push(`【${querentName || 'あなた'}様（${zodiac ? zodiac.name.ja : ''}）】と【${partnerName}様（${partnerZodiac ? partnerZodiac.name.ja : ''}）】の${domainLabels[domain].ja}において —`);
+      parts.push(`天体シナストリー分析によると、【${synastry.elementalChemistry.ja}】が働いています。`);
+    } else if (querentName) {
       parts.push(`【${querentName}様の「${domainLabels[domain].ja}」における探求路】`);
     } else {
       parts.push(`【${domainLabels[domain].ja}の領域において】`);
     }
-    if (zodiac) {
+    if (!partnerName && zodiac) {
       parts.push(`生まれ持つ${zodiac.name.ja}（${zodiac.element}のエレメント）の資質と共鳴し、`);
     }
     if (topSuitKey) {
@@ -383,12 +410,15 @@ export function analyzeReading(
     mind = parts.join(' ');
   } else {
     const parts: string[] = [];
-    if (querentName) {
+    if (partnerName && synastry) {
+      parts.push(`For ${querentName || 'Querent'} (${zodiac?.name.en}) and ${partnerName} (${partnerZodiac?.name.en}) exploring **${domainLabels[domain].en}**:`);
+      parts.push(`Synastry reveals **${synastry.elementalChemistry.en}**.`);
+    } else if (querentName) {
       parts.push(`For ${querentName}'s inquiry into **${domainLabels[domain].en}**:`);
     } else {
       parts.push(`Tuned to the sphere of **${domainLabels[domain].en}**:`);
     }
-    if (zodiac) {
+    if (!partnerName && zodiac) {
       parts.push(`interfacing with your natal ${zodiac.name.en} (${zodiac.element} element),`);
     }
     if (topSuitKey) {
@@ -431,7 +461,9 @@ export function analyzeReading(
     if (obstacleCard) {
       parts.push(`ဤ **${domainLabels[domain].my}** ခရီးစဉ်တွင် အဓိက ရင်ဆိုင်ရမည့် အတားအဆီးမှာ **${obstacleCard.name.my}${obstacleCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** ဖြစ်ပြီး "${obstacleCard.kw}" ကြောင့် ရှေ့သို့ တိုးရန် နှောင့်နှေးမှုများ ဖြစ်ပေါ်နေရပါသည်။`);
     }
-    if (domain === 'love') {
+    if (partnerName && synastry) {
+      parts.push(`နှစ်ဦးကြား ဓာတ်သဟဇာတ စိစစ်ချက်အရ (${synastry.compatibilityScore}% သဟဇာတရှိမှု): ${synastry.dynamicVerdict.my}`);
+    } else if (domain === 'love') {
       parts.push(`အချစ်ရေးနှင့် ပတ်သက်၍ အဓိက သတိပြုရမည့် အချက်မှာ နားလည်မှုလွဲမှားခြင်း၊ မျှော်လင့်ချက်များလွန်းခြင်း သို့မဟုတ် စိတ်ခံစားချက်ကို ပွင့်လင်းစွာ မဖော်ပြနိုင်ခြင်းတို့ ဖြစ်နိုင်ပါသည်။`);
     } else if (domain === 'career') {
       parts.push(`အလုပ်အကိုင်တွင် အဓိက စိန်ခေါ်မှုမှာ လုပ်ငန်းခွင်ဖိအားများ၊ ဦးတည်ချက်မရှင်းလင်းခြင်း သို့မဟုတ် အပြောင်းအလဲကို စိုးရိမ်နေခြင်းတို့ ဖြစ်နိုင်ပါသည်။`);
@@ -449,7 +481,9 @@ export function analyzeReading(
     if (obstacleCard) {
       parts.push(`【${domainLabels[domain].ja}】における最大の障壁は、**【${obstacleCard.name.ja}${obstacleCard.isReversed ? '（逆位置）' : ''}】**、すなわち「${obstacleCard.kw}」のエネルギーです。`);
     }
-    if (domain === 'love') {
+    if (partnerName && synastry) {
+      parts.push(`シナストリー相性分析（調和度 ${synastry.compatibilityScore}%）：${synastry.dynamicVerdict.ja}`);
+    } else if (domain === 'love') {
       parts.push(`愛の領域では、言葉にできない誤解や過去の傷から来る防衛心が、相手との距離感を生んでいる可能性があります。`);
     } else if (domain === 'career') {
       parts.push(`仕事面では、多忙によるエネルギーの分散や、周囲の期待に振り回されることが前進を阻む要因となっています。`);
@@ -467,7 +501,9 @@ export function analyzeReading(
     if (obstacleCard) {
       parts.push(`In your journey through **${domainLabels[domain].en}**, the focal obstacle is **${obstacleCard.name.en}${obstacleCard.isReversed ? ' (reversed)' : ''}** — ${obstacleCard.kw.toLowerCase()}.`);
     }
-    if (domain === 'love') {
+    if (partnerName && synastry) {
+      parts.push(`Astrological Synastry Analysis (${synastry.compatibilityScore}% Harmony Index): ${synastry.dynamicVerdict.en}`);
+    } else if (domain === 'love') {
       parts.push(`In relationships, the friction stems from unspoken assumptions, emotional guardedness, or projecting past wounds onto present dynamics.`);
     } else if (domain === 'career') {
       parts.push(`Professionally, the barrier lies in scattered focus, workplace friction, or holding back from claiming your authority.`);
@@ -495,7 +531,9 @@ export function analyzeReading(
     if (hiddenCard) {
       parts.push(`မျက်နှာပြင်အောက်တွင် **${hiddenCard.name.my}${hiddenCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** က "${hiddenCard.kw}" အဖြစ် **${domainLabels[domain].my}** ကဏ္ဍအတွက် တိတ်တဆိတ် စွမ်းအင်စီးဆင်းပေးနေပါသည်။`);
     }
-    if (topSuitKey === 'swords') {
+    if (partnerName && synastry) {
+      parts.push(`နှစ်ဦးပေါင်းစပ် ကံကြမ္မာသင်္ကေတ (Composite Soul Nexus Key #${synastry.compositeLifePathNumber} ${synastry.compositeSoulCardName.my}) ၏ မသိစိတ်ဆွဲအားက နောက်ကွယ်မှ ဦးဆောင်ပေးနေပါသည်။`);
+    } else if (topSuitKey === 'swords') {
       parts.push(`ဓားကတ်များ များနေခြင်းက အတွေးလွန်ခြင်းသည် လက်တွေ့ထက် ပိုမိုပြင်းထန်သော စိတ်ဖိစီးမှုကို ဖြစ်စေနိုင်ကြောင်း သတိပေးနေပါသည်။`);
     } else if (topSuitKey === 'cups') {
       parts.push(`ဖလားကတ်များ အားကောင်းနေခြင်းက နက်ရှိုင်းသော မေတ္တာနှင့် အတွင်းစိတ်ခံစားချက်များက နောက်ကွယ်မှ အဓိက တွန်းအားပေးနေကြောင်း ပြသနေပါသည်။`);
@@ -510,7 +548,9 @@ export function analyzeReading(
     if (hiddenCard) {
       parts.push(`【${domainLabels[domain].ja}】の水面下において、**【${hiddenCard.name.ja}${hiddenCard.isReversed ? '（逆位置）' : ''}】**が「${hiddenCard.kw}」の神秘的な力として静かに働いています。`);
     }
-    if (topSuitKey === 'swords') {
+    if (partnerName && synastry) {
+      parts.push(`二人の複合ソウルナンバー【#${synastry.compositeLifePathNumber} ${synastry.compositeSoulCardName.ja}】の深層的引力が、見えない絆を宿命的に導いています。`);
+    } else if (topSuitKey === 'swords') {
       parts.push(`思考の刃が鋭利になりすぎていないか、客観的な静寂を取り戻すことが促されています。`);
     } else if (topSuitKey === 'cups') {
       parts.push(`豊かな感情の泉が、魂と魂を繋ぐ見えない架け橋となっています。`);
@@ -521,7 +561,9 @@ export function analyzeReading(
     if (hiddenCard) {
       parts.push(`Operating beneath the surface of **${domainLabels[domain].en}**, **${hiddenCard.name.en}${hiddenCard.isReversed ? ' (reversed)' : ''}** channels the power of ${hiddenCard.kw.toLowerCase()}.`);
     }
-    if (topSuitKey === 'swords') {
+    if (partnerName && synastry) {
+      parts.push(`The Composite Soul Nexus Key (#${synastry.compositeLifePathNumber} ${synastry.compositeSoulCardName.en}) exerts a powerful subconscious gravitational pull over this bond.`);
+    } else if (topSuitKey === 'swords') {
       parts.push(`Excess air/swords energy signals that overthinking itself has become an invisible force.`);
     } else if (topSuitKey === 'cups') {
       parts.push(`Deep water/cups currents ensure that authentic emotional truth will inevitably rise to the surface.`);
@@ -542,7 +584,9 @@ export function analyzeReading(
     if (adviceCard) {
       parts.push(`ကတ်ပြားများ၏ တိုက်ရိုက် လမ်းညွှန်ချက်အရ **${adviceCard.name.my}** ကို အလေးထားပါ — "${adviceCard.kw}" ကို လက်ကိုင်ထား၍ **${domainLabels[domain].my}** အတွက် အောက်ပါအတိုင်း ဆောင်ရွက်ပါ:`);
     }
-    if (domain === 'love') {
+    if (partnerName && synastry) {
+      parts.push(`ဆက်ဆံရေး ချိန်ညှိမှု လမ်းညွှန်ချက်: ${synastry.synastryAdvice.my}`);
+    } else if (domain === 'love') {
       parts.push(`ချစ်ခြင်းမေတ္တာတွင် သံသယများကို ဘေးဖယ်၍ ပွင့်လင်းရိုးသားသော ဆက်သွယ်မှုကို တည်ဆောက်ပါ။ မိမိကိုယ်ကို ချစ်တတ်မှသာ တပါးသူကို အပြည့်အဝ ချစ်နိုင်ပါလိမ့်မည်။`);
     } else if (domain === 'career') {
       parts.push(`လုပ်ငန်းခွင်တွင် မိမိ၏ တန်ဖိုးကို ယုံကြည်ပြီး မဟာဗျူဟာကျကျ စီမံလုပ်ဆောင်ပါ။ စိတ်ရှည်သည်းခံမှုနှင့် စိတ်အားထက်သန်မှုကို ပေါင်းစပ်ပါ။`);
@@ -560,7 +604,9 @@ export function analyzeReading(
     if (adviceCard) {
       parts.push(`**【${adviceCard.name.ja}】**からの神聖な助言 — 「${adviceCard.kw}」。【${domainLabels[domain].ja}】を好転させる最大の鍵となります：`);
     }
-    if (domain === 'love') {
+    if (partnerName && synastry) {
+      parts.push(`関係性を高める錬金術的アプローチ：${synastry.synastryAdvice.ja}`);
+    } else if (domain === 'love') {
       parts.push(`愛において、防衛壁を緩め、真摯な言葉で心を通わせてください。自分自身を尊ぶことが、相手からの真の愛を引き寄せます。`);
     } else if (domain === 'career') {
       parts.push(`仕事において、自己価値を信じて主導権を握りましょう。長期的なビジョンに立ち返ることが突破口を開きます。`);
@@ -578,7 +624,9 @@ export function analyzeReading(
     if (adviceCard) {
       parts.push(`Take **${adviceCard.name.en}**'s counsel directly: **${adviceCard.kw.toLowerCase()}**. Apply this directly to **${domainLabels[domain].en}**:`);
     }
-    if (domain === 'love') {
+    if (partnerName && synastry) {
+      parts.push(`Relational Alchemy Counsel: ${synastry.synastryAdvice.en}`);
+    } else if (domain === 'love') {
       parts.push(`In love, lower defensive walls, practice radical honesty, and lead with heartfelt presence. Mutual respect will follow.`);
     } else if (domain === 'career') {
       parts.push(`Professionally, stand firm in your competence, communicate with clarity, and execute with disciplined passion.`);
@@ -612,7 +660,9 @@ export function analyzeReading(
     if (outcomeCard) {
       parts.push(`ဤလမ်းညွှန်ချက်အတိုင်း ရှေ့သို့ လှမ်းချီပါက **${domainLabels[domain].my}** တွင် **${outcomeCard.name.my}${outcomeCard.isReversed ? ' (ပြောင်းပြန်)' : ''}** ပြသသော အကျိုးရလဒ်သို့ ရောက်ရှိပါလိမ့်မည် — "${outcomeCard.kw}"။`);
     }
-    if (domain === 'love') {
+    if (partnerName) {
+      parts.push(`${partnerName} နှင့် ဆက်ဆံရေးတွင် ပိုမိုနက်ရှိုင်းသော နားလည်မှုနှင့် စိတ်အေးချမ်းရွှင်လန်းဖွယ် ရလဒ်များ ပွင့်လန်းလာမည် ဖြစ်ပါသည်။`);
+    } else if (domain === 'love') {
       parts.push(`ဆက်ဆံရေးတွင် ပိုမိုနက်ရှိုင်းသော နားလည်မှုနှင့် စိတ်အေးချမ်းရွှင်လန်းဖွယ် ရလဒ်များ ပွင့်လန်းလာမည် ဖြစ်ပါသည်။`);
     } else if (domain === 'career') {
       parts.push(`အလုပ်အကိုင်တွင် အသီးအပွင့်များ ရရှိလာပြီး မိမိ၏ စွမ်းဆောင်ရည်ကို ထင်ရှားစွာ သက်သေပြနိုင်ပါလိမ့်မည်။`);
@@ -627,7 +677,9 @@ export function analyzeReading(
     if (outcomeCard) {
       parts.push(`この導きに従うことで、【${domainLabels[domain].ja}】の先には**【${outcomeCard.name.ja}${outcomeCard.isReversed ? '（逆位置）' : ''}】**が示す境地が待っています — 「${outcomeCard.kw}」。`);
     }
-    if (domain === 'love') {
+    if (partnerName) {
+      parts.push(`【${partnerName}様】との関係性に真の調和と深い精神的絆が結実します。`);
+    } else if (domain === 'love') {
       parts.push(`関係性に真の調和と深い精神的絆が結実します。`);
     } else if (domain === 'career') {
       parts.push(`努力が正当に評価され、確固たる地位と充実感がもたらされます。`);
@@ -642,7 +694,9 @@ export function analyzeReading(
     if (outcomeCard) {
       parts.push(`Following this counsel leads **${domainLabels[domain].en}** directly toward **${outcomeCard.name.en}${outcomeCard.isReversed ? ' (reversed)' : ''}**: ${outcomeCard.kw.toLowerCase()}.`);
     }
-    if (domain === 'love') {
+    if (partnerName) {
+      parts.push(`A higher octave of mutual trust, harmonic resonance, and sacred reciprocity with ${partnerName} awaits.`);
+    } else if (domain === 'love') {
       parts.push(`A higher octave of mutual respect, trust, and shared joy awaits.`);
     } else if (domain === 'career') {
       parts.push(`Recognition, tangible progress, and alignment with your true vocational power unfold.`);
@@ -691,7 +745,10 @@ export function analyzeReading(
   let archShadow = '';
 
   if (lang === 'my') {
-    if (majors.length >= Math.ceil(cards.length / 2)) {
+    if (partnerName) {
+      archName = `စိတ်ဝိညာဉ် မှန်ရိပ်စုံတွဲ (The Sacred Mirror 🜂)`;
+      archDesc = `${querentName || 'သင်'} နှင့် ${partnerName} တို့သည် တစ်ဦးကိုတစ်ဦး မိမိတို့၏ အတွင်းစိတ် အလင်းနှင့် အရိပ်များကို အတိအကျ ပြန်လည်ထင်ဟပ်ပြနေသော စိတ်ဝိညာဉ် မိတ်ဖက်များ ဖြစ်ကြပါသည်။`;
+    } else if (majors.length >= Math.ceil(cards.length / 2)) {
       archName = "ကံကြမ္မာ၏ ရွေးချယ်ခံရသူ (The Fated One 🜂)";
       archDesc = "မိမိ၏ ဘဝခရီးလမ်းတွင် ပိုမိုကြီးမားသော စကြဝဠာစွမ်းအားတစ်ခု၏ ဆွဲခေါ်မှုကို ခံစားရသူ ဖြစ်ပါသည်။ တံခါးများသည် မိမိထိန်းချုပ်မှုထက် ကျော်လွန်၍ ပွင့်လာတတ်သောကြောင့် ကိုယ့်တာဝန်မှာ လမ်းကို အတင်းဖောက်ရန် မဟုတ်ဘဲ မှန်ကန်သော လမ်းကြောင်းကို ပညာဉာဏ်ဖြင့် သိမြင်လက်ခံရန် ဖြစ်ပါသည်။";
     } else if (topSuitKey === 'cups') {
@@ -715,7 +772,10 @@ export function analyzeReading(
       ? ` သတိပြုရန် အတွင်းစိတ်ထောင်ချောက်: ${reversed.map(c => c.kw).slice(0, 3).join('၊ ')} စသည့် အချက်များကို သတိထားရန် လိုအပ်ပါသည်။`
       : " လက်ရှိတွင် ဤစရိုက်သဘာဝသည် သင့်ဘက်မှ ကောင်းမွန်စွာ စွမ်းအင်ပေးလျက် ရှိပါသည်။";
   } else if (lang === 'ja') {
-    if (majors.length >= Math.ceil(cards.length / 2)) {
+    if (partnerName) {
+      archName = `魂を映す聖なる鏡（The Sacred Mirror 🜂）`;
+      archDesc = `【${querentName || 'あなた'}様】と【${partnerName}様】は、互いの内なる光と影を映し出す宿命のパートナーです。真摯な対話が二人の霊的進化を促します。`;
+    } else if (majors.length >= Math.ceil(cards.length / 2)) {
       archName = "運命に選ばれし者（The Fated One 🜂）";
       archDesc = "あなたは今、より大いなる力に導かれながら歩んでいます。扉は人間の作為を超えて開閉し、あなたの役目は道を無理にこじ開けることではなく、真の導きを見極めることにあります。";
     } else if (topSuitKey === 'cups') {
@@ -739,7 +799,10 @@ export function analyzeReading(
       ? ` 【影の警告】：${reversed.map(c => c.kw).slice(0, 3).join('、')}といった罠に囚われないよう注意してください。`
       : ` すべてのカードが正位置にあり、このアーキタイプの光が現在あなたを力強く後押ししています。`;
   } else {
-    if (majors.length >= Math.ceil(cards.length / 2)) {
+    if (partnerName) {
+      archName = "The Sacred Mirror 🜂";
+      archDesc = `${querentName || 'You'} and ${partnerName} act as spiritual mirrors for one another, reflecting both unexpressed light and sacred growth edges.`;
+    } else if (majors.length >= Math.ceil(cards.length / 2)) {
       archName = "The Fated One 🜂";
       archDesc = "You walk through life feeling pulled by something larger. Doors open and close beyond your control, and your task has never been to force paths, but to recognize the right ones. People with heavy Major Arcana spreads live at the center of their own myth.";
     } else if (topSuitKey === 'cups') {
@@ -767,14 +830,14 @@ export function analyzeReading(
   /* ================= 8. MASTER SUMMARY ================= */
   let summary = '';
   if (lang === 'my') {
-    const greeting = querentName ? `${querentName} အတွက် ` : '';
+    const greeting = partnerName ? `${querentName ? querentName : 'သင်'} နှင့် ${partnerName} တို့အတွက် ` : querentName ? `${querentName} အတွက် ` : '';
     summary = `${greeting}"${domainLabels[domain].my}" နှင့် ပတ်သက်၍ အနှစ်ချုပ်မှာ: ကတ်ပြားများအရ မိမိ၏ စိတ်အာရုံသည် ${topSuitKey ? SUIT_REALM[topSuitKey].my.split(' — ')[0] : 'ဘဝကဏ္ဍ'} ဘက်သို့ ဦးတည်နေပြီး၊ ${reversed.length ? 'အတွင်းစိတ် အတားအဆီးများကို ဖြေလျှော့ရန် လိုအပ်နေချိန်တွင်' : 'စိတ်ဆန္ဒနှင့် စွမ်းအင်များ ညီညွတ်စွာ စီးဆင်းနေကာ'} နောက်ဆုံး၌ ${outcomeCard ? outcomeCard.name.my : 'အသစ်သော အခွင့်အလမ်း'} ဆီသို့ ဦးတည်နေကြောင်း ဖော်ပြနေပါသည်။ တာရော့ကတ်ပြားများသည် အနာဂတ်ရာသီဥတုကို ပြသပေးသော လမ်းညွှန်ဖြစ်ပြီး ကံကြမ္မာစတီယာရင်ကို အမှန်တကယ် ကိုင်တွယ်မောင်းနှင်သူမှာ သင်ကိုယ်တိုင်သာ ဖြစ်ပါသည်။`;
   } else if (lang === 'ja') {
-    const greeting = querentName ? `【${querentName}様へ】` : '';
+    const greeting = partnerName ? `【${querentName || 'あなた'}様と${partnerName}様へ】` : querentName ? `【${querentName}様へ】` : '';
     summary = `${greeting}「${domainLabels[domain].ja}」について：カードは、あなたの意識が【${topSuitKey ? SUIT_REALM[topSuitKey].ja.split(' — ')[0] : '多面的な波動'}】に向かい、${reversed.length ? '内なる滞りを手放す試練' : '稀に見る意志と感情の調和'}を経て、最終的に【${outcomeCard ? outcomeCard.name.ja : '未踏の未来'}】へと向かっていることを示しています。タロットは運命の天気予報を示すものであり、船の舵を握っているのは、いつでもあなた自身です。`;
   } else {
-    const greeting = querentName ? `For ${querentName} — ` : '';
-    summary = `${greeting}On **${domainLabels[domain].en}**: the cards reveal a querent tuned to ${topSuitKey ? SUIT_REALM[topSuitKey].en.split(' — ')[0] : 'shifting currents'}, guided through ${reversed.length ? 'inner blockages seeking release' : 'a harmonious alignment of will and feeling'}, and moving steadily toward ${outcomeCard ? outcomeCard.name.en : 'an auspicious outcome'}. The cards do not dictate your fate — they illuminate the weather. You hold the wheel.`;
+    const greeting = partnerName ? `For ${querentName || 'Querent'} and ${partnerName} — ` : querentName ? `For ${querentName} — ` : '';
+    summary = `${greeting}On **${domainLabels[domain].en}**: the cards reveal a sacred connection tuned to ${topSuitKey ? SUIT_REALM[topSuitKey].en.split(' — ')[0] : 'shifting currents'}, guided through ${reversed.length ? 'inner blockages seeking release' : 'a harmonious alignment of will and feeling'}, and moving steadily toward ${outcomeCard ? outcomeCard.name.en : 'an auspicious outcome'}. The cards do not dictate your fate — they illuminate the weather. You hold the wheel.`;
   }
 
   return {

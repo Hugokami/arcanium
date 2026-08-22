@@ -60,6 +60,8 @@ export function App() {
     }
   });
 
+  const [activePartnerProfile, setActivePartnerProfile] = useState<UserProfile | null>(() => AstrologyService.loadPartnerProfile());
+
   const saveJournalEntries = (newEntries: JournalEntry[]) => {
     setJournalEntries(newEntries);
     try {
@@ -70,22 +72,33 @@ export function App() {
   };
 
   // Launch drawing phase (Step 3) from Step 1 & 2
-  const handleStartDrawing = (topic: string, question: string, spread: SpreadDefinition) => {
+  const handleStartDrawing = (
+    topic: string,
+    question: string,
+    spread: SpreadDefinition,
+    partnerProfile?: UserProfile | null
+  ) => {
     setActiveTopic(topic);
     setActiveQuestion(question);
     setActiveSpread(spread);
+    setActivePartnerProfile(partnerProfile || null);
+    if (partnerProfile) {
+      AstrologyService.savePartnerProfile(partnerProfile);
+    }
     setStage('draw');
   };
 
   // Complete card selection and analyze (Step 4)
   const handleFinishReading = (drawnCards: DrawnCard[]) => {
     const profile = AstrologyService.loadProfile();
+    const partner = activePartnerProfile;
     const analysis = analyzeReading(
       activeTopic,
       drawnCards,
       activeSpread,
       language,
-      profile
+      profile,
+      partner
     );
 
     const readingData: ReadingResultData = {
@@ -96,7 +109,8 @@ export function App() {
       spread: activeSpread,
       drawnCards,
       language,
-      analysis
+      analysis,
+      partnerProfile: partner
     };
 
     setCurrentReading(readingData);

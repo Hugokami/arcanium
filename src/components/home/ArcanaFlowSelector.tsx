@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Language, SpreadDefinition, TopicOption } from '../../types/tarot';
 import { TOPICS, SPREAD_CONFIGS, QUICK_INQUIRIES, UI_TRANSLATIONS, getSpreadConfig } from '../../data/translations';
 import { audioService } from '../../services/audioService';
-import { AstrologyService } from '../../services/astrologyService';
-import { UserProfile } from '../../types/userProfile';
-import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3, Heart, Coins, Sprout, Scale, Eye } from 'lucide-react';
+import { AstrologyService, ZODIAC_SIGNS } from '../../services/astrologyService';
+import { UserProfile, ZodiacSignId } from '../../types/userProfile';
+import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3, Heart, Coins, Sprout, Scale, Eye, Users, AlertCircle, Trash2 } from 'lucide-react';
 
 interface ArcanaFlowSelectorProps {
   language: Language;
-  onStartDrawing: (topic: string, question: string, spread: SpreadDefinition) => void;
+  onStartDrawing: (topic: string, question: string, spread: SpreadDefinition, partnerProfile?: UserProfile | null) => void;
 }
 
 export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
@@ -28,6 +28,15 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
   const [nameInput, setNameInput] = useState<string>('');
   const [birthdateInput, setBirthdateInput] = useState<string>('');
 
+  // Partner / Counterpart Profile State
+  const [partnerProfile, setPartnerProfile] = useState<UserProfile | null>(null);
+  const [isEditingPartner, setIsEditingPartner] = useState<boolean>(false);
+  const [partnerNameInput, setPartnerNameInput] = useState<string>('');
+  const [partnerZodiacInput, setPartnerZodiacInput] = useState<ZodiacSignId | ''>('cancer');
+  const [partnerBirthdateInput, setPartnerBirthdateInput] = useState<string>('');
+  const [partnerError, setPartnerError] = useState<boolean>(false);
+  const [isPartnerAttunementOpen, setIsPartnerAttunementOpen] = useState<boolean>(false);
+
   useEffect(() => {
     const loaded = AstrologyService.loadProfile();
     setUserProfile(loaded);
@@ -37,7 +46,22 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     } else {
       setIsEditingProfile(true);
     }
+
+    const loadedPartner = AstrologyService.loadPartnerProfile();
+    if (loadedPartner) {
+      setPartnerProfile(loadedPartner);
+      setPartnerNameInput(loadedPartner.name);
+      if (loadedPartner.zodiacSign) {
+        setPartnerZodiacInput(loadedPartner.zodiacSign.id);
+      }
+      setPartnerBirthdateInput(loadedPartner.birthdate || '');
+    }
   }, []);
+
+  const isRelationshipReading =
+    selectedTopic.id === 'love' ||
+    selectedSpread.id === 'celtic' ||
+    isPartnerAttunementOpen;
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +74,36 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     setIsEditingProfile(false);
   };
 
+  const handleSavePartner = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!partnerNameInput.trim()) return;
+    if (!partnerZodiacInput && !partnerBirthdateInput.trim()) return;
+
+    audioService.playSingingBowl(528);
+    const partner = AstrologyService.buildPartnerProfile(
+      partnerNameInput.trim(),
+      partnerZodiacInput ? (partnerZodiacInput as ZodiacSignId) : undefined,
+      partnerBirthdateInput.trim() || undefined
+    );
+    AstrologyService.savePartnerProfile(partner);
+    setPartnerProfile(partner);
+    setIsEditingPartner(false);
+    setPartnerError(false);
+  };
+
+  const handleClearPartner = () => {
+    try {
+      localStorage.removeItem('arcanium_partner_profile');
+    } catch {
+      // ignore
+    }
+    setPartnerProfile(null);
+    setPartnerNameInput('');
+    setPartnerBirthdateInput('');
+    setIsEditingPartner(false);
+    setIsPartnerAttunementOpen(false);
+  };
+
   const handleSelectTopic = (topic: TopicOption) => {
     if (!userProfile) {
       setIsEditingProfile(true);
@@ -58,6 +112,12 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     audioService.playCardSlide();
     setSelectedTopic(topic);
     setSelectedSpread(getSpreadConfig(topic.suggestedSpread));
+    if (topic.id === 'love') {
+      setIsPartnerAttunementOpen(true);
+      if (!partnerProfile) {
+        setIsEditingPartner(true);
+      }
+    }
     setStep(2);
   };
 
@@ -89,11 +149,26 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
       setIsEditingProfile(true);
       return;
     }
+
+    const needsPartner =
+      selectedTopic.id === 'love' ||
+      spread.id === 'celtic' ||
+      isPartnerAttunementOpen;
+
+    if (needsPartner && !partnerProfile) {
+      setPartnerError(true);
+      setIsEditingPartner(true);
+      setIsPartnerAttunementOpen(true);
+      audioService.playCardHover();
+      window.scrollTo({ top: 300, behavior: 'smooth' });
+      return;
+    }
+
     audioService.playSingingBowl(324);
     setSelectedSpread(spread);
     const finalQuestion = customQuestion.trim() || selectedTopic.defaultQuestion[language];
     const finalTopic = customQuestion.trim() ? customQuestion.trim() : selectedTopic.title[language];
-    onStartDrawing(finalTopic, finalQuestion, spread);
+    onStartDrawing(finalTopic, finalQuestion, spread, partnerProfile);
   };
 
   const heroHeadline = {
@@ -305,6 +380,216 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
             })}
           </div>
 
+          {/* Optional Partner Attunement Toggle in Step 1 */}
+          <div className="flex justify-center">
+            {!isPartnerAttunementOpen && !partnerProfile && (
+              <button
+                onClick={() => {
+                  setIsPartnerAttunementOpen(true);
+                  setIsEditingPartner(true);
+                  audioService.playCardSlide();
+                }}
+                className="text-xs font-serif text-amber-300/80 hover:text-[#d4af37] bg-white/[0.03] hover:bg-white/[0.07] px-4 py-2 rounded-full border border-white/[0.08] hover:border-[#d4af37]/40 transition-all flex items-center space-x-2 active:scale-95"
+              >
+                <Users className="w-3.5 h-3.5 text-[#d4af37]" />
+                <span>{UI_TRANSLATIONS.addPartnerToggle[language]}</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* PARTNER / COUNTERPART ASTROLOGICAL ATTUNEMENT CARD */}
+      {(isRelationshipReading || isPartnerAttunementOpen || partnerProfile) && userProfile && !isEditingProfile && (
+        <div id="partner-attunement-section" className="craft-panel p-6 sm:p-8 rounded-3xl max-w-2xl mx-auto space-y-6 border-2 border-rose-400/40 bg-gradient-to-b from-[#190a28] to-[#0d0517] shadow-[0_0_40px_rgba(251,113,133,0.15)] animate-in fade-in slide-in-from-bottom-2 duration-400">
+          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+            <div className="flex items-center space-x-2">
+              <Heart className="w-4 h-4 text-rose-400 fill-rose-400/30" />
+              <h3 className="text-sm sm:text-base font-serif font-bold text-rose-100 tracking-wide">
+                {UI_TRANSLATIONS.partnerAttunementTitle[language]}
+              </h3>
+            </div>
+            {partnerProfile && (
+              <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-200 border border-rose-500/40">
+                {UI_TRANSLATIONS.synastryActiveBadge[language]}
+              </span>
+            )}
+          </div>
+
+          {partnerError && (
+            <div className="p-3.5 rounded-xl bg-rose-950/60 border border-rose-500/50 flex items-center space-x-3 text-xs font-serif text-rose-200 animate-pulse">
+              <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+              <span>{UI_TRANSLATIONS.partnerRequiredNotice[language]}</span>
+            </div>
+          )}
+
+          {(!partnerProfile || isEditingPartner) ? (
+            <form onSubmit={handleSavePartner} className="space-y-5">
+              <p className="text-xs text-zinc-300 font-serif leading-relaxed">
+                {UI_TRANSLATIONS.partnerAttunementDesc[language]}
+              </p>
+
+              {/* Partner Name Input */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-serif text-rose-200 flex items-center space-x-1.5">
+                  <User className="w-3.5 h-3.5 text-rose-400" />
+                  <span>{UI_TRANSLATIONS.partnerNameLabel[language]}</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={partnerNameInput}
+                  onChange={(e) => setPartnerNameInput(e.target.value)}
+                  placeholder={language === 'my' ? 'ဥပမာ: ချစ်သူ / လုပ်ဖော်ကိုင်ဖက်' : language === 'ja' ? '例: パートナーのお名前' : 'e.g., Alex / Counterpart'}
+                  className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/[0.12] focus:border-rose-400 text-sm text-rose-100 font-serif focus:outline-none"
+                />
+              </div>
+
+              {/* 12-Zodiac Sign Selector Pills */}
+              <div className="space-y-2">
+                <label className="text-xs font-serif text-rose-200 flex items-center justify-between">
+                  <span className="flex items-center space-x-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                    <span>{UI_TRANSLATIONS.partnerZodiacLabel[language]}</span>
+                  </span>
+                  {partnerZodiacInput && (
+                    <span className="text-[11px] font-mono text-rose-300">
+                      {ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.symbol} {ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.name[language]} ({ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.element})
+                    </span>
+                  )}
+                </label>
+
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                  {(Object.keys(ZODIAC_SIGNS) as ZodiacSignId[]).map((zKey) => {
+                    const zInfo = ZODIAC_SIGNS[zKey];
+                    const isSelected = partnerZodiacInput === zKey;
+
+                    return (
+                      <button
+                        type="button"
+                        key={zKey}
+                        onClick={() => {
+                          setPartnerZodiacInput(zKey);
+                          setPartnerError(false);
+                          audioService.playCardHover();
+                        }}
+                        className={`p-2 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1 ${
+                          isSelected
+                            ? 'bg-rose-500/25 border-rose-400 shadow-[0_0_12px_rgba(251,113,133,0.4)] text-rose-100'
+                            : 'bg-black/40 border-white/[0.08] hover:border-rose-400/50 text-zinc-300 hover:text-rose-200'
+                        }`}
+                      >
+                        <span className="text-base sm:text-lg">{zInfo.symbol}</span>
+                        <span className="text-[10px] font-serif font-medium truncate w-full">{zInfo.name[language].split(' ')[0]}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Optional Birthdate Input */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-serif text-zinc-400 flex items-center space-x-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>{UI_TRANSLATIONS.partnerBirthdateLabel[language]}</span>
+                </label>
+                <input
+                  type="date"
+                  value={partnerBirthdateInput}
+                  onChange={(e) => {
+                    setPartnerBirthdateInput(e.target.value);
+                    if (e.target.value) {
+                      const sign = AstrologyService.getZodiacSign(e.target.value);
+                      setPartnerZodiacInput(sign.id);
+                    }
+                  }}
+                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/[0.08] focus:border-rose-400 text-xs text-zinc-200 font-serif focus:outline-none"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 btn-primary h-11 rounded-xl text-xs font-serif font-bold uppercase tracking-wider flex items-center justify-center space-x-2 bg-gradient-to-r from-rose-600 via-amber-500 to-rose-600 shadow-lg shadow-rose-900/30 active:scale-[0.98]"
+                >
+                  <Heart className="w-3.5 h-3.5 text-zinc-950 fill-zinc-950" />
+                  <span>{UI_TRANSLATIONS.savePartnerBtn[language]}</span>
+                </button>
+
+                {partnerProfile && (
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingPartner(false)}
+                    className="px-4 h-11 rounded-xl text-xs font-serif text-zinc-400 hover:text-white bg-white/[0.05] border border-white/[0.1] active:scale-95"
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+            </form>
+          ) : (
+            /* DUAL CELESTIAL SYNASTRY BANNER */
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {/* User Soul Badge */}
+                <div className="p-3.5 rounded-2xl bg-black/40 border border-[#d4af37]/30 flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#d4af37]/15 border border-[#d4af37]/40 flex items-center justify-center text-lg font-serif text-[#d4af37] font-bold">
+                    {userProfile.zodiacSign?.symbol || '♈'}
+                  </div>
+                  <div className="space-y-0.5">
+                    <div className="text-xs font-serif font-bold text-amber-100">{userProfile.name}</div>
+                    <div className="text-[11px] font-mono text-amber-300/80">
+                      {userProfile.zodiacSign?.name[language]} • {userProfile.zodiacSign?.element}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Partner Soul Badge */}
+                <div className="p-3.5 rounded-2xl bg-black/40 border border-rose-400/30 flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-400/40 flex items-center justify-center text-lg font-serif text-rose-300 font-bold">
+                    {partnerProfile.zodiacSign?.symbol || '♋'}
+                  </div>
+                  <div className="space-y-0.5">
+                    <div className="text-xs font-serif font-bold text-rose-100">{partnerProfile.name}</div>
+                    <div className="text-[11px] font-mono text-rose-300/80">
+                      {partnerProfile.zodiacSign?.name[language]} • {partnerProfile.zodiacSign?.element}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center justify-between pt-2 border-t border-white/[0.06] text-xs">
+                <span className="text-[11px] font-mono text-rose-300/90 flex items-center space-x-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                  <span>
+                    {language === 'my'
+                      ? 'နက္ခတ်ဗေဒ သဟဇာတ တွက်ချက်မှု အဆင်သင့်ဖြစ်ပါပြီ'
+                      : language === 'ja'
+                      ? '天体シナストリーの計算準備が整いました'
+                      : 'Synastry and Dual Hermeneutics Ready'}
+                  </span>
+                </span>
+
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setIsEditingPartner(true)}
+                    className="text-[11px] font-serif text-rose-200 hover:text-white bg-rose-500/20 hover:bg-rose-500/30 px-3 py-1 rounded-full border border-rose-400/30 transition-all flex items-center space-x-1 active:scale-95"
+                  >
+                    <Edit3 className="w-3 h-3" />
+                    <span>{language === 'my' ? 'ပြင်မည်' : language === 'ja' ? '編集' : 'Edit'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleClearPartner}
+                    className="text-[11px] font-serif text-zinc-400 hover:text-rose-400 bg-white/[0.04] px-2.5 py-1 rounded-full border border-white/[0.08] hover:border-rose-400/30 transition-all active:scale-95"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

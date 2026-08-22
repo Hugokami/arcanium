@@ -38,7 +38,9 @@ import {
   Sun,
   Eye,
   Compass,
-  Sparkle
+  Sparkle,
+  Heart,
+  Users
 } from 'lucide-react';
 
 interface DeepReadingViewProps {
@@ -67,27 +69,35 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   const [viewMode, setViewMode] = useState<'altar' | 'analysis'>('altar');
   const [inspectedCard, setInspectedCard] = useState<DrawnCard | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [partnerProfile, setPartnerProfile] = useState<UserProfile | null>(null);
 
   const { drawnCards, spread, topic, question } = reading;
 
   useEffect(() => {
     setUserProfile(AstrologyService.loadProfile());
+    setPartnerProfile(reading.partnerProfile || AstrologyService.loadPartnerProfile());
     const unsub = VoiceOracleService.subscribeState(setIsSpeaking);
     return () => {
       unsub();
       VoiceOracleService.stop();
     };
-  }, []);
+  }, [reading.partnerProfile]);
 
   // Live Lunar Transit
   const moonPhase = useMemo(() => {
     return LunarTransitService.getCurrentMoonPhase(language);
   }, [language]);
 
+  // Astrological Synastry calculation if partner is present
+  const synastrySummary = useMemo(() => {
+    if (!userProfile || !partnerProfile) return null;
+    return AstrologyService.calculateSynastry(userProfile, partnerProfile, language);
+  }, [userProfile, partnerProfile, language]);
+
   // Dynamically compute analysis based on active language so it always translates instantly
   const activeAnalysis = useMemo(() => {
-    return analyzeReading(topic, drawnCards, spread, language, userProfile);
-  }, [topic, drawnCards, spread, language, userProfile]);
+    return analyzeReading(topic, drawnCards, spread, language, userProfile, partnerProfile);
+  }, [topic, drawnCards, spread, language, userProfile, partnerProfile]);
 
   // Master Tarot Synergy calculations
   const elementalDignities = useMemo(() => {
@@ -331,6 +341,95 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           {polarityGauge.explanation[language]}
         </p>
       </div>
+
+      {/* Astrological Synastry & Interpersonal Alchemy Matrix (When Partner Profile is Attuned) */}
+      {synastrySummary && userProfile && partnerProfile && (
+        <div className="craft-panel p-5 sm:p-7 rounded-3xl border-2 border-rose-400/40 bg-gradient-to-b from-[#1c0a2a] via-[#10051c] to-[#0a0312] space-y-5 shadow-[0_0_35px_rgba(251,113,133,0.15)] animate-in fade-in duration-500">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.08] pb-3">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300">
+                <Heart className="w-4 h-4 fill-rose-400/40" />
+              </div>
+              <h3 className="text-sm sm:text-base font-serif font-bold text-rose-100 tracking-wide">
+                {language === 'my'
+                  ? 'နက္ခတ်ဗေဒ သဟဇာတနှင့် စိတ်ဝိညာဉ် ဓာတ်ပေါင်းစပ်မှု (Astrological Synastry)'
+                  : language === 'ja'
+                  ? '占星術シナストリー＆魂の錬金術マトリックス'
+                  : 'Astrological Synastry & Interpersonal Alchemy Matrix'}
+              </h3>
+            </div>
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/40 text-xs font-mono font-bold text-rose-200">
+              <Sparkles className="w-3.5 h-3.5 text-rose-300" />
+              <span>{synastrySummary.compatibilityScore}% {language === 'my' ? 'သဟဇာတ ညှိနှိုင်းမှု' : language === 'ja' ? '調和指数' : 'Harmony Index'}</span>
+            </div>
+          </div>
+
+          {/* Dual Profile Astrological Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 items-center">
+            {/* Querent Card */}
+            <div className="p-4 rounded-2xl bg-black/40 border border-[#d4af37]/30 space-y-1 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start space-x-2.5">
+                <span className="text-2xl">{userProfile.zodiacSign?.symbol}</span>
+                <div>
+                  <div className="text-xs font-serif font-bold text-amber-100">{userProfile.name}</div>
+                  <div className="text-[11px] font-mono text-[#d4af37]">
+                    {userProfile.zodiacSign?.name[language]} • {userProfile.zodiacSign?.element}
+                  </div>
+                </div>
+              </div>
+              <div className="text-[10px] font-mono text-zinc-400 pt-1">
+                Life Path #{userProfile.lifePathNumber}
+              </div>
+            </div>
+
+            {/* Elemental Nexus Dynamic */}
+            <div className="p-3.5 rounded-2xl bg-rose-950/40 border border-rose-400/30 text-center space-y-2">
+              <div className="text-xs font-serif font-bold text-rose-200 uppercase tracking-wider">
+                {synastrySummary.userElement} & {synastrySummary.partnerElement} Alchemy
+              </div>
+              <div className="w-full h-2 rounded-full bg-black/60 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-rose-500 via-amber-400 to-rose-400 transition-all duration-700"
+                  style={{ width: `${synastrySummary.compatibilityScore}%` }}
+                />
+              </div>
+              <div className="text-[10px] font-mono text-rose-300/80">
+                Composite Key: #{synastrySummary.compositeLifePathNumber} {synastrySummary.compositeSoulCardName[language]}
+              </div>
+            </div>
+
+            {/* Partner Card */}
+            <div className="p-4 rounded-2xl bg-black/40 border border-rose-400/30 space-y-1 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start space-x-2.5">
+                <span className="text-2xl">{partnerProfile.zodiacSign?.symbol}</span>
+                <div>
+                  <div className="text-xs font-serif font-bold text-rose-100">{partnerProfile.name}</div>
+                  <div className="text-[11px] font-mono text-rose-300">
+                    {partnerProfile.zodiacSign?.name[language]} • {partnerProfile.zodiacSign?.element}
+                  </div>
+                </div>
+              </div>
+              <div className="text-[10px] font-mono text-zinc-400 pt-1">
+                Life Path #{partnerProfile.lifePathNumber}
+              </div>
+            </div>
+          </div>
+
+          {/* Elemental Chemistry & Narrative */}
+          <div className="space-y-2 p-3.5 rounded-2xl bg-black/40 border border-white/[0.06] text-xs sm:text-sm font-serif leading-relaxed text-zinc-200">
+            <p>
+              <strong className="text-rose-300 font-semibold">{synastrySummary.dynamicVerdict[language]}</strong>
+            </p>
+            <p className="text-zinc-300">
+              {synastrySummary.elementalChemistry[language]}
+            </p>
+            <div className="pt-2 border-t border-white/[0.06] text-amber-200/90">
+              <span className="font-bold text-rose-300">✦ {language === 'my' ? 'ဆက်ဆံရေး ချိန်ညှိမှု လမ်းညွှန်' : language === 'ja' ? '関係性向上の錬金術' : 'Relational Alchemy Guidance'}: </span>
+              {synastrySummary.synastryAdvice[language]}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Elemental Dignities & Alchemy Matrix */}
       <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-cyan-400 space-y-4 shadow-xl">

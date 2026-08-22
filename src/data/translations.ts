@@ -277,6 +277,56 @@ export const UI_TRANSLATIONS = {
     en: 'Date',
     my: 'ရက်စွဲ',
     ja: '日時'
+  },
+  partnerAttunementTitle: {
+    en: '✦ Counterpart & Partner Astrological Attunement ✦',
+    my: '✦ အခြားတစ်ဦး၏ ဇာတာခွင်နှင့် စိတ်ဝိညာဉ် ချိန်ညှိခြင်း ✦',
+    ja: '✦ お相手の占星術アチューンメント（相性・シナストリー） ✦'
+  },
+  partnerAttunementDesc: {
+    en: 'To unlock precise relationship hermeneutics and synastry chemistry, enter your counterpart’s name and their Zodiac Sign or Birthdate.',
+    my: 'တိကျသော ဆက်ဆံရေးဗေဒနှင့် ဓာတ်သဟဇာတ တွက်ချက်မှုများ ရရှိရန်အတွက် အခြားတစ်ဦး၏ အမည်နှင့် ၎င်း၏ ရာသီခွင် သို့မဟုတ် မွေးသက္ကရာဇ်ကို ထည့်သွင်းပေးပါ။',
+    ja: '精緻な人間関係の解釈とシナストリー（相性）の錬金術を解放するため、お相手のお名前と星座または生年月日を入力してください。'
+  },
+  partnerNameLabel: {
+    en: "Partner / Counterpart's Name",
+    my: "အခြားတစ်ဦး / လက်တွဲဖော်၏ အမည်",
+    ja: "お相手・パートナーのお名前"
+  },
+  partnerZodiacLabel: {
+    en: "Select Zodiac Sign",
+    my: "ရာသီခွင် ရွေးချယ်ပါ",
+    ja: "星座を選択"
+  },
+  partnerBirthdateLabel: {
+    en: "Or Enter Date of Birth",
+    my: "သို့မဟုတ် မွေးသက္ကရာဇ် ထည့်သွင်းပါ",
+    ja: "または生年月日を入力"
+  },
+  savePartnerBtn: {
+    en: "✦ Save & Attune Partner Profile ✦",
+    my: "✦ အချက်အလက်များ သိမ်းဆည်း၍ ချိန်ညှိမည် ✦",
+    ja: "✦ お相手の情報を保存して調律完了 ✦"
+  },
+  partnerRequiredNotice: {
+    en: "✦ Counterpart Astrological Attunement Required for Relationship Reading",
+    my: "✦ အချစ်ရေးနှင့် ဆက်ဆံရေးဖတ်ကြားမှုအတွက် အခြားတစ်ဦး၏ ရာသီခွင် သို့မဟုတ် မွေးရက် ထည့်သွင်းရန် လိုအပ်ပါသည် ✦",
+    ja: "✦ 関係性リーディングにはお相手の星座または生年月日の調律が必要です ✦"
+  },
+  synastryActiveBadge: {
+    en: "✦ Celestial Synastry Active ✦",
+    my: "✦ နက္ခတ်ဗေဒ သဟဇာတ ချိန်ညှိပြီး ✦",
+    ja: "✦ 天体シナストリー同調中 ✦"
+  },
+  addPartnerToggle: {
+    en: "+ Attune Counterpart / Partner for Synastry",
+    my: "+ အခြားတစ်ဦး၏ ဇာတာခွင်ကို ထည့်သွင်းချိန်ညှိမည်",
+    ja: "+ お相手の星座・生年月日を追加（相性分析）"
+  },
+  partnerAttunedSuccess: {
+    en: "Partner Chart Linked",
+    my: "မိတ်ဖက်ဇာတာ ချိတ်ဆက်ပြီး",
+    ja: "お相手のホロスコープ連携完了"
   }
 };
 

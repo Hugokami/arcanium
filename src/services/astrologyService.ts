@@ -329,50 +329,272 @@ export class AstrologyService {
     }
   }
 
+  private static PARTNER_STORAGE_KEY = 'arcanium_partner_profile';
+
   /**
-   * Check if a drawn tarot card has high personal resonance with the user's natal chart
+   * Create or update Partner UserProfile
+   */
+  public static buildPartnerProfile(name: string, zodiacId?: ZodiacSignId, birthdate?: string): UserProfile {
+    let zodiacSign: ZodiacSignInfo;
+    let lifePathNumber = 7;
+    let birthDateStr = birthdate && birthdate.trim() ? birthdate : '2000-01-01';
+
+    if (birthdate && birthdate.trim()) {
+      zodiacSign = this.getZodiacSign(birthdate);
+      lifePathNumber = this.calculateLifePathNumber(birthdate);
+      birthDateStr = birthdate;
+    } else if (zodiacId && ZODIAC_SIGNS[zodiacId]) {
+      zodiacSign = ZODIAC_SIGNS[zodiacId];
+      lifePathNumber = (name.trim().length % 9) || 1;
+    } else {
+      zodiacSign = ZODIAC_SIGNS.cancer;
+    }
+
+    const birthCard = this.calculateBirthTarotCard(birthDateStr);
+
+    return {
+      name: name.trim() || 'Counterpart Soul',
+      birthdate: birthDateStr,
+      zodiacSign,
+      lifePathNumber,
+      birthTarotCardId: birthCard.id,
+      birthTarotCardName: birthCard.name,
+      createdAt: Date.now()
+    };
+  }
+
+  /**
+   * Save partner profile to localStorage
+   */
+  public static savePartnerProfile(partner: UserProfile): void {
+    try {
+      localStorage.setItem(this.PARTNER_STORAGE_KEY, JSON.stringify(partner));
+    } catch (e) {
+      console.warn('Failed to save partner profile to localStorage', e);
+    }
+  }
+
+  /**
+   * Load partner profile from localStorage
+   */
+  public static loadPartnerProfile(): UserProfile | null {
+    try {
+      const data = localStorage.getItem(this.PARTNER_STORAGE_KEY);
+      if (!data) return null;
+      return JSON.parse(data) as UserProfile;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
+   * Calculate Astrological Synastry between Querent and Partner
+   */
+  public static calculateSynastry(
+    userProfile: UserProfile,
+    partnerProfile: UserProfile,
+    lang: Language
+  ): import('../types/userProfile').AstrologicalSynastrySummary {
+    const uZ = userProfile.zodiacSign || ZODIAC_SIGNS.aries;
+    const pZ = partnerProfile.zodiacSign || ZODIAC_SIGNS.leo;
+    const uEl = uZ.element;
+    const pEl = pZ.element;
+
+    let score = 85;
+    let chemistry: import('../types/tarot').LocalizedText;
+    let verdict: import('../types/tarot').LocalizedText;
+    let advice: import('../types/tarot').LocalizedText;
+
+    if (uEl === pEl) {
+      score = 92;
+      chemistry = {
+        en: `Twin ${uEl} Resonances — Deep Instinctual Mirroring`,
+        my: `တူညီသော ${uEl} ဓာတ် ပဲ့တင်ထပ်မှု — အချင်းချင်း အလိုလို နားလည်နိုင်သော စွမ်းအား`,
+        ja: `同質のエレメント【${uEl}】— 直感的共鳴と魂のミラーリング`
+      };
+      verdict = {
+        en: `High empathic resonance and natural rapport. You share identical instinctual motivations.`,
+        my: `အလွန်နက်ရှိုင်းသော နားလည်မှုနှင့် သဘာဝကျသော သဟဇာတရှိမှု။ အတွင်းစိတ်ဆန္ဒချင်း တူညီစွာ စီးဆင်းနေပါသည်။`,
+        ja: `高い共感性と自然な波長の合致。互いの行動原理を言葉なしに理解し合える関係です。`
+      };
+      advice = {
+        en: `Guard against amplifying mutual blind spots or stubbornness. Bring intentional balance.`,
+        my: `အားနည်းချက်များ သို့မဟုတ် အတ္တများကို အပြန်အလှန် ပြင်းထန်မသွားစေရန် သတိပြု၍ မျှတမှုထားရှိပါ။`,
+        ja: `互いの頑なさや死角を増幅させないよう、意識的に中庸と柔軟性を保ちましょう。`
+      };
+    } else if ((uEl === 'Fire' && pEl === 'Air') || (uEl === 'Air' && pEl === 'Fire')) {
+      score = 95;
+      chemistry = {
+        en: `Fire & Air Alchemy — Creative Fuel & Mutual Expansion`,
+        my: `မီးနှင့် လေဓာတ် ပေါင်းစပ်မှု — တီထွင်ဖန်တီးမှု စွမ်းအားနှင့် အပြန်အလှန် တိုးတက်စေခြင်း`,
+        ja: `火と風の錬金術 — 創造的刺激と相互拡大`
+      };
+      verdict = {
+        en: `Dynamic, stimulating, and visionary chemistry. Air fuels Fire's passion, while Fire inspires Air's intellect.`,
+        my: `အလွန်သွက်လက်တက်ကြွပြီး အမြင်ကျယ်စေသော ပေါင်းစပ်မှု။ လေက မီးကို တောက်လောင်စေသကဲ့သို့ မီးက လေ၏ ဉာဏ်ပညာကို လှုံ့ဆော်ပေးပါသည်။`,
+        ja: `刺激的で高揚感に満ちた最高の相性。風が火の情熱を煽り、火が風の知性に光を灯します。`
+      };
+      advice = {
+        en: `Ensure abstract visions are grounded into practical daily commitments so enthusiasm endures.`,
+        my: `စိတ်ကူးအိပ်မက်များကို လက်တွေ့ဘဝတွင် ခိုင်မာအောင် အကောင်အထည်ဖော်ခြင်းဖြင့် ရေရှည်တည်မြဲစေပါ။`,
+        ja: `情熱の火を長続きさせるため、抽象的な理想を日々の具体的な約束として着実に根づかせましょう。`
+      };
+    } else if ((uEl === 'Earth' && pEl === 'Water') || (uEl === 'Water' && pEl === 'Earth')) {
+      score = 94;
+      chemistry = {
+        en: `Earth & Water Alchemy — Fertile Oasis & Emotional Security`,
+        my: `မြေနှင့် ရေဓာတ် ပေါင်းစပ်မှု — မြေဆီမြေသြဇာကောင်းသော အိုအေစစ်နှင့် စိတ်လုံခြုံမှု`,
+        ja: `地と水の錬金術 — 肥沃なオアシスと深い情緒的安心感`
+      };
+      verdict = {
+        en: `Deeply nourishing, grounding, and protective union. Water softens Earth, while Earth holds Water's depths safely.`,
+        my: `နွေးထွေးခိုင်မာပြီး အပြန်အလှန် ကာကွယ်စောင့်ရှောက်သော ပေါင်းစပ်မှု။ ရေက မြေကို နူးညံ့စေပြီး မြေက ရေကို လုံခြုံစွာ ထိန်းကျောင်းပေးပါသည်။`,
+        ja: `互いを深く養い、育み合う安らぎの絆。水が地を潤し、地が水の感情を安全に包み込みます。`
+      };
+      advice = {
+        en: `Keep communication active so emotional tides do not settle into unexpressed stagnation.`,
+        my: `ခံစားချက်များ မအောင့်အီးဘဲ ပွင့်လင်းစွာ ပြောဆိုဆက်သွယ်ခြင်းဖြင့် ဆက်ဆံရေးကို အစဉ်လန်းဆန်းစေပါ။`,
+        ja: `感情の流れが滞らないよう、日頃から素直な対話と新しい刺激を大切にしてください。`
+      };
+    } else if ((uEl === 'Fire' && pEl === 'Water') || (uEl === 'Water' && pEl === 'Fire')) {
+      score = 78;
+      chemistry = {
+        en: `Fire & Water Alchemy — Steam, Deep Passion & Emotional Catharsis`,
+        my: `မီးနှင့် ရေဓာတ် ပေါင်းစပ်မှု — ရေနွေးငွေ့၊ နက်ရှိုင်းသော စွဲမက်မှုနှင့် ခံစားချက်ပေါက်ကွဲမှု`,
+        ja: `火と水の錬金術 — 蒸気の情熱・強烈な引力と感情の昇華`
+      };
+      verdict = {
+        en: `Intensely magnetic and transformative. Fire brings bold action while Water brings soulful depth.`,
+        my: `ဆွဲဆောင်မှု အလွန်ပြင်းထန်ပြီး အသွင်ပြောင်းလဲစေနိုင်သော ဆက်ဆံရေး။ မီးက ရဲရင့်မှုကို ပေး၍ ရေက နက်ရှိုင်းသော ခံစားချက်ကို ဖြည့်ဆည်းပေးပါသည်။`,
+        ja: `強烈な引き寄せと変容をもたらす関係。火が前進の勇気を与え、水が魂の深みをもたらします。`
+      };
+      advice = {
+        en: `Respect differing emotional speeds: Fire must avoid rushing Water, while Water should express feelings openly without retreating.`,
+        my: `ခံစားချက် အရှိန်အဟုန် မတူညီမှုကို နားလည်ပေးပါ: မီးက ရေကို အလောတကြီး မတိုက်တွန်းဘဲ ရေကလည်း စိတ်မဆုတ်ဘဲ ပွင့်လင်းစွာ ပြောဆိုပါ။`,
+        ja: `テンポの違いを尊重すること。火は水を急かさず、水は殻に閉じこもらずに想いを伝えましょう。`
+      };
+    } else if ((uEl === 'Earth' && pEl === 'Air') || (uEl === 'Air' && pEl === 'Earth')) {
+      score = 80;
+      chemistry = {
+        en: `Earth & Air Alchemy — Pragmatic Vision & Structural Intellect`,
+        my: `မြေနှင့် လေဓာတ် ပေါင်းစပ်မှု — လက်တွေ့ကျသော အမြင်နှင့် စနစ်တကျ ဉာဏ်ပညာ`,
+        ja: `地と風の錬金術 — 現実的ビジョンと構造的知性`
+      };
+      verdict = {
+        en: `Intellectually constructive partnership. Air generates strategic concepts while Earth builds tangible reality.`,
+        my: `ဉာဏ်ပညာပိုင်းဆိုင်ရာ အကျိုးပြုသော မဟာမိတ်ဆက်ဆံရေး။ လေက မဟာဗျူဟာမြောက် အတွေးအခေါ်များကို ဖန်တီးပေးပြီး မြေက လက်တွေ့ဖြစ်လာအောင် တည်ဆောက်ပေးပါသည်။`,
+        ja: `極めて建設的な知の共創。風が斬新なアイデアを生み、地がそれを堅固な現実に具現化します。`
+      };
+      advice = {
+        en: `Balance logic with emotional warmth; do not let conversations become purely transactional.`,
+        my: `ကျိုးကြောင်းဆင်ခြင်မှုအပြင် နှလုံးသား နွေးထွေးမှုကိုလည်း မျှတစွာ ထည့်သွင်းပါ။`,
+        ja: `理屈だけでなく心の温もりを交わし、関係が単なる事務的協力に終わらないよう配慮しましょう。`
+      };
+    } else if ((uEl === 'Fire' && pEl === 'Earth') || (uEl === 'Earth' && pEl === 'Fire')) {
+      score = 82;
+      chemistry = {
+        en: `Fire & Earth Alchemy — Volcanic Ambition & Materialized Drive`,
+        my: `မီးနှင့် မြေဓာတ် ပေါင်းစပ်မှု — မီးတောင်ကဲ့သို့ ခွန်အားနှင့် လက်တွေ့ကျသော ရည်မှန်းချက်`,
+        ja: `火と地の錬金術 — 火山のような野心と不屈の具現化力`
+      };
+      verdict = {
+        en: `Powerhouse of accomplishment. Fire fuels inspiration and courage while Earth provides durable stamina and container.`,
+        my: `ကြီးမားသော အောင်မြင်မှုကို ဖန်တီးနိုင်သော ပေါင်းစပ်မှု။ မီးက စိတ်ဓာတ်ခွန်အားနှင့် ရဲရင့်မှုကို ပေးပြီး မြေက ရေရှည်ခံနိုင်ရည်နှင့် အခြေခံကို ပေးပါသည်။`,
+        ja: `偉業を成し遂げる強力なタッグ。火がひらめきと勇気を与え、地が確固たる基盤と持続力を提供します。`
+      };
+      advice = {
+        en: `Harmonize speed expectations: Fire's urgency needs Earth's steady patience.`,
+        my: `လုပ်ဆောင်မှု အမြန်နှုန်းကို ချိန်ညှိပါ: မီး၏ အလျင်လိုမှုကို မြေ၏ စိတ်ရှည်မှုဖြင့် ထိန်းညှိပေးပါ။`,
+        ja: `スピード感の調和が鍵。火の焦りを地の穏やかな忍耐力で包み込みましょう。`
+      };
+    } else {
+      score = 79;
+      chemistry = {
+        en: `Air & Water Alchemy — Intuitive Insight & Emotional Waves`,
+        my: `လေနှင့် ရေဓာတ် ပေါင်းစပ်မှု — အတွင်းစိတ်အာရုံ ထိုးထွင်းသိမြင်မှုနှင့် ခံစားချက်လှိုင်းများ`,
+        ja: `風と水の錬金術 — 直感的洞察と情感の波`
+      };
+      verdict = {
+        en: `Poetic and psychologically rich connection. Air analyzes patterns while Water senses unspoken currents.`,
+        my: `ကဗျာဆန်ပြီး စိတ်ပညာအရ နက်နဲသော ဆက်ဆံရေး။ လေက အကြောင်းအရာများကို ခွဲခြမ်းစိတ်ဖြာပြီး ရေက မမြင်ရသော ခံစားချက်များကို ကြိုတင်သိရှိပါသည်။`,
+        ja: `詩的で深層心理に響く絆。風が知的に整理し、水が見えない心の機微を感じ取ります。`
+      };
+      advice = {
+        en: `Bridge head and heart with clear vulnerability. Avoid overthinking subtle emotional shifts.`,
+        my: `အတွေးနှင့် နှလုံးသားကို ပွင့်လင်းစွာ ချိတ်ဆက်ပါ၊ သံသယမလွန်ကဲဘဲ ရိုးသားစွာ ဖလှယ်ပါ။`,
+        ja: `知性と感情の架け橋を築くこと。深読みしすぎず、素直な気持ちを言葉で伝え合いましょう。`
+      };
+    }
+
+    const uLP = userProfile.lifePathNumber || 1;
+    const pLP = partnerProfile.lifePathNumber || 1;
+    let compositeLP = uLP + pLP;
+    while (compositeLP > 9 && compositeLP !== 11 && compositeLP !== 22) {
+      compositeLP = compositeLP.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+    }
+
+    const compositeBirthCard = this.calculateBirthTarotCard(`${uLP + pLP}-01-01`);
+
+    return {
+      userZodiac: uZ,
+      partnerZodiac: pZ,
+      userElement: uEl,
+      partnerElement: pEl,
+      elementalChemistry: chemistry,
+      compatibilityScore: score,
+      dynamicVerdict: verdict,
+      synastryAdvice: advice,
+      compositeLifePathNumber: compositeLP,
+      compositeSoulCardName: compositeBirthCard.name
+    };
+  }
+
+  /**
+   * Check if a drawn tarot card has high personal resonance with the user's or partner's natal chart
    */
   public static getCardNatalResonance(
     card: TarotCard,
     profile: UserProfile | null,
-    lang: Language
+    lang: Language,
+    isPartner = false
   ): { hasResonance: boolean; reason: string; badge: string } | null {
     if (!profile || !profile.zodiacSign) return null;
 
     const z = profile.zodiacSign;
     const cardId = card.id.toLowerCase();
     const cardName = card.name.en.toLowerCase();
+    const prefix = isPartner ? `${profile.name}: ` : '';
 
     // Check Sun Sign Zodiac match
     if (z.tarotCardId.toLowerCase() === cardId || cardName.includes(z.id)) {
-      const badge = `${z.symbol} Sun Sign Key`;
+      const badge = `${z.symbol} ${profile.name}'s Sign Key`;
       const reason = lang === 'my'
-        ? `ဤကတ်ပြားသည် သင့်မွေးရာပါ ${z.name[lang]} ၏ အဓိက စိုးမိုးကတ် ဖြစ်သောကြောင့် သင့်စရိုက်နှင့် အလွန်နီးကပ်စွာ ပဲ့တင်ထပ်နေပါသည်။`
+        ? `${prefix}ဤကတ်ပြားသည် ${profile.name} ၏ မွေးရာပါ ${z.name[lang]} ၏ အဓိက စိုးမိုးကတ် ဖြစ်သောကြောင့် စရိုက်သဘာဝနှင့် အလွန်နီးကပ်စွာ ပဲ့တင်ထပ်နေပါသည်။`
         : lang === 'ja'
-        ? `このカードはあなたの太陽星座【${z.name[lang]}】を司る守護カードであり、あなた自身の本質と深く共鳴しています。`
-        : `This card directly rules your Sun Sign (${z.name.en}) — it carries profound personal karmic resonance for you.`;
+        ? `${prefix}このカードは【${profile.name}】の太陽星座【${z.name[lang]}】を司る守護カードであり、その本質と深く共鳴しています。`
+        : `${prefix}This card directly rules ${profile.name}'s Sun Sign (${z.name.en}) — carrying profound personal karmic resonance.`;
       return { hasResonance: true, reason, badge };
     }
 
     // Check Birth Card match
     if (profile.birthTarotCardId && profile.birthTarotCardId.toLowerCase() === cardId) {
-      const badge = `✨ Soul Birth Card`;
+      const badge = `✨ ${profile.name}'s Soul Card`;
       const reason = lang === 'my'
-        ? `ဤကတ်ပြားသည် သင့်မွေးသက္ကရာဇ်မှ တွက်ချက်ရရှိသော စိတ်ဝိညာဉ်မွေးဖွားခြင်းကတ် (Soul Card) ဖြစ်ပါသည်။`
+        ? `${prefix}ဤကတ်ပြားသည် ${profile.name} ၏ စိတ်ဝိညာဉ်မွေးဖွားခြင်းကတ် (Soul Card) ဖြစ်ပါသည်။`
         : lang === 'ja'
-        ? `このカードはあなたの生年月日から導かれた「ソウル・バースカード」であり、今世の魂の使命を象徴しています。`
-        : `This is your sacred Soul Birth Card derived from your natal numerology, representing your lifelong core mastery.`;
+        ? `${prefix}このカードは【${profile.name}】のソウル・バースカードであり、魂の根源的な波動を象徴しています。`
+        : `${prefix}This is ${profile.name}'s sacred Soul Birth Card derived from their natal numerology.`;
       return { hasResonance: true, reason, badge };
     }
 
     // Check Elemental Alignment match
     if (card.element === z.element && card.arcana === 'major') {
-      const badge = `⚡ ${z.element} Element Affinity`;
+      const badge = `⚡ ${profile.name}'s ${z.element} Affinity`;
       const reason = lang === 'my'
-        ? `သင့်ရာသီခွင်၏ ${z.element} ဓာတ်နှင့် တူညီသော စွမ်းအင်ဖြစ်သဖြင့် သဘာဝကျကျ အားကောင်းစွာ အကျိုးသက်ရောက်ပါမည်။`
+        ? `${prefix}${profile.name} ၏ ${z.element} ဓာတ်နှင့် တူညီသော စွမ်းအင်ဖြစ်သဖြင့် အားကောင်းစွာ အကျိုးသက်ရောက်ပါမည်။`
         : lang === 'ja'
-        ? `あなたの星座と同じ【${z.element}】のエレメントに属しており、自然で力強い後押しをもたらします。`
-        : `Shares your natal ${z.element} element, amplifying its energetic influence in this position.`;
+        ? `${prefix}【${profile.name}】の星座と同じ【${z.element}】のエレメントに属しており、自然で力強い後押しをもたらします。`
+        : `${prefix}Shares ${profile.name}'s natal ${z.element} element, amplifying its energetic influence.`;
       return { hasResonance: true, reason, badge };
     }
 

@@ -105,6 +105,7 @@ export interface ReadingResultData {
   analysis: DeepAnalysisResult;
   userNotes?: string;
   favorite?: boolean;
+  partnerProfile?: import('./userProfile').UserProfile | null;
 }
 
 export interface JournalEntry extends ReadingResultData {}

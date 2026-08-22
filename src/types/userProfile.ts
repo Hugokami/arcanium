@@ -72,3 +72,16 @@ export interface PolarityGaugeResult {
   uprightRatio: number;
   majorCount: number;
 }
+
+export interface AstrologicalSynastrySummary {
+  userZodiac: ZodiacSignInfo;
+  partnerZodiac: ZodiacSignInfo;
+  userElement: 'Fire' | 'Water' | 'Air' | 'Earth';
+  partnerElement: 'Fire' | 'Water' | 'Air' | 'Earth';
+  elementalChemistry: LocalizedText;
+  compatibilityScore: number; // 0 to 100
+  dynamicVerdict: LocalizedText;
+  synastryAdvice: LocalizedText;
+  compositeLifePathNumber: number;
+  compositeSoulCardName: LocalizedText;
+}

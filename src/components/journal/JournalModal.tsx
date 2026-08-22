@@ -112,6 +112,14 @@ export const JournalModal: React.FC<JournalModalProps> = ({
                         <span>{new Date(entry.timestamp).toLocaleDateString()}</span>
                         <span>•</span>
                         <span className="text-[#d4af37]">{entry.spread.name[language]}</span>
+                        {entry.partnerProfile && (
+                          <>
+                            <span>•</span>
+                            <span className="text-rose-300 font-semibold flex items-center gap-1">
+                              ♥ {entry.partnerProfile.name} ({entry.partnerProfile.zodiacSign?.symbol})
+                            </span>
+                          </>
+                        )}
                       </div>
                       <h4 className="text-sm font-serif font-bold text-[#e8e0f5] truncate">
                         "{entry.question}"
