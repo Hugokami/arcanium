@@ -10,6 +10,7 @@ import { ShareScrollModal } from './components/common/ShareScrollModal';
 import { UserProfileModal } from './components/profile/UserProfileModal';
 import { DailyCardModal } from './components/reading/DailyCardModal';
 import { EntranceIntro } from './components/layout/EntranceIntro';
+import { SanctuaryLoader } from './components/layout/SanctuaryLoader';
 
 import { DrawnCard, JournalEntry, Language, ReadingResultData, SpreadDefinition } from './types/tarot';
 import { SPREAD_CONFIGS, TOPICS } from './data/translations';
@@ -38,8 +39,9 @@ export function App() {
     return AstrologyService.loadProfile();
   });
 
-  // Intro Animation State
+  // Intro & Preloader Animation State
   const [showIntro, setShowIntro] = useState<boolean>(true);
+  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   // Modals
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
@@ -232,7 +234,18 @@ export function App() {
       {showIntro && (
         <EntranceIntro
           language={language}
-          onComplete={() => setShowIntro(false)}
+          onComplete={() => {
+            setShowIntro(false);
+            setShowLoader(true);
+          }}
+        />
+      )}
+
+      {/* Beautiful Asset Preloader & Cosmic Attunement Screen */}
+      {showLoader && (
+        <SanctuaryLoader
+          language={language}
+          onLoaded={() => setShowLoader(false)}
         />
       )}
 
