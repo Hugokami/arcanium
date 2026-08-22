@@ -116,10 +116,91 @@
   text-shadow: 0 0 24px rgba(212, 175, 55, 0.45);
 }
 
+.text-shadow-mystic {
+  text-shadow: 0 0 16px rgba(157, 78, 221, 0.5), 0 0 32px rgba(212, 175, 55, 0.3);
+}
+
 /* Scroll fade edge mask */
 .scroll-fade-x {
   mask-image: linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
+}
+
+/* Custom Cosmic & Tarot Keyframe Animations */
+@keyframes celestial-drift {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.8deg);
+  }
+}
+
+@keyframes gold-pulse-aura {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2), inset 0 0 10px rgba(212, 175, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(212, 175, 55, 0.45), inset 0 0 20px rgba(212, 175, 55, 0.25);
+  }
+}
+
+@keyframes mystic-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(45deg);
+  }
+}
+
+@keyframes card-sheen {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-celestial {
+  animation: celestial-drift 6s ease-in-out infinite;
+}
+
+.animate-gold-aura {
+  animation: gold-pulse-aura 3.5s ease-in-out infinite;
+}
+
+.animate-mystic-pulse {
+  animation: mystic-pulse 3s ease-in-out infinite;
+}
+
+.animate-star-twinkle {
+  animation: star-twinkle 2.5s ease-in-out infinite;
+}
+
+.card-sheen-effect {
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(212, 175, 55, 0.15) 50%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: card-sheen 4s ease-in-out infinite;
 }
 
 @media print {

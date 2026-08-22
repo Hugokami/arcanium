@@ -112,38 +112,44 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     switch (topicId) {
       case 'love':
         return (
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-110 group-hover:bg-rose-500/20 group-hover:border-rose-400/60 shadow-[0_0_20px_rgba(244,63,94,0.25)] transition-all duration-300">
-            <Heart className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-110 group-hover:bg-rose-500/20 group-hover:border-rose-400/60 shadow-[0_0_24px_rgba(244,63,94,0.3)] transition-all duration-300">
+            <div className="absolute inset-0 rounded-2xl border border-rose-400/25 animate-spin-slow pointer-events-none" />
+            <Heart className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse text-rose-400 drop-shadow-[0_0_10px_rgba(244,63,94,0.6)]" />
           </div>
         );
       case 'career':
         return (
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:bg-amber-500/20 group-hover:border-amber-400/60 shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all duration-300">
-            <Compass className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-45 transition-transform duration-500" />
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:bg-amber-500/20 group-hover:border-amber-400/60 shadow-[0_0_24px_rgba(245,158,11,0.3)] transition-all duration-300">
+            <div className="absolute inset-0 rounded-2xl border border-dashed border-amber-400/30 animate-spin-slow pointer-events-none" />
+            <Compass className="w-6 h-6 sm:w-7 sm:h-7 group-hover:rotate-90 transition-transform duration-700 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.6)]" />
           </div>
         );
       case 'fortune':
         return (
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-300 group-hover:scale-110 group-hover:bg-yellow-500/20 group-hover:border-yellow-400/60 shadow-[0_0_20px_rgba(234,179,8,0.25)] transition-all duration-300">
-            <Coins className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-300 group-hover:scale-110 group-hover:bg-yellow-500/20 group-hover:border-yellow-400/60 shadow-[0_0_24px_rgba(234,179,8,0.3)] transition-all duration-300">
+            <div className="absolute inset-0 rounded-2xl border border-yellow-400/25 animate-spin-slow pointer-events-none" />
+            <Coins className="w-6 h-6 sm:w-7 sm:h-7 group-hover:scale-110 transition-transform duration-300 text-yellow-300 drop-shadow-[0_0_10px_rgba(234,179,8,0.6)]" />
           </div>
         );
       case 'growth':
         return (
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-500/20 group-hover:border-emerald-400/60 shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all duration-300">
-            <Sprout className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-y-0.5 transition-transform" />
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-500/20 group-hover:border-emerald-400/60 shadow-[0_0_24px_rgba(16,185,129,0.3)] transition-all duration-300">
+            <div className="absolute inset-0 rounded-2xl border border-dashed border-emerald-400/30 animate-spin-slow pointer-events-none" />
+            <Sprout className="w-6 h-6 sm:w-7 sm:h-7 group-hover:-translate-y-1 transition-transform duration-300 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.6)]" />
           </div>
         );
       case 'decision':
         return (
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 group-hover:bg-purple-500/20 group-hover:border-purple-400/60 shadow-[0_0_20px_rgba(168,85,247,0.25)] transition-all duration-300">
-            <Scale className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform" />
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 group-hover:bg-purple-500/20 group-hover:border-purple-400/60 shadow-[0_0_24px_rgba(168,85,247,0.3)] transition-all duration-300">
+            <div className="absolute inset-0 rounded-2xl border border-purple-400/25 animate-spin-slow pointer-events-none" />
+            <Scale className="w-6 h-6 sm:w-7 sm:h-7 group-hover:rotate-12 transition-transform duration-300 text-purple-300 drop-shadow-[0_0_10px_rgba(168,85,247,0.6)]" />
           </div>
         );
       default:
         return (
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#d4af37]/10 border border-[#d4af37]/35 flex items-center justify-center text-[#d4af37] group-hover:scale-110 group-hover:bg-[#d4af37]/20 group-hover:border-[#d4af37]/70 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300">
-            <Eye className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#d4af37]/10 border border-[#d4af37]/35 flex items-center justify-center text-[#d4af37] group-hover:scale-110 group-hover:bg-[#d4af37]/20 group-hover:border-[#d4af37]/70 shadow-[0_0_24px_rgba(212,175,55,0.35)] transition-all duration-300">
+            <div className="absolute inset-0 rounded-2xl border border-[#d4af37]/30 animate-spin-slow pointer-events-none" />
+            <Eye className="w-6 h-6 sm:w-7 sm:h-7 group-hover:scale-110 transition-transform duration-300 text-[#d4af37] drop-shadow-[0_0_10px_rgba(212,175,55,0.7)]" />
           </div>
         );
     }
