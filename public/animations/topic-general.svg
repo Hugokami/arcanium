@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Imperial Gold & Celestial Void Gradients -->
+    <radialGradient id="sacredAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.45" />
+      <stop offset="60%" stop-color="#8a7326" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#180e03" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="divineGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="30%" stop-color="#fde047" />
+      <stop offset="70%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#785507" />
+    </linearGradient>
+
+    <radialGradient id="pupilVortex" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#60a5fa" />
+      <stop offset="70%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <filter id="divineGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="eyeSparkle" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      .bg-aura {
+        animation: pulseSacredAura 4s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .sunburst-rays {
+        animation: spinSunburst 40s linear infinite;
+        transform-origin: 60px 60px;
+      }
+      .sacred-triangle {
+        animation: levitateTriangle 4.5s ease-in-out infinite;
+        transform-origin: 60px 60px;
+      }
+      .eye-blink-group {
+        animation: eyeBreathing 3.5s ease-in-out infinite;
+        transform-origin: 60px 60px;
+      }
+      .eye-pupil {
+        animation: pupilFocus 4s ease-in-out infinite;
+        transform-origin: 60px 60px;
+      }
+      .orbital-stars {
+        animation: spinStars 22s linear infinite reverse;
+        transform-origin: 60px 60px;
+      }
+      .star-blink-1 {
+        animation: starTwinkle 2s ease-in-out infinite;
+      }
+      .star-blink-2 {
+        animation: starTwinkle 2.7s ease-in-out 1s infinite;
+      }
+
+      @keyframes eyeBreathing {
+        0%, 100% { transform: scaleY(1); }
+        48% { transform: scaleY(1.06); }
+        50% { transform: scaleY(0.15); }
+        52% { transform: scaleY(1.06); }
+      }
+      @keyframes pupilFocus {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px #60a5fa); }
+        50% { transform: scale(1.18); filter: drop-shadow(0 0 7px #93c5fd); }
+      }
+      @keyframes levitateTriangle {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-4px) scale(1.03); }
+      }
+      @keyframes spinSunburst {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes spinStars {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes pulseSacredAura {
+        0%, 100% { transform: scale(0.92); opacity: 0.7; }
+        50% { transform: scale(1.14); opacity: 1; }
+      }
+      @keyframes starTwinkle {
+        0%, 100% { opacity: 0.2; transform: scale(0.7); }
+        50% { opacity: 1; transform: scale(1.25); }
+      }
+    </style>
+  </defs>
+
+  <!-- Ambient Imperial Gold Glow -->
+  <circle cx="60" cy="60" r="54" fill="url(#sacredAura)" class="bg-aura" />
+
+  <!-- Radiating Sacred Sunburst Geometry -->
+  <g class="sunburst-rays">
+    <line x1="60" y1="12" x2="60" y2="24" stroke="#d4af37" stroke-width="0.75" stroke-opacity="0.6" />
+    <line x1="60" y1="96" x2="60" y2="108" stroke="#d4af37" stroke-width="0.75" stroke-opacity="0.6" />
+    <line x1="12" y1="60" x2="24" y2="60" stroke="#d4af37" stroke-width="0.75" stroke-opacity="0.6" />
+    <line x1="96" y1="60" x2="108" y2="60" stroke="#d4af37" stroke-width="0.75" stroke-opacity="0.6" />
+    
+    <line x1="26" y1="26" x2="34" y2="34" stroke="#fde047" stroke-width="0.6" stroke-opacity="0.5" />
+    <line x1="94" y1="94" x2="86" y2="86" stroke="#fde047" stroke-width="0.6" stroke-opacity="0.5" />
+    <line x1="26" y1="94" x2="34" y2="86" stroke="#fde047" stroke-width="0.6" stroke-opacity="0.5" />
+    <line x1="94" y1="26" x2="86" y2="34" stroke="#fde047" stroke-width="0.6" stroke-opacity="0.5" />
+
+    <!-- Additional Radial Rays -->
+    <circle cx="60" cy="60" r="48" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="1 7" stroke-opacity="0.4" />
+  </g>
+
+  <!-- Outer Orbiting Celestial Constellation Ring -->
+  <g class="orbital-stars">
+    <circle cx="60" cy="60" r="45" stroke="url(#divineGold)" stroke-width="0.9" stroke-dasharray="6 8 2 8" stroke-opacity="0.6" />
+    <circle cx="60" cy="15" r="2" fill="#fffbeb" filter="url(#eyeSparkle)" />
+    <circle cx="99" cy="37.5" r="1.5" fill="#fde047" />
+    <circle cx="99" cy="82.5" r="1.5" fill="#fde047" />
+    <circle cx="60" cy="105" r="2" fill="#fffbeb" filter="url(#eyeSparkle)" />
+    <circle cx="21" cy="82.5" r="1.5" fill="#fde047" />
+    <circle cx="21" cy="37.5" r="1.5" fill="#fde047" />
+  </g>
+
+  <!-- Twinkling Stars -->
+  <g class="star-blink-1" transform="translate(24, 22)">
+    <path d="M0 -3.5 Q0 0 3.5 0 Q0 0 0 3.5 Q0 0 -3.5 0 Q0 0 0 -3.5 Z" fill="#fffbeb" filter="url(#eyeSparkle)" />
+  </g>
+  <g class="star-blink-2" transform="translate(96, 22)">
+    <path d="M0 -3.5 Q0 0 3.5 0 Q0 0 0 3.5 Q0 0 -3.5 0 Q0 0 0 -3.5 Z" fill="#fffbeb" filter="url(#eyeSparkle)" />
+  </g>
+
+  <!-- Sacred Providence Triangle & All-Seeing Eye Assembly -->
+  <g class="sacred-triangle" filter="url(#divineGlow)">
+    <!-- Golden Triangle of Providence -->
+    <polygon points="60,20 98,86 22,86" stroke="url(#divineGold)" stroke-width="2.2" stroke-linejoin="round" fill="rgba(10, 6, 20, 0.6)" />
+    <polygon points="60,26 92,82 28,82" stroke="#fffbeb" stroke-width="0.6" stroke-linejoin="round" fill="none" opacity="0.75" />
+
+    <!-- Radiating Light Rays from inside Triangle -->
+    <line x1="60" y1="36" x2="60" y2="46" stroke="#fde047" stroke-width="0.8" />
+    <line x1="50" y1="42" x2="54" y2="48" stroke="#fde047" stroke-width="0.8" />
+    <line x1="70" y1="42" x2="66" y2="48" stroke="#fde047" stroke-width="0.8" />
+
+    <!-- All-Seeing Eye of Providence Body -->
+    <g class="eye-blink-group">
+      <!-- Eye Contour -->
+      <path d="M36 60 Q60 44 84 60 Q60 76 36 60 Z"
+            fill="#090514"
+            stroke="url(#divineGold)"
+            stroke-width="1.8"
+            stroke-linejoin="round" />
+
+      <!-- Inner Iris & Pupil Vortex -->
+      <circle cx="60" cy="60" r="8.5" fill="url(#pupilVortex)" stroke="#fffbeb" stroke-width="0.8" />
+      
+      <!-- Central Focus Pupil -->
+      <circle cx="60" cy="60" r="3.6" fill="#000000" class="eye-pupil" />
+      <circle cx="61.5" cy="58.5" r="1.2" fill="#ffffff" />
+    </g>
+
+    <!-- Base Holy Ray Beam -->
+    <line x1="36" y1="90" x2="84" y2="90" stroke="url(#divineGold)" stroke-width="1.2" stroke-linecap="round" />
+  </g>
+</svg>

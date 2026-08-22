@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Amethyst & Astral Violet Gradients -->
+    <radialGradient id="decisionAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.45" />
+      <stop offset="60%" stop-color="#7e22ce" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="scalesGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#581c87" />
+    </linearGradient>
+
+    <linearGradient id="crystalGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e8ff" />
+      <stop offset="40%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#6b21a8" />
+    </linearGradient>
+
+    <linearGradient id="crystalGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0e7ff" />
+      <stop offset="40%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#3730a3" />
+    </linearGradient>
+
+    <filter id="violetGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="crystalShine" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      .bg-aura {
+        animation: pulseDecisionAura 4s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .scales-beam-group {
+        animation: swayScales 5.5s ease-in-out infinite;
+        transform-origin: 60px 42px;
+      }
+      .left-pan-group {
+        animation: counterSwayLeft 5.5s ease-in-out infinite;
+        transform-origin: 28px 42px;
+      }
+      .right-pan-group {
+        animation: counterSwayRight 5.5s ease-in-out infinite;
+        transform-origin: 92px 42px;
+      }
+      .orbit-zodiac-ring {
+        animation: spinZodiacRing 30s linear infinite;
+        transform-origin: 60px 60px;
+      }
+      .fulcrum-eye {
+        animation: fulcrumGlow 3s ease-in-out infinite;
+      }
+      .sparkle-twinkle {
+        animation: twinkleStar 2.6s ease-in-out infinite;
+      }
+
+      @keyframes swayScales {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(7deg); }
+        75% { transform: rotate(-7deg); }
+      }
+      @keyframes counterSwayLeft {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-7deg); }
+        75% { transform: rotate(7deg); }
+      }
+      @keyframes counterSwayRight {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-7deg); }
+        75% { transform: rotate(7deg); }
+      }
+      @keyframes spinZodiacRing {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes pulseDecisionAura {
+        0%, 100% { transform: scale(0.92); opacity: 0.7; }
+        50% { transform: scale(1.14); opacity: 1; }
+      }
+      @keyframes fulcrumGlow {
+        0%, 100% { r: 2.5; filter: drop-shadow(0 0 2px #c084fc); }
+        50% { r: 3.5; filter: drop-shadow(0 0 6px #f3e8ff); }
+      }
+      @keyframes twinkleStar {
+        0%, 100% { opacity: 0.2; transform: scale(0.7); }
+        50% { opacity: 1; transform: scale(1.25); }
+      }
+    </style>
+  </defs>
+
+  <!-- Ambient Violet Glow -->
+  <circle cx="60" cy="60" r="54" fill="url(#decisionAura)" class="bg-aura" />
+
+  <!-- Outer Astral Ring of Equilibrium -->
+  <g class="orbit-zodiac-ring">
+    <circle cx="60" cy="60" r="50" stroke="#a855f7" stroke-opacity="0.2" stroke-width="0.8" />
+    <circle cx="60" cy="60" r="44" stroke="url(#scalesGold)" stroke-width="0.9" stroke-dasharray="4 6" stroke-opacity="0.65" />
+    <circle cx="60" cy="16" r="1.8" fill="#f3e8ff" filter="url(#crystalShine)" />
+    <circle cx="60" cy="104" r="1.8" fill="#f3e8ff" />
+    <circle cx="16" cy="60" r="1.5" fill="#c084fc" />
+    <circle cx="104" cy="60" r="1.5" fill="#c084fc" />
+  </g>
+
+  <!-- Twinkling Starlight Sparks -->
+  <g class="sparkle-twinkle" transform="translate(24, 26)">
+    <path d="M0 -3.5 Q0 0 3.5 0 Q0 0 0 3.5 Q0 0 -3.5 0 Q0 0 0 -3.5 Z" fill="#f3e8ff" filter="url(#crystalShine)" />
+  </g>
+  <g class="sparkle-twinkle" transform="translate(96, 26)" style="animation-delay: 1.3s;">
+    <path d="M0 -3.5 Q0 0 3.5 0 Q0 0 0 3.5 Q0 0 -3.5 0 Q0 0 0 -3.5 Z" fill="#e0e7ff" filter="url(#crystalShine)" />
+  </g>
+
+  <!-- Central Pillar & Sword of Discernment Base -->
+  <g filter="url(#violetGlow)">
+    <!-- Base Pedestal -->
+    <path d="M46 96 Q60 92 74 96 L70 90 Q60 88 50 90 Z" fill="#3b0764" stroke="#c084fc" stroke-width="0.8" />
+    
+    <!-- Central Vertical Discernment Pillar -->
+    <line x1="60" y1="28" x2="60" y2="90" stroke="url(#scalesGold)" stroke-width="2" stroke-linecap="round" />
+    <line x1="60" y1="32" x2="60" y2="88" stroke="#f3e8ff" stroke-width="0.6" stroke-linecap="round" opacity="0.8" />
+
+    <!-- Crown Apex Finial -->
+    <polygon points="60,20 63,28 60,26 57,28" fill="#fef08a" />
+    <circle cx="60" cy="20" r="1.5" fill="#ffffff" filter="url(#crystalShine)" />
+  </g>
+
+  <!-- Swaying Scales Beam Assembly -->
+  <g class="scales-beam-group" filter="url(#violetGlow)">
+    <!-- The Balance Beam -->
+    <path d="M26 42 Q60 38 94 42" stroke="url(#scalesGold)" stroke-width="2" stroke-linecap="round" fill="none" />
+    <path d="M27 41 Q60 37 93 41" stroke="#ffffff" stroke-width="0.5" stroke-linecap="round" fill="none" opacity="0.8" />
+
+    <!-- Central Fulcrum Jewel -->
+    <circle cx="60" cy="40" r="5" fill="#1e1b4b" stroke="#fef08a" stroke-width="1.2" />
+    <circle cx="60" cy="40" r="3" fill="#c084fc" class="fulcrum-eye" />
+
+    <!-- LEFT SCALE PAN & AMETHYST CRYSTAL -->
+    <g class="left-pan-group">
+      <!-- Strings -->
+      <line x1="28" y1="42" x2="20" y2="66" stroke="#c084fc" stroke-width="0.75" stroke-opacity="0.8" />
+      <line x1="28" y1="42" x2="36" y2="66" stroke="#c084fc" stroke-width="0.75" stroke-opacity="0.8" />
+      <!-- Pan -->
+      <path d="M18 66 Q28 73 38 66 Z" fill="#3b0764" stroke="#fef08a" stroke-width="1" />
+      <!-- Suspended Glowing Crystal -->
+      <polygon points="28,52 34,62 28,70 22,62" fill="url(#crystalGrad1)" stroke="#f3e8ff" stroke-width="0.6" filter="url(#crystalShine)" />
+    </g>
+
+    <!-- RIGHT SCALE PAN & INDIGO CRYSTAL -->
+    <g class="right-pan-group">
+      <!-- Strings -->
+      <line x1="92" y1="42" x2="84" y2="66" stroke="#818cf8" stroke-width="0.75" stroke-opacity="0.8" />
+      <line x1="92" y1="42" x2="100" y2="66" stroke="#818cf8" stroke-width="0.75" stroke-opacity="0.8" />
+      <!-- Pan -->
+      <path d="M82 66 Q92 73 102 66 Z" fill="#1e1b4b" stroke="#fef08a" stroke-width="1" />
+      <!-- Suspended Glowing Crystal -->
+      <polygon points="92,52 98,62 92,70 86,62" fill="url(#crystalGrad2)" stroke="#e0e7ff" stroke-width="0.6" filter="url(#crystalShine)" />
+    </g>
+  </g>
+</svg>
