@@ -156,11 +156,11 @@ export const CardEncyclopediaModal: React.FC<CardEncyclopediaModalProps> = ({
                     }}
                     className="group rounded-xl p-1 bg-white/5 hover:bg-[#d4af37]/15 border border-white/5 hover:border-[#d4af37] cursor-pointer transition-all duration-300 hover:-translate-y-1 shadow-md flex flex-col"
                   >
-                    <div className="relative w-full h-40 rounded-lg overflow-hidden bg-black flex items-center justify-center">
+                    <div className="craft-card-sheen relative w-full h-40 rounded-lg overflow-hidden bg-black flex items-center justify-center">
                       <img
                         src={`/cards/${card.file}`}
                         alt={card.name[language]}
-                        className="w-full h-full object-contain p-0.5 group-hover:scale-105 transition-transform"
+                        className="w-full h-full object-contain p-0.5 group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
                     </div>

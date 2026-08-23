@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fffbeb" stop-opacity="1" />
+      <stop offset="35%" stop-color="#fef08a" stop-opacity="0.8" />
+      <stop offset="70%" stop-color="#d4af37" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="bg-portal" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e1035" stop-opacity="0.9" />
+      <stop offset="60%" stop-color="#0e061c" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#07030d" stop-opacity="1" />
+    </radialGradient>
+
+    <filter id="gold-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes spin-clockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spin-counter {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    @keyframes pulse-sun {
+      0%, 100% { transform: scale(0.92); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    @keyframes orbit-bead {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .astrolabe-outer-ring {
+      transform-origin: 200px 200px;
+      animation: spin-clockwise 60s linear infinite;
+    }
+    .astrolabe-middle-ring {
+      transform-origin: 200px 200px;
+      animation: spin-counter 40s linear infinite;
+    }
+    .astrolabe-inner-ring {
+      transform-origin: 200px 200px;
+      animation: spin-clockwise 25s linear infinite;
+    }
+    .astrolabe-sun-core {
+      transform-origin: 200px 200px;
+      animation: pulse-sun 4s ease-in-out infinite;
+    }
+    .bead-pulse {
+      animation: orbit-bead 3s ease-in-out infinite;
+    }
+  </style>
+
+  <!-- Background Void Circle -->
+  <circle cx="200" cy="200" r="190" fill="url(#bg-portal)" stroke="#d4af37" stroke-width="1.5" stroke-opacity="0.3" />
+
+  <!-- Outer Astrolabe Degree Ring -->
+  <g class="astrolabe-outer-ring">
+    <circle cx="200" cy="200" r="176" fill="none" stroke="#d4af37" stroke-width="1.2" stroke-opacity="0.4" />
+    <circle cx="200" cy="200" r="168" fill="none" stroke="#d4af37" stroke-width="0.8" stroke-dasharray="2,6" stroke-opacity="0.6" />
+    <circle cx="200" cy="200" r="160" fill="none" stroke="#fef08a" stroke-width="1" stroke-opacity="0.5" />
+
+    <!-- 12 Astrological House Markers -->
+    <line x1="200" y1="24" x2="200" y2="40" stroke="#d4af37" stroke-width="1.5" />
+    <line x1="200" y1="360" x2="200" y2="376" stroke="#d4af37" stroke-width="1.5" />
+    <line x1="24" y1="200" x2="40" y2="200" stroke="#d4af37" stroke-width="1.5" />
+    <line x1="360" y1="200" x2="376" y2="200" stroke="#d4af37" stroke-width="1.5" />
+    
+    <line x1="75.5" y1="75.5" x2="87" y2="87" stroke="#d4af37" stroke-width="1" stroke-opacity="0.7" />
+    <line x1="324.5" y1="324.5" x2="313" y2="313" stroke="#d4af37" stroke-width="1" stroke-opacity="0.7" />
+    <line x1="75.5" y1="324.5" x2="87" y2="313" stroke="#d4af37" stroke-width="1" stroke-opacity="0.7" />
+    <line x1="324.5" y1="75.5" x2="313" y2="87" stroke="#d4af37" stroke-width="1" stroke-opacity="0.7" />
+
+    <!-- Outer Orbiting Planetary Pearls -->
+    <circle cx="200" cy="24" r="3" fill="#fef08a" class="bead-pulse" filter="url(#gold-glow)" />
+    <circle cx="376" cy="200" r="3" fill="#fef08a" class="bead-pulse" filter="url(#gold-glow)" />
+    <circle cx="200" cy="376" r="3" fill="#fef08a" class="bead-pulse" filter="url(#gold-glow)" />
+    <circle cx="24" cy="200" r="3" fill="#fef08a" class="bead-pulse" filter="url(#gold-glow)" />
+  </g>
+
+  <!-- Middle Sacred Geometry Gear / Octagram Ring -->
+  <g class="astrolabe-middle-ring">
+    <circle cx="200" cy="200" r="130" fill="none" stroke="#d4af37" stroke-width="1" stroke-opacity="0.4" />
+    
+    <!-- Concentric 8-Pointed Star (Merkaba / Octagram Projection) -->
+    <polygon points="200,70 292,108 330,200 292,292 200,330 108,292 70,200 108,108" fill="none" stroke="#d4af37" stroke-width="0.8" stroke-opacity="0.45" />
+    <polygon points="200,70 330,200 200,330 70,200" fill="none" stroke="#fef08a" stroke-width="1" stroke-opacity="0.3" />
+    <polygon points="292,108 292,292 108,292 108,108" fill="none" stroke="#fef08a" stroke-width="1" stroke-opacity="0.3" />
+
+    <!-- Planetary Glyphs Nodes -->
+    <circle cx="200" cy="70" r="4" fill="#1e1035" stroke="#d4af37" stroke-width="1.5" />
+    <circle cx="330" cy="200" r="4" fill="#1e1035" stroke="#d4af37" stroke-width="1.5" />
+    <circle cx="200" cy="330" r="4" fill="#1e1035" stroke="#d4af37" stroke-width="1.5" />
+    <circle cx="70" cy="200" r="4" fill="#1e1035" stroke="#d4af37" stroke-width="1.5" />
+  </g>
+
+  <!-- Inner Astrolabe Sight Dials & Equinoctial Web -->
+  <g class="astrolabe-inner-ring">
+    <circle cx="200" cy="200" r="90" fill="none" stroke="#fef08a" stroke-width="1.2" stroke-opacity="0.6" />
+    <circle cx="200" cy="200" r="82" fill="none" stroke="#d4af37" stroke-width="0.7" stroke-dasharray="3,3" stroke-opacity="0.5" />
+
+    <!-- 12-Ray Sol Invictus Star -->
+    <line x1="200" y1="110" x2="200" y2="290" stroke="#d4af37" stroke-width="1" stroke-opacity="0.5" />
+    <line x1="110" y1="200" x2="290" y2="200" stroke="#d4af37" stroke-width="1" stroke-opacity="0.5" />
+    <line x1="136" y1="136" x2="264" y2="264" stroke="#d4af37" stroke-width="0.8" stroke-opacity="0.5" />
+    <line x1="136" y1="264" x2="264" y2="136" stroke="#d4af37" stroke-width="0.8" stroke-opacity="0.5" />
+    <line x1="122" y1="167" x2="278" y2="233" stroke="#d4af37" stroke-width="0.6" stroke-opacity="0.4" />
+    <line x1="122" y1="233" x2="278" y2="167" stroke="#d4af37" stroke-width="0.6" stroke-opacity="0.4" />
+    <line x1="167" y1="122" x2="233" y2="278" stroke="#d4af37" stroke-width="0.6" stroke-opacity="0.4" />
+    <line x1="233" y1="122" x2="167" y2="278" stroke="#d4af37" stroke-width="0.6" stroke-opacity="0.4" />
+  </g>
+
+  <!-- Central Luminary Solar Eye Core -->
+  <g class="astrolabe-sun-core">
+    <circle cx="200" cy="200" r="50" fill="url(#sun-glow)" filter="url(#gold-glow)" />
+    <circle cx="200" cy="200" r="28" fill="#140828" stroke="#d4af37" stroke-width="2" />
+    
+    <!-- Central Solar Cross & Crystal Pupil -->
+    <circle cx="200" cy="200" r="16" fill="none" stroke="#fef08a" stroke-width="1" />
+    <line x1="200" y1="180" x2="200" y2="220" stroke="#fef08a" stroke-width="1.5" />
+    <line x1="180" y1="200" x2="220" y2="200" stroke="#fef08a" stroke-width="1.5" />
+    <circle cx="200" cy="200" r="5" fill="#ffffff" filter="url(#gold-glow)" />
+  </g>
+</svg>

@@ -330,7 +330,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={handleToggleAmbient}
               className={`p-1.5 rounded-full transition-all active:scale-90 ${
                 isAmbientOn
-                  ? 'bg-[#d4af37]/20 text-[#d4af37] shadow-[0_0_12px_rgba(212,175,55,0.4)]'
+                  ? 'bg-[#d4af37]/25 text-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.5)] animate-acoustic-wave'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
               title={UI_TRANSLATIONS.ambientAudio[language]}

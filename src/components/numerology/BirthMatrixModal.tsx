@@ -171,11 +171,18 @@ export const BirthMatrixModal: React.FC<BirthMatrixModalProps> = ({
                 </div>
 
                 {/* Main Card Spotlight View */}
-                <div className="p-6 sm:p-8 rounded-3xl bg-black/50 border-2 border-[#d4af37]/40 shadow-2xl grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                <div className="relative p-6 sm:p-8 rounded-3xl bg-black/50 border-2 border-[#d4af37]/40 shadow-2xl grid grid-cols-1 md:grid-cols-12 gap-6 items-center overflow-hidden">
                   
+                  {/* Subtle Astrolabe Rotating Backdrop */}
+                  <img
+                    src="/animations/astrolabe-birth-matrix.svg"
+                    alt=""
+                    className="absolute -right-16 -bottom-16 w-80 h-80 opacity-20 pointer-events-none select-none z-0"
+                  />
+
                   {/* Card Visual Left */}
-                  <div className="md:col-span-4 flex flex-col items-center text-center space-y-2">
-                    <div className="w-44 h-72 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black p-1">
+                  <div className="md:col-span-4 flex flex-col items-center text-center space-y-2 relative z-10">
+                    <div className="craft-card-sheen w-44 h-72 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black p-1">
                       <img
                         src={getCardImage(
                           activeTab === 'personality' ? blueprint.personalityCard.id :

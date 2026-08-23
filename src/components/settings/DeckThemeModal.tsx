@@ -69,8 +69,15 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
           </button>
         </div>
 
+        {/* Background Talisman Watermark */}
+        <img
+          src="/animations/sacred-deck-talisman.svg"
+          alt=""
+          className="absolute -right-20 -bottom-20 w-80 h-80 opacity-15 pointer-events-none select-none z-0"
+        />
+
         {/* Themes Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 relative z-10">
           {DECK_THEMES.map((theme) => {
             const isSelected = selectedThemeId === theme.id;
 
@@ -93,7 +100,7 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
 
                 <div className="flex items-center space-x-3">
                   <div
-                    className="w-14 h-22 rounded-xl overflow-hidden border-2 bg-black flex-shrink-0 shadow-md group-hover:scale-105 transition-transform"
+                    className="craft-card-sheen w-14 h-22 rounded-xl overflow-hidden border-2 bg-black flex-shrink-0 shadow-md group-hover:scale-105 transition-transform"
                     style={{ borderColor: theme.borderColor }}
                   >
                     <img src={theme.image} alt={theme.name.en} className="w-full h-full object-cover" />

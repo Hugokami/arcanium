@@ -32,7 +32,7 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
         }}
         className={`group relative flex flex-col items-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:scale-105 ${extraClasses}`}
       >
-        <div className="relative w-14 h-22 sm:w-18 sm:h-28 md:w-20 md:h-32 rounded-xl overflow-hidden border-2 border-[#d4af37]/60 group-hover:border-amber-300 shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] bg-black transition-all">
+        <div className="craft-card-sheen relative w-14 h-22 sm:w-18 sm:h-28 md:w-20 md:h-32 rounded-xl overflow-hidden border-2 border-[#d4af37]/60 group-hover:border-amber-300 shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] bg-black transition-all">
           <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] pointer-events-none z-10 rounded-xl" />
           <img
             src={`/cards/${dc.card.file}`}
