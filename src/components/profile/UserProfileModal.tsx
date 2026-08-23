@@ -29,7 +29,15 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
       setBirthdate(existing.birthdate || '1998-08-08');
       setSpiritualFocus(existing.spiritualFocus || '');
     }
-  }, [isOpen]);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 

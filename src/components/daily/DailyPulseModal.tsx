@@ -32,11 +32,20 @@ export const DailyPulseModal: React.FC<DailyPulseModalProps> = ({
       setReflectionText(existing.eveningReflection);
     }
     const unsub = VoiceOracleService.subscribeState(setIsSpeaking);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       unsub();
       VoiceOracleService.stop();
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [onClose]);
 
   const handleSaveReflection = () => {
     audioService.playCardSlide();

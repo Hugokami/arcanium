@@ -48,7 +48,15 @@ export const DailyCardModal: React.FC<DailyCardModalProps> = ({
       const savedNote = localStorage.getItem(`arcanium_daily_note_${new Date().toISOString().slice(0, 10)}`) || '';
       setReflection(savedNote);
     }
-  }, [isOpen]);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !dailyCard) return null;
 

@@ -19,6 +19,16 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
     DeckThemeService.getSelectedTheme().id
   );
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const handleSelect = (theme: DeckTheme) => {
     audioService.playCardSlide();
     setSelectedThemeId(theme.id);

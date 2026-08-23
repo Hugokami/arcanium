@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check, Sun, Compass, Layers, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check, Sun, Compass, Layers, Sparkles, MoreHorizontal } from 'lucide-react';
 import { Language } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
@@ -38,10 +38,12 @@ export const Header: React.FC<HeaderProps> = ({
   const [isAmbientOn, setIsAmbientOn] = useState(audioService.getIsAmbientPlaying());
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [showVolumeMenu, setShowVolumeMenu] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [volume, setVolume] = useState(audioService.getVolume());
 
   const langMenuRef = useRef<HTMLDivElement>(null);
   const volMenuRef = useRef<HTMLDivElement>(null);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -50,6 +52,9 @@ export const Header: React.FC<HeaderProps> = ({
       }
       if (volMenuRef.current && !volMenuRef.current.contains(event.target as Node)) {
         setShowVolumeMenu(false);
+      }
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setShowMoreMenu(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -248,6 +253,75 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             )}
           </button>
+
+          {/* Mobile More Tools Dropdown */}
+          <div className="relative md:hidden" ref={moreMenuRef}>
+            <button
+              onClick={() => setShowMoreMenu(!showMoreMenu)}
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none"
+              title="Esoteric Tools"
+            >
+              <MoreHorizontal className="w-4 h-4 text-[#d4af37]" />
+            </button>
+
+            {showMoreMenu && (
+              <div className="absolute right-0 mt-2 w-52 rounded-2xl bg-[#110924] border border-white/[0.12] shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-top-1 backdrop-blur-2xl space-y-1">
+                <button
+                  onClick={() => {
+                    audioService.playCardSlide();
+                    setShowMoreMenu(false);
+                    onOpenCodex();
+                  }}
+                  className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-zinc-200 hover:bg-white/5 transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 text-[#d4af37]" />
+                  <span>{UI_TRANSLATIONS.codexBtn[language]}</span>
+                </button>
+
+                {onOpenBirthMatrix && (
+                  <button
+                    onClick={() => {
+                      audioService.playCardSlide();
+                      setShowMoreMenu(false);
+                      onOpenBirthMatrix();
+                    }}
+                    className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-zinc-200 hover:bg-white/5 transition-colors"
+                  >
+                    <Compass className="w-4 h-4 text-amber-400" />
+                    <span>Birth Blueprint</span>
+                  </button>
+                )}
+
+                {onOpenDeckTheme && (
+                  <button
+                    onClick={() => {
+                      audioService.playCardSlide();
+                      setShowMoreMenu(false);
+                      onOpenDeckTheme();
+                    }}
+                    className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-zinc-200 hover:bg-white/5 transition-colors"
+                  >
+                    <Layers className="w-4 h-4 text-amber-300" />
+                    <span>Sacred Decks</span>
+                  </button>
+                )}
+
+                {onOpenTreeOfLife && (
+                  <button
+                    onClick={() => {
+                      audioService.playCardSlide();
+                      setShowMoreMenu(false);
+                      onOpenTreeOfLife();
+                    }}
+                    className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-purple-200 hover:bg-white/5 transition-colors"
+                  >
+                    <Sparkles className="w-4 h-4 text-purple-300" />
+                    <span>Tree of Life</span>
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Audio Console Hub */}
           <div className="relative flex items-center space-x-1 bg-white/[0.03] p-1 rounded-full border border-white/[0.08]" ref={volMenuRef}>

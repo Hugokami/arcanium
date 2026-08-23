@@ -22,6 +22,16 @@ export const BirthMatrixModal: React.FC<BirthMatrixModalProps> = ({
   const [dobInput, setDobInput] = useState<string>(userProfile?.birthdate || '1996-07-20');
   const [activeTab, setActiveTab] = useState<'personality' | 'soul' | 'year' | 'shadow'>('personality');
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const blueprint = BirthNumerologyService.calculateBlueprint(dobInput);
 
   const getCardImage = (id: string) => {

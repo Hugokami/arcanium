@@ -22,6 +22,16 @@ export const JournalModal: React.FC<JournalModalProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filterFavOnly, setFilterFavOnly] = useState<boolean>(false);
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const filteredEntries = entries.filter(e => {
     if (filterFavOnly && !e.favorite) return false;
     if (searchQuery.trim()) {

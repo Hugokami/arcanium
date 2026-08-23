@@ -82,6 +82,21 @@ export const TreeOfLifeModal: React.FC<TreeOfLifeModalProps> = ({
   const [selectedSephirah, setSelectedSephirah] = useState<SephirahNode | null>(null);
   const [selectedPath, setSelectedPath] = useState<KabbalahPath | null>(null);
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (selectedSephirah || selectedPath) {
+          setSelectedSephirah(null);
+          setSelectedPath(null);
+        } else {
+          onClose();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedSephirah, selectedPath, onClose]);
+
   // Identify which Major Arcana cards are active in this spread
   const activeMajorCardIds = new Set(
     drawnCards

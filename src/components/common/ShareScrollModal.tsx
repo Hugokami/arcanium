@@ -17,6 +17,16 @@ export const ShareScrollModal: React.FC<ShareScrollModalProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const activeAnalysis = useMemo(() => {
     return analyzeReading(reading.topic, reading.drawnCards, reading.spread, language);
   }, [reading.topic, reading.drawnCards, reading.spread, language]);

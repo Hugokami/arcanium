@@ -16,6 +16,17 @@ export const CardInspectorModal: React.FC<CardInspectorModalProps> = ({
   onClose
 }) => {
   const [activeTab, setActiveTab] = useState<'prophecy' | 'persona' | 'waite' | 'kabbalah'>('prophecy');
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   if (!drawnCard) return null;
 
   const { card, isReversed, position } = drawnCard;

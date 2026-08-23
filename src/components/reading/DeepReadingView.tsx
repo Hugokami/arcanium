@@ -197,22 +197,31 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   };
 
   const handleCopy = () => {
-    const text = `✦ ARCANIUM TAROT READING ✦\n\n` +
-      `Question: "${question}"\n` +
-      `Spread: ${spread.name[language]}\n` +
-      `Date: ${new Date(reading.timestamp).toLocaleDateString()}\n\n` +
-      `--- POLARITY & CERTAINTY ---\n` +
-      `${polarityGauge.verdict[language]} (${polarityGauge.score}%)\n` +
+    audioService.playCardSlide();
+    const shadowText = extendedQuintessence?.shadowCardName
+      ? `\n\n--- SHADOW INTEGRATION QUINTESSENCE ---\n✦ ${extendedQuintessence.shadowCardName[language]}: ${extendedQuintessence.shadowLesson[language]}`
+      : '';
+
+    const text = `╔══════════════════════════════════════════════════════╗\n` +
+      `   ✦ ARCANIUM — SACRED TAROT DECREE ✦\n` +
+      `╚══════════════════════════════════════════════════════╝\n\n` +
+      `📜 Inquiry: "${question}"\n` +
+      `🌌 Spread: ${spread.name[language]}\n` +
+      `📅 Cast Date: ${new Date(reading.timestamp).toLocaleDateString()}\n\n` +
+      `--- 🔮 POLARITY & CERTAINTY ---\n` +
+      `${polarityGauge.verdict[language]} (${polarityGauge.score}% Harmonic Resonance)\n` +
       `${polarityGauge.explanation[language]}\n\n` +
-      `--- CARDS DRAWN ---\n` +
-      drawnCards.map((dc, i) => `${i + 1}. ${dc.position.name[language]}: ${dc.card.name[language]} ${dc.isReversed ? '(Reversed)' : '(Upright)'}\n   ${dc.isReversed ? dc.card.reversedMeaning[language] : dc.card.uprightMeaning[language]}`).join('\n\n') +
-      `\n\n--- THE QUINTESSENCE ---\n${quintessence.cardName[language]}: ${quintessence.lesson[language]}` +
-      `\n\n--- MANIFESTATION AFFIRMATION ---\n"${ritualPrescription.affirmation[language]}"` +
-      `\n\n--- SUMMARY ---\n${activeAnalysis.summary}`;
+      `--- 🎴 SACRED CARDS DRAWN ---\n` +
+      drawnCards.map((dc, i) => `${i + 1}. [${dc.position.name[language]}]\n   ✦ ${dc.card.name[language]} ${dc.isReversed ? '⟲ (Reversed)' : '▲ (Upright)'}\n   "${dc.isReversed ? dc.card.reversedMeaning[language] : dc.card.uprightMeaning[language]}"`).join('\n\n') +
+      `\n\n--- ☀️ PRIMARY MASTER QUINTESSENCE ---\n✦ ${quintessence.cardName[language]}: ${quintessence.lesson[language]}` +
+      shadowText +
+      `\n\n--- 🕯️ SACRED MANIFESTATION AFFIRMATION ---\n"${ritualPrescription.affirmation[language]}"` +
+      `\n\n--- 🏛️ HERMENEUTIC SYNTHESIS ---\n${activeAnalysis.summary}` +
+      `\n\n🔮 Cast on Arcanium: https://arcanium-tarot.vercel.app`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 2500);
   };
 
   const toggleVoiceOracle = () => {

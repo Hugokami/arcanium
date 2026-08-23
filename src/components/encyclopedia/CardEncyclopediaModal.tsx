@@ -22,6 +22,20 @@ export const CardEncyclopediaModal: React.FC<CardEncyclopediaModalProps> = ({
   const [inspectedCard, setInspectedCard] = useState<TarotCard | null>(initialCard || null);
   const [activeTab, setActiveTab] = useState<'waite' | 'kabbalah' | 'upright' | 'reversed' | 'love' | 'career' | 'spiritual'>('waite');
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (inspectedCard) {
+          setInspectedCard(null);
+        } else {
+          onClose();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [inspectedCard, onClose]);
+
   const filteredCards = TAROT_DECK.filter(card => {
     if (filterSuit === 'major' && card.arcana !== 'major') return false;
     if (filterSuit === 'cups' && card.suit !== 'cups') return false;
@@ -31,11 +45,17 @@ export const CardEncyclopediaModal: React.FC<CardEncyclopediaModalProps> = ({
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
+      const eso = EsotericCorrespondenceService.getEsotericData(card.id);
       return (
         card.name[language].toLowerCase().includes(q) ||
         card.name.en.toLowerCase().includes(q) ||
+        String(card.number).includes(q) ||
+        card.element.toLowerCase().includes(q) ||
         card.uprightKeywords[language].some(k => k.toLowerCase().includes(q)) ||
-        card.reversedKeywords[language].some(k => k.toLowerCase().includes(q))
+        card.reversedKeywords[language].some(k => k.toLowerCase().includes(q)) ||
+        (eso?.hebrewLetter && eso.hebrewLetter[language].toLowerCase().includes(q)) ||
+        (eso?.goldenDawnTitle && eso.goldenDawnTitle[language].toLowerCase().includes(q)) ||
+        (eso?.decanateAstrology && eso.decanateAstrology[language].toLowerCase().includes(q))
       );
     }
     return true;

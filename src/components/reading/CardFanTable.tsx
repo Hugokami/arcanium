@@ -3,8 +3,9 @@ import { DrawnCard, Language, SpreadDefinition, TarotCard } from '../../types/ta
 import { TAROT_DECK } from '../../data/tarotDeck';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
+import { DeckThemeService } from '../../services/deckThemeService';
 import confetti from 'canvas-confetti';
-import { Sparkles, Eye, RotateCw, Hand, Layers } from 'lucide-react';
+import { Sparkles, Eye, RotateCw, Hand, Layers, Keyboard } from 'lucide-react';
 
 interface CardFanTableProps {
   topic: string;
@@ -179,6 +180,37 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
 
   const allDrawn = drawnCards.length === picksNeeded;
   const allRevealed = allDrawn && drawnCards.every(c => c.revealed);
+
+  const selectedTheme = DeckThemeService.getSelectedTheme();
+  const cardBackImage = selectedTheme.image;
+
+  // Global Keyboard Shortcuts (Space/Enter to auto-pick, reveal, or proceed)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      if (e.code === 'Space' || e.code === 'Enter') {
+        e.preventDefault();
+        if (selectionStage === 'choose_deck' && deckStreams.length > 0) {
+          handleSelectDeck(deckStreams[0]);
+        } else if (selectionStage === 'pick_cards') {
+          if (allRevealed) {
+            handleReadCards();
+          } else if (allDrawn) {
+            handleRevealAll();
+          } else if (picksLeft > 0 && fanDeck.length > 0) {
+            const nextIdx = fanDeck.findIndex((_, idx) => !takenIndices.includes(idx));
+            if (nextIdx !== -1) {
+              handlePickCard(fanDeck[nextIdx], nextIdx);
+            }
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectionStage, deckStreams, allRevealed, allDrawn, picksLeft, fanDeck, takenIndices, drawnCards]);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-10 space-y-8 flex flex-col items-center animate-in fade-in duration-500">
@@ -376,7 +408,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                           /* Card Back (Click to reveal) */
                           <div className="relative w-full h-full bg-[#120a24] flex flex-col items-center justify-center p-0.5 sm:p-1">
                             <img
-                              src="/cards/CardBacks.png"
+                              src={cardBackImage}
                               alt="Card Back"
                               className="w-full h-full object-cover rounded-lg"
                             />
@@ -460,7 +492,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                       }`}
                     >
                       <img
-                        src="/cards/CardBacks.png"
+                        src={cardBackImage}
                         alt="Card Back"
                         className="w-full h-full object-cover"
                       />
@@ -499,6 +531,11 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
             >
               {language === 'my' ? 'အစမှ ပြန်စမည်' : language === 'ja' ? '最初からやり直す' : 'Start Over'}
             </button>
+          </div>
+
+          <div className="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-[10px] font-mono text-zinc-400">
+            <Keyboard className="w-3 h-3 text-[#d4af37]" />
+            <span>Shortcuts: Press <b>[Space]</b> or <b>[Enter]</b> to draw & reveal</span>
           </div>
         </>
       )}

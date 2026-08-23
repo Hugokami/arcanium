@@ -59,6 +59,24 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      if (e.key === 'Escape') {
+        if (step === 3) {
+          audioService.playCardSlide();
+          setStep(2);
+        } else if (step === 2) {
+          audioService.playCardSlide();
+          setStep(1);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [step]);
+
   const isRelationshipReading =
     selectedTopic.id === 'love' ||
     selectedSpread.id === 'celtic' ||
