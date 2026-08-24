@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { X, Printer, Copy, Check, Scroll } from 'lucide-react';
+import { X, Printer, Copy, Check, Scroll, Image as ImageIcon, Download, Loader2 } from 'lucide-react';
 import { Language, ReadingResultData } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { analyzeReading } from '../../services/deepReadingEngine';
+import { SpreadCanvasExportService } from '../../services/spreadCanvasExportService';
+import { AstrologyService } from '../../services/astrologyService';
 
 interface ShareScrollModalProps {
   reading: ReadingResultData;
@@ -16,6 +18,8 @@ export const ShareScrollModal: React.FC<ShareScrollModalProps> = ({
   onClose
 }) => {
   const [copied, setCopied] = useState(false);
+  const [isExportingPng, setIsExportingPng] = useState(false);
+  const [pngFormat, setPngFormat] = useState<'landscape' | 'square' | 'story'>('landscape');
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -33,6 +37,18 @@ export const ShareScrollModal: React.FC<ShareScrollModalProps> = ({
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleExportPng = async () => {
+    try {
+      setIsExportingPng(true);
+      const profile = AstrologyService.loadProfile();
+      await SpreadCanvasExportService.exportSpreadImage(reading, language, profile, { format: pngFormat });
+    } catch (err) {
+      console.error('Failed to export PNG spread image:', err);
+    } finally {
+      setIsExportingPng(false);
+    }
   };
 
   const handleCopy = () => {
@@ -54,16 +70,41 @@ export const ShareScrollModal: React.FC<ShareScrollModalProps> = ({
       <div className="relative w-full max-w-2xl max-h-[90vh] rounded-2xl bg-[#0c0a09] border border-[#292524] overflow-hidden flex flex-col shadow-2xl">
         
         {/* Action Topbar (Hidden on Print) */}
-        <div className="p-3.5 border-b border-[#292524] bg-[#141210] flex items-center justify-between print:hidden">
+        <div className="p-3.5 border-b border-[#292524] bg-[#141210] flex flex-wrap items-center justify-between gap-2 print:hidden">
           <div className="flex items-center space-x-2 text-[#f5f5f4] font-mono text-xs uppercase tracking-wider">
             <Scroll className="w-4 h-4 text-[#a8a29e]" />
             <span>{UI_TRANSLATIONS.exportScrollBtn[language]}</span>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {/* Format Picker */}
+            <select
+              value={pngFormat}
+              onChange={(e) => setPngFormat(e.target.value as 'landscape' | 'square' | 'story')}
+              className="px-2 py-1 rounded-lg bg-[#0c0a09] border border-[#292524] text-[#a8a29e] text-xs font-mono focus:border-[#78716c] focus:outline-none"
+            >
+              <option value="landscape">16:9 Landscape</option>
+              <option value="square">1:1 Square</option>
+              <option value="story">9:16 Story</option>
+            </select>
+
+            {/* Export PNG */}
+            <button
+              onClick={handleExportPng}
+              disabled={isExportingPng}
+              className="px-3 py-1 rounded-lg bg-[#f5f5f4] hover:bg-white text-[#0c0a09] text-xs font-sans font-medium flex items-center space-x-1.5 transition-colors disabled:opacity-50"
+            >
+              {isExportingPng ? (
+                <Loader2 className="w-3 h-3 animate-spin text-[#0c0a09]" />
+              ) : (
+                <Download className="w-3 h-3 text-[#0c0a09]" />
+              )}
+              <span>{isExportingPng ? 'Rendering...' : 'PNG Graphic'}</span>
+            </button>
+
             <button
               onClick={handlePrint}
-              className="px-3 py-1 rounded-lg bg-[#0c0a09] hover:bg-[#1c1917] text-[#f5f5f4] text-xs font-sans flex items-center space-x-1.5 border border-[#292524]"
+              className="px-2.5 py-1 rounded-lg bg-[#0c0a09] hover:bg-[#1c1917] text-[#f5f5f4] text-xs font-sans flex items-center space-x-1 border border-[#292524]"
             >
               <Printer className="w-3 h-3" />
               <span>Print</span>
@@ -71,7 +112,7 @@ export const ShareScrollModal: React.FC<ShareScrollModalProps> = ({
 
             <button
               onClick={handleCopy}
-              className="px-3 py-1 rounded-lg bg-[#0c0a09] hover:bg-[#1c1917] text-[#a8a29e] hover:text-[#f5f5f4] text-xs font-sans flex items-center space-x-1.5 border border-[#292524]"
+              className="px-2.5 py-1 rounded-lg bg-[#0c0a09] hover:bg-[#1c1917] text-[#a8a29e] hover:text-[#f5f5f4] text-xs font-sans flex items-center space-x-1 border border-[#292524]"
             >
               {copied ? <Check className="w-3 h-3 text-[#86efac]" /> : <Copy className="w-3 h-3" />}
               <span>{copied ? UI_TRANSLATIONS.copiedBtn[language] : UI_TRANSLATIONS.copyBtn[language]}</span>

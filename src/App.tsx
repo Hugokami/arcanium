@@ -13,10 +13,12 @@ import { BirthMatrixModal } from './components/numerology/BirthMatrixModal';
 import { DeckThemeModal } from './components/settings/DeckThemeModal';
 import { DailyPulseModal } from './components/daily/DailyPulseModal';
 import { TreeOfLifeModal } from './components/astral/TreeOfLifeModal';
+import { CosmicAlmanacModal } from './components/astral/CosmicAlmanacModal';
+import { CardSynergyModal } from './components/encyclopedia/CardSynergyModal';
 import { EntranceIntro } from './components/layout/EntranceIntro';
 import { SanctuaryLoader } from './components/layout/SanctuaryLoader';
 
-import { DrawnCard, JournalEntry, Language, ReadingResultData, SpreadDefinition } from './types/tarot';
+import { DrawnCard, JournalEntry, Language, ReadingResultData, SpreadDefinition, TarotCard } from './types/tarot';
 import { SPREAD_CONFIGS, TOPICS } from './data/translations';
 import { analyzeReading } from './services/deepReadingEngine';
 import { audioService } from './services/audioService';
@@ -56,6 +58,9 @@ export function App() {
   const [isBirthMatrixOpen, setIsBirthMatrixOpen] = useState<boolean>(false);
   const [isDeckThemeOpen, setIsDeckThemeOpen] = useState<boolean>(false);
   const [isTreeOfLifeOpen, setIsTreeOfLifeOpen] = useState<boolean>(false);
+  const [isAlmanacOpen, setIsAlmanacOpen] = useState<boolean>(false);
+  const [isSynergyOpen, setIsSynergyOpen] = useState<boolean>(false);
+  const [synergySeedCards, setSynergySeedCards] = useState<TarotCard[]>([]);
 
   // Journal Persistence
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => {
@@ -171,6 +176,7 @@ export function App() {
         onOpenBirthMatrix={() => setIsBirthMatrixOpen(true)}
         onOpenDeckTheme={() => setIsDeckThemeOpen(true)}
         onOpenTreeOfLife={() => setIsTreeOfLifeOpen(true)}
+        onOpenAlmanac={() => setIsAlmanacOpen(true)}
         onResetHome={handleResetHome}
         journalCount={journalEntries.length}
         userProfile={userProfile}
@@ -203,6 +209,10 @@ export function App() {
             onSaveToJournal={handleSaveToJournal}
             onResetHome={handleResetHome}
             onOpenScrollModal={() => setIsScrollOpen(true)}
+            onOpenSynergy={(cards) => {
+              setSynergySeedCards(cards);
+              setIsSynergyOpen(true);
+            }}
             isSavedInJournal={journalEntries.some(e => e.id === currentReading.id)}
           />
         )}
@@ -228,6 +238,10 @@ export function App() {
         <CardEncyclopediaModal
           language={language}
           onClose={() => setIsCodexOpen(false)}
+          onOpenSynergy={(cards) => {
+            setSynergySeedCards(cards);
+            setIsSynergyOpen(true);
+          }}
         />
       )}
 
@@ -278,6 +292,30 @@ export function App() {
         <TreeOfLifeModal
           language={language}
           onClose={() => setIsTreeOfLifeOpen(false)}
+        />
+      )}
+
+      {/* Cosmic Almanac & Planetary Hours Modal */}
+      {isAlmanacOpen && (
+        <CosmicAlmanacModal
+          language={language}
+          onClose={() => setIsAlmanacOpen(false)}
+          onSelectSpread={(spreadId) => {
+            const spreadConfig = SPREAD_CONFIGS.find(s => s.id === spreadId);
+            if (spreadConfig) {
+              setActiveSpread(spreadConfig);
+              setStage('draw');
+            }
+          }}
+        />
+      )}
+
+      {/* 2-to-3 Card Esoteric Synergy & Comparison Studio */}
+      {isSynergyOpen && (
+        <CardSynergyModal
+          language={language}
+          initialCards={synergySeedCards}
+          onClose={() => setIsSynergyOpen(false)}
         />
       )}
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { DrawnCard, Language, ReadingResultData } from '../../types/tarot';
+import { DrawnCard, Language, ReadingResultData, TarotCard } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import {
   getPositionContextualMeaning,
@@ -54,8 +54,11 @@ import {
   Activity,
   ShieldCheck,
   Award,
-  UserCheck
+  UserCheck,
+  Download,
+  Loader2
 } from 'lucide-react';
+import { SpreadCanvasExportService } from '../../services/spreadCanvasExportService';
 
 interface DeepReadingViewProps {
   reading: ReadingResultData;
@@ -63,6 +66,7 @@ interface DeepReadingViewProps {
   onSaveToJournal: (reading: ReadingResultData, userNotes?: string, isFav?: boolean) => void;
   onResetHome: () => void;
   onOpenScrollModal: () => void;
+  onOpenSynergy?: (cards: TarotCard[]) => void;
   isSavedInJournal?: boolean;
 }
 
@@ -72,12 +76,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
   onSaveToJournal,
   onResetHome,
   onOpenScrollModal,
+  onOpenSynergy,
   isSavedInJournal = false
 }) => {
   const [saved, setSaved] = useState<boolean>(isSavedInJournal);
   const [userNotes, setUserNotes] = useState<string>(reading.userNotes || '');
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+  const [isExportingPng, setIsExportingPng] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [isTreeOfLifeOpen, setIsTreeOfLifeOpen] = useState<boolean>(false);
@@ -222,6 +228,17 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
+  };
+
+  const handleExportPng = async () => {
+    try {
+      setIsExportingPng(true);
+      await SpreadCanvasExportService.exportSpreadImage(reading, language, userProfile, { format: 'landscape' });
+    } catch (err) {
+      console.error('Failed to export PNG graphic:', err);
+    } finally {
+      setIsExportingPng(false);
+    }
   };
 
   const toggleVoiceOracle = () => {
@@ -1217,7 +1234,30 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
             <span>{saved ? UI_TRANSLATIONS.savedToJournalBtn[language] : UI_TRANSLATIONS.saveToJournalBtn[language]}</span>
           </button>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {onOpenSynergy && (
+              <button
+                onClick={() => {
+                  audioService.playCardFlip();
+                  onOpenSynergy(drawnCards.map(dc => dc.card));
+                }}
+                className="h-9 px-3.5 rounded-lg btn-secondary text-xs font-sans flex items-center space-x-1.5"
+                title="Evaluate Synergy Studio"
+              >
+                <Zap className="w-3.5 h-3.5 text-[#fde047]" />
+                <span>Synergy Studio</span>
+              </button>
+            )}
+
+            <button
+              onClick={handleExportPng}
+              disabled={isExportingPng}
+              className="h-9 px-3.5 rounded-lg btn-secondary text-xs font-sans flex items-center space-x-1.5 disabled:opacity-50"
+            >
+              {isExportingPng ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+              <span>{isExportingPng ? 'Rendering...' : 'PNG Graphic'}</span>
+            </button>
+
             <button
               onClick={handleCopy}
               className="h-9 px-3.5 rounded-lg btn-secondary text-xs font-sans flex items-center space-x-1.5"

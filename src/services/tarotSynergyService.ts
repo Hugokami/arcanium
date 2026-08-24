@@ -617,4 +617,164 @@ export class TarotSynergyService {
       majorCount
     };
   }
+
+  /**
+   * 5. Multi-Card Esoteric Synergy & Comparison Engine
+   * Compares 2 or 3 arbitrary cards across Elemental Alchemy, Numerology, and Archetypal Interlocking
+   */
+  public static compareCards(cards: TarotCard[], lang: Language): {
+    chemistryScore: number;
+    elementalRelation: {
+      title: { en: string; my: string; ja: string };
+      description: { en: string; my: string; ja: string };
+      type: 'harmonic' | 'tension' | 'support' | 'neutral';
+    };
+    compositeArchetype: {
+      key: number;
+      name: { en: string; my: string; ja: string };
+      meaning: { en: string; my: string; ja: string };
+    };
+    interlockingInsight: { en: string; my: string; ja: string };
+    advice: { en: string; my: string; ja: string };
+  } {
+    if (cards.length === 0) {
+      return {
+        chemistryScore: 50,
+        elementalRelation: {
+          title: { en: 'No Cards Selected', my: 'ကတ်များ မရွေးချယ်ရသေးပါ', ja: 'カード未選択' },
+          description: { en: 'Select 2 or 3 cards to evaluate synergy.', my: 'စွမ်းအင်နှိုင်းယှဉ်ရန် ကတ် ၂ သို့မဟုတ် ၃ ခု ရွေးချယ်ပါ။', ja: '比較するカードを2〜3枚選択してください。' },
+          type: 'neutral'
+        },
+        compositeArchetype: {
+          key: 0,
+          name: { en: 'The Fool', my: 'The Fool (အစပြုခြင်း)', ja: '愚者' },
+          meaning: { en: 'The infinite unmanifest void.', my: 'အဆုံးမဲ့ ဖြစ်နိုင်စွမ်းများ။', ja: '無限の可能性。' }
+        },
+        interlockingInsight: { en: '', my: '', ja: '' },
+        advice: { en: '', my: '', ja: '' }
+      };
+    }
+
+    // 1. Elemental Alchemy
+    const elements = cards.map(c => c.element || (c.suit === 'wands' ? 'Fire' : c.suit === 'cups' ? 'Water' : c.suit === 'swords' ? 'Air' : 'Earth'));
+    const hasFire = elements.includes('Fire');
+    const hasWater = elements.includes('Water');
+    const hasAir = elements.includes('Air');
+    const hasEarth = elements.includes('Earth');
+
+    let relationType: 'harmonic' | 'tension' | 'support' | 'neutral' = 'neutral';
+    let elTitle = { en: 'Harmonic Elemental Dialogue', my: 'ဓာတ်များ အပြန်အလှန် လိုက်ဖက်မှု', ja: '元素の調和的対話' };
+    let elDesc = {
+      en: 'The elemental essences flow in balance without direct contradiction.',
+      my: 'ဓာတ်စွမ်းအင်များသည် ပဋိပက္ခမရှိဘဲ ဟန်ချက်ညီညီ ပေါင်းစပ်နေပါသည်။',
+      ja: 'エレメント同士が対立することなく、バランスを保って調和しています。'
+    };
+
+    if (hasFire && hasAir) {
+      relationType = 'harmonic';
+      elTitle = { en: '✦ Active Ignition (Fire & Air Synergy)', my: '✦ တောက်ပသော မီးနှင့် လေ ပေါင်းစပ်မှု', ja: '✦ 燃焼の相乗（火と風の共鳴）' };
+      elDesc = {
+        en: 'Air feeds Fire: ideas quickly spark into dynamic willpower, creative inspiration, and bold momentum.',
+        my: 'လေက မီးကို တောက်လောင်စေသကဲ့သို့ အတွေးအမြင်များသည် စိတ်အားထက်သန်မှုနှင့် သန္နိဋ္ဌာန်အဖြစ် လျင်မြန်စွာ ပြောင်းလဲစေသည်။',
+        ja: '風が火を燃え上がらせるように、知性と情熱が結合して強力な推進力を生み出します。'
+      };
+    } else if (hasWater && hasEarth) {
+      relationType = 'support';
+      elTitle = { en: '✦ Fertile Manifestation (Water & Earth Support)', my: '✦ မြေနှင့် ရေ အကျိုးပြု ပေါင်းစပ်မှု', ja: '✦ 豊穣の具現化（水と地の育成）' };
+      elDesc = {
+        en: 'Water nourishes Earth: intuition, emotional depth, and devotion take physical root in lasting material reality.',
+        my: 'ရေက မြေကို မြေဩဇာကောင်းစေသကဲ့သို့ နှလုံးသားခံစားချက်များသည် ခိုင်မာသော လက်တွေ့ဘဝအောင်မြင်မှုအဖြစ် အမြစ်တွယ်သည်။',
+        ja: '水が大地を潤すように、感情と直感が確かな現実基盤と成果を結びつけます。'
+      };
+    } else if (hasFire && hasWater) {
+      relationType = 'tension';
+      elTitle = { en: '✦ Steam & Transmutation (Fire & Water Friction)', my: '✦ မီးနှင့် ရေ ပြင်းထန်သော စွမ်းအင် ပွတ်တိုက်မှု', ja: '✦ 蒸気と変容（火と水の劇的緊張）' };
+      elDesc = {
+        en: 'Dynamic tension between action and feeling: requires emotional maturity so fiery impulse does not evaporate deep bonds.',
+        my: 'လုပ်ဆောင်ချက်နှင့် စိတ်ခံစားမှုကြား ပြင်းထန်သော တင်းမာမှုရှိသည်။ စိတ်ရှည်မှုဖြင့် ထိန်းညှိရန် လိုအပ်သည်။',
+        ja: '情熱と感情の激しいせめぎ合い。衝動で絆を蒸発させない成熟した制御が求められます。'
+      };
+    } else if (hasAir && hasEarth) {
+      relationType = 'tension';
+      elTitle = { en: '✦ Architecture & Logic (Air & Earth Duality)', my: '✦ လေနှင့် မြေ သဘာဝနှစ်မျိုး ပေါင်းစပ်မှု', ja: '✦ 理論と実用（風と地の構築）' };
+      elDesc = {
+        en: 'Abstract thoughts meeting grounded reality: brilliant planning requires practical execution to avoid paralysis.',
+        my: 'အတွေးအခေါ်များနှင့် လက်တွေ့ဘဝတို့ ချိတ်ဆက်နေသည်။ အကြံဉာဏ်များကို လက်တွေ့အကောင်အထည်ဖော်ရန် လိုအပ်သည်။',
+        ja: '理想と現実の交差点。優れた構想を行動に移すための着実な設計が鍵となります。'
+      };
+    }
+
+    // 2. Numerology Composite Archetype
+    const cardNums = cards.map(c => {
+      const val = parseInt(c.id.replace(/\D/g, ''), 10);
+      return isNaN(val) ? 1 : val;
+    });
+    const sum = cardNums.reduce((a, b) => a + b, 0);
+    const reducedKey = sum % 22;
+
+    const majorNames: Record<number, { name: { en: string; my: string; ja: string }; meaning: { en: string; my: string; ja: string } }> = {
+      0: { name: { en: '0 The Fool', my: '0 The Fool (အစပြုခြင်း)', ja: '0 愚者' }, meaning: { en: 'Pure potential, leap of faith, unbounded innocence', my: 'အစပြုခြင်းသစ်နှင့် အဆုံးမဲ့ ဖြစ်နိုင်စွမ်း', ja: '無限の可能性と直感的な跳躍' } },
+      1: { name: { en: 'I The Magician', my: 'I The Magician (ဖန်တီးရှင်)', ja: 'I 魔術師' }, meaning: { en: 'Conscious manifestation, resource mastery', my: 'ဉာဏ်ပညာဖြင့် လက်တွေ့ဖန်တီးနိုင်စွမ်း', ja: '意識的な創造と万物の掌握' } },
+      2: { name: { en: 'II The High Priestess', my: 'II The High Priestess (မယ်တော်)', ja: 'II 女教皇' }, meaning: { en: 'Esoteric intuition, subconscious wisdom', my: 'နက်နဲသော အတွင်းစိတ်အာရုံနှင့် လျှို့ဝှက်ဉာဏ်', ja: '深層の直感と神秘の記憶' } },
+      3: { name: { en: 'III The Empress', my: 'III The Empress (ဧကရီ)', ja: 'III 女帝' }, meaning: { en: 'Abundant fertility, creative blossoming', my: 'ကြွယ်ဝပြည့်စုံခြင်းနှင့် အနုပညာဖန်တီးမှု', ja: '豊穣、美、母性的な愛の結実' } },
+      4: { name: { en: 'IV The Emperor', my: 'IV The Emperor (ဧကရာဇ်)', ja: 'IV 皇帝' }, meaning: { en: 'Sovereign authority, order, worldly structure', my: 'ခေါင်းဆောင်မှုနှင့် စနစ်တကျ တည်ဆောက်ခြင်း', ja: '不動の秩序、統率力、現実支配' } },
+      5: { name: { en: 'V The Hierophant', my: 'V The Hierophant (ဆရာ)', ja: 'V 法王' }, meaning: { en: 'Sacred tradition, spiritual mentorship', my: 'ဓလေ့ထုံးတမ်းနှင့် လမ်းညွှန်မှု', ja: '神聖な伝統、霊的教導、真理の伝承' } },
+      6: { name: { en: 'VI The Lovers', my: 'VI The Lovers (စုံတွဲ)', ja: 'VI 恋人たち' }, meaning: { en: 'Soulmate union, deep ethical choice', my: 'နှလုံးသားချင်း ပေါင်းစပ်မှုနှင့် မှန်ကန်သော ရွေးချယ်မှု', ja: '魂の統合、愛の選択、真の調和' } },
+      7: { name: { en: 'VII The Chariot', my: 'VII The Chariot (စစ်ရထား)', ja: 'VII 戦車' }, meaning: { en: 'Victorious will, overcoming opposing forces', my: 'ဇွဲလုံ့လဖြင့် အတားအဆီးများကို အနိုင်ယူကျော်လွှားခြင်း', ja: '不屈の意志、勝利への前進、二元性の克服' } },
+      8: { name: { en: 'VIII Strength', my: 'VIII Strength (ခွန်အား)', ja: 'VIII 力' }, meaning: { en: 'Gentle mastery of primal passion', my: 'နူးညံ့မှုဖြင့် စိတ်ရိုင်းများကို ထိန်းချုပ်နိုင်ခြင်း', ja: '内なる勇気、愛による本能の昇華' } },
+      9: { name: { en: 'IX The Hermit', my: 'IX The Hermit (ရသေ့)', ja: 'IX 隠者' }, meaning: { en: 'Solitary contemplation, lantern of inner truth', my: 'အတွင်းစိတ်အမှန်တရားကို တစ်ကိုယ်တည်း ရှာဖွေခြင်း', ja: '孤独な内省、内なる光による導き' } },
+      10: { name: { en: 'X Wheel of Fortune', my: 'X Wheel of Fortune (ကံကြမ္မာစက်ဝန်း)', ja: 'X 運命の輪' }, meaning: { en: 'Karmic cycle, opportune turning point', my: 'ကံကြမ္မာအလှည့်အပြောင်းနှင့် အခွင့်အလမ်း', ja: 'カルマの転換、幸運の周期' } },
+      11: { name: { en: 'XI Justice', my: 'XI Justice (တရားမျှတမှု)', ja: 'XI 正義' }, meaning: { en: 'Karmic equilibrium, objective truth', my: 'တရားမျှတခြင်းနှင့် အမှန်တရားစစ်စစ်', ja: '客観的真理、公正な因果、均衡' } },
+      12: { name: { en: 'XII The Hanged Man', my: 'XII The Hanged Man (စွန့်လွှတ်သူ)', ja: 'XII 吊るされた男' }, meaning: { en: 'Spiritual surrender, enlightened perspective', my: 'အနစ်နာခံခြင်းနှင့် အမြင်သစ်ရရှိခြင်း', ja: '自己放棄による覚醒、逆転の視点' } },
+      13: { name: { en: 'XIII Death', my: 'XIII Death (အသွင်ပြောင်းခြင်း)', ja: 'XIII 死神' }, meaning: { en: 'Profound transition, clearing the old', my: 'အဟောင်းများ ကုန်ဆုံးပြီး အသစ်ဖြစ်တည်ခြင်း', ja: '大いなる変容、過去の終焉と再生' } },
+      14: { name: { en: 'XIV Temperance', my: 'XIV Temperance (အချိုးကျပေါင်းစပ်မှု)', ja: 'XIV 節制' }, meaning: { en: 'Alchemical alchemy, emotional balance', my: 'အလယ်အလတ်လမ်းစဉ်နှင့် သဟဇာတဖြစ်မှု', ja: '錬金術的統合、中庸、聖なる調和' } },
+      15: { name: { en: 'XV The Devil', my: 'XV The Devil (အရိပ်မာရ်နတ်)', ja: 'XV 悪魔' }, meaning: { en: 'Shadow attachments, liberating from illusions', my: 'စွဲလမ်းမှုများကို သိမြင်ကျော်လွှားခြင်း', ja: '影の執着、物質の束縛からの解放' } },
+      16: { name: { en: 'XVI The Tower', my: 'XVI The Tower (ရဲတိုက်ပြိုလဲခြင်း)', ja: 'XVI 塔' }, meaning: { en: 'Sudden awakening, shattering false edifices', my: 'မှားယွင်းသော အရာများ ရုတ်တရက် ပြိုလဲပြီး အလင်းရရှိခြင်း', ja: '稲妻による幻影の破壊、劇的覚醒' } },
+      17: { name: { en: 'XVII The Star', my: 'XVII The Star (ကြယ်ပွင့်)', ja: 'XVII 星' }, meaning: { en: 'Divine hope, inspiration, crystal clarity', my: 'မျှော်လင့်ချက်အလင်းနှင့် စိတ်အေးချမ်းမှု', ja: '大いなる希望、霊感、澄み切った導き' } },
+      18: { name: { en: 'XVIII The Moon', my: 'XVIII The Moon (လမင်း)', ja: 'XVIII 月' }, meaning: { en: 'Psychic depth, navigating illusions and dreams', my: 'စိတ်ဝိညာဉ်ထိုးထွင်းသိမြင်မှုနှင့် အိပ်မက်', ja: '無意識の深淵、直感の試練' } },
+      19: { name: { en: 'XIX The Sun', my: 'XIX The Sun (နေမင်း)', ja: 'XIX 太陽' }, meaning: { en: 'Radiant success, vitality, joyful celebration', my: 'အောင်မြင်မှုအလင်း၊ ပျော်ရွှင်မှုနှင့် ကျန်းမာကြံ့ခိုင်ခြင်း', ja: '至高の光、生命の祝祭、完全な成就' } },
+      20: { name: { en: 'XX Judgement', my: 'XX Judgement (နိုးထခြင်း)', ja: 'XX 審判' }, meaning: { en: 'Higher calling, absolute spiritual rebirth', my: 'ဘဝ၏ မွန်မြတ်သော ခေါ်ယူသံနှင့် နိုးထခြင်း', ja: '高次の使命への覚醒、究極の再生' } },
+      21: { name: { en: 'XXI The World', my: 'XXI The World (ကမ္ဘာလောက)', ja: 'XXI 世界' }, meaning: { en: 'Wholeness, cosmic completion, master sovereignty', my: 'ပြည့်စုံခြင်းနှင့် စကြဝဠာနှင့် တစ်သားတည်းဖြစ်တည်ခြင်း', ja: '完全なる統合、大団円、究極の調和' } }
+    };
+
+    const compositeArch = majorNames[reducedKey] || majorNames[0];
+
+    // 3. Interlocking Insight & Chemistry Calculation
+    let chemistry = 70;
+    if (relationType === 'harmonic' || relationType === 'support') chemistry += 18;
+    if (relationType === 'tension') chemistry -= 12;
+    if (cards.length === 3) chemistry += 5;
+    chemistry = Math.max(30, Math.min(98, chemistry));
+
+    const cardNames = cards.map(c => c.name[lang] || c.name.en).join(' + ');
+
+    const interlockingInsight = {
+      en: `When ${cardNames} combine, their shared energy synthesizes into the master theme of ${compositeArch.name.en}. ${compositeArch.meaning.en}.`,
+      my: `${cardNames} တို့ တွဲဖက်ပေါင်းစပ်လိုက်သောအခါ ${compositeArch.name.my} ၏ စွမ်းအင်အဖြစ် ပြောင်းလဲစီးဆင်းသွားပါသည်။ ${compositeArch.meaning.my}။`,
+      ja: `【${cardNames}】が重なり合うことで、エネルギーは【${compositeArch.name.ja}】のテーマへと昇華します。${compositeArch.meaning.ja}。`
+    };
+
+    const advice = {
+      en: `Honor the distinct message of each card while focusing on the overarching composite quintessence of ${compositeArch.name.en}.`,
+      my: `ကတ်တစ်ခုချင်းစီ၏ သတိပေးချက်ကို သတိချပ်ပြီး ${compositeArch.name.my} ၏ စုစည်းစွမ်းအင်ကို အခြေပြု၍ ဆုံးဖြတ်ပါ။`,
+      ja: `各カードの固有の啓示を尊重しつつ、統合された【${compositeArch.name.ja}】の智慧を中心軸として行動してください。`
+    };
+
+    return {
+      chemistryScore: chemistry,
+      elementalRelation: {
+        title: elTitle,
+        description: elDesc,
+        type: relationType
+      },
+      compositeArchetype: {
+        key: reducedKey,
+        name: compositeArch.name,
+        meaning: compositeArch.meaning
+      },
+      interlockingInsight,
+      advice
+    };
+  }
 }
+

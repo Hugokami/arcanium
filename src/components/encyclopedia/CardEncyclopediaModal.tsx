@@ -10,12 +10,14 @@ interface CardEncyclopediaModalProps {
   language: Language;
   onClose: () => void;
   initialCard?: TarotCard;
+  onOpenSynergy?: (cards: TarotCard[]) => void;
 }
 
 export const CardEncyclopediaModal: React.FC<CardEncyclopediaModalProps> = ({
   language,
   onClose,
-  initialCard
+  initialCard,
+  onOpenSynergy
 }) => {
   const [filterSuit, setFilterSuit] = useState<'all' | 'major' | 'cups' | 'pentacles' | 'swords' | 'wands'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -207,11 +209,26 @@ export const CardEncyclopediaModal: React.FC<CardEncyclopediaModalProps> = ({
                     <h3 className="text-xl sm:text-2xl font-serif text-[#f5f5f4] font-bold">
                       {inspectedCard.name[language]}
                     </h3>
-                    {esoteric?.goldenDawnTitle && (
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
-                        {esoteric.goldenDawnTitle[language]}
-                      </span>
-                    )}
+                    <div className="flex items-center space-x-2">
+                      {onOpenSynergy && (
+                        <button
+                          onClick={() => {
+                            audioService.playCardFlip();
+                            onOpenSynergy([inspectedCard]);
+                            onClose();
+                          }}
+                          className="px-2.5 py-1 rounded-md bg-[#1c1917] hover:bg-[#292524] border border-[#292524] text-[11px] font-mono text-[#f5f5f4] flex items-center space-x-1.5 transition-colors"
+                        >
+                          <Sparkles className="w-3 h-3 text-[#fde047]" />
+                          <span>Synergy Studio</span>
+                        </button>
+                      )}
+                      {esoteric?.goldenDawnTitle && (
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
+                          {esoteric.goldenDawnTitle[language]}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <p className="text-xs text-[#78716c] font-mono mt-0.5">
                     {inspectedCard.astrology[language]}

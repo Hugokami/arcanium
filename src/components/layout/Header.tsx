@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check, Sun, Compass, Layers, Sparkles, MoreHorizontal } from 'lucide-react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { Volume2, VolumeX, BookOpen, Scroll, Music, ChevronDown, Globe, Check, Sun, Compass, Layers, Sparkles, MoreHorizontal, Moon } from 'lucide-react';
 import { Language } from '../../types/tarot';
 import { UI_TRANSLATIONS } from '../../data/translations';
 import { audioService } from '../../services/audioService';
 import { UserProfile } from '../../types/userProfile';
+import { AudioFrequencySelector } from './AudioFrequencySelector';
+import { LunarTransitService } from '../../services/lunarTransitService';
 
 interface HeaderProps {
   language: Language;
@@ -15,6 +17,7 @@ interface HeaderProps {
   onOpenBirthMatrix?: () => void;
   onOpenDeckTheme?: () => void;
   onOpenTreeOfLife?: () => void;
+  onOpenAlmanac?: () => void;
   onResetHome: () => void;
   journalCount: number;
   userProfile?: UserProfile | null;
@@ -30,10 +33,12 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenBirthMatrix,
   onOpenDeckTheme,
   onOpenTreeOfLife,
+  onOpenAlmanac,
   onResetHome,
   journalCount,
   userProfile
 }) => {
+  const moonPhase = useMemo(() => LunarTransitService.getCurrentMoonPhase(language), [language]);
   const [isMuted, setIsMuted] = useState(audioService.getMuted());
   const [isAmbientOn, setIsAmbientOn] = useState(audioService.getIsAmbientPlaying());
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -117,6 +122,21 @@ export const Header: React.FC<HeaderProps> = ({
             <Sun className="w-3.5 h-3.5 text-[#a8a29e]" />
             <span className="hidden md:inline font-sans text-[11px] uppercase tracking-wider">{UI_TRANSLATIONS.dailyCardBtn[language]}</span>
           </button>
+
+          {/* Live Cosmic Almanac / Moon Phase Button */}
+          {onOpenAlmanac && (
+            <button
+              onClick={() => {
+                audioService.playCardSlide();
+                onOpenAlmanac();
+              }}
+              className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
+              title="Cosmic Almanac & Planetary Hours"
+            >
+              <span className="text-xs">{moonPhase.emoji}</span>
+              <span className="hidden lg:inline font-sans text-[11px] uppercase tracking-wider">Almanac</span>
+            </button>
+          )}
 
           {/* Birth Blueprint Button */}
           {onOpenBirthMatrix && (
@@ -273,6 +293,20 @@ export const Header: React.FC<HeaderProps> = ({
                   <span>{UI_TRANSLATIONS.codexBtn[language]}</span>
                 </button>
 
+                {onOpenAlmanac && (
+                  <button
+                    onClick={() => {
+                      audioService.playCardSlide();
+                      setShowMoreMenu(false);
+                      onOpenAlmanac();
+                    }}
+                    className="w-full flex items-center space-x-2.5 px-2.5 py-1.5 rounded-md text-left text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] hover:bg-[#1c1917] transition-colors"
+                  >
+                    <span>{moonPhase.emoji}</span>
+                    <span>Cosmic Almanac</span>
+                  </button>
+                )}
+
                 {onOpenBirthMatrix && (
                   <button
                     onClick={() => {
@@ -319,56 +353,40 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Audio Console Hub */}
-          <div className="relative flex items-center space-x-1 bg-[#141210] p-1 rounded-md border border-[#292524]" ref={volMenuRef}>
-            {/* Ambient Drone (432Hz) */}
+          <div className="relative flex items-center space-x-1 bg-[#141210] p-1 rounded-md border border-[#292524]">
+            {/* Ambient Drone (Solfeggio) */}
             <button
-              onClick={handleToggleAmbient}
-              className={`p-1 rounded transition-all active:scale-90 ${
+              onClick={() => setShowVolumeMenu(!showVolumeMenu)}
+              className={`p-1 rounded transition-all active:scale-90 flex items-center space-x-1 ${
                 isAmbientOn
-                  ? 'bg-[#1c1917] text-[#f5f5f4] border border-[#44403c]'
+                  ? 'bg-[#1c1917] text-[#f5f5f4] border border-[#78716c]'
                   : 'text-[#78716c] hover:text-[#f5f5f4]'
               }`}
-              title={UI_TRANSLATIONS.ambientAudio[language]}
+              title="Solfeggio Soundscapes"
             >
               <Music className="w-3.5 h-3.5" />
+              {isAmbientOn && (
+                <span className="w-1.5 h-1.5 rounded-full bg-[#86efac] animate-pulse" />
+              )}
             </button>
 
             {/* Mute/Unmute */}
             <button
               onClick={handleToggleMute}
               className={`p-1 rounded transition-all active:scale-90 ${
-                isMuted ? 'text-rose-400' : 'text-[#78716c] hover:text-[#f5f5f4]'
+                isMuted ? 'text-[#fca5a5]' : 'text-[#78716c] hover:text-[#f5f5f4]'
               }`}
               title={UI_TRANSLATIONS.soundFx[language]}
             >
               {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
             </button>
 
-            {/* Volume dropdown arrow */}
-            <button
-              onClick={() => setShowVolumeMenu(!showVolumeMenu)}
-              className="p-0.5 text-[#78716c] hover:text-[#f5f5f4] focus:outline-none"
-            >
-              <ChevronDown className={`w-2.5 h-2.5 transition-transform ${showVolumeMenu ? 'rotate-180' : ''}`} />
-            </button>
-
-            {showVolumeMenu && (
-              <div className="absolute right-0 top-9 w-44 p-3 rounded-lg bg-[#141210] border border-[#292524] shadow-modal z-50 animate-in fade-in">
-                <div className="text-[10px] font-mono uppercase tracking-wider text-[#a8a29e] mb-2 flex justify-between">
-                  <span>Volume</span>
-                  <span>{Math.round(volume * 100)}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.05"
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  className="w-full accent-[#f5f5f4] cursor-pointer h-1 bg-[#292524] rounded"
-                />
-              </div>
-            )}
+            {/* Frequency Selector Popover */}
+            <AudioFrequencySelector
+              language={language}
+              isOpen={showVolumeMenu}
+              onClose={() => setShowVolumeMenu(false)}
+            />
           </div>
 
         </div>
