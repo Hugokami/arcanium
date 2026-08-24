@@ -30,28 +30,27 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
           audioService.playCardHover();
           if (onCardClick) onCardClick(dc);
         }}
-        className={`group relative flex flex-col items-center cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:scale-105 ${extraClasses}`}
+        className={`group relative flex flex-col items-center cursor-pointer transition-all duration-200 hover:-translate-y-1 ${extraClasses}`}
       >
-        <div className="craft-card-sheen relative w-14 h-22 sm:w-18 sm:h-28 md:w-20 md:h-32 rounded-xl overflow-hidden border-2 border-[#d4af37]/60 group-hover:border-amber-300 shadow-[0_0_20px_rgba(0,0,0,0.8)] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] bg-black transition-all">
-          <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] pointer-events-none z-10 rounded-xl" />
+        <div className="craft-card-sheen relative w-14 h-22 sm:w-18 sm:h-28 md:w-20 md:h-32 rounded-lg overflow-hidden border border-[#292524] group-hover:border-[#78716c] bg-[#0c0a09] transition-all">
           <img
             src={`/cards/${dc.card.file}`}
             alt={dc.card.name[language]}
             style={{ transform: dc.isReversed ? 'rotate(180deg)' : 'none' }}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
           />
           {dc.isReversed && (
-            <span className="absolute bottom-1 right-1 px-1 py-0.2 text-[8px] font-sans font-bold bg-purple-900/90 text-purple-200 rounded z-20 border border-purple-400/40">
+            <span className="absolute bottom-1 right-1 px-1 py-0.2 text-[8px] font-mono uppercase bg-[#0c0a09] text-[#f5f5f4] rounded border border-[#292524]">
               Rev
             </span>
           )}
         </div>
         
         <div className="mt-1 text-center max-w-[80px] sm:max-w-[90px]">
-          <div className="text-[8px] sm:text-[9px] font-mono uppercase tracking-wider text-amber-300/80 truncate">
+          <div className="text-[8px] sm:text-[9px] font-mono uppercase text-[#78716c] truncate">
             {positionLabel || dc.position.name[language]}
           </div>
-          <div className="text-[10px] sm:text-[11px] font-serif font-semibold text-amber-100 truncate group-hover:text-amber-200">
+          <div className="text-[10px] sm:text-[11px] font-serif text-[#f5f5f4] truncate">
             {dc.card.name[language]}
           </div>
         </div>
@@ -60,12 +59,12 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
   };
 
   return (
-    <div className="relative w-full p-4 sm:p-8 rounded-3xl bg-gradient-to-b from-[#100a20]/90 to-[#090514]/95 border border-[#d4af37]/35 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+    <div className="relative w-full p-4 sm:p-8 rounded-2xl bg-[#0c0a09] border border-[#292524] overflow-hidden">
       
-      {/* Altar Sacred Geometry background circle */}
+      {/* Altar subtle hairline background circle */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-        <div className="w-[360px] h-[360px] sm:w-[500px] sm:h-[500px] rounded-full border border-[#d4af37]/50" />
-        <div className="w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] rounded-full border border-dashed border-[#d4af37]/40 animate-spin-slow" />
+        <div className="w-[360px] h-[360px] sm:w-[500px] sm:h-[500px] rounded-full border border-[#292524]" />
+        <div className="w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] rounded-full border border-dashed border-[#292524] animate-spin-slow" />
       </div>
 
       <div className="relative z-10">
@@ -110,9 +109,9 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
                       audioService.playCardHover();
                       if (onCardClick) onCardClick(getCard(1)!);
                     }}
-                    className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 opacity-90 hover:opacity-100 cursor-pointer transition-all hover:scale-105"
+                    className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 opacity-95 cursor-pointer transition-all hover:scale-105"
                   >
-                    <div className="w-14 h-22 sm:w-16 sm:h-26 rounded-lg overflow-hidden border-2 border-rose-400/80 shadow-2xl bg-black">
+                    <div className="w-14 h-22 sm:w-16 sm:h-26 rounded-lg overflow-hidden border border-[#78716c] bg-[#0c0a09]">
                       <img
                         src={`/cards/${getCard(1)!.card.file}`}
                         alt={getCard(1)!.card.name[language]}
@@ -125,7 +124,7 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
             </div>
 
             {/* Right: The Staff / Column (Positions 7, 8, 9, 10 stacked) */}
-            <div className="flex flex-row lg:flex-col items-center justify-center gap-3 sm:gap-4 pl-0 lg:pl-6 border-t lg:border-t-0 lg:border-l border-white/[0.1] pt-4 lg:pt-0">
+            <div className="flex flex-row lg:flex-col items-center justify-center gap-3 sm:gap-4 pl-0 lg:pl-6 border-t lg:border-t-0 lg:border-l border-[#292524] pt-4 lg:pt-0">
               {renderCardItem(getCard(9), '10. Outcome')}
               {renderCardItem(getCard(8), '9. Hopes/Fears')}
               {renderCardItem(getCard(7), '8. Environment')}
@@ -137,19 +136,19 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
 
         {/* 2. CHAKRA ALIGNMENT (7 Cards Vertical) */}
         {spread.id === 'chakra_spread' && (
-          <div className="flex flex-col items-center justify-center space-y-4 py-2">
+          <div className="flex flex-col items-center justify-center space-y-3 py-2">
             {[
-              { idx: 6, label: '7. Crown Chakra (Violet 🜂)', glow: 'border-purple-400' },
-              { idx: 5, label: '6. Third Eye (Indigo 👁️)', glow: 'border-indigo-400' },
-              { idx: 4, label: '5. Throat (Cyan 🗣️)', glow: 'border-cyan-400' },
-              { idx: 3, label: '4. Heart (Emerald 💚)', glow: 'border-emerald-400' },
-              { idx: 2, label: '3. Solar Plexus (Gold ☀️)', glow: 'border-amber-400' },
-              { idx: 1, label: '2. Sacral (Orange 🌊)', glow: 'border-orange-400' },
-              { idx: 0, label: '1. Root Chakra (Ruby 🏛️)', glow: 'border-red-500' }
+              { idx: 6, label: '7. Crown Chakra (Violet)' },
+              { idx: 5, label: '6. Third Eye (Indigo)' },
+              { idx: 4, label: '5. Throat (Cyan)' },
+              { idx: 3, label: '4. Heart (Emerald)' },
+              { idx: 2, label: '3. Solar Plexus (Gold)' },
+              { idx: 1, label: '2. Sacral (Orange)' },
+              { idx: 0, label: '1. Root Chakra (Ruby)' }
             ].map(ch => (
-              <div key={ch.idx} className="flex items-center space-x-4 w-full max-w-sm justify-between p-2 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                <div className="text-xs font-serif text-amber-200">{ch.label}</div>
-                {renderCardItem(getCard(ch.idx), undefined, ch.glow)}
+              <div key={ch.idx} className="flex items-center space-x-4 w-full max-w-sm justify-between p-2.5 rounded-lg bg-[#141210] border border-[#292524]">
+                <div className="text-xs font-sans text-[#a8a29e]">{ch.label}</div>
+                {renderCardItem(getCard(ch.idx))}
               </div>
             ))}
           </div>
@@ -157,13 +156,13 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
 
         {/* 3. TWO PATHS DECISION FORK (5 Cards) */}
         {spread.id === 'decision_fork' && (
-          <div className="space-y-8 py-4">
+          <div className="space-y-6 py-4">
             {/* Two Branches Top */}
-            <div className="grid grid-cols-2 gap-6 sm:gap-12 max-w-xl mx-auto">
+            <div className="grid grid-cols-2 gap-4 sm:gap-8 max-w-lg mx-auto">
               
               {/* Path A */}
-              <div className="p-4 rounded-2xl bg-amber-500/[0.04] border border-amber-500/30 flex flex-col items-center space-y-4">
-                <div className="text-xs font-mono uppercase tracking-wider text-amber-300 font-bold">
+              <div className="p-4 rounded-xl bg-[#141210] border border-[#292524] flex flex-col items-center space-y-3">
+                <div className="text-xs font-mono uppercase tracking-wider text-[#a8a29e]">
                   {language === 'my' ? 'လမ်းကြောင်း (က)' : language === 'ja' ? '道 A' : 'Path A'}
                 </div>
                 <div className="flex flex-col items-center space-y-3">
@@ -173,8 +172,8 @@ export const SpatialSpreadAltar: React.FC<SpatialSpreadAltarProps> = ({
               </div>
 
               {/* Path B */}
-              <div className="p-4 rounded-2xl bg-purple-500/[0.04] border border-purple-500/30 flex flex-col items-center space-y-4">
-                <div className="text-xs font-mono uppercase tracking-wider text-purple-300 font-bold">
+              <div className="p-4 rounded-xl bg-[#141210] border border-[#292524] flex flex-col items-center space-y-3">
+                <div className="text-xs font-mono uppercase tracking-wider text-[#a8a29e]">
                   {language === 'my' ? 'လမ်းကြောင်း (ခ)' : language === 'ja' ? '道 B' : 'Path B'}
                 </div>
                 <div className="flex flex-col items-center space-y-3">

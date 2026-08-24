@@ -50,203 +50,192 @@ export const BirthMatrixModal: React.FC<BirthMatrixModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-300">
-      <div className="relative w-full max-w-3xl h-[90vh] rounded-3xl p-1 bg-gradient-to-b from-[#d4af37]/50 via-[#6a5518]/25 to-[#120a24] border border-[#d4af37]/60 shadow-[0_0_60px_rgba(212,175,55,0.25)] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-3xl h-[88vh] rounded-2xl bg-[#0c0a09] border border-[#292524] flex flex-col overflow-hidden shadow-2xl">
         
-        <div className="rounded-2xl w-full h-full bg-[#0d071c] flex flex-col overflow-hidden">
-          
-          {/* Header Bar */}
-          <div className="p-5 sm:p-6 border-b border-white/10 flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-[#d4af37] shadow-gold-glow">
-                <Sun className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-base sm:text-xl font-serif font-bold text-[#d4af37]">
-                  {titles.modalTitle[language]}
-                </h2>
-                <p className="text-xs text-zinc-400 font-serif">
-                  {titles.subTitle[language]}
-                </p>
-              </div>
+        {/* Header Bar */}
+        <div className="p-5 sm:p-6 border-b border-[#292524] flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-lg bg-[#141210] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
+              <Sun className="w-4 h-4" />
             </div>
-
-            <button
-              onClick={onClose}
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div>
+              <h2 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
+                {titles.modalTitle[language]}
+              </h2>
+              <p className="text-xs text-[#78716c] font-sans">
+                {titles.subTitle[language]}
+              </p>
+            </div>
           </div>
 
-          {/* Body Content */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
-            
-            {/* Birth Date Picker Bar */}
-            <div className="p-4 rounded-2xl bg-black/40 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center space-x-2 text-xs font-serif text-amber-200">
-                <Calendar className="w-4 h-4 text-[#d4af37]" />
-                <span>{titles.enterDob[language]}:</span>
-              </div>
-              <input
-                type="date"
-                value={dobInput}
-                onChange={(e) => {
-                  setDobInput(e.target.value);
-                  audioService.playCardHover();
-                }}
-                className="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs text-zinc-100 font-mono focus:outline-none focus:border-[#d4af37]"
-              />
-              {blueprint && (
-                <div className="px-3 py-1.5 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-xs font-mono text-amber-200 font-bold">
-                  Life Path #{blueprint.lifePathNumber}
-                </div>
-              )}
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg border border-transparent hover:border-[#292524] text-[#78716c] hover:text-[#f5f5f4] transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Body Content */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
+          
+          {/* Birth Date Picker Bar */}
+          <div className="p-4 rounded-xl bg-[#141210] border border-[#292524] flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center space-x-2 text-xs font-sans text-[#a8a29e]">
+              <Calendar className="w-4 h-4 text-[#78716c]" />
+              <span>{titles.enterDob[language]}:</span>
             </div>
-
-            {blueprint ? (
-              <div className="space-y-6">
-                
-                {/* 4 Life Path Archetype Pills */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-serif">
-                  <button
-                    onClick={() => {
-                      audioService.playCardHover();
-                      setActiveTab('personality');
-                    }}
-                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
-                      activeTab === 'personality'
-                        ? 'bg-[#d4af37] text-black border-[#d4af37] font-bold shadow-gold-glow'
-                        : 'bg-white/5 hover:bg-white/10 text-zinc-300 border-white/10'
-                    }`}
-                  >
-                    <span className="text-[10px] uppercase tracking-wider font-mono">Core Archetype</span>
-                    <span className="font-bold truncate">{blueprint.personalityCard.name[language].split(' ')[1] || blueprint.personalityCard.name[language]}</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      audioService.playCardHover();
-                      setActiveTab('soul');
-                    }}
-                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
-                      activeTab === 'soul'
-                        ? 'bg-[#d4af37] text-black border-[#d4af37] font-bold shadow-gold-glow'
-                        : 'bg-white/5 hover:bg-white/10 text-zinc-300 border-white/10'
-                    }`}
-                  >
-                    <span className="text-[10px] uppercase tracking-wider font-mono">Soul Card</span>
-                    <span className="font-bold truncate">{blueprint.soulCard.name[language].split(' ')[1] || blueprint.soulCard.name[language]}</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      audioService.playCardHover();
-                      setActiveTab('year');
-                    }}
-                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
-                      activeTab === 'year'
-                        ? 'bg-[#d4af37] text-black border-[#d4af37] font-bold shadow-gold-glow'
-                        : 'bg-white/5 hover:bg-white/10 text-zinc-300 border-white/10'
-                    }`}
-                  >
-                    <span className="text-[10px] uppercase tracking-wider font-mono">{blueprint.currentYearCard.year} Transit</span>
-                    <span className="font-bold truncate">{blueprint.currentYearCard.name[language].split(' ')[1] || blueprint.currentYearCard.name[language]}</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      audioService.playCardHover();
-                      setActiveTab('shadow');
-                    }}
-                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
-                      activeTab === 'shadow'
-                        ? 'bg-[#d4af37] text-black border-[#d4af37] font-bold shadow-gold-glow'
-                        : 'bg-white/5 hover:bg-white/10 text-zinc-300 border-white/10'
-                    }`}
-                  >
-                    <span className="text-[10px] uppercase tracking-wider font-mono">Shadow Growth</span>
-                    <span className="font-bold truncate">{blueprint.shadowCard.name[language].split(' ')[1] || blueprint.shadowCard.name[language]}</span>
-                  </button>
-                </div>
-
-                {/* Main Card Spotlight View */}
-                <div className="relative p-6 sm:p-8 rounded-3xl bg-black/50 border-2 border-[#d4af37]/40 shadow-2xl grid grid-cols-1 md:grid-cols-12 gap-6 items-center overflow-hidden">
-                  
-                  {/* Subtle Astrolabe Rotating Backdrop */}
-                  <img
-                    src="/animations/astrolabe-birth-matrix.svg"
-                    alt=""
-                    className="absolute -right-16 -bottom-16 w-80 h-80 opacity-20 pointer-events-none select-none z-0"
-                  />
-
-                  {/* Card Visual Left */}
-                  <div className="md:col-span-4 flex flex-col items-center text-center space-y-2 relative z-10">
-                    <div className="craft-card-sheen w-44 h-72 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black p-1">
-                      <img
-                        src={getCardImage(
-                          activeTab === 'personality' ? blueprint.personalityCard.id :
-                          activeTab === 'soul' ? blueprint.soulCard.id :
-                          activeTab === 'year' ? blueprint.currentYearCard.id :
-                          blueprint.shadowCard.id
-                        )}
-                        alt="Arcana"
-                        className="w-full h-full object-contain rounded-xl"
-                      />
-                    </div>
-                    <span className="text-xs font-mono text-amber-300 uppercase tracking-widest">
-                      Arcanum #{
-                        activeTab === 'personality' ? blueprint.personalityCard.number :
-                        activeTab === 'soul' ? blueprint.soulCard.number :
-                        activeTab === 'year' ? blueprint.currentYearCard.number :
-                        blueprint.shadowCard.number
-                      }
-                    </span>
-                  </div>
-
-                  {/* Card Meaning Right */}
-                  <div className="md:col-span-8 space-y-4">
-                    <div>
-                      <span className="text-xs font-mono uppercase tracking-widest text-[#d4af37]">
-                        {activeTab === 'personality' ? '• Lifetime Personality Archetype •' :
-                         activeTab === 'soul' ? '• Deep Soul Essence & Destiny •' :
-                         activeTab === 'year' ? `• ${blueprint.currentYearCard.year} Solar Return Transit •` :
-                         '• Unconscious Shadow & Growth Lesson •'}
-                      </span>
-                      <h3 className="text-2xl font-serif font-bold text-amber-100 mt-1">
-                        {activeTab === 'personality' ? blueprint.personalityCard.name[language] :
-                         activeTab === 'soul' ? blueprint.soulCard.name[language] :
-                         activeTab === 'year' ? blueprint.currentYearCard.name[language] :
-                         blueprint.shadowCard.name[language]}
-                      </h3>
-                    </div>
-
-                    <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-sm text-[#e8e0f5] font-serif leading-relaxed">
-                      {activeTab === 'personality' && blueprint.personalityCard.description[language]}
-                      {activeTab === 'soul' && blueprint.soulCard.description[language]}
-                      {activeTab === 'year' && blueprint.currentYearCard.theme[language]}
-                      {activeTab === 'shadow' && blueprint.shadowCard.shadowLesson[language]}
-                    </div>
-
-                    <div className="p-3.5 rounded-2xl bg-[#d4af37]/10 border border-[#d4af37]/30 text-xs font-serif text-amber-200/90 leading-relaxed">
-                      <b>Hermetic Principle: </b>
-                      {activeTab === 'personality' ? 'Your personality card reveals your outward gifts, strengths, and how you naturally navigate external challenges.' :
-                       activeTab === 'soul' ? 'Your soul card is your innermost spiritual core — the timeless frequency guiding your soul across all incarnations.' :
-                       activeTab === 'year' ? `This year is governed by ${blueprint.currentYearCard.name.en}. Emphasize its virtues to align with universal flow.` :
-                       'By acknowledging and integrating this shadow card, you unlock hidden creative power and eliminate unconscious self-sabotage.'}
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-            ) : (
-              <div className="p-12 text-center text-zinc-400 font-serif">
-                Please enter a valid Date of Birth to reveal your Numerological Blueprint.
+            <input
+              type="date"
+              value={dobInput}
+              onChange={(e) => {
+                setDobInput(e.target.value);
+                audioService.playCardHover();
+              }}
+              className="px-3 py-1.5 rounded-lg bg-[#0c0a09] border border-[#292524] text-xs text-[#f5f5f4] font-mono focus:outline-none focus:border-[#78716c]"
+            />
+            {blueprint && (
+              <div className="px-2.5 py-1 rounded bg-[#1c1917] border border-[#292524] text-xs font-mono text-[#a8a29e]">
+                Life Path #{blueprint.lifePathNumber}
               </div>
             )}
-
           </div>
+
+          {blueprint ? (
+            <div className="space-y-5">
+              
+              {/* 4 Life Path Archetype Pills */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-sans">
+                <button
+                  onClick={() => {
+                    audioService.playCardHover();
+                    setActiveTab('personality');
+                  }}
+                  className={`p-2.5 rounded-lg border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
+                    activeTab === 'personality'
+                      ? 'bg-[#292524] text-[#f5f5f4] border-[#78716c] font-medium'
+                      : 'bg-[#141210] hover:bg-[#1c1917] text-[#a8a29e] border-[#292524]'
+                  }`}
+                >
+                  <span className="text-[10px] uppercase font-mono text-[#78716c]">Core Archetype</span>
+                  <span className="font-bold truncate">{blueprint.personalityCard.name[language].split(' ')[1] || blueprint.personalityCard.name[language]}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    audioService.playCardHover();
+                    setActiveTab('soul');
+                  }}
+                  className={`p-2.5 rounded-lg border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
+                    activeTab === 'soul'
+                      ? 'bg-[#292524] text-[#f5f5f4] border-[#78716c] font-medium'
+                      : 'bg-[#141210] hover:bg-[#1c1917] text-[#a8a29e] border-[#292524]'
+                  }`}
+                >
+                  <span className="text-[10px] uppercase font-mono text-[#78716c]">Soul Card</span>
+                  <span className="font-bold truncate">{blueprint.soulCard.name[language].split(' ')[1] || blueprint.soulCard.name[language]}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    audioService.playCardHover();
+                    setActiveTab('year');
+                  }}
+                  className={`p-2.5 rounded-lg border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
+                    activeTab === 'year'
+                      ? 'bg-[#292524] text-[#f5f5f4] border-[#78716c] font-medium'
+                      : 'bg-[#141210] hover:bg-[#1c1917] text-[#a8a29e] border-[#292524]'
+                  }`}
+                >
+                  <span className="text-[10px] uppercase font-mono text-[#78716c]">{blueprint.currentYearCard.year} Transit</span>
+                  <span className="font-bold truncate">{blueprint.currentYearCard.name[language].split(' ')[1] || blueprint.currentYearCard.name[language]}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    audioService.playCardHover();
+                    setActiveTab('shadow');
+                  }}
+                  className={`p-2.5 rounded-lg border text-center transition-all flex flex-col items-center justify-center space-y-1 ${
+                    activeTab === 'shadow'
+                      ? 'bg-[#292524] text-[#f5f5f4] border-[#78716c] font-medium'
+                      : 'bg-[#141210] hover:bg-[#1c1917] text-[#a8a29e] border-[#292524]'
+                  }`}
+                >
+                  <span className="text-[10px] uppercase font-mono text-[#78716c]">Shadow Growth</span>
+                  <span className="font-bold truncate">{blueprint.shadowCard.name[language].split(' ')[1] || blueprint.shadowCard.name[language]}</span>
+                </button>
+              </div>
+
+              {/* Main Card Spotlight View */}
+              <div className="p-5 sm:p-6 rounded-xl bg-[#141210] border border-[#292524] grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                
+                {/* Card Visual Left */}
+                <div className="md:col-span-4 flex flex-col items-center text-center space-y-2">
+                  <div className="w-36 h-60 rounded-xl overflow-hidden border border-[#292524] bg-[#0c0a09] p-1">
+                    <img
+                      src={getCardImage(
+                        activeTab === 'personality' ? blueprint.personalityCard.id :
+                        activeTab === 'soul' ? blueprint.soulCard.id :
+                        activeTab === 'year' ? blueprint.currentYearCard.id :
+                        blueprint.shadowCard.id
+                      )}
+                      alt="Arcana"
+                      className="w-full h-full object-contain rounded-lg"
+                    />
+                  </div>
+                  <span className="text-xs font-mono text-[#a8a29e] uppercase tracking-wider">
+                    Arcanum #{
+                      activeTab === 'personality' ? blueprint.personalityCard.number :
+                      activeTab === 'soul' ? blueprint.soulCard.number :
+                      activeTab === 'year' ? blueprint.currentYearCard.number :
+                      blueprint.shadowCard.number
+                    }
+                  </span>
+                </div>
+
+                {/* Card Meaning Right */}
+                <div className="md:col-span-8 space-y-3.5">
+                  <div>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#78716c]">
+                      {activeTab === 'personality' ? '• Lifetime Personality Archetype •' :
+                       activeTab === 'soul' ? '• Deep Soul Essence & Destiny •' :
+                       activeTab === 'year' ? `• ${blueprint.currentYearCard.year} Solar Return Transit •` :
+                       '• Unconscious Shadow & Growth Lesson •'}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#f5f5f4] mt-0.5">
+                      {activeTab === 'personality' ? blueprint.personalityCard.name[language] :
+                       activeTab === 'soul' ? blueprint.soulCard.name[language] :
+                       activeTab === 'year' ? blueprint.currentYearCard.name[language] :
+                       blueprint.shadowCard.name[language]}
+                    </h3>
+                  </div>
+
+                  <div className="p-3.5 rounded-lg bg-[#0c0a09] border border-[#292524] text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
+                    {activeTab === 'personality' && blueprint.personalityCard.description[language]}
+                    {activeTab === 'soul' && blueprint.soulCard.description[language]}
+                    {activeTab === 'year' && blueprint.currentYearCard.theme[language]}
+                    {activeTab === 'shadow' && blueprint.shadowCard.shadowLesson[language]}
+                  </div>
+
+                  <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] text-xs font-sans text-[#a8a29e] leading-relaxed">
+                    <b className="text-[#f5f5f4] font-medium">Hermetic Principle: </b>
+                    {activeTab === 'personality' ? 'Your personality card reveals your outward gifts, strengths, and how you naturally navigate external challenges.' :
+                     activeTab === 'soul' ? 'Your soul card is your innermost spiritual core — the timeless frequency guiding your soul across all incarnations.' :
+                     activeTab === 'year' ? `This year is governed by ${blueprint.currentYearCard.name.en}. Emphasize its virtues to align with universal flow.` :
+                     'By acknowledging and integrating this shadow card, you unlock hidden creative power and eliminate unconscious self-sabotage.'}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          ) : (
+            <div className="p-12 text-center text-[#78716c] font-sans">
+              Please enter a valid Date of Birth to reveal your Numerological Blueprint.
+            </div>
+          )}
 
         </div>
 

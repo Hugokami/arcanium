@@ -42,20 +42,20 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="relative w-full max-w-2xl bg-[#0e0a16] border border-[#d4af37]/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(212,175,55,0.25)] text-amber-50 overflow-hidden max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-2xl bg-[#0c0a09] border border-[#292524] rounded-2xl p-6 sm:p-7 text-[#f5f5f4] overflow-hidden max-h-[90vh] overflow-y-auto shadow-2xl">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div className="flex items-center justify-between border-b border-[#292524] pb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-[#d4af37]">
-              <Layers className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-lg bg-[#141210] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
+              <Layers className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base sm:text-xl font-serif font-bold text-[#d4af37]">
+              <h2 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
                 {titles.title[language]}
               </h2>
-              <p className="text-xs text-zinc-400 font-serif">
+              <p className="text-xs text-[#78716c] font-sans">
                 {titles.sub[language]}
               </p>
             </div>
@@ -63,21 +63,14 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+            className="p-1 rounded-lg border border-transparent hover:border-[#292524] text-[#78716c] hover:text-[#f5f5f4] transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Background Talisman Watermark */}
-        <img
-          src="/animations/sacred-deck-talisman.svg"
-          alt=""
-          className="absolute -right-20 -bottom-20 w-80 h-80 opacity-15 pointer-events-none select-none z-0"
-        />
-
         {/* Themes Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-5">
           {DECK_THEMES.map((theme) => {
             const isSelected = selectedThemeId === theme.id;
 
@@ -85,38 +78,37 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
               <div
                 key={theme.id}
                 onClick={() => handleSelect(theme)}
-                className={`cursor-pointer group p-4 rounded-2xl border-2 transition-all relative flex flex-col justify-between space-y-3 ${
+                className={`cursor-pointer p-4 rounded-xl border transition-all relative flex flex-col justify-between space-y-3 ${
                   isSelected
-                    ? 'bg-amber-500/10 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.25)]'
-                    : 'bg-black/40 hover:bg-white/[0.04] border-white/10'
+                    ? 'bg-[#1c1917] border-[#f5f5f4]'
+                    : 'bg-[#141210] hover:bg-[#1c1917] border-[#292524]'
                 }`}
               >
                 {/* Active Check Icon */}
                 {isSelected && (
-                  <div className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#d4af37] text-black flex items-center justify-center shadow-md">
-                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                  <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#f5f5f4] text-[#0c0a09] flex items-center justify-center">
+                    <Check className="w-3 h-3 stroke-[3]" />
                   </div>
                 )}
 
                 <div className="flex items-center space-x-3">
                   <div
-                    className="craft-card-sheen w-14 h-22 rounded-xl overflow-hidden border-2 bg-black flex-shrink-0 shadow-md group-hover:scale-105 transition-transform"
-                    style={{ borderColor: theme.borderColor }}
+                    className="w-12 h-18 rounded-lg overflow-hidden border border-[#292524] bg-[#0c0a09] flex-shrink-0"
                   >
                     <img src={theme.image} alt={theme.name.en} className="w-full h-full object-cover" />
                   </div>
 
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300/80">
+                  <div className="space-y-0.5">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#78716c]">
                       {theme.era}
                     </span>
-                    <h4 className="text-sm font-serif font-bold text-amber-100 group-hover:text-[#d4af37] transition-colors">
+                    <h4 className="text-sm font-serif font-bold text-[#f5f5f4]">
                       {theme.name[language]}
                     </h4>
                   </div>
                 </div>
 
-                <p className="text-xs text-zinc-300 font-serif leading-relaxed line-clamp-2">
+                <p className="text-xs text-[#a8a29e] font-sans leading-relaxed line-clamp-2">
                   {theme.description[language]}
                 </p>
               </div>
@@ -128,7 +120,7 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
         <div className="pt-6 text-center">
           <button
             onClick={onClose}
-            className="btn-primary h-11 px-8 rounded-xl font-serif text-xs tracking-widest uppercase mx-auto"
+            className="btn-primary h-10 px-7 rounded-lg font-sans text-xs tracking-wider uppercase mx-auto"
           >
             Apply Deck Artistry
           </button>

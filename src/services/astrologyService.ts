@@ -388,6 +388,17 @@ export class AstrologyService {
   }
 
   /**
+   * Clear partner profile from localStorage
+   */
+  public static clearPartnerProfile(): void {
+    try {
+      localStorage.removeItem(this.PARTNER_STORAGE_KEY);
+    } catch (e) {
+      console.warn('Failed to clear partner profile from localStorage', e);
+    }
+  }
+
+  /**
    * Calculate Astrological Synastry between Querent and Partner
    */
   public static calculateSynastry(

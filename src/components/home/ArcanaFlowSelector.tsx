@@ -4,7 +4,7 @@ import { TOPICS, SPREAD_CONFIGS, QUICK_INQUIRIES, UI_TRANSLATIONS, getSpreadConf
 import { audioService } from '../../services/audioService';
 import { AstrologyService, ZODIAC_SIGNS } from '../../services/astrologyService';
 import { UserProfile, ZodiacSignId } from '../../types/userProfile';
-import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3, Heart, Coins, Sprout, Scale, Eye, Users, AlertCircle, Trash2 } from 'lucide-react';
+import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3, Heart, Users, AlertCircle, Trash2 } from 'lucide-react';
 import { DeckCutRitual } from '../ritual/DeckCutRitual';
 
 interface ArcanaFlowSelectorProps {
@@ -99,110 +99,70 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     if (!partnerZodiacInput && !partnerBirthdateInput.trim()) return;
 
     audioService.playSingingBowl(528);
-    const partner = AstrologyService.buildPartnerProfile(
+    const profile = AstrologyService.buildPartnerProfile(
       partnerNameInput.trim(),
-      partnerZodiacInput ? (partnerZodiacInput as ZodiacSignId) : undefined,
+      partnerZodiacInput || undefined,
       partnerBirthdateInput.trim() || undefined
     );
-    AstrologyService.savePartnerProfile(partner);
-    setPartnerProfile(partner);
+    AstrologyService.savePartnerProfile(profile);
+    setPartnerProfile(profile);
     setIsEditingPartner(false);
     setPartnerError(false);
   };
 
   const handleClearPartner = () => {
-    try {
-      localStorage.removeItem('arcanium_partner_profile');
-    } catch {
-      // ignore
-    }
+    AstrologyService.clearPartnerProfile();
     setPartnerProfile(null);
     setPartnerNameInput('');
     setPartnerBirthdateInput('');
-    setIsEditingPartner(false);
     setIsPartnerAttunementOpen(false);
   };
 
   const handleSelectTopic = (topic: TopicOption) => {
-    if (!userProfile) {
-      setIsEditingProfile(true);
-      return;
-    }
-    audioService.playCardSlide();
+    audioService.playCardFlip();
     setSelectedTopic(topic);
     setSelectedSpread(getSpreadConfig(topic.suggestedSpread));
-    if (topic.id === 'love') {
+    setStep(2);
+
+    if (topic.id === 'love' && !partnerProfile) {
       setIsPartnerAttunementOpen(true);
-      if (!partnerProfile) {
-        setIsEditingPartner(true);
-      }
+      setIsEditingPartner(true);
     }
-    setStep(2);
-  };
-
-  const handleQuickQuestionClick = (qText: string, topicIndex = 0) => {
-    if (!userProfile) {
-      setIsEditingProfile(true);
-      return;
-    }
-    audioService.playCardSlide();
-    setCustomQuestion(qText);
-    setSelectedTopic(TOPICS[topicIndex]);
-    setSelectedSpread(getSpreadConfig('three'));
-    setStep(2);
-  };
-
-  const handleCustomQuestionSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userProfile) {
-      setIsEditingProfile(true);
-      return;
-    }
-    if (!customQuestion.trim()) return;
-    audioService.playCardSlide();
-    setStep(2);
   };
 
   const handleSelectSpread = (spread: SpreadDefinition) => {
-    if (!userProfile) {
-      setIsEditingProfile(true);
-      return;
-    }
-
-    const needsPartner =
-      selectedTopic.id === 'love' ||
-      spread.id === 'celtic' ||
-      isPartnerAttunementOpen;
-
-    if (needsPartner && !partnerProfile) {
-      setPartnerError(true);
-      setIsEditingPartner(true);
-      setIsPartnerAttunementOpen(true);
-      audioService.playCardHover();
-      window.scrollTo({ top: 300, behavior: 'smooth' });
-      return;
-    }
-
-    audioService.playSingingBowl(324);
+    audioService.playCardSlide();
     setSelectedSpread(spread);
+
+    if ((selectedTopic.id === 'love' || spread.id === 'celtic' || isPartnerAttunementOpen) && !partnerProfile) {
+      setPartnerError(true);
+      const partnerEl = document.getElementById('partner-attunement-section');
+      if (partnerEl) {
+        partnerEl.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+
     setStep(3);
-    window.scrollTo({ top: 100, behavior: 'smooth' });
   };
 
   const handleFinishRitual = () => {
-    const finalQuestion = customQuestion.trim() || selectedTopic.defaultQuestion[language];
-    const finalTopic = customQuestion.trim() ? customQuestion.trim() : selectedTopic.title[language];
-    onStartDrawing(finalTopic, finalQuestion, selectedSpread, partnerProfile);
+    audioService.playCardFlip();
+    const finalQuestion = customQuestion.trim()
+      ? customQuestion.trim()
+      : selectedTopic.defaultQuestion[language];
+
+    onStartDrawing(selectedTopic.title[language], finalQuestion, selectedSpread, partnerProfile);
   };
 
   const heroHeadline = {
-    en: 'What mystery seeks your revelation?',
+    en: 'Query the Arcana',
     my: 'သင်သိရှိလိုသော ကံကြမ္မာခေါင်းစဉ်ကို ရွေးချယ်ပါ',
     ja: '運命の扉を開く、あなたの問いを選んでください'
   };
 
   const heroSubtext = {
-    en: 'Attune your natal chart, then select a domain or whisper a personal inquiry to commune with the 78 keys.',
+    en: 'Attune your natal chart, select a domain, or formulate a personal inquiry to commune with the 78 keys.',
     my: 'မွေးရာပါ ဇာတာမှတ်တမ်းကို ချိန်ညှိပြီး ကံကြမ္မာမေးခွန်းကို တိုက်ရိုက် မေးမြန်းပါ။',
     ja: '出生ホロスコープを調律し、心にある個人的な問いをカードに投げかけてください。'
   };
@@ -220,40 +180,39 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
     const svgSrc = fileMap[topicId] || '/animations/topic-general.svg';
 
     return (
-      <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+      <div className="relative w-12 h-12 rounded-lg flex items-center justify-center">
         <img
           src={svgSrc}
           alt={topicId}
-          className="w-full h-full object-contain pointer-events-none drop-shadow-[0_0_12px_rgba(212,175,55,0.35)]"
+          className="w-full h-full object-contain pointer-events-none opacity-85"
         />
       </div>
     );
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-10 animate-in fade-in duration-500">
+    <div className="w-full max-w-5xl mx-auto px-4 py-12 sm:py-16 space-y-12 animate-in fade-in duration-300">
       
-      {/* Ethereal Hero Header */}
+      {/* Editorial Hero Header */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[10px] font-mono tracking-widest text-[#d4af37] uppercase">
-          <Sparkles className="w-3 h-3 text-[#d4af37]" />
+        <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded border border-[#292524] bg-[#141210] text-[11px] font-mono tracking-widest text-[#a8a29e] uppercase">
           <span>78 Keys of Wisdom</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-serif font-normal tracking-[0.16em] text-[#d4af37] text-shadow-gold">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif tracking-tight text-[#f5f5f4]">
           {heroHeadline[language]}
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed italic">
+        <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
           {heroSubtext[language]}
         </p>
       </div>
 
-      {/* MANDATORY NATAL PROFILE AT-TUNEMENT FORM (STEP 0) */}
+      {/* MANDATORY NATAL PROFILE ATTUNEMENT FORM (STEP 0) */}
       {(!userProfile || isEditingProfile) ? (
-        <div className="craft-panel p-6 sm:p-8 rounded-3xl max-w-2xl mx-auto space-y-6 border-2 border-[#d4af37]/60 shadow-[0_0_40px_rgba(212,175,55,0.2)] bg-gradient-to-b from-[#140b25] to-[#0d071a]">
+        <div className="craft-card p-6 sm:p-8 max-w-xl mx-auto space-y-6">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-xs font-serif text-amber-200">
-              <Lock className="w-3.5 h-3.5 text-[#d4af37]" />
+            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[11px] font-sans text-[#a8a29e]">
+              <Lock className="w-3 h-3 text-[#f5f5f4]" />
               <span>
                 {language === 'my'
                   ? 'မဖြစ်မနေ လိုအပ်သော မွေးရာပါ ဇာတာ အချက်အလက်'
@@ -262,14 +221,14 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   : 'Required Querent Natal Chart Attunement'}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-amber-100">
+            <h2 className="text-lg sm:text-xl font-serif text-[#f5f5f4]">
               {language === 'my'
                 ? 'သင်၏ အမည်နှင့် မွေးသက္ကရာဇ်ကို ထည့်သွင်းပါ'
                 : language === 'ja'
                 ? 'お名前と生年月日をご入力ください'
                 : 'Enter Your Name & Date of Birth'}
             </h2>
-            <p className="text-xs text-zinc-300 font-serif leading-relaxed">
+            <p className="text-xs text-[#a8a29e] font-sans leading-relaxed">
               {language === 'my'
                 ? 'တိကျသော နက္ခတ်ဗေဒင်နှင့် တာရော့ပေါင်းစပ် ဟောကိန်းများအတွက် သင်၏ အမည်နှင့် မွေးရက် လိုအပ်ပါသည်။'
                 : language === 'ja'
@@ -280,8 +239,8 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
 
           <form onSubmit={handleSaveProfile} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-serif text-amber-200 flex items-center space-x-1.5">
-                <User className="w-3.5 h-3.5 text-[#d4af37]" />
+              <label className="text-xs font-sans text-[#a8a29e] flex items-center space-x-1.5">
+                <User className="w-3.5 h-3.5" />
                 <span>{language === 'my' ? 'သင့်အမည်' : language === 'ja' ? 'お名前' : 'Your Sacred Name'}</span>
               </label>
               <input
@@ -290,13 +249,13 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
                 placeholder={language === 'my' ? 'ဥပမာ: မင်းမင်း' : language === 'ja' ? '例: アレクサンダー' : 'e.g., Alexander'}
-                className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/[0.12] focus:border-[#d4af37] text-sm text-amber-100 font-serif focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0c0a09] border border-[#292524] focus:border-[#78716c] text-sm text-[#f5f5f4] font-sans focus:outline-none"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-serif text-amber-200 flex items-center space-x-1.5">
-                <Calendar className="w-3.5 h-3.5 text-[#d4af37]" />
+              <label className="text-xs font-sans text-[#a8a29e] flex items-center space-x-1.5">
+                <Calendar className="w-3.5 h-3.5" />
                 <span>{language === 'my' ? 'မွေးသက္ကရာဇ် (YYYY-MM-DD)' : language === 'ja' ? '生年月日' : 'Date of Birth (YYYY-MM-DD)'}</span>
               </label>
               <input
@@ -304,62 +263,60 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                 required
                 value={birthdateInput}
                 onChange={(e) => setBirthdateInput(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/[0.12] focus:border-[#d4af37] text-sm text-amber-100 font-serif focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0c0a09] border border-[#292524] focus:border-[#78716c] text-sm text-[#f5f5f4] font-sans focus:outline-none"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full btn-primary h-12 rounded-xl text-sm font-serif font-bold uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg shadow-amber-900/30 active:scale-[0.98]"
+              className="w-full btn-primary h-11 text-xs uppercase tracking-wider flex items-center justify-center space-x-2 mt-2"
             >
-              <Unlock className="w-4 h-4 text-zinc-950" />
+              <Unlock className="w-4 h-4" />
               <span>
                 {language === 'my'
-                  ? '✦ ဇာတာချိန်ညှိပြီး တာရော့ဗေဒင် ဖွင့်မည် ✦'
+                  ? 'ဇာတာချိန်ညှိပြီး တာရော့ဗေဒင် ဖွင့်မည်'
                   : language === 'ja'
-                  ? '✦ 調律を完了してリーディングを開始 ✦'
-                  : '✦ Attune Soul & Unlock Reading ✦'}
+                  ? '調律を完了してリーディングを開始'
+                  : 'Attune Soul & Unlock Reading'}
               </span>
             </button>
           </form>
         </div>
       ) : (
         /* NATAL AFFINITY ACTIVE BADGE */
-        <div className="craft-bezel-outer max-w-xl mx-auto">
-          <div className="craft-bezel-inner p-4 sm:p-5 flex items-center justify-between gap-4">
-            <div className="flex items-center space-x-3.5">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#d4af37]/25 to-[#8a5cf6]/20 border border-[#d4af37]/40 flex items-center justify-center text-xl font-serif text-[#d4af37] font-bold shadow-[0_0_15px_rgba(212,175,55,0.2)] flex-shrink-0">
-                {userProfile.zodiacSign?.symbol || '♈'}
+        <div className="craft-card max-w-lg mx-auto p-4 flex items-center justify-between gap-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-lg bg-[#1c1917] border border-[#292524] flex items-center justify-center text-lg font-serif text-[#f5f5f4] flex-shrink-0">
+              {userProfile.zodiacSign?.symbol || '♈'}
+            </div>
+            <div className="text-left space-y-0.5">
+              <div className="text-xs sm:text-sm font-serif text-[#f5f5f4] flex items-center space-x-2">
+                <span>{userProfile.name}</span>
+                <span className="text-[#78716c]">•</span>
+                <span className="text-[#a8a29e]">{userProfile.zodiacSign?.name[language]}</span>
               </div>
-              <div className="text-left space-y-1">
-                <div className="text-xs sm:text-sm font-serif text-amber-100 font-bold flex items-center space-x-2">
-                  <span>{userProfile.name}</span>
-                  <span className="text-[#d4af37]/60">•</span>
-                  <span className="text-[#d4af37] font-semibold">{userProfile.zodiacSign?.name[language]}</span>
-                </div>
-                <div className="text-[11px] font-mono text-zinc-300">
-                  Life Path #{userProfile.lifePathNumber} • Soul Key: <span className="text-amber-200/90">{userProfile.birthTarotCardName?.[language] || ''}</span>
-                </div>
+              <div className="text-[11px] font-mono text-[#78716c]">
+                Life Path #{userProfile.lifePathNumber} • Soul: {userProfile.birthTarotCardName?.[language] || ''}
               </div>
             </div>
-
-            <button
-              onClick={() => setIsEditingProfile(true)}
-              className="text-xs font-serif text-amber-300/80 hover:text-[#d4af37] bg-white/[0.04] hover:bg-white/[0.08] px-3 py-1.5 rounded-full border border-white/[0.08] hover:border-[#d4af37]/40 transition-all flex items-center space-x-1.5 flex-shrink-0 active:scale-95"
-            >
-              <Edit3 className="w-3.5 h-3.5" />
-              <span>{language === 'my' ? 'ပြင်မည်' : language === 'ja' ? '編集' : 'Edit'}</span>
-            </button>
           </div>
+
+          <button
+            onClick={() => setIsEditingProfile(true)}
+            className="text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] bg-[#1c1917] hover:bg-[#292524] px-3 py-1.5 rounded border border-[#292524] transition-all flex items-center space-x-1.5 flex-shrink-0 active:scale-98"
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+            <span>{language === 'my' ? 'ပြင်မည်' : language === 'ja' ? '編集' : 'Edit'}</span>
+          </button>
         </div>
       )}
 
-      {/* STEP 1: Domain Cards & Personal Portal */}
+      {/* STEP 1: Domain Cards & Bento Grid */}
       {step === 1 && userProfile && !isEditingProfile && (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
+        <div className="space-y-8 animate-in fade-in duration-300">
           
-          {/* 6 Rich Domain Tiles with Double-Bezel Hardware Architecture */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {/* Bento Grid Domain Selection */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TOPICS.map((topic) => {
               const isSelected = selectedTopic.id === topic.id;
               const desc = topic.description ? topic.description[language] : '';
@@ -369,34 +326,31 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   key={topic.id}
                   onClick={() => handleSelectTopic(topic)}
                   onMouseEnter={() => audioService.playCardHover()}
-                  className={`group craft-bezel-outer cursor-pointer active:scale-[0.98] ${
-                    isSelected ? 'border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.35)]' : ''
+                  className={`craft-card p-5 sm:p-6 cursor-pointer flex flex-col justify-between space-y-4 ${
+                    isSelected ? 'border-[#78716c] bg-[#1c1917]' : ''
                   }`}
                 >
-                  <div className="craft-bezel-inner p-5 sm:p-6 flex flex-col justify-between space-y-4 h-full">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        {renderTopicSvgIcon(topic.id)}
-                      </div>
-
-                      <h3 className="font-serif font-semibold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide transition-colors">
-                        {topic.title[language]}
-                      </h3>
-
-                      {desc && (
-                        <p className="text-xs text-zinc-300 font-serif leading-relaxed line-clamp-2">
-                          {desc}
-                        </p>
-                      )}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      {renderTopicSvgIcon(topic.id)}
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-3 border-t border-white/[0.08]">
-                      <span className="italic truncate max-w-[210px]">{topic.defaultQuestion[language]}</span>
-                      
-                      {/* Button-in-Button Trailing Icon */}
-                      <div className="w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] group-hover:bg-[#d4af37]/20 group-hover:border-[#d4af37]/40 flex items-center justify-center flex-shrink-0 transition-colors ml-1.5">
-                        <ArrowRight className="w-3.5 h-3.5 text-amber-200 group-hover:translate-x-0.5 transition-transform" />
-                      </div>
+                    <h3 className="font-serif font-semibold text-base sm:text-lg text-[#f5f5f4] tracking-wide">
+                      {topic.title[language]}
+                    </h3>
+
+                    {desc && (
+                      <p className="text-xs text-[#a8a29e] font-sans leading-relaxed line-clamp-2">
+                        {desc}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] font-sans text-[#78716c] pt-3 border-t border-[#292524]">
+                    <span className="italic truncate max-w-[210px]">{topic.defaultQuestion[language]}</span>
+                    
+                    <div className="w-5 h-5 rounded bg-[#1c1917] border border-[#292524] flex items-center justify-center flex-shrink-0 ml-1.5">
+                      <ArrowRight className="w-3 h-3 text-[#a8a29e]" />
                     </div>
                   </div>
                 </div>
@@ -413,9 +367,9 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   setIsEditingPartner(true);
                   audioService.playCardSlide();
                 }}
-                className="text-xs font-serif text-amber-300/80 hover:text-[#d4af37] bg-white/[0.03] hover:bg-white/[0.07] px-4 py-2 rounded-full border border-white/[0.08] hover:border-[#d4af37]/40 transition-all flex items-center space-x-2 active:scale-95"
+                className="text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] bg-[#141210] hover:bg-[#1c1917] px-4 py-2 rounded-lg border border-[#292524] transition-all flex items-center space-x-2 active:scale-98"
               >
-                <Users className="w-3.5 h-3.5 text-[#d4af37]" />
+                <Users className="w-3.5 h-3.5" />
                 <span>{UI_TRANSLATIONS.addPartnerToggle[language]}</span>
               </button>
             )}
@@ -425,38 +379,38 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
 
       {/* PARTNER / COUNTERPART ASTROLOGICAL ATTUNEMENT CARD */}
       {(isRelationshipReading || isPartnerAttunementOpen || partnerProfile) && userProfile && !isEditingProfile && (
-        <div id="partner-attunement-section" className="craft-panel p-6 sm:p-8 rounded-3xl max-w-2xl mx-auto space-y-6 border-2 border-rose-400/40 bg-gradient-to-b from-[#190a28] to-[#0d0517] shadow-[0_0_40px_rgba(251,113,133,0.15)] animate-in fade-in slide-in-from-bottom-2 duration-400">
-          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div id="partner-attunement-section" className="craft-card p-6 sm:p-8 max-w-xl mx-auto space-y-5 animate-in fade-in duration-300">
+          <div className="flex items-center justify-between border-b border-[#292524] pb-3">
             <div className="flex items-center space-x-2">
-              <Heart className="w-4 h-4 text-rose-400 fill-rose-400/30" />
-              <h3 className="text-sm sm:text-base font-serif font-bold text-rose-100 tracking-wide">
+              <Heart className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm sm:text-base font-serif text-[#f5f5f4]">
                 {UI_TRANSLATIONS.partnerAttunementTitle[language]}
               </h3>
             </div>
             {partnerProfile && (
-              <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-200 border border-rose-500/40">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1c1917] text-[#a8a29e] border border-[#292524]">
                 {UI_TRANSLATIONS.synastryActiveBadge[language]}
               </span>
             )}
           </div>
 
           {partnerError && (
-            <div className="p-3.5 rounded-xl bg-rose-950/60 border border-rose-500/50 flex items-center space-x-3 text-xs font-serif text-rose-200 animate-pulse">
-              <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+            <div className="p-3 rounded-lg bg-[#251417] border border-[#4d2229] flex items-center space-x-3 text-xs font-sans text-[#fca5a5]">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span>{UI_TRANSLATIONS.partnerRequiredNotice[language]}</span>
             </div>
           )}
 
           {(!partnerProfile || isEditingPartner) ? (
-            <form onSubmit={handleSavePartner} className="space-y-5">
-              <p className="text-xs text-zinc-300 font-serif leading-relaxed">
+            <form onSubmit={handleSavePartner} className="space-y-4">
+              <p className="text-xs text-[#a8a29e] font-sans leading-relaxed">
                 {UI_TRANSLATIONS.partnerAttunementDesc[language]}
               </p>
 
               {/* Partner Name Input */}
               <div className="space-y-1.5">
-                <label className="text-xs font-serif text-rose-200 flex items-center space-x-1.5">
-                  <User className="w-3.5 h-3.5 text-rose-400" />
+                <label className="text-xs font-sans text-[#a8a29e] flex items-center space-x-1.5">
+                  <User className="w-3.5 h-3.5" />
                   <span>{UI_TRANSLATIONS.partnerNameLabel[language]}</span>
                 </label>
                 <input
@@ -465,20 +419,20 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   value={partnerNameInput}
                   onChange={(e) => setPartnerNameInput(e.target.value)}
                   placeholder={language === 'my' ? 'ဥပမာ: ချစ်သူ / လုပ်ဖော်ကိုင်ဖက်' : language === 'ja' ? '例: パートナーのお名前' : 'e.g., Alex / Counterpart'}
-                  className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/[0.12] focus:border-rose-400 text-sm text-rose-100 font-serif focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0c0a09] border border-[#292524] focus:border-[#78716c] text-sm text-[#f5f5f4] font-sans focus:outline-none"
                 />
               </div>
 
               {/* 12-Zodiac Sign Selector Pills */}
               <div className="space-y-2">
-                <label className="text-xs font-serif text-rose-200 flex items-center justify-between">
+                <label className="text-xs font-sans text-[#a8a29e] flex items-center justify-between">
                   <span className="flex items-center space-x-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                    <Sparkles className="w-3.5 h-3.5" />
                     <span>{UI_TRANSLATIONS.partnerZodiacLabel[language]}</span>
                   </span>
                   {partnerZodiacInput && (
-                    <span className="text-[11px] font-mono text-rose-300">
-                      {ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.symbol} {ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.name[language]} ({ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.element})
+                    <span className="text-[11px] font-mono text-[#f5f5f4]">
+                      {ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.symbol} {ZODIAC_SIGNS[partnerZodiacInput as ZodiacSignId]?.name[language]}
                     </span>
                   )}
                 </label>
@@ -497,14 +451,14 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                           setPartnerError(false);
                           audioService.playCardHover();
                         }}
-                        className={`p-2 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1 ${
+                        className={`p-2 rounded-lg border text-center transition-all flex flex-col items-center justify-center gap-0.5 ${
                           isSelected
-                            ? 'bg-rose-500/25 border-rose-400 shadow-[0_0_12px_rgba(251,113,133,0.4)] text-rose-100'
-                            : 'bg-black/40 border-white/[0.08] hover:border-rose-400/50 text-zinc-300 hover:text-rose-200'
+                            ? 'bg-[#1c1917] border-[#78716c] text-[#f5f5f4]'
+                            : 'bg-[#0c0a09] border-[#292524] hover:border-[#44403c] text-[#78716c] hover:text-[#f5f5f4]'
                         }`}
                       >
-                        <span className="text-base sm:text-lg">{zInfo.symbol}</span>
-                        <span className="text-[10px] font-serif font-medium truncate w-full">{zInfo.name[language].split(' ')[0]}</span>
+                        <span className="text-base">{zInfo.symbol}</span>
+                        <span className="text-[10px] font-sans truncate w-full">{zInfo.name[language].split(' ')[0]}</span>
                       </button>
                     );
                   })}
@@ -513,8 +467,8 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
 
               {/* Optional Birthdate Input */}
               <div className="space-y-1.5">
-                <label className="text-xs font-serif text-zinc-400 flex items-center space-x-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-zinc-400" />
+                <label className="text-xs font-sans text-[#78716c] flex items-center space-x-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-[#78716c]" />
                   <span>{UI_TRANSLATIONS.partnerBirthdateLabel[language]}</span>
                 </label>
                 <input
@@ -527,16 +481,16 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                       setPartnerZodiacInput(sign.id);
                     }
                   }}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/[0.08] focus:border-rose-400 text-xs text-zinc-200 font-serif focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0c0a09] border border-[#292524] focus:border-[#78716c] text-xs text-[#f5f5f4] font-sans focus:outline-none"
                 />
               </div>
 
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-2.5 pt-2">
                 <button
                   type="submit"
-                  className="flex-1 btn-primary h-11 rounded-xl text-xs font-serif font-bold uppercase tracking-wider flex items-center justify-center space-x-2 bg-gradient-to-r from-rose-600 via-amber-500 to-rose-600 shadow-lg shadow-rose-900/30 active:scale-[0.98]"
+                  className="flex-1 btn-primary h-10 text-xs uppercase tracking-wider flex items-center justify-center space-x-2"
                 >
-                  <Heart className="w-3.5 h-3.5 text-zinc-950 fill-zinc-950" />
+                  <Heart className="w-3.5 h-3.5" />
                   <span>{UI_TRANSLATIONS.savePartnerBtn[language]}</span>
                 </button>
 
@@ -544,7 +498,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsEditingPartner(false)}
-                    className="px-4 h-11 rounded-xl text-xs font-serif text-zinc-400 hover:text-white bg-white/[0.05] border border-white/[0.1] active:scale-95"
+                    className="px-3.5 h-10 rounded-lg text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] bg-[#1c1917] border border-[#292524] active:scale-98"
                   >
                     Cancel
                   </button>
@@ -553,29 +507,29 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
             </form>
           ) : (
             /* DUAL CELESTIAL SYNASTRY BANNER */
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* User Soul Badge */}
-                <div className="p-3.5 rounded-2xl bg-black/40 border border-[#d4af37]/30 flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#d4af37]/15 border border-[#d4af37]/40 flex items-center justify-center text-lg font-serif text-[#d4af37] font-bold">
+                <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] flex items-center space-x-3">
+                  <div className="w-9 h-9 rounded bg-[#1c1917] border border-[#292524] flex items-center justify-center text-base font-serif text-[#f5f5f4]">
                     {userProfile.zodiacSign?.symbol || '♈'}
                   </div>
                   <div className="space-y-0.5">
-                    <div className="text-xs font-serif font-bold text-amber-100">{userProfile.name}</div>
-                    <div className="text-[11px] font-mono text-amber-300/80">
+                    <div className="text-xs font-serif text-[#f5f5f4]">{userProfile.name}</div>
+                    <div className="text-[11px] font-mono text-[#78716c]">
                       {userProfile.zodiacSign?.name[language]} • {userProfile.zodiacSign?.element}
                     </div>
                   </div>
                 </div>
 
                 {/* Partner Soul Badge */}
-                <div className="p-3.5 rounded-2xl bg-black/40 border border-rose-400/30 flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-400/40 flex items-center justify-center text-lg font-serif text-rose-300 font-bold">
+                <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] flex items-center space-x-3">
+                  <div className="w-9 h-9 rounded bg-[#1c1917] border border-[#292524] flex items-center justify-center text-base font-serif text-[#f5f5f4]">
                     {partnerProfile.zodiacSign?.symbol || '♋'}
                   </div>
                   <div className="space-y-0.5">
-                    <div className="text-xs font-serif font-bold text-rose-100">{partnerProfile.name}</div>
-                    <div className="text-[11px] font-mono text-rose-300/80">
+                    <div className="text-xs font-serif text-[#f5f5f4]">{partnerProfile.name}</div>
+                    <div className="text-[11px] font-mono text-[#78716c]">
                       {partnerProfile.zodiacSign?.name[language]} • {partnerProfile.zodiacSign?.element}
                     </div>
                   </div>
@@ -583,9 +537,9 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-between pt-2 border-t border-white/[0.06] text-xs">
-                <span className="text-[11px] font-mono text-rose-300/90 flex items-center space-x-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+              <div className="flex items-center justify-between pt-2 border-t border-[#292524] text-xs">
+                <span className="text-[11px] font-mono text-[#a8a29e] flex items-center space-x-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#78716c]" />
                   <span>
                     {language === 'my'
                       ? 'နက္ခတ်ဗေဒ သဟဇာတ တွက်ချက်မှု အဆင်သင့်ဖြစ်ပါပြီ'
@@ -598,7 +552,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => setIsEditingPartner(true)}
-                    className="text-[11px] font-serif text-rose-200 hover:text-white bg-rose-500/20 hover:bg-rose-500/30 px-3 py-1 rounded-full border border-rose-400/30 transition-all flex items-center space-x-1 active:scale-95"
+                    className="text-[11px] font-sans text-[#a8a29e] hover:text-[#f5f5f4] bg-[#1c1917] px-2.5 py-1 rounded border border-[#292524] transition-all flex items-center space-x-1 active:scale-98"
                   >
                     <Edit3 className="w-3 h-3" />
                     <span>{language === 'my' ? 'ပြင်မည်' : language === 'ja' ? '編集' : 'Edit'}</span>
@@ -606,7 +560,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
 
                   <button
                     onClick={handleClearPartner}
-                    className="text-[11px] font-serif text-zinc-400 hover:text-rose-400 bg-white/[0.04] px-2.5 py-1 rounded-full border border-white/[0.08] hover:border-rose-400/30 transition-all active:scale-95"
+                    className="text-[11px] font-sans text-[#78716c] hover:text-rose-400 bg-[#1c1917] px-2 py-1 rounded border border-[#292524] transition-all active:scale-98"
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
@@ -617,30 +571,30 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
         </div>
       )}
 
-      {/* STEP 2: Choose your spread with Double-Bezel Spread Diagrams */}
+      {/* STEP 2: Choose your spread with Bento Spread Cards */}
       {step === 2 && userProfile && (
-        <section className="craft-panel p-6 sm:p-10 rounded-2xl space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
+        <section className="craft-card p-6 sm:p-10 space-y-8 animate-in fade-in duration-300">
           
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-[#292524] pb-4">
             <div className="space-y-0.5">
-              <h2 className="text-[#d4af37] font-serif tracking-[0.18em] text-xs sm:text-sm uppercase font-semibold">
+              <h2 className="text-[#a8a29e] font-mono text-xs uppercase tracking-wider">
                 {UI_TRANSLATIONS.step2Title[language]}
               </h2>
-              <p className="text-xs text-zinc-300 font-serif italic">
-                {UI_TRANSLATIONS.topicLabel[language]}: <span className="text-[#d4af37] font-semibold">{customQuestion.trim() ? `"${customQuestion}"` : selectedTopic.title[language]}</span>
+              <p className="text-xs text-[#f5f5f4] font-sans">
+                {UI_TRANSLATIONS.topicLabel[language]}: <span className="font-semibold">{customQuestion.trim() ? `"${customQuestion}"` : selectedTopic.title[language]}</span>
               </p>
             </div>
 
             <button
               onClick={() => setStep(1)}
-              className="text-xs font-serif text-zinc-400 hover:text-[#d4af37] underline transition-colors active:scale-95"
+              className="text-xs font-sans text-[#78716c] hover:text-[#f5f5f4] underline transition-colors active:scale-98"
             >
               {UI_TRANSLATIONS.changeTopicBtn[language]}
             </button>
           </div>
 
-          {/* Spreads Grid with Double-Bezel Nested Architecture */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 max-w-3xl mx-auto">
+          {/* Spreads Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {SPREAD_CONFIGS.map(spread => {
               const getSpreadSvg = (spreadId: string) => {
                 switch (spreadId) {
@@ -670,40 +624,37 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                   key={spread.id}
                   onClick={() => handleSelectSpread(spread)}
                   onMouseEnter={() => audioService.playCardHover()}
-                  className="group craft-bezel-outer cursor-pointer active:scale-[0.98]"
+                  className="craft-card p-5 sm:p-6 cursor-pointer flex flex-col justify-between space-y-4 hover:border-[#78716c] transition-all"
                 >
-                  <div className="craft-bezel-inner p-5 sm:p-6 flex flex-col justify-between space-y-4 h-full">
-                    <div className="space-y-3 w-full">
-                      <div className="flex items-center justify-between">
-                        <div className="font-serif font-bold text-base sm:text-lg text-[#d4af37] group-hover:text-amber-200 tracking-wide">
-                          {spread.name[language]}
-                        </div>
-                        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/30 text-amber-200">
-                          {spread.cardCount} {spread.cardCount === 1 ? UI_TRANSLATIONS.oneCardPick[language] : UI_TRANSLATIONS.cardsPick[language]}
-                        </span>
+                  <div className="space-y-3 w-full">
+                    <div className="flex items-center justify-between">
+                      <div className="font-serif font-bold text-base sm:text-lg text-[#f5f5f4] tracking-wide">
+                        {spread.name[language]}
                       </div>
-
-                      {/* Animated Spread Diagram */}
-                      <div className="w-full h-20 sm:h-24 py-1 flex items-center justify-center bg-black/40 rounded-xl border border-white/[0.06] group-hover:border-[#d4af37]/50 group-hover:bg-[#d4af37]/5 transition-all duration-300 overflow-hidden">
-                        <img
-                          src={getSpreadSvg(spread.id)}
-                          alt={spread.name.en}
-                          className="h-full w-auto object-contain pointer-events-none group-hover:scale-108 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]"
-                        />
-                      </div>
-
-                      <p className="text-xs text-zinc-300 font-serif leading-relaxed line-clamp-2">
-                        {spread.subtitle[language]}
-                      </p>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
+                        {spread.cardCount} {spread.cardCount === 1 ? UI_TRANSLATIONS.oneCardPick[language] : UI_TRANSLATIONS.cardsPick[language]}
+                      </span>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] font-serif text-amber-300/80 group-hover:text-[#d4af37] pt-3 border-t border-white/[0.08]">
-                      <span>{UI_TRANSLATIONS.communeAndDrawBtn[language]}</span>
-                      
-                      {/* Button-in-Button Trailing Icon */}
-                      <div className="w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] group-hover:bg-[#d4af37]/20 group-hover:border-[#d4af37]/40 flex items-center justify-center flex-shrink-0 transition-colors">
-                        <ArrowRight className="w-3.5 h-3.5 text-amber-200 group-hover:translate-x-0.5 transition-transform" />
-                      </div>
+                    {/* Animated Spread Diagram */}
+                    <div className="w-full h-20 sm:h-24 py-1 flex items-center justify-center bg-[#0c0a09] rounded-lg border border-[#292524] overflow-hidden">
+                      <img
+                        src={getSpreadSvg(spread.id)}
+                        alt={spread.name.en}
+                        className="h-full w-auto object-contain pointer-events-none opacity-85"
+                      />
+                    </div>
+
+                    <p className="text-xs text-[#a8a29e] font-sans leading-relaxed line-clamp-2">
+                      {spread.subtitle[language]}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] font-sans text-[#78716c] pt-3 border-t border-[#292524]">
+                    <span>{UI_TRANSLATIONS.communeAndDrawBtn[language]}</span>
+                    
+                    <div className="w-5 h-5 rounded bg-[#1c1917] border border-[#292524] flex items-center justify-center flex-shrink-0">
+                      <ArrowRight className="w-3 h-3 text-[#a8a29e]" />
                     </div>
                   </div>
                 </div>
@@ -723,13 +674,13 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
                 audioService.playCardSlide();
                 setStep(2);
               }}
-              className="text-xs font-serif text-zinc-400 hover:text-amber-200 flex items-center space-x-1.5"
+              className="text-xs font-sans text-[#78716c] hover:text-[#f5f5f4] flex items-center space-x-1.5"
             >
               <span>← Back to Spreads</span>
             </button>
             <button
               onClick={handleFinishRitual}
-              className="text-xs font-serif text-[#d4af37] hover:underline"
+              className="text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] hover:underline"
             >
               Skip Ritual →
             </button>

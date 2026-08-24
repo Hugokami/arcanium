@@ -8,9 +8,27 @@ export default {
   theme: {
     extend: {
       colors: {
+        minimal: {
+          canvas: '#0c0a09',
+          surface: '#141210',
+          elevated: '#1c1917',
+          subtle: '#292524',
+          border: '#292524',
+          borderLight: '#44403c',
+          text: '#f5f5f4',
+          textMuted: '#a8a29e',
+          textSubtle: '#78716c',
+        },
+        pastel: {
+          amber: { bg: '#241e12', text: '#fef08a', border: '#453818' },
+          blue: { bg: '#151b28', text: '#93c5fd', border: '#25334d' },
+          rose: { bg: '#251417', text: '#fca5a5', border: '#4d2229' },
+          green: { bg: '#132219', text: '#86efac', border: '#21432e' },
+          violet: { bg: '#1e142b', text: '#d8b4fe', border: '#3c2557' },
+        },
         tarot: {
-          dark: '#07070a',
-          card: '#0e0e15',
+          dark: '#0c0a09',
+          card: '#141210',
           gold: '#dfb76c',
           goldLight: '#f5dfa8',
           goldDark: '#99732e',
@@ -24,40 +42,28 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Cinzel"', '"Cormorant Garamond"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'Georgia', 'serif'],
-        display: ['"Cinzel Decorative"', '"Cinzel"', '"Noto Serif JP"', 'serif'],
-        body: ['"Cormorant Garamond"', '"Philosopher"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'Georgia', 'serif'],
-        cosmic: ['"Philosopher"', '"Cormorant Garamond"', 'serif'],
-        sans: ['"Cormorant Garamond"', '"Philosopher"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'serif'],
-        mono: ['"Space Grotesk"', '"Cinzel"', 'monospace']
+        serif: ['"Cinzel"', '"Newsreader"', '"Playfair Display"', '"Cormorant Garamond"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'Georgia', 'serif'],
+        display: ['"Cinzel"', '"Playfair Display"', '"Noto Serif JP"', 'serif'],
+        body: ['"Cormorant Garamond"', '"Geist Sans"', '"Helvetica Neue"', '"Noto Serif JP"', '"Noto Serif Myanmar"', 'Georgia', 'serif'],
+        sans: ['"Geist Sans"', '"SF Pro Display"', '"Helvetica Neue"', 'sans-serif'],
+        mono: ['"Geist Mono"', '"SF Mono"', '"JetBrains Mono"', '"Space Grotesk"', 'monospace']
       },
       boxShadow: {
-        'gold-glow': '0 0 25px -5px rgba(223, 183, 108, 0.35)',
-        'gold-glow-lg': '0 0 45px -5px rgba(223, 183, 108, 0.55)',
-        'violet-glow': '0 0 30px -5px rgba(138, 92, 246, 0.4)',
-        'card-elevated': '0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(223, 183, 108, 0.2)',
-        'inner-bevel': 'inset 0 1px 1px rgba(255, 255, 255, 0.15), inset 0 -1px 1px rgba(0, 0, 0, 0.5)',
+        'subtle': '0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.24)',
+        'elevated': '0 4px 20px -2px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.05)',
+        'modal': '0 20px 50px -10px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(255, 255, 255, 0.08)',
+        'gold-glow': '0 0 20px -5px rgba(212, 175, 55, 0.2)',
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
-        'shimmer': 'shimmer 2.5s linear infinite',
-        'spin-slow': 'spin 20s linear infinite',
-        'celestial-glow': 'celestial 8s ease-in-out infinite',
+        'spin-slow': 'spin 30s linear infinite',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-8px)' },
+          '50%': { transform: 'translateY(-6px)' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
-        celestial: {
-          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
-          '50%': { opacity: '0.8', transform: 'scale(1.08)' },
-        }
       }
     },
   },

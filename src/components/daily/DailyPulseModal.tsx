@@ -80,49 +80,46 @@ export const DailyPulseModal: React.FC<DailyPulseModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-300">
-      <div className="relative w-full max-w-2xl bg-[#0c0718] border border-[#d4af37]/50 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(212,175,55,0.25)] text-amber-50 overflow-hidden max-h-[90vh] overflow-y-auto">
-        
-        {/* Glow backdrop */}
-        <div className="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-2xl bg-[#0c0a09] border border-[#292524] rounded-2xl p-6 sm:p-7 text-[#f5f5f4] overflow-hidden max-h-[90vh] overflow-y-auto shadow-2xl">
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div className="flex items-center justify-between border-b border-[#292524] pb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-[#d4af37] shadow-gold-glow">
-              <Sun className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-lg bg-[#141210] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
+              <Sun className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-serif font-bold text-[#d4af37]">
+              <h2 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
                 {titles.title[language]}
               </h2>
-              <p className="text-xs text-zinc-400 font-serif">
+              <p className="text-xs text-[#78716c] font-sans">
                 {todayStr} • {titles.sub[language]}
               </p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2">
-            <div className="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-mono text-amber-200 flex items-center space-x-1.5 font-bold">
-              <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <div className="px-2.5 py-1 rounded bg-[#1c1917] border border-[#292524] text-xs font-mono text-[#a8a29e] flex items-center space-x-1.5">
+              <Flame className="w-3.5 h-3.5 text-[#fca5a5]" />
               <span>{streak} {titles.streakBadge[language]}</span>
             </div>
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+              className="p-1 rounded-lg border border-transparent hover:border-[#292524] text-[#78716c] hover:text-[#f5f5f4] transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* Card of the Day Presentation */}
-        <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 pt-6 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 pt-5 items-center">
           
           {/* Card Visual Left */}
           <div className="sm:col-span-5 flex flex-col items-center text-center space-y-2">
-            <div className="w-40 h-64 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black">
+            <div className="w-36 h-56 rounded-xl overflow-hidden border border-[#292524] bg-[#141210]">
               <img
                 src={`/cards/${card.file}`}
                 alt={card.name[language]}
@@ -130,27 +127,27 @@ export const DailyPulseModal: React.FC<DailyPulseModalProps> = ({
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="text-xs font-mono uppercase text-amber-300 font-bold">
+            <span className="text-xs font-mono uppercase text-[#a8a29e]">
               ✦ {card.name[language]} ✦
             </span>
           </div>
 
           {/* Morning Decree Right */}
-          <div className="sm:col-span-7 space-y-4">
+          <div className="sm:col-span-7 space-y-3.5">
             
             {/* Morning Decree Box */}
-            <div className="p-4 rounded-2xl bg-amber-500/10 border border-[#d4af37]/40 space-y-2.5 shadow-md">
+            <div className="p-4 rounded-xl bg-[#141210] border border-[#292524] space-y-2">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-1.5 text-xs font-serif font-bold text-[#d4af37]">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="flex items-center space-x-1.5 text-xs font-serif font-bold text-[#f5f5f4]">
+                  <Sparkles className="w-3.5 h-3.5 text-[#a8a29e]" />
                   <span>{titles.morningTitle[language]}</span>
                 </div>
                 <button
                   onClick={handleSpeakDecree}
-                  className={`p-1.5 rounded-lg border text-xs flex items-center space-x-1 transition-all ${
+                  className={`px-2 py-1 rounded text-xs flex items-center space-x-1 transition-all border ${
                     isSpeaking
-                      ? 'bg-amber-400 text-black border-amber-400'
-                      : 'bg-white/5 border-white/10 text-amber-200 hover:bg-white/10'
+                      ? 'bg-[#292524] text-[#f5f5f4] border-[#78716c]'
+                      : 'bg-[#0c0a09] border-[#292524] text-[#a8a29e] hover:text-[#f5f5f4]'
                   }`}
                 >
                   {isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
@@ -158,14 +155,14 @@ export const DailyPulseModal: React.FC<DailyPulseModalProps> = ({
                 </button>
               </div>
 
-              <p className="text-xs sm:text-sm text-amber-100 font-serif leading-relaxed italic">
+              <p className="text-xs sm:text-sm text-[#f5f5f4] font-sans leading-relaxed italic">
                 "{morningDecree[language]}"
               </p>
             </div>
 
             {/* Daily Core Insight */}
-            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-xs font-serif text-zinc-300 leading-relaxed">
-              <b className="text-amber-200">Cosmic Focus: </b>
+            <div className="p-3.5 rounded-xl bg-[#141210] border border-[#292524] text-xs font-sans text-[#a8a29e] leading-relaxed">
+              <b className="text-[#f5f5f4]">Cosmic Focus: </b>
               {isReversed ? card.reversedMeaning[language] : card.uprightMeaning[language]}
             </div>
 
@@ -174,13 +171,13 @@ export const DailyPulseModal: React.FC<DailyPulseModalProps> = ({
         </div>
 
         {/* Evening Manifestation Reflection Box */}
-        <div className="pt-6 space-y-3">
+        <div className="pt-5 space-y-2.5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-xs font-serif font-bold text-indigo-300">
-              <Moon className="w-4 h-4 text-indigo-400" />
+            <div className="flex items-center space-x-2 text-xs font-serif font-bold text-[#f5f5f4]">
+              <Moon className="w-4 h-4 text-[#a8a29e]" />
               <span>{titles.eveningTitle[language]}</span>
             </div>
-            <span className="text-[11px] text-zinc-400 font-serif">How did this card manifest in your day?</span>
+            <span className="text-[11px] text-[#78716c] font-sans">How did this card manifest in your day?</span>
           </div>
 
           <textarea
@@ -188,12 +185,12 @@ export const DailyPulseModal: React.FC<DailyPulseModalProps> = ({
             onChange={(e) => setReflectionText(e.target.value)}
             placeholder="Record your syncs, insights, dreams, or lessons learned today..."
             rows={3}
-            className="w-full p-4 rounded-2xl bg-black/50 border border-white/15 text-xs text-zinc-200 font-serif focus:outline-none focus:border-[#d4af37] resize-none"
+            className="w-full p-3 rounded-xl bg-[#141210] border border-[#292524] text-xs text-[#f5f5f4] placeholder-[#78716c] font-sans focus:outline-none focus:border-[#78716c] resize-none"
           />
 
           <div className="flex items-center justify-end space-x-3">
             {savedSuccess && (
-              <span className="text-xs font-serif text-emerald-400 flex items-center space-x-1 animate-in fade-in">
+              <span className="text-xs font-sans text-[#86efac] flex items-center space-x-1 animate-in fade-in">
                 <Check className="w-3.5 h-3.5" />
                 <span>Journal Entry Saved!</span>
               </span>
@@ -201,7 +198,7 @@ export const DailyPulseModal: React.FC<DailyPulseModalProps> = ({
 
             <button
               onClick={handleSaveReflection}
-              className="btn-primary h-10 px-6 rounded-xl text-xs font-serif flex items-center space-x-1.5 uppercase tracking-wider"
+              className="btn-primary h-9 px-5 rounded-lg text-xs font-sans flex items-center space-x-1.5 uppercase tracking-wider"
             >
               <Save className="w-3.5 h-3.5" />
               <span>Save Daily Reflection</span>

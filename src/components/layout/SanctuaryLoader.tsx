@@ -119,56 +119,49 @@ export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-[9990] bg-[#040208] flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden transition-all duration-1000 ease-out ${
+      className={`fixed inset-0 z-[9990] bg-[#0c0a09] flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden transition-all duration-700 ease-out ${
         isFadingOut ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
-      {/* Deep Space Radial Aura & Astrolabe Atmosphere */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <div className="w-[340px] h-[340px] sm:w-[580px] sm:h-[580px] rounded-full bg-gradient-to-b from-[#8a5cf6]/10 to-[#d4af37]/15 blur-3xl animate-pulse-slow" />
-        <div className="w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] rounded-full border border-[#d4af37]/15 animate-spin-slow pointer-events-none" />
-        <div className="w-[200px] h-[200px] sm:w-[360px] sm:h-[360px] rounded-full border border-dashed border-[#8a5cf6]/20 animate-reverse-spin pointer-events-none" />
-      </div>
-
-      <div className="relative z-10 flex flex-col items-center max-w-sm sm:max-w-md w-full space-y-6 sm:space-y-8">
+      <div className="relative z-10 flex flex-col items-center max-w-sm sm:max-w-md w-full space-y-6">
         
-        {/* Masterwork Animated SVG Emblem */}
-        <div className="relative w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center filter drop-shadow-[0_0_35px_rgba(212,175,55,0.4)]">
+        {/* Animated SVG Emblem */}
+        <div className="relative w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center">
           <img
             src="/animations/sanctuary-loader.svg"
             alt="Sanctuary Astrolabe"
-            className="w-full h-full object-contain pointer-events-none select-none"
+            className="w-full h-full object-contain pointer-events-none select-none opacity-90"
           />
         </div>
 
-        {/* Branding & Poetic Status Typography */}
-        <div className="space-y-3">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[10px] font-mono tracking-[0.25em] text-[#d4af37] uppercase">
-            <Sparkles className="w-3 h-3 text-[#d4af37]" />
+        {/* Branding & Status Typography */}
+        <div className="space-y-2">
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-[#141210] border border-[#292524] text-[10px] font-mono tracking-widest text-[#a8a29e] uppercase">
+            <Sparkles className="w-3 h-3 text-[#a8a29e]" />
             <span>Sacred Sanctuary</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-display font-bold tracking-[0.3em] text-[#d4af37] text-shadow-gold uppercase">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold tracking-widest text-[#f5f5f4] uppercase">
             ARCANIUM
           </h1>
           
-          <p className="text-xs sm:text-sm font-serif italic text-amber-200/90 h-6 transition-all duration-300">
+          <p className="text-xs sm:text-sm font-sans text-[#a8a29e] h-5 transition-all duration-300">
             {statusMessages[statusIndex][language]}
           </p>
         </div>
 
-        {/* Luxury Progress Bar & Numerical Metrics */}
-        <div className="w-full max-w-xs space-y-2.5 pt-1">
-          <div className="h-1.5 w-full rounded-full bg-white/[0.06] p-0.5 overflow-hidden border border-white/[0.1] shadow-inner">
+        {/* Progress Bar & Numerical Metrics */}
+        <div className="w-full max-w-xs space-y-2 pt-1">
+          <div className="h-1 w-full rounded-full bg-[#141210] overflow-hidden border border-[#292524]">
             <div
-              className="h-full bg-gradient-to-r from-amber-600 via-[#d4af37] to-amber-100 rounded-full transition-all duration-200 shadow-[0_0_15px_rgba(212,175,55,0.9)]"
+              className="h-full bg-[#f5f5f4] transition-all duration-200"
               style={{ width: `${progress}%` }}
             />
           </div>
 
-          <div className="flex items-center justify-between text-[11px] font-mono tracking-wider text-amber-200/60 px-1">
+          <div className="flex items-center justify-between text-[11px] font-mono tracking-wider text-[#78716c] px-0.5">
             <span>HARMONIZING</span>
-            <span className="text-[#d4af37] font-semibold">{progress}%</span>
+            <span className="text-[#f5f5f4] font-semibold">{progress}%</span>
           </div>
         </div>
 

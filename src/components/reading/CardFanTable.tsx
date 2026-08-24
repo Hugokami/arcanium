@@ -52,7 +52,6 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
   useEffect(() => {
     const fullShuffled = [...TAROT_DECK].sort(() => Math.random() - 0.5);
     
-    // Split 78 cards into 3 purely randomized piles of 26 cards without topics
     const pile1 = fullShuffled.slice(0, 26);
     const pile2 = fullShuffled.slice(26, 52);
     const pile3 = fullShuffled.slice(52, 78);
@@ -103,100 +102,88 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
     ];
 
     setDeckStreams(streams);
-    audioService.playShuffle();
-  }, [spread]);
+  }, []);
 
   const handleSelectDeck = (stream: DeckStream) => {
-    audioService.playSingingBowl(324);
+    audioService.playCardSlide();
     setSelectedDeckStream(stream);
-    // Take the 26 cards from chosen stream as the interactive fan
     setFanDeck(stream.cards);
     setSelectionStage('pick_cards');
   };
 
   const picksNeeded = spread.cardCount;
   const picksLeft = picksNeeded - drawnCards.length;
+  const allDrawn = drawnCards.length === picksNeeded;
+  const allRevealed = allDrawn && drawnCards.every(c => c.revealed);
 
-  const handlePickCard = (fanCard: TarotCard, index: number) => {
-    if (drawnCards.length >= picksNeeded || takenIndices.includes(index)) return;
+  // Dynamic deck back from DeckThemeService
+  const selectedTheme = DeckThemeService.getSelectedTheme();
+  const cardBackImage = selectedTheme.image || '/cards/CardBacks.png';
 
-    audioService.playCardSlide();
+  const handlePickCard = (card: TarotCard, index: number) => {
+    if (picksLeft <= 0 || takenIndices.includes(index)) return;
+
+    audioService.playCardFlip();
+    const isReversed = Math.random() < 0.25; // 25% chance reversed
+    const currentPosition = spread.positions[drawnCards.length];
+
     setTakenIndices(prev => [...prev, index]);
-
-    const nextPosIndex = drawnCards.length;
-    const nextPos = spread.positions[nextPosIndex];
-
-    const newDrawn: DrawnCard = {
-      card: fanCard,
-      isReversed: Math.random() < 0.35, // 35% chance reversed
-      position: nextPos,
-      revealed: false
-    };
-
-    const updated = [...drawnCards, newDrawn];
-    setDrawnCards(updated);
-
-    if (updated.length === picksNeeded) {
-      audioService.playSingingBowl(324);
-    }
+    setDrawnCards(prev => [
+      ...prev,
+      {
+        card,
+        isReversed,
+        position: currentPosition,
+        revealed: false
+      }
+    ]);
   };
 
   const handleFlipCard = (index: number) => {
     audioService.playCardFlip();
-    const updated = [...drawnCards];
-    updated[index].revealed = !updated[index].revealed;
-    setDrawnCards(updated);
-
-    const allRevealed = updated.every(c => c.revealed);
-    if (allRevealed && updated.length === picksNeeded) {
-      confetti({
-        particleCount: 55,
-        spread: 65,
-        origin: { y: 0.7 },
-        colors: ['#d4af37', '#f5dfa8', '#c4b5fd', '#ffffff']
-      });
-      audioService.playCelebrationChime();
-    }
+    setDrawnCards(prev => {
+      const next = [...prev];
+      if (next[index]) {
+        next[index] = { ...next[index], revealed: true };
+      }
+      return next;
+    });
   };
 
   const handleRevealAll = () => {
-    audioService.playCardFlip();
-    const updated = drawnCards.map(c => ({ ...c, revealed: true }));
-    setDrawnCards(updated);
-    confetti({
-      particleCount: 65,
-      spread: 75,
-      origin: { y: 0.7 },
-      colors: ['#d4af37', '#f5dfa8', '#c4b5fd', '#ffffff']
-    });
-    audioService.playCelebrationChime();
+    audioService.playSingingBowl(528);
+    setDrawnCards(prev => prev.map(c => ({ ...c, revealed: true })));
   };
 
   const handleReadCards = () => {
     audioService.playSingingBowl(432);
-    const updated = drawnCards.map(c => ({ ...c, revealed: true }));
-    onFinishReading(updated);
+    try {
+      confetti({
+        particleCount: 40,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ['#f5f5f4', '#a8a29e', '#78716c']
+      });
+    } catch {
+      // safe fallback
+    }
+    onFinishReading(drawnCards);
   };
 
-  const allDrawn = drawnCards.length === picksNeeded;
-  const allRevealed = allDrawn && drawnCards.every(c => c.revealed);
-
-  const selectedTheme = DeckThemeService.getSelectedTheme();
-  const cardBackImage = selectedTheme.image;
-
-  // Global Keyboard Shortcuts (Space/Enter to auto-pick, reveal, or proceed)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
-      if (e.code === 'Space' || e.code === 'Enter') {
+      if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
-        if (selectionStage === 'choose_deck' && deckStreams.length > 0) {
-          handleSelectDeck(deckStreams[0]);
+        if (selectionStage === 'choose_deck') {
+          if (deckStreams.length > 0) {
+            handleSelectDeck(deckStreams[0]);
+          }
         } else if (selectionStage === 'pick_cards') {
           if (allRevealed) {
             handleReadCards();
-          } else if (allDrawn) {
+          } else if (allDrawn && !allRevealed) {
             handleRevealAll();
           } else if (picksLeft > 0 && fanDeck.length > 0) {
             const nextIdx = fanDeck.findIndex((_, idx) => !takenIndices.includes(idx));
@@ -213,28 +200,28 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
   }, [selectionStage, deckStreams, allRevealed, allDrawn, picksLeft, fanDeck, takenIndices, drawnCards]);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-10 space-y-8 flex flex-col items-center animate-in fade-in duration-500">
+    <div className="w-full max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-8 flex flex-col items-center animate-in fade-in duration-300">
       
       {/* ================= STAGE 1: CHOOSE FROM 3 RANDOMLY SHUFFLED DECKS ================= */}
       {selectionStage === 'choose_deck' && (
-        <div className="w-full max-w-4xl space-y-8 text-center animate-in fade-in zoom-in-95 duration-500">
+        <div className="w-full max-w-3xl space-y-8 text-center animate-in fade-in duration-300">
           
-          <div className="craft-panel p-6 sm:p-8 rounded-3xl space-y-3 max-w-2xl mx-auto shadow-2xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/35 text-xs font-mono uppercase tracking-widest text-[#d4af37]">
+          <div className="craft-card p-6 sm:p-8 space-y-3">
+            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded border border-[#292524] bg-[#0c0a09] text-[11px] font-mono tracking-wider text-[#a8a29e] uppercase">
               <Layers className="w-3.5 h-3.5" />
               <span>Sacred 3-Deck Cut</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#d4af37] tracking-wide">
+            <h2 className="text-xl sm:text-2xl font-serif text-[#f5f5f4] tracking-tight">
               {language === 'my'
                 ? 'ကျပန်းမွှေထားသော ကတ်တွဲ ၃ ခုအနက် တစ်ခုကို ရွေးချယ်ပါ'
                 : language === 'ja'
                 ? 'シャッフルされた3つのデッキから1つお選びください'
                 : 'Choose 1 of the 3 Randomly Shuffled Decks'}
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-300 font-serif italic">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans italic">
               "{question}"
             </p>
-            <p className="text-[11px] text-amber-200/80 font-serif">
+            <p className="text-xs text-[#78716c] font-sans">
               {language === 'my'
                 ? 'ကတ်ပြား ၇၈ ပြားကို ကတ်တွဲ ၃ တွဲအဖြစ် ကျပန်းခွဲဝေထားပါသည်။ သင် ရွေးချယ်သော ကတ်တွဲမှ ကံကြမ္မာကတ်များကို ဆက်လက်ရွေးချယ်ပါမည်။'
                 : language === 'ja'
@@ -243,56 +230,41 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
             </p>
           </div>
 
-          {/* 3 Glowing Decks Grid with Double-Bezel Nested Architecture */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 max-w-4xl mx-auto pt-4">
+          {/* 3 Decks Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
             {deckStreams.map((stream) => (
               <div
                 key={stream.id}
                 onClick={() => handleSelectDeck(stream)}
                 onMouseEnter={() => audioService.playCardHover()}
-                className="group craft-bezel-outer cursor-pointer active:scale-[0.98]"
+                className="craft-card p-6 cursor-pointer flex flex-col justify-between items-center space-y-5 text-center hover:border-[#78716c] transition-all"
               >
-                <div className="craft-bezel-inner p-6 sm:p-7 flex flex-col justify-between items-center space-y-6 h-full text-center">
-                  
-                  {/* 3D Stacked Card Pile Visual */}
-                  <div className="relative w-28 h-44 sm:w-32 sm:h-48 my-2">
-                    {/* Layer 3 Bottom */}
-                    <div className="absolute inset-0 rounded-2xl bg-zinc-900 border border-[#d4af37]/30 shadow-lg translate-x-2 translate-y-2 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-300" />
-                    {/* Layer 2 Middle */}
-                    <div className="absolute inset-0 rounded-2xl bg-zinc-900 border border-[#d4af37]/50 shadow-lg translate-x-1 translate-y-1 group-hover:translate-x-1.5 group-hover:translate-y-1.5 transition-transform duration-300" />
-                    {/* Layer 1 Top Front */}
-                    <div className="absolute inset-0 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-[0_0_24px_rgba(212,175,55,0.3)] bg-[#0b0813] flex flex-col items-center justify-center p-2 group-hover:border-amber-200 transition-colors duration-300">
-                      <img
-                        src="/cards/CardBacks.png"
-                        alt="Tarot Back"
-                        className="w-full h-full object-cover rounded-xl opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/15 transition-colors">
-                        <Sparkles className="w-8 h-8 text-[#d4af37] group-hover:scale-125 transition-transform duration-300 filter drop-shadow-[0_0_8px_#d4af37]" />
-                      </div>
-                    </div>
+                {/* Stacked Card Pile Visual */}
+                <div className="relative w-24 h-38 sm:w-28 sm:h-42 my-1">
+                  <div className="absolute inset-0 rounded-lg bg-[#0c0a09] border border-[#292524] translate-x-1.5 translate-y-1.5" />
+                  <div className="absolute inset-0 rounded-lg overflow-hidden border border-[#292524] bg-[#141210] flex flex-col items-center justify-center p-1.5">
+                    <img
+                      src="/cards/CardBacks.png"
+                      alt="Tarot Back"
+                      className="w-full h-full object-cover rounded"
+                    />
                   </div>
+                </div>
 
-                  <div className="space-y-1.5 w-full">
-                    <h3 className="text-base sm:text-lg font-serif font-bold text-amber-100 group-hover:text-[#d4af37] transition-colors">
-                      {stream.title[language]}
-                    </h3>
-                    <p className="text-xs text-zinc-300 font-serif leading-relaxed">
-                      {stream.subtitle[language]}
-                    </p>
-                  </div>
+                <div className="space-y-1 w-full">
+                  <h3 className="text-sm font-serif font-bold text-[#f5f5f4]">
+                    {stream.title[language]}
+                  </h3>
+                  <p className="text-xs text-[#78716c] font-sans">
+                    {stream.subtitle[language]}
+                  </p>
+                </div>
 
-                  <div className="w-full pt-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs font-serif text-[#d4af37] font-semibold">
-                    <span>
-                      {language === 'my' ? 'ဤကတ်တွဲကို ရွေးမည်' : language === 'ja' ? 'このデッキを選ぶ' : 'Select Deck'}
-                    </span>
-                    
-                    {/* Button-in-Button Trailing Icon */}
-                    <div className="w-6 h-6 rounded-full bg-white/[0.05] border border-white/[0.08] group-hover:bg-[#d4af37]/20 group-hover:border-[#d4af37]/40 flex items-center justify-center flex-shrink-0 transition-colors">
-                      <Sparkles className="w-3 h-3 text-amber-200 group-hover:rotate-45 transition-transform" />
-                    </div>
-                  </div>
-
+                <div className="w-full pt-3 border-t border-[#292524] flex items-center justify-between text-xs font-sans text-[#a8a29e]">
+                  <span>
+                    {language === 'my' ? 'ဤကတ်တွဲကို ရွေးမည်' : language === 'ja' ? 'このデッキを選ぶ' : 'Select Deck'}
+                  </span>
+                  <span className="text-[11px] font-mono text-[#78716c]">→</span>
                 </div>
               </div>
             ))}
@@ -305,9 +277,9 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
       {selectionStage === 'pick_cards' && (
         <>
           {/* Header Banner */}
-          <div className="craft-panel p-4 sm:p-6 rounded-2xl text-center max-w-2xl w-full shadow-2xl space-y-2 animate-in fade-in duration-300">
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-2">
-              <span className="text-[11px] font-mono uppercase text-[#d4af37]">
+          <div className="craft-card p-4 sm:p-6 text-center max-w-2xl w-full space-y-2 animate-in fade-in duration-300">
+            <div className="flex items-center justify-between border-b border-[#292524] pb-2">
+              <span className="text-[11px] font-mono uppercase text-[#78716c]">
                 {selectedDeckStream?.title[language]}
               </span>
               <button
@@ -317,22 +289,22 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                   setDrawnCards([]);
                   setTakenIndices([]);
                 }}
-                className="text-[11px] font-serif text-zinc-400 hover:text-[#d4af37] underline transition-colors"
+                className="text-[11px] font-sans text-[#78716c] hover:text-[#f5f5f4] underline transition-colors"
               >
                 {language === 'my' ? 'ကတ်တွဲ ပြန်ပြောင်းမည်' : language === 'ja' ? 'デッキを選び直す' : 'Change Deck'}
               </button>
             </div>
 
-            <h2 className="text-[#d4af37] font-serif tracking-[0.18em] text-xs sm:text-sm uppercase font-semibold">
-              {UI_TRANSLATIONS.step3Title[language]} <span className="text-amber-200 font-bold">{picksNeeded === 1 ? UI_TRANSLATIONS.oneCardPick[language] : `${picksNeeded} ${UI_TRANSLATIONS.cardsPick[language]}`}</span>.
+            <h2 className="text-[#a8a29e] font-mono text-xs uppercase tracking-wider">
+              {UI_TRANSLATIONS.step3Title[language]} <span className="text-[#f5f5f4] font-bold">{picksNeeded === 1 ? UI_TRANSLATIONS.oneCardPick[language] : `${picksNeeded} ${UI_TRANSLATIONS.cardsPick[language]}`}</span>.
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-200 font-serif italic truncate">
+            <p className="text-xs text-[#f5f5f4] font-sans italic truncate">
               "{question}"
             </p>
-            <div className="text-[11px] font-serif text-[#d4af37]">
+            <div className="text-xs font-sans text-[#a8a29e]">
               {picksLeft > 0 ? (
-                <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25">
-                  <Hand className="w-3 h-3 animate-bounce" />
+                <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded border border-[#292524] bg-[#0c0a09]">
+                  <Hand className="w-3 h-3 text-[#f5f5f4]" />
                   <span>
                     {language === 'my'
                       ? `${picksLeft} ကတ် ထပ်မံရွေးပါ`
@@ -342,8 +314,8 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                   </span>
                 </span>
               ) : (
-                <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-300">
-                  <Sparkles className="w-3 h-3 text-emerald-400" />
+                <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded border border-[#21432e] bg-[#132219] text-[#86efac]">
+                  <Sparkles className="w-3 h-3" />
                   <span>
                     {language === 'my'
                       ? 'ကတ်အားလုံး ရွေးချယ်ပြီးပါပြီ'
@@ -371,27 +343,27 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                     }`}
                   >
                     {/* Position Label */}
-                    <span className="text-[9px] sm:text-[10px] font-mono tracking-wider text-amber-300/80 mb-1 uppercase max-w-[80px] sm:max-w-[100px] truncate text-center">
+                    <span className="text-[9px] sm:text-[10px] font-mono text-[#78716c] mb-1 uppercase max-w-[80px] sm:max-w-[100px] truncate text-center">
                       {pos.name[language]}
                     </span>
 
                     {/* Card Slot */}
                     <div
                       onClick={() => drawn && !drawn.revealed && handleFlipCard(idx)}
-                      className={`relative w-16 h-24 sm:w-20 sm:h-32 md:w-24 md:h-38 rounded-xl overflow-hidden border-2 transition-all duration-500 flex items-center justify-center ${
+                      className={`relative w-16 h-24 sm:w-20 sm:h-32 md:w-24 md:h-38 rounded-lg overflow-hidden border transition-all duration-300 flex items-center justify-center ${
                         drawn
                           ? drawn.revealed
-                            ? 'border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.4)] cursor-default'
-                            : 'border-amber-400/80 shadow-[0_0_15px_rgba(251,191,36,0.3)] cursor-pointer hover:scale-105'
+                            ? 'border-[#78716c] bg-[#0c0a09] cursor-default'
+                            : 'border-[#44403c] bg-[#141210] cursor-pointer hover:border-[#78716c]'
                           : isCurrentPickSlot
-                          ? 'border-[#d4af37] border-dashed bg-[#d4af37]/5 animate-pulse'
-                          : 'border-white/[0.12] border-dashed bg-black/30'
+                          ? 'border-[#44403c] border-dashed bg-[#1c1917]'
+                          : 'border-[#292524] border-dashed bg-[#0c0a09]'
                       }`}
                     >
                       {drawn ? (
                         drawn.revealed ? (
                           /* Revealed Card Front */
-                          <div className="relative w-full h-full bg-black">
+                          <div className="craft-card-sheen relative w-full h-full bg-[#0c0a09]">
                             <img
                               src={`/cards/${drawn.card.file}`}
                               alt={drawn.card.name[language]}
@@ -399,22 +371,22 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                               className="w-full h-full object-cover"
                             />
                             {drawn.isReversed && (
-                              <span className="absolute bottom-1 right-1 px-1 py-0.2 text-[8px] font-sans font-bold bg-purple-900/90 text-purple-200 rounded">
+                              <span className="absolute bottom-1 right-1 px-1 py-0.2 text-[8px] font-mono uppercase bg-[#0c0a09] text-[#f5f5f4] border border-[#292524] rounded">
                                 Rev
                               </span>
                             )}
                           </div>
                         ) : (
                           /* Card Back (Click to reveal) */
-                          <div className="relative w-full h-full bg-[#120a24] flex flex-col items-center justify-center p-0.5 sm:p-1">
+                          <div className="craft-card-sheen relative w-full h-full bg-[#141210] flex flex-col items-center justify-center p-0.5 sm:p-1">
                             <img
                               src={cardBackImage}
                               alt="Card Back"
-                              className="w-full h-full object-cover rounded-lg"
+                              className="w-full h-full object-cover rounded"
                             />
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 hover:bg-black/20 transition-colors">
-                              <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-[#d4af37] animate-pulse" />
-                              <span className="text-[8px] sm:text-[9px] font-serif text-amber-200 mt-0.5 font-semibold text-center px-0.5">
+                              <Eye className="w-4 h-4 text-[#f5f5f4]" />
+                              <span className="text-[8px] sm:text-[9px] font-sans text-[#f5f5f4] mt-0.5 font-medium text-center px-0.5">
                                 {language === 'my' ? 'ဖွင့်မည်' : language === 'ja' ? 'めくる' : 'Reveal'}
                               </span>
                             </div>
@@ -422,7 +394,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                         )
                       ) : (
                         /* Empty Slot Placeholder */
-                        <span className="text-xs font-mono text-zinc-400">
+                        <span className="text-xs font-mono text-[#78716c]">
                           {idx + 1}
                         </span>
                       )}
@@ -431,7 +403,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                     {/* Card Name Under Slot */}
                     <div className="mt-1 text-center max-w-[80px] sm:max-w-[100px] h-4">
                       {drawn && drawn.revealed && (
-                        <span className="text-[9px] sm:text-[10px] font-serif text-[#d4af37] font-semibold truncate block">
+                        <span className="text-[9px] sm:text-[10px] font-serif text-[#f5f5f4] truncate block">
                           {drawn.card.name[language]}
                         </span>
                       )}
@@ -445,8 +417,8 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
           {/* THE 3D FAN OF CARDS */}
           {picksLeft > 0 && (
             <div className="w-full py-4 sm:py-8 flex flex-col items-center overflow-visible">
-              <div className="text-center text-[11px] sm:text-xs font-serif text-amber-200/90 mb-3 sm:mb-4 animate-pulse px-2">
-                ✦ {language === 'my' ? 'ကတ်ပြားပေါ်သို့ မျှားတင်ပြီး ကံကြမ္မာကတ်ကို နှိပ်၍ ဆွဲယူပါ' : language === 'ja' ? 'カードに触れて直感で1枚ずつ引いてください' : 'Hover and click to draw your destiny'} ✦
+              <div className="text-center text-[11px] sm:text-xs font-sans text-[#a8a29e] mb-3 px-2">
+                <span>{language === 'my' ? 'ကတ်ပြားပေါ်သို့ မျှားတင်ပြီး ကံကြမ္မာကတ်ကို နှိပ်၍ ဆွဲယူပါ' : language === 'ja' ? 'カードに触れて直感で1枚ずつ引いてください' : 'Hover and click to draw your destiny'}</span>
               </div>
 
               {/* Fan Deck Arc Container */}
@@ -458,7 +430,6 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                   const isMobile = windowWidth < 640;
                   const isSmallMobile = windowWidth < 380;
                   
-                  // Calculate dynamic angle and spacing based on screen width
                   const maxAngle = isSmallMobile ? 22 : isMobile ? 26 : 34;
                   const xStep = isSmallMobile ? 7.6 : isMobile ? 8.8 : 20;
                   const yCurve = isSmallMobile ? 0.9 : isMobile ? 1.2 : 2.2;
@@ -485,10 +456,10 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                           ? `translate(${xOffset}px, ${isMobile ? -20 : -32}px) scale(${isMobile ? 1.12 : 1.18}) rotate(0deg)`
                           : `translate(${xOffset}px, ${yOffset}px) rotate(${angle}deg)`,
                         zIndex: isHovered ? 40 : idx,
-                        opacity: isTaken ? 0.2 : 1
+                        opacity: isTaken ? 0.15 : 1
                       }}
-                      className={`absolute bottom-0 w-10 h-16 sm:w-16 sm:h-26 md:w-20 md:h-32 rounded-lg sm:rounded-xl overflow-hidden border border-[#8a7326] bg-[#120a24] shadow-[0_0_10px_rgba(0,0,0,0.8)] cursor-pointer transition-all duration-200 ease-out origin-bottom ${
-                        isTaken ? 'pointer-events-none' : 'hover:border-[#d4af37] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]'
+                      className={`craft-card-sheen absolute bottom-0 w-10 h-16 sm:w-16 sm:h-26 md:w-20 md:h-32 rounded-lg overflow-hidden border border-[#292524] bg-[#141210] cursor-pointer transition-all duration-200 ease-out origin-bottom ${
+                        isTaken ? 'pointer-events-none' : 'hover:border-[#78716c]'
                       }`}
                     >
                       <img
@@ -504,11 +475,11 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
           )}
 
           {/* Action Buttons: Reveal All or Read the Cards */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
             {allDrawn && !allRevealed && (
               <button
                 onClick={handleRevealAll}
-                className="btn-secondary h-11 px-6 rounded-xl font-serif text-xs sm:text-sm flex items-center space-x-2 text-[#d4af37]"
+                className="btn-secondary h-10 px-5 text-xs sm:text-sm flex items-center space-x-2"
               >
                 <Eye className="w-4 h-4" />
                 <span>{UI_TRANSLATIONS.revealAllBtn[language]}</span>
@@ -518,24 +489,24 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
             {allRevealed && (
               <button
                 onClick={handleReadCards}
-                className="btn-primary h-12 px-8 rounded-xl font-serif text-sm sm:text-base tracking-[0.16em] uppercase flex items-center space-x-2.5 animate-pulse shadow-[0_0_25px_rgba(212,175,55,0.4)]"
+                className="btn-primary h-11 px-7 text-xs sm:text-sm tracking-wider uppercase flex items-center space-x-2"
               >
-                <Sparkles className="w-4 h-4 text-zinc-950" />
+                <Sparkles className="w-4 h-4" />
                 <span>{UI_TRANSLATIONS.readBtn[language]}</span>
               </button>
             )}
 
             <button
               onClick={onReset}
-              className="text-xs font-serif text-zinc-400 hover:text-zinc-200 underline transition-colors px-3 py-2"
+              className="text-xs font-sans text-[#78716c] hover:text-[#f5f5f4] underline transition-colors px-3 py-2"
             >
               {language === 'my' ? 'အစမှ ပြန်စမည်' : language === 'ja' ? '最初からやり直す' : 'Start Over'}
             </button>
           </div>
 
-          <div className="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-[10px] font-mono text-zinc-400">
-            <Keyboard className="w-3 h-3 text-[#d4af37]" />
-            <span>Shortcuts: Press <b>[Space]</b> or <b>[Enter]</b> to draw & reveal</span>
+          <div className="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1 rounded bg-[#141210] border border-[#292524] text-[11px] font-sans text-[#78716c]">
+            <Keyboard className="w-3.5 h-3.5 text-[#a8a29e]" />
+            <span>Shortcuts: Press <kbd>Space</kbd> or <kbd>Enter</kbd> to draw & reveal</span>
           </div>
         </>
       )}

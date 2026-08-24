@@ -40,35 +40,35 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
   };
 
   return (
-    <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-[#d4af37]/60 bg-gradient-to-b from-[#180d2e] via-[#0d071c] to-black shadow-[0_0_50px_rgba(212,175,55,0.25)] text-center space-y-6 animate-in fade-in duration-300 max-w-xl mx-auto">
+    <div className="p-6 sm:p-7 rounded-2xl border border-[#292524] bg-[#0c0a09] shadow-xl text-center space-y-5 animate-in fade-in duration-200 max-w-xl mx-auto">
       
       {/* Header */}
-      <div className="space-y-1.5">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-xs font-serif text-amber-200">
-          <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
+      <div className="space-y-1">
+        <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-[#141210] border border-[#292524] text-xs font-mono text-[#a8a29e]">
+          <Sparkles className="w-3.5 h-3.5 text-[#a8a29e]" />
           <span>{texts.step1Title[language]}</span>
         </div>
-        <p className="text-xs text-zinc-300 font-serif italic max-w-md mx-auto">
+        <p className="text-xs text-[#78716c] font-sans italic max-w-md mx-auto">
           {texts.step1Sub[language]}
         </p>
       </div>
 
       {/* Interactive Ritual Stage */}
-      <div className="h-56 relative flex items-center justify-center select-none">
+      <div className="h-52 relative flex items-center justify-center select-none">
         
         {ritualState === 'initial' && (
           <div
             onClick={handleCut}
             className="cursor-pointer group relative flex flex-col items-center justify-center transition-transform hover:scale-105"
           >
-            {/* Stacked 3D Card Layers */}
-            <div className="absolute -top-2 w-32 h-48 rounded-2xl bg-[#090514] border border-[#d4af37]/30 shadow-md transform rotate-[-3deg]" />
-            <div className="absolute -top-1 w-32 h-48 rounded-2xl bg-[#090514] border border-[#d4af37]/50 shadow-md transform rotate-[3deg]" />
-            <div className="relative w-32 h-48 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black">
-              <img src={cardBackImage} alt="Deck" className="w-full h-full object-cover" />
+            {/* Stacked Card Layers */}
+            <div className="absolute -top-2 w-28 h-44 rounded-xl bg-[#141210] border border-[#292524] transform rotate-[-3deg]" />
+            <div className="absolute -top-1 w-28 h-44 rounded-xl bg-[#141210] border border-[#292524] transform rotate-[3deg]" />
+            <div className="relative w-28 h-44 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5">
+              <img src={cardBackImage} alt="Deck" className="w-full h-full object-cover rounded-lg" />
             </div>
 
-            <div className="absolute -bottom-8 px-4 py-1.5 rounded-full bg-black/80 border border-[#d4af37] text-xs font-serif text-amber-200 shadow-gold-glow animate-pulse whitespace-nowrap">
+            <div className="absolute -bottom-7 px-3 py-1 rounded-full bg-[#141210] border border-[#292524] text-xs font-sans text-[#f5f5f4] whitespace-nowrap">
               {texts.tapToCut[language]}
             </div>
           </div>
@@ -77,33 +77,33 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
         {ritualState === 'cut' && (
           <div
             onClick={handleReunite}
-            className="cursor-pointer group flex items-center justify-center gap-4 transition-all"
+            className="cursor-pointer group flex items-center justify-center gap-3.5 transition-all"
           >
             {/* Packet 1 (Left) */}
-            <div className="w-24 sm:w-28 h-36 sm:h-44 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black transform -rotate-6 hover:-translate-y-2 transition-all">
-              <img src={cardBackImage} alt="Packet 1" className="w-full h-full object-cover" />
-              <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-amber-300 bg-black/60">
+            <div className="w-22 sm:w-26 h-34 sm:h-40 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5 transform -rotate-6 hover:-translate-y-1 transition-all">
+              <img src={cardBackImage} alt="Packet 1" className="w-full h-full object-cover rounded-lg" />
+              <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-[#a8a29e] bg-black/70">
                 Left (Past)
               </div>
             </div>
 
             {/* Packet 2 (Center) */}
-            <div className="w-24 sm:w-28 h-36 sm:h-44 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black transform hover:-translate-y-2 transition-all z-10">
-              <img src={cardBackImage} alt="Packet 2" className="w-full h-full object-cover" />
-              <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-amber-300 bg-black/60">
+            <div className="w-22 sm:w-26 h-34 sm:h-40 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5 transform hover:-translate-y-1 transition-all z-10">
+              <img src={cardBackImage} alt="Packet 2" className="w-full h-full object-cover rounded-lg" />
+              <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-[#a8a29e] bg-black/70">
                 Center (Present)
               </div>
             </div>
 
             {/* Packet 3 (Right) */}
-            <div className="w-24 sm:w-28 h-36 sm:h-44 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-gold-glow bg-black transform rotate-6 hover:-translate-y-2 transition-all">
-              <img src={cardBackImage} alt="Packet 3" className="w-full h-full object-cover" />
-              <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-amber-300 bg-black/60">
+            <div className="w-22 sm:w-26 h-34 sm:h-40 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5 transform rotate-6 hover:-translate-y-1 transition-all">
+              <img src={cardBackImage} alt="Packet 3" className="w-full h-full object-cover rounded-lg" />
+              <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-[#a8a29e] bg-black/70">
                 Right (Future)
               </div>
             </div>
 
-            <div className="absolute -bottom-8 px-4 py-1.5 rounded-full bg-black/80 border border-[#d4af37] text-xs font-serif text-amber-200 shadow-gold-glow animate-pulse whitespace-nowrap">
+            <div className="absolute -bottom-7 px-3 py-1 rounded-full bg-[#141210] border border-[#292524] text-xs font-sans text-[#f5f5f4] whitespace-nowrap">
               {texts.tapToReunite[language]}
             </div>
           </div>
@@ -111,18 +111,18 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
 
         {ritualState === 'reuniting' && (
           <div className="relative flex items-center justify-center animate-pulse">
-            <div className="w-32 h-48 rounded-2xl overflow-hidden border-2 border-[#d4af37] shadow-[0_0_50px_rgba(212,175,55,0.6)] bg-black">
-              <img src={cardBackImage} alt="Deck Reunited" className="w-full h-full object-cover" />
+            <div className="w-28 h-44 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5">
+              <img src={cardBackImage} alt="Deck Reunited" className="w-full h-full object-cover rounded-lg" />
             </div>
           </div>
         )}
 
         {ritualState === 'complete' && (
-          <div className="space-y-4 animate-in zoom-in duration-300 flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-300 shadow-[0_0_30px_rgba(52,211,153,0.4)]">
-              <Check className="w-8 h-8" />
+          <div className="space-y-3 animate-in zoom-in duration-200 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-[#141210] border border-[#292524] flex items-center justify-center text-[#86efac]">
+              <Check className="w-6 h-6" />
             </div>
-            <div className="text-base sm:text-lg font-serif font-bold text-emerald-200">
+            <div className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
               {texts.sealed[language]}
             </div>
           </div>
@@ -134,9 +134,9 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
       {ritualState === 'complete' && (
         <button
           onClick={onCompleteRitual}
-          className="btn-primary h-12 px-8 rounded-xl font-serif text-sm tracking-[0.18em] uppercase flex items-center space-x-2.5 mx-auto animate-in fade-in"
+          className="btn-primary h-10 px-6 rounded-lg font-sans text-xs uppercase tracking-wider flex items-center space-x-2 mx-auto animate-in fade-in"
         >
-          <Sparkles className="w-4 h-4" />
+          <Sparkles className="w-3.5 h-3.5" />
           <span>{texts.proceedBtn[language]}</span>
         </button>
       )}

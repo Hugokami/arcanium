@@ -239,40 +239,39 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       
       {/* Top Reading Banner */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/25 text-[10px] font-mono tracking-widest text-[#d4af37] uppercase">
-          <Sparkles className="w-3 h-3 text-[#d4af37]" />
+        <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded border border-[#292524] bg-[#141210] text-[11px] font-mono tracking-widest text-[#a8a29e] uppercase">
           <span>Oracle Decree</span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl font-serif tracking-[0.16em] text-[#d4af37] text-shadow-gold">
+        <h1 className="text-2xl sm:text-4xl font-serif tracking-tight text-[#f5f5f4]">
           {UI_TRANSLATIONS.readingTitle[language]}
         </h1>
-        <p className="text-sm sm:text-base text-zinc-200 font-serif italic">
+        <p className="text-sm sm:text-base text-[#f5f5f4] font-sans italic">
           "{question}"
         </p>
         
         {/* Querent Natal Crest + Live Moon Phase Badge */}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
           {userProfile && (
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs font-serif text-amber-200">
-              <span>Querent: <b>{userProfile.name}</b></span>
+            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-[#141210] border border-[#292524] text-xs font-sans text-[#a8a29e]">
+              <span>Querent: <b className="text-[#f5f5f4]">{userProfile.name}</b></span>
               {userProfile.zodiacSign && (
                 <>
-                  <span>•</span>
+                  <span className="text-[#78716c]">•</span>
                   <span>{userProfile.zodiacSign.symbol} {userProfile.zodiacSign.name[language]}</span>
                 </>
               )}
             </div>
           )}
 
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-indigo-950/40 border border-indigo-500/30 text-xs font-serif text-indigo-200">
-            <span>{moonPhase.emoji} {moonPhase.phaseName[language]}</span>
-            <span>•</span>
-            <span className="text-amber-300/90">{moonPhase.astrologicalSeason[language]}</span>
+          <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-[#141210] border border-[#292524] text-xs font-sans text-[#a8a29e]">
+            <span>{moonPhase.phaseName[language]}</span>
+            <span className="text-[#78716c]">•</span>
+            <span>{moonPhase.astrologicalSeason[language]}</span>
           </div>
         </div>
 
-        <div className="text-xs font-serif text-[#d4af37]/90 flex items-center justify-center space-x-2">
+        <div className="text-xs font-sans text-[#78716c] flex items-center justify-center space-x-2">
           <span>{UI_TRANSLATIONS.spreadLabel[language]}: {spread.name[language]}</span>
           <span>•</span>
           <span>{drawnCards.length} {UI_TRANSLATIONS.cardsPick[language]}</span>
@@ -280,16 +279,16 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* View Toggle: Altar View vs Deep Analysis */}
         <div className="flex items-center justify-center gap-2 pt-2">
-          <div className="inline-flex p-1 rounded-full bg-black/60 border border-white/[0.1]">
+          <div className="inline-flex p-1 rounded-lg bg-[#141210] border border-[#292524]">
             <button
               onClick={() => {
                 audioService.playCardSlide();
                 setViewMode('altar');
               }}
-              className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-serif transition-all ${
+              className={`flex items-center space-x-1.5 px-3 py-1 rounded text-xs font-sans transition-all ${
                 viewMode === 'altar'
-                  ? 'bg-[#d4af37] text-zinc-950 font-bold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                  ? 'bg-[#292524] text-[#f5f5f4] font-medium'
+                  : 'text-[#78716c] hover:text-[#f5f5f4]'
               }`}
             >
               <LayoutGrid className="w-3.5 h-3.5" />
@@ -301,10 +300,10 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
                 audioService.playCardSlide();
                 setViewMode('analysis');
               }}
-              className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-serif transition-all ${
+              className={`flex items-center space-x-1.5 px-3 py-1 rounded text-xs font-sans transition-all ${
                 viewMode === 'analysis'
-                  ? 'bg-[#d4af37] text-zinc-950 font-bold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                  ? 'bg-[#292524] text-[#f5f5f4] font-medium'
+                  : 'text-[#78716c] hover:text-[#f5f5f4]'
               }`}
             >
               <FileText className="w-3.5 h-3.5" />
@@ -314,13 +313,13 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         </div>
 
         {/* Action Pills: Voice Oracle + Ask Oracle */}
-        <div className="flex items-center justify-center gap-2.5 pt-1">
+        <div className="flex items-center justify-center gap-2 pt-1">
           <button
             onClick={toggleVoiceOracle}
-            className={`h-9 px-4 rounded-full text-xs font-serif flex items-center space-x-2 transition-all border ${
+            className={`h-8 px-3.5 rounded-lg text-xs font-sans flex items-center space-x-1.5 transition-all border ${
               isSpeaking
-                ? 'bg-amber-400/20 border-amber-400 text-amber-200 animate-pulse'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.12] text-amber-200/90'
+                ? 'bg-[#292524] border-[#78716c] text-[#f5f5f4]'
+                : 'bg-[#141210] hover:bg-[#1c1917] border-[#292524] text-[#a8a29e] hover:text-[#f5f5f4]'
             }`}
           >
             {isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
@@ -329,9 +328,9 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
           <button
             onClick={() => setIsChatOpen(true)}
-            className="h-9 px-4 rounded-full text-xs font-serif flex items-center space-x-2 transition-all border bg-[#d4af37]/15 hover:bg-[#d4af37]/25 border-[#d4af37]/50 text-amber-200 shadow-sm"
+            className="h-8 px-3.5 rounded-lg text-xs font-sans flex items-center space-x-1.5 transition-all border bg-[#141210] hover:bg-[#1c1917] border-[#292524] text-[#a8a29e] hover:text-[#f5f5f4]"
           >
-            <MessageSquareQuote className="w-3.5 h-3.5 text-[#d4af37]" />
+            <MessageSquareQuote className="w-3.5 h-3.5" />
             <span>{UI_TRANSLATIONS.askOracleBtn[language]}</span>
           </button>
 
@@ -340,9 +339,9 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
               audioService.playCardSlide();
               setIsTreeOfLifeOpen(true);
             }}
-            className="h-9 px-4 rounded-full text-xs font-serif flex items-center space-x-2 transition-all border bg-purple-950/30 hover:bg-purple-900/40 border-purple-500/40 text-purple-200 shadow-sm"
+            className="h-8 px-3.5 rounded-lg text-xs font-sans flex items-center space-x-1.5 transition-all border bg-[#141210] hover:bg-[#1c1917] border-[#292524] text-[#a8a29e] hover:text-[#f5f5f4]"
           >
-            <Sparkles className="w-3.5 h-3.5 text-purple-300" />
+            <Sparkles className="w-3.5 h-3.5" />
             <span>{language === 'my' ? 'ကဘ္ဗလာ ဝိညာဉ်အပင်' : language === 'ja' ? '生命の樹マップ' : 'Tree of Life'}</span>
           </button>
         </div>
@@ -392,42 +391,42 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       )}
 
       {/* Certainty & Polarity Gauge */}
-      <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-[#d4af37] space-y-3 shadow-xl">
+      <div className="craft-card p-5 sm:p-6 space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-[#d4af37]">
-            <Scale className="w-4 h-4" />
+          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-[#f5f5f4]">
+            <Scale className="w-4 h-4 text-[#a8a29e]" />
             <span>{UI_TRANSLATIONS.polarityTitle[language]}</span>
           </div>
-          <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-amber-200">
+          <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
             {polarityGauge.score}% Confidence
           </span>
         </div>
 
         {/* Meter bar */}
-        <div className="w-full h-2 rounded-full bg-white/[0.08] overflow-hidden">
+        <div className="w-full h-1.5 rounded-full bg-[#0c0a09] border border-[#292524] overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-purple-500 via-amber-400 to-emerald-400 transition-all duration-700"
+            className="h-full bg-[#f5f5f4] transition-all duration-500"
             style={{ width: `${polarityGauge.score}%` }}
           />
         </div>
 
-        <div className="text-sm font-serif text-amber-100 font-semibold">
+        <div className="text-sm font-serif text-[#f5f5f4] font-semibold">
           {polarityGauge.verdict[language]}
         </div>
-        <p className="text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
           {polarityGauge.explanation[language]}
         </p>
       </div>
 
       {/* Astrological Synastry & Interpersonal Alchemy Matrix (When Partner Profile is Attuned) */}
       {synastrySummary && userProfile && partnerProfile && (
-        <div className="craft-panel p-5 sm:p-7 rounded-3xl border-2 border-rose-400/40 bg-gradient-to-b from-[#1c0a2a] via-[#10051c] to-[#0a0312] space-y-5 shadow-[0_0_35px_rgba(251,113,133,0.15)] animate-in fade-in duration-500">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.08] pb-3">
+        <div className="craft-card p-5 sm:p-7 space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#292524] pb-3">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300">
-                <Heart className="w-4 h-4 fill-rose-400/40" />
+              <div className="w-8 h-8 rounded-lg bg-[#1c1917] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
+                <Heart className="w-4 h-4" />
               </div>
-              <h3 className="text-sm sm:text-base font-serif font-bold text-rose-100 tracking-wide">
+              <h3 className="text-sm sm:text-base font-serif font-bold text-[#f5f5f4] tracking-wide">
                 {language === 'my'
                   ? 'နက္ခတ်ဗေဒ သဟဇာတနှင့် စိတ်ဝိညာဉ် ဓာတ်ပေါင်းစပ်မှု (Astrological Synastry)'
                   : language === 'ja'
@@ -435,8 +434,8 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
                   : 'Astrological Synastry & Interpersonal Alchemy Matrix'}
               </h3>
             </div>
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/40 text-xs font-mono font-bold text-rose-200">
-              <Sparkles className="w-3.5 h-3.5 text-rose-300" />
+            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-xs font-mono text-[#a8a29e]">
+              <Sparkles className="w-3.5 h-3.5" />
               <span>{synastrySummary.compatibilityScore}% {language === 'my' ? 'သဟဇာတ ညှိနှိုင်းမှု' : language === 'ja' ? '調和指数' : 'Harmony Index'}</span>
             </div>
           </div>
@@ -444,64 +443,64 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           {/* Dual Profile Astrological Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 items-center">
             {/* Querent Card */}
-            <div className="p-4 rounded-2xl bg-black/40 border border-[#d4af37]/30 space-y-1 text-center sm:text-left">
+            <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-1 text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start space-x-2.5">
                 <span className="text-2xl">{userProfile.zodiacSign?.symbol}</span>
                 <div>
-                  <div className="text-xs font-serif font-bold text-amber-100">{userProfile.name}</div>
-                  <div className="text-[11px] font-mono text-[#d4af37]">
+                  <div className="text-xs font-serif font-bold text-[#f5f5f4]">{userProfile.name}</div>
+                  <div className="text-[11px] font-mono text-[#a8a29e]">
                     {userProfile.zodiacSign?.name[language]} • {userProfile.zodiacSign?.element}
                   </div>
                 </div>
               </div>
-              <div className="text-[10px] font-mono text-zinc-400 pt-1">
+              <div className="text-[10px] font-mono text-[#78716c] pt-1">
                 Life Path #{userProfile.lifePathNumber}
               </div>
             </div>
 
             {/* Elemental Nexus Dynamic */}
-            <div className="p-3.5 rounded-2xl bg-rose-950/40 border border-rose-400/30 text-center space-y-2">
-              <div className="text-xs font-serif font-bold text-rose-200 uppercase tracking-wider">
+            <div className="p-3.5 rounded-xl bg-[#0c0a09] border border-[#292524] text-center space-y-2">
+              <div className="text-xs font-mono text-[#a8a29e] uppercase tracking-wider">
                 {synastrySummary.userElement} & {synastrySummary.partnerElement} Alchemy
               </div>
-              <div className="w-full h-2 rounded-full bg-black/60 overflow-hidden">
+              <div className="w-full h-1.5 rounded-full bg-[#1c1917] border border-[#292524] overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-rose-500 via-amber-400 to-rose-400 transition-all duration-700"
+                  className="h-full bg-[#f5f5f4] transition-all duration-500"
                   style={{ width: `${synastrySummary.compatibilityScore}%` }}
                 />
               </div>
-              <div className="text-[10px] font-mono text-rose-300/80">
+              <div className="text-[10px] font-mono text-[#78716c]">
                 Composite Key: #{synastrySummary.compositeLifePathNumber} {synastrySummary.compositeSoulCardName[language]}
               </div>
             </div>
 
             {/* Partner Card */}
-            <div className="p-4 rounded-2xl bg-black/40 border border-rose-400/30 space-y-1 text-center sm:text-left">
+            <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-1 text-center sm:text-left">
               <div className="flex items-center justify-center sm:justify-start space-x-2.5">
                 <span className="text-2xl">{partnerProfile.zodiacSign?.symbol}</span>
                 <div>
-                  <div className="text-xs font-serif font-bold text-rose-100">{partnerProfile.name}</div>
-                  <div className="text-[11px] font-mono text-rose-300">
+                  <div className="text-xs font-serif font-bold text-[#f5f5f4]">{partnerProfile.name}</div>
+                  <div className="text-[11px] font-mono text-[#a8a29e]">
                     {partnerProfile.zodiacSign?.name[language]} • {partnerProfile.zodiacSign?.element}
                   </div>
                 </div>
               </div>
-              <div className="text-[10px] font-mono text-zinc-400 pt-1">
+              <div className="text-[10px] font-mono text-[#78716c] pt-1">
                 Life Path #{partnerProfile.lifePathNumber}
               </div>
             </div>
           </div>
 
           {/* Elemental Chemistry & Narrative */}
-          <div className="space-y-2 p-3.5 rounded-2xl bg-black/40 border border-white/[0.06] text-xs sm:text-sm font-serif leading-relaxed text-zinc-200">
+          <div className="space-y-2 p-3.5 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs sm:text-sm font-sans leading-relaxed text-[#a8a29e]">
             <p>
-              <strong className="text-rose-300 font-semibold">{synastrySummary.dynamicVerdict[language]}</strong>
+              <strong className="text-[#f5f5f4] font-serif">{synastrySummary.dynamicVerdict[language]}</strong>
             </p>
-            <p className="text-zinc-300">
+            <p>
               {synastrySummary.elementalChemistry[language]}
             </p>
-            <div className="pt-2 border-t border-white/[0.06] text-amber-200/90">
-              <span className="font-bold text-rose-300">✦ {language === 'my' ? 'ဆက်ဆံရေး ချိန်ညှိမှု လမ်းညွှန်' : language === 'ja' ? '関係性向上の錬金術' : 'Relational Alchemy Guidance'}: </span>
+            <div className="pt-2 border-t border-[#292524] text-[#a8a29e]">
+              <span className="font-bold text-[#f5f5f4] font-serif">✦ {language === 'my' ? 'ဆက်ဆံရေး ချိန်ညှိမှု လမ်းညွှန်' : language === 'ja' ? '関係性向上の錬金術' : 'Relational Alchemy Guidance'}: </span>
               {synastrySummary.synastryAdvice[language]}
             </div>
           </div>
@@ -509,76 +508,70 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       )}
 
       {/* Elemental Dignities & Alchemy Matrix */}
-      <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-cyan-400 space-y-4 shadow-xl">
+      <div className="craft-card p-5 sm:p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-cyan-300">
-            <Sparkles className="w-4 h-4" />
+          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-[#f5f5f4]">
+            <Sparkles className="w-4 h-4 text-[#a8a29e]" />
             <span>{UI_TRANSLATIONS.elementalTitle[language]}</span>
           </div>
-          <span className="text-xs font-mono text-zinc-300">
-            Harmony: <b className="text-amber-200">{elementalDignities.harmonyScore}%</b>
+          <span className="text-xs font-mono text-[#a8a29e]">
+            Harmony: <b className="text-[#f5f5f4]">{elementalDignities.harmonyScore}%</b>
           </span>
         </div>
 
         {/* 4 Elements Distribution Chips */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
-            <Flame className="w-4 h-4 text-amber-400 flex-shrink-0" />
-            <div className="text-xs font-serif">
-              <span className="text-zinc-300">Fire: </span>
-              <b className="text-amber-200">{elementalDignities.fire}</b>
+          <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-[#0c0a09] border border-[#292524]">
+            <Flame className="w-4 h-4 text-[#fca5a5] flex-shrink-0" />
+            <div className="text-xs font-sans">
+              <span className="text-[#78716c]">Fire: </span>
+              <b className="text-[#f5f5f4] font-mono">{elementalDignities.fire}</b>
             </div>
           </div>
-          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
-            <Droplet className="w-4 h-4 text-blue-400 flex-shrink-0" />
-            <div className="text-xs font-serif">
-              <span className="text-zinc-300">Water: </span>
-              <b className="text-blue-200">{elementalDignities.water}</b>
+          <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-[#0c0a09] border border-[#292524]">
+            <Droplet className="w-4 h-4 text-[#93c5fd] flex-shrink-0" />
+            <div className="text-xs font-sans">
+              <span className="text-[#78716c]">Water: </span>
+              <b className="text-[#f5f5f4] font-mono">{elementalDignities.water}</b>
             </div>
           </div>
-          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
-            <Wind className="w-4 h-4 text-cyan-300 flex-shrink-0" />
-            <div className="text-xs font-serif">
-              <span className="text-zinc-300">Air: </span>
-              <b className="text-cyan-200">{elementalDignities.air}</b>
+          <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-[#0c0a09] border border-[#292524]">
+            <Wind className="w-4 h-4 text-[#d8b4fe] flex-shrink-0" />
+            <div className="text-xs font-sans">
+              <span className="text-[#78716c]">Air: </span>
+              <b className="text-[#f5f5f4] font-mono">{elementalDignities.air}</b>
             </div>
           </div>
-          <div className="flex items-center space-x-2 p-2.5 rounded-xl bg-black/40 border border-white/[0.06]">
-            <Mountain className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-            <div className="text-xs font-serif">
-              <span className="text-zinc-300">Earth: </span>
-              <b className="text-emerald-200">{elementalDignities.earth}</b>
+          <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-[#0c0a09] border border-[#292524]">
+            <Mountain className="w-4 h-4 text-[#86efac] flex-shrink-0" />
+            <div className="text-xs font-sans">
+              <span className="text-[#78716c]">Earth: </span>
+              <b className="text-[#f5f5f4] font-mono">{elementalDignities.earth}</b>
             </div>
           </div>
         </div>
 
-        <div className="text-xs sm:text-sm text-zinc-200 font-serif leading-relaxed pt-1">
-          <b className="text-[#d4af37]">{elementalDignities.alchemyVerdict[language]}:</b> {elementalDignities.elementalAdvice[language]}
+        <div className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed pt-1">
+          <b className="text-[#f5f5f4] font-serif">{elementalDignities.alchemyVerdict[language]}:</b> {elementalDignities.elementalAdvice[language]}
         </div>
       </div>
 
       {/* Detected Card Synergies */}
       {detectedSynergies.length > 0 && (
         <div className="space-y-3">
-          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-amber-300 px-1">
-            <Zap className="w-4 h-4 text-amber-400" />
+          <div className="flex items-center space-x-2 text-sm font-serif font-bold text-[#f5f5f4] px-1">
+            <Zap className="w-4 h-4 text-[#a8a29e]" />
             <span>{UI_TRANSLATIONS.synergyTitle[language]}</span>
           </div>
           {detectedSynergies.map((syn) => (
             <div
               key={syn.id}
-              className={`craft-panel p-5 rounded-2xl border-l-4 space-y-2 ${
-                syn.potency === 'profound'
-                  ? 'border-l-amber-400 bg-gradient-to-r from-amber-500/10 to-transparent'
-                  : syn.potency === 'warning'
-                  ? 'border-l-rose-500 bg-gradient-to-r from-rose-500/10 to-transparent'
-                  : 'border-l-purple-400 bg-gradient-to-r from-purple-500/10 to-transparent'
-              }`}
+              className="craft-card p-5 space-y-1.5"
             >
-              <h4 className="text-sm sm:text-base font-serif font-bold text-amber-200">
+              <h4 className="text-sm font-serif font-bold text-[#f5f5f4]">
                 {syn.title[language]}
               </h4>
-              <p className="text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
                 {syn.description[language]}
               </p>
             </div>
@@ -588,47 +581,47 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
       {/* People in Your Orbit — Court Card Archetype Matrix */}
       {courtPersonasInSpread.length > 0 && (
-        <div className="craft-panel p-6 sm:p-7 rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-950/20 via-[#0d071d] to-black space-y-4 shadow-xl">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="craft-card p-6 sm:p-7 space-y-4">
+          <div className="flex items-center justify-between border-b border-[#292524] pb-3">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300">
+              <div className="w-8 h-8 rounded-lg bg-[#1c1917] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
                 <UserCheck className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-emerald-300">
+                <h3 className="text-sm sm:text-base font-serif font-bold text-[#f5f5f4]">
                   {language === 'my' ? 'သင့်ပတ်ဝန်းကျင်ရှိ လူပုဂ္ဂိုလ်များ (Court Card Archetypes)' : language === 'ja' ? 'あなたの軌道上の人物像（コートカード分析）' : 'People in Your Orbit • Court Card Typology'}
                 </h3>
-                <p className="text-xs text-zinc-400 font-serif">
+                <p className="text-xs text-[#78716c] font-sans">
                   {language === 'my' ? 'အကဲဖြတ်ထားသော ကတ်များမှ တိုက်ရိုက်သက်ရောက်နေသော လူပုဂ္ဂိုလ်ပုံစံများ' : language === 'ja' ? '展開されたカードが示す実生活の重要人物と関係性' : 'Real-world allies, mentors, rivals, or messengers present in your spread'}
                 </p>
               </div>
             </div>
-            <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-400/15 border border-emerald-400/40 text-emerald-200 font-bold">
+            <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
               {courtPersonasInSpread.length} {courtPersonasInSpread.length === 1 ? 'Persona' : 'Personas'}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {courtPersonasInSpread.map(({ drawnCard, persona }, idx) => (
-              <div key={idx} className="p-4 rounded-2xl bg-black/60 border border-emerald-500/25 space-y-2.5">
+              <div key={idx} className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="text-xs font-serif font-bold text-amber-200 flex items-center space-x-2">
-                    <span>👑 {drawnCard.card.name[language]}</span>
-                    <span className="text-[10px] text-zinc-400 font-mono">({drawnCard.position.name[language]})</span>
+                  <div className="text-xs font-serif font-bold text-[#f5f5f4] flex items-center space-x-2">
+                    <span>✦ {drawnCard.card.name[language]}</span>
+                    <span className="text-[10px] text-[#78716c] font-mono">({drawnCard.position.name[language]})</span>
                   </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-300">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1c1917] text-[#a8a29e]">
                     {persona.mbtiResonance}
                   </span>
                 </div>
-                <div className="text-xs font-serif font-bold text-emerald-300">
+                <div className="text-xs font-serif font-semibold text-[#f5f5f4]">
                   {persona.roleTitle[language]}
                 </div>
-                <p className="text-xs text-zinc-300 font-serif leading-relaxed">
+                <p className="text-xs text-[#a8a29e] font-sans leading-relaxed">
                   {persona.personaArchetype[language]}
                 </p>
-                <div className="pt-2 border-t border-white/5 space-y-1 text-xs font-serif">
-                  <div><span className="text-amber-300 font-bold">🧭 Guidance: </span><span className="text-zinc-300">{persona.relationshipAdvice[language]}</span></div>
-                  <div><span className="text-rose-400 font-bold">⚠️ Warning: </span><span className="text-zinc-300">{persona.shadowPitfall[language]}</span></div>
+                <div className="pt-2 border-t border-[#292524] space-y-1 text-xs font-sans">
+                  <div><span className="text-[#f5f5f4] font-medium">Guidance: </span><span className="text-[#a8a29e]">{persona.relationshipAdvice[language]}</span></div>
+                  <div><span className="text-[#fca5a5] font-medium">Caution: </span><span className="text-[#a8a29e]">{persona.shadowPitfall[language]}</span></div>
                 </div>
               </div>
             ))}
@@ -638,49 +631,49 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
       {/* 1. 10-Card Celtic Cross Grand Synthesis Panel */}
       {celticCrossSynthesis && (
-        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-[#d4af37]/60 bg-gradient-to-b from-[#180e2f] via-[#0d071d] to-black space-y-6 shadow-[0_0_40px_rgba(212,175,55,0.2)] animate-in fade-in duration-500">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="craft-card p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between border-b border-[#292524] pb-3">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-[#d4af37]">
+              <div className="w-8 h-8 rounded-lg bg-[#1c1917] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
                 <Sparkles className="w-4 h-4" />
               </div>
-              <h3 className="text-base sm:text-lg font-serif font-bold text-[#d4af37]">
+              <h3 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
                 {language === 'my' ? '၁၀ ကတ် ဆဲလ်တစ်ကြက်ခြေခတ် မဟာပေါင်းစပ်သုံးသပ်ချက်' : language === 'ja' ? 'ケルト十字 10カード・神聖秘儀総合統合' : '10-Card Celtic Cross Grand Hermeneutic Synthesis'}
               </h3>
             </div>
-            <span className="text-xs font-mono px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-200 font-bold">
+            <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
               {celticCrossSynthesis.crossTension.harmonyScore}% Harmony
             </span>
           </div>
 
           {/* Central Axis & Cross Tension */}
-          <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-2">
-            <div className="text-xs font-mono text-amber-400 uppercase tracking-wider">
+          <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-2">
+            <div className="text-xs font-mono text-[#a8a29e] uppercase tracking-wider">
               ✦ {celticCrossSynthesis.crossTension.title[language]}
             </div>
-            <p className="text-xs sm:text-sm text-zinc-200 font-serif leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {celticCrossSynthesis.crossTension.analysis[language]}
             </p>
           </div>
 
           {/* Grid: Spiritual Vertical Axis & Temporal Stream */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/20 space-y-2">
-              <div className="text-xs font-mono text-purple-300 font-bold uppercase tracking-wider">
-                🌌 Spiritual Axis (Root ↔ Crown)
+            <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-2">
+              <div className="text-xs font-mono text-[#f5f5f4] uppercase tracking-wider">
+                Spiritual Axis (Root ↔ Crown)
               </div>
-              <div className="text-xs text-zinc-300 font-serif space-y-1">
+              <div className="text-xs text-[#a8a29e] font-sans space-y-1">
                 <div><b>Root:</b> {celticCrossSynthesis.spiritualAxis.rootFoundation[language]}</div>
                 <div><b>Crown:</b> {celticCrossSynthesis.spiritualAxis.crownAspiration[language]}</div>
-                <div className="text-[11px] text-purple-200 italic pt-1">{celticCrossSynthesis.spiritualAxis.axisAlignment[language]}</div>
+                <div className="text-[11px] text-[#78716c] italic pt-1">{celticCrossSynthesis.spiritualAxis.axisAlignment[language]}</div>
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/20 space-y-2">
-              <div className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-wider">
-                ⏳ Temporal Stream (Karma ↔ Manifestation)
+            <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-2">
+              <div className="text-xs font-mono text-[#f5f5f4] uppercase tracking-wider">
+                Temporal Stream (Karma ↔ Manifestation)
               </div>
-              <div className="text-xs text-zinc-300 font-serif space-y-1">
+              <div className="text-xs text-[#a8a29e] font-sans space-y-1">
                 <div><b>Past:</b> {celticCrossSynthesis.temporalStream.karmicPast[language]}</div>
                 <div><b>Present:</b> {celticCrossSynthesis.temporalStream.presentDynamic[language]}</div>
                 <div><b>Future:</b> {celticCrossSynthesis.temporalStream.approachingWave[language]}</div>
@@ -689,31 +682,31 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           </div>
 
           {/* Staff of Destiny 4 Pillars */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-serif">
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-amber-300 font-bold">Internal Stance:</span>
-              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.querentStance[language]}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#f5f5f4] font-medium">Internal Stance:</span>
+              <p className="text-[#a8a29e]">{celticCrossSynthesis.staffOfDestiny.querentStance[language]}</p>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-amber-300 font-bold">External Mirror:</span>
-              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.environmentalMirror[language]}</p>
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#f5f5f4] font-medium">External Mirror:</span>
+              <p className="text-[#a8a29e]">{celticCrossSynthesis.staffOfDestiny.environmentalMirror[language]}</p>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-amber-300 font-bold">Hopes & Shadow Fears:</span>
-              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.hopesAndFearsPolarity[language]}</p>
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#f5f5f4] font-medium">Hopes & Shadow Fears:</span>
+              <p className="text-[#a8a29e]">{celticCrossSynthesis.staffOfDestiny.hopesAndFearsPolarity[language]}</p>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-emerald-300 font-bold">Ultimate Culmination:</span>
-              <p className="text-zinc-300">{celticCrossSynthesis.staffOfDestiny.finalManifestation[language]}</p>
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#86efac] font-medium">Ultimate Culmination:</span>
+              <p className="text-[#a8a29e]">{celticCrossSynthesis.staffOfDestiny.finalManifestation[language]}</p>
             </div>
           </div>
 
           {/* Waite Grand Verdict */}
-          <div className="p-4 rounded-2xl bg-amber-500/10 border border-[#d4af37]/40 text-center space-y-1.5">
-            <div className="text-[10px] font-mono text-[#d4af37] uppercase tracking-widest font-bold">
+          <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] text-center space-y-1.5">
+            <div className="text-[10px] font-mono text-[#a8a29e] uppercase tracking-widest">
               • A.E. Waite Oracular Synthesis •
             </div>
-            <p className="text-xs sm:text-sm font-serif italic text-amber-100 leading-relaxed">
+            <p className="text-xs sm:text-sm font-sans italic text-[#f5f5f4] leading-relaxed">
               "{celticCrossSynthesis.destinyVerdict[language]}"
             </p>
           </div>
@@ -722,57 +715,53 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
       {/* 2. 7-Chakra Ascending Kundalini Matrix Panel */}
       {chakraSynthesis && (
-        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-purple-500/40 bg-gradient-to-b from-[#1c0a2f] via-[#0e051c] to-black space-y-6 shadow-[0_0_40px_rgba(168,85,247,0.2)] animate-in fade-in duration-500">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="craft-card p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between border-b border-[#292524] pb-3">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300">
+              <div className="w-8 h-8 rounded-lg bg-[#1c1917] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
                 <Activity className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-purple-200">
+                <h3 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
                   {language === 'my' ? 'စွမ်းအင်စက်ဝန်း ၇ ခု ကုစားဆန်းစစ်မှု (7-Chakra Alignment)' : language === 'ja' ? '7チャクラ・クンダリーニ完全診断マトリックス' : '7-Chakra Ascending Kundalini Alignment Matrix'}
                 </h3>
-                <p className="text-xs text-zinc-400 font-serif">
+                <p className="text-xs text-[#78716c] font-sans">
                   {chakraSynthesis.overallAlignment[language]}
                 </p>
               </div>
             </div>
-            <span className="text-xs font-mono px-3 py-1 rounded-full bg-purple-400/15 border border-purple-400/40 text-purple-200 font-bold">
+            <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
               {chakraSynthesis.vitalityScore}% Kundalini Vitality
             </span>
           </div>
 
           {/* Chakra Centers Vertical Stack */}
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {chakraSynthesis.chakraCenters.map((ch) => (
               <div
                 key={ch.chakraId}
-                className="p-3.5 rounded-2xl bg-black/40 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-purple-400/40 transition-colors"
+                className="p-3.5 rounded-xl bg-[#0c0a09] border border-[#292524] flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-[#78716c] transition-colors"
               >
                 <div className="flex items-center space-x-3">
                   <div
-                    className="w-3 h-3 rounded-full shrink-0 shadow-md"
+                    className="w-2.5 h-2.5 rounded-full shrink-0"
                     style={{ backgroundColor: ch.color }}
                   />
                   <div>
-                    <div className="text-xs font-serif font-bold text-amber-100 flex items-center space-x-1.5">
+                    <div className="text-xs font-serif font-bold text-[#f5f5f4] flex items-center space-x-1.5">
                       <span>{ch.name[language]}</span>
-                      <span className="text-[10px] font-mono text-zinc-400">({ch.sanskritName} • {ch.element})</span>
+                      <span className="text-[10px] font-mono text-[#78716c]">({ch.sanskritName} • {ch.element})</span>
                     </div>
-                    <p className="text-xs text-zinc-300 font-serif pt-0.5">{ch.insight[language]}</p>
-                    <p className="text-[11px] text-amber-200/80 font-serif italic pt-0.5">{ch.healingPrescription[language]}</p>
+                    <p className="text-xs text-[#a8a29e] font-sans pt-0.5">{ch.insight[language]}</p>
+                    <p className="text-[11px] text-[#78716c] font-sans italic pt-0.5">{ch.healingPrescription[language]}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-2 shrink-0 self-end sm:self-center">
-                  <span className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full border ${
-                    ch.status === 'open' ? 'bg-emerald-950/60 border-emerald-400/50 text-emerald-300' :
-                    ch.status === 'blocked' ? 'bg-rose-950/60 border-rose-400/50 text-rose-300' :
-                    'bg-amber-950/60 border-amber-400/50 text-amber-300'
-                  }`}>
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded border border-[#292524] bg-[#141210] text-[#a8a29e]">
                     {ch.status}
                   </span>
-                  <div className="w-8 h-12 rounded-lg bg-black border border-white/10 overflow-hidden flex items-center justify-center">
+                  <div className="w-8 h-12 rounded bg-[#0c0a09] border border-[#292524] overflow-hidden flex items-center justify-center">
                     <img
                       src={`/cards/${ch.card.file}`}
                       alt={ch.card.name[language]}
@@ -785,7 +774,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
             ))}
           </div>
 
-          <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-xs text-purple-200 font-serif leading-relaxed text-center">
+          <div className="p-3.5 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs text-[#a8a29e] font-sans leading-relaxed text-center">
             {chakraSynthesis.kundaliniGuidance[language]}
           </div>
         </div>
@@ -793,66 +782,66 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
       {/* 3. Two Paths Decision Fork Synthesis Panel */}
       {decisionForkSynthesis && (
-        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#1c1308] via-[#0f0904] to-black space-y-6 shadow-[0_0_40px_rgba(245,158,11,0.2)] animate-in fade-in duration-500">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="craft-card p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between border-b border-[#292524] pb-3">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300">
+              <div className="w-8 h-8 rounded-lg bg-[#1c1917] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
                 <GitFork className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-amber-200">
+                <h3 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
                   {language === 'my' ? 'လမ်းနှစ်ခွ ရွေးချယ်မှု နှိုင်းယှဉ်ချက် (Decision Fork)' : language === 'ja' ? '運命の分岐点・二者択一 比較マトリックス' : 'Two Paths Decision Fork Oracular Comparison'}
                 </h3>
-                <p className="text-xs text-zinc-400 font-serif">
+                <p className="text-xs text-[#78716c] font-sans">
                   {decisionForkSynthesis.baseCrossroads[language]}
                 </p>
               </div>
             </div>
-            <span className="text-xs font-mono px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-200 font-bold">
+            <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
               {decisionForkSynthesis.recommendedPath}
             </span>
           </div>
 
           {/* Side by side comparison */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Path A */}
-            <div className="p-4 rounded-2xl bg-black/50 border border-amber-500/30 space-y-3">
-              <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                <span className="text-sm font-serif font-bold text-amber-300">
+            <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-2.5">
+              <div className="flex items-center justify-between border-b border-[#292524] pb-2">
+                <span className="text-sm font-serif font-bold text-[#f5f5f4]">
                   {decisionForkSynthesis.pathA.title[language]}
                 </span>
-                <span className="text-xs font-mono font-bold text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                <span className="text-xs font-mono text-[#a8a29e] bg-[#1c1917] px-2 py-0.5 rounded border border-[#292524]">
                   {decisionForkSynthesis.pathA.viabilityScore}% Viable
                 </span>
               </div>
-              <div className="space-y-1.5 text-xs font-serif text-zinc-200">
+              <div className="space-y-1 text-xs font-sans text-[#a8a29e]">
                 <div><b>Trajectory:</b> {decisionForkSynthesis.pathA.trajectory[language]}</div>
                 <div><b>Outcome:</b> {decisionForkSynthesis.pathA.outcome[language]}</div>
-                <div className="text-emerald-300">{decisionForkSynthesis.pathA.advantages[language]}</div>
-                <div className="text-rose-300">{decisionForkSynthesis.pathA.hiddenRisks[language]}</div>
+                <div className="text-[#86efac]">{decisionForkSynthesis.pathA.advantages[language]}</div>
+                <div className="text-[#fca5a5]">{decisionForkSynthesis.pathA.hiddenRisks[language]}</div>
               </div>
             </div>
 
             {/* Path B */}
-            <div className="p-4 rounded-2xl bg-black/50 border border-cyan-500/30 space-y-3">
-              <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                <span className="text-sm font-serif font-bold text-cyan-300">
+            <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-2.5">
+              <div className="flex items-center justify-between border-b border-[#292524] pb-2">
+                <span className="text-sm font-serif font-bold text-[#f5f5f4]">
                   {decisionForkSynthesis.pathB.title[language]}
                 </span>
-                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-0.5 rounded-full border border-cyan-400/30">
+                <span className="text-xs font-mono text-[#a8a29e] bg-[#1c1917] px-2 py-0.5 rounded border border-[#292524]">
                   {decisionForkSynthesis.pathB.viabilityScore}% Viable
                 </span>
               </div>
-              <div className="space-y-1.5 text-xs font-serif text-zinc-200">
+              <div className="space-y-1 text-xs font-sans text-[#a8a29e]">
                 <div><b>Trajectory:</b> {decisionForkSynthesis.pathB.trajectory[language]}</div>
                 <div><b>Outcome:</b> {decisionForkSynthesis.pathB.outcome[language]}</div>
-                <div className="text-emerald-300">{decisionForkSynthesis.pathB.advantages[language]}</div>
-                <div className="text-rose-300">{decisionForkSynthesis.pathB.hiddenRisks[language]}</div>
+                <div className="text-[#86efac]">{decisionForkSynthesis.pathB.advantages[language]}</div>
+                <div className="text-[#fca5a5]">{decisionForkSynthesis.pathB.hiddenRisks[language]}</div>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-100 font-serif italic text-center leading-relaxed">
+          <div className="p-3.5 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs sm:text-sm text-[#f5f5f4] font-sans italic text-center leading-relaxed">
             "{decisionForkSynthesis.oracularVerdict[language]}"
           </div>
         </div>
@@ -860,46 +849,46 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
       {/* 4. Relationship Mirror Matrix Panel */}
       {relationshipMirrorSynthesis && (
-        <div className="craft-panel p-6 sm:p-8 rounded-3xl border-2 border-pink-500/40 bg-gradient-to-b from-[#220a1e] via-[#12040f] to-black space-y-5 shadow-[0_0_40px_rgba(244,114,182,0.2)] animate-in fade-in duration-500">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="craft-card p-6 sm:p-8 space-y-5">
+          <div className="flex items-center justify-between border-b border-[#292524] pb-3">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300">
+              <div className="w-8 h-8 rounded-lg bg-[#1c1917] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
                 <Heart className="w-4 h-4" />
               </div>
-              <h3 className="text-base sm:text-lg font-serif font-bold text-pink-200">
+              <h3 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
                 {language === 'my' ? 'သံယောဇဉ် အချစ်ရေး နှလုံးသား ပေါင်းကူးသုံးသပ်ချက်' : language === 'ja' ? 'リレーションシップ・魂の鏡像分析' : 'Interpersonal Relationship Mirror & Soul Synthesis'}
               </h3>
             </div>
-            <span className="text-xs font-mono px-3 py-1 rounded-full bg-pink-400/15 border border-pink-400/40 text-pink-200 font-bold">
+            <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
               {relationshipMirrorSynthesis.harmonicResonanceScore}% Harmonic Resonance
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-serif">
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-pink-300 font-bold">Querent Energy:</span>
-              <p className="text-zinc-200">{relationshipMirrorSynthesis.querentArchetype[language]}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#f5f5f4] font-medium">Querent Energy:</span>
+              <p className="text-[#a8a29e]">{relationshipMirrorSynthesis.querentArchetype[language]}</p>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-pink-300 font-bold">Counterpart Energy:</span>
-              <p className="text-zinc-200">{relationshipMirrorSynthesis.partnerArchetype[language]}</p>
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#f5f5f4] font-medium">Counterpart Energy:</span>
+              <p className="text-[#a8a29e]">{relationshipMirrorSynthesis.partnerArchetype[language]}</p>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-amber-300 font-bold">Central Nexus:</span>
-              <p className="text-zinc-200">{relationshipMirrorSynthesis.nexusBond[language]}</p>
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#f5f5f4] font-medium">Central Nexus:</span>
+              <p className="text-[#a8a29e]">{relationshipMirrorSynthesis.nexusBond[language]}</p>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
-              <span className="text-rose-400 font-bold">Growth Friction:</span>
-              <p className="text-zinc-200">{relationshipMirrorSynthesis.coreFriction[language]}</p>
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+              <span className="text-[#fca5a5] font-medium">Growth Friction:</span>
+              <p className="text-[#a8a29e]">{relationshipMirrorSynthesis.coreFriction[language]}</p>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-1 text-xs font-serif">
-            <span className="text-emerald-300 font-bold">The Forward Bridge:</span>
-            <p className="text-zinc-200">{relationshipMirrorSynthesis.forwardBridge[language]}</p>
+          <div className="p-3.5 rounded-xl bg-[#0c0a09] border border-[#292524] space-y-1 text-xs font-sans">
+            <span className="text-[#86efac] font-medium">The Forward Bridge:</span>
+            <p className="text-[#a8a29e]">{relationshipMirrorSynthesis.forwardBridge[language]}</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-pink-500/10 border border-pink-500/30 text-xs sm:text-sm text-pink-100 font-serif italic text-center leading-relaxed">
+          <div className="p-3.5 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs sm:text-sm text-[#f5f5f4] font-sans italic text-center leading-relaxed">
             "{relationshipMirrorSynthesis.relationalAlchemyCounsel[language]}"
           </div>
         </div>
@@ -916,7 +905,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
             <div
               key={dc.card.id + i}
               style={{ animationDelay: `${i * 0.12}s` }}
-              className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-[#d4af37] space-y-3 animate-in fade-in slide-in-from-bottom-2 cursor-pointer hover:border-[#d4af37]/80 transition-all"
+              className="craft-card p-5 sm:p-6 space-y-3 animate-in fade-in slide-in-from-bottom-2 cursor-pointer hover:border-[#78716c] transition-all"
               onClick={() => {
                 audioService.playCardHover();
                 setInspectedCard(dc);
@@ -925,10 +914,10 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-lg sm:text-xl font-serif text-[#d4af37] tracking-wide">
+                    <h3 className="text-base sm:text-lg font-serif text-[#f5f5f4] font-bold">
                       {posName} — {dc.card.name[language]}
                       {dc.isReversed && (
-                        <span className="text-[#c77dff] italic text-sm ml-2 font-sans font-normal">
+                        <span className="text-[#fca5a5] italic text-xs ml-2 font-sans font-normal">
                           {UI_TRANSLATIONS.reversedTag[language]}
                         </span>
                       )}
@@ -936,20 +925,20 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
                     {/* Natal Resonance Badge if matched */}
                     {natalResonance && (
-                      <span className="text-[10px] font-serif font-bold px-2 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 animate-pulse">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
                         {natalResonance.badge}
                       </span>
                     )}
                   </div>
 
-                  <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-400 font-mono">
+                  <div className="text-[10px] uppercase tracking-wider text-[#78716c] font-mono">
                     {dc.card.arcana === 'major'
                       ? 'Major Arcana'
                       : `Minor Arcana · ${dc.card.suit === 'cups' ? 'Cups (Water)' : dc.card.suit === 'pentacles' ? 'Pentacles (Earth)' : dc.card.suit === 'swords' ? 'Swords (Air)' : 'Wands (Fire)'}`}
                   </div>
                 </div>
 
-                <div className="w-14 h-22 rounded-xl overflow-hidden border border-[#8a7326]/70 flex-shrink-0 bg-black shadow-md">
+                <div className="w-12 h-18 rounded-lg overflow-hidden border border-[#292524] flex-shrink-0 bg-[#0c0a09]">
                   <img
                     src={`/cards/${dc.card.file}`}
                     alt={dc.card.name[language]}
@@ -959,20 +948,20 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
                 </div>
               </div>
 
-              <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
                 {dc.isReversed ? dc.card.reversedMeaning[language] : dc.card.uprightMeaning[language]}
               </p>
 
               {/* Natal Reason if resonant */}
               {natalResonance && (
-                <div className="p-2.5 rounded-xl bg-[#d4af37]/10 border border-[#d4af37]/30 text-xs font-serif text-amber-200/95 leading-relaxed">
-                  <span className="font-bold text-amber-300">✦ Natal Affinity Note: </span>
+                <div className="p-2.5 rounded-lg bg-[#0c0a09] border border-[#292524] text-xs font-sans text-[#a8a29e] leading-relaxed">
+                  <span className="font-bold text-[#f5f5f4]">✦ Natal Affinity Note: </span>
                   {natalResonance.reason}
                 </div>
               )}
 
-              <div className="pt-2.5 border-t border-white/[0.08] text-xs sm:text-sm text-zinc-300 font-serif leading-relaxed">
-                <b className="text-[#d4af37]">{UI_TRANSLATIONS.inThisPosition[language]} ({posName}):</b> {posContext}
+              <div className="pt-2 border-t border-[#292524] text-xs font-sans text-[#78716c] leading-relaxed">
+                <b className="text-[#f5f5f4]">{UI_TRANSLATIONS.inThisPosition[language]} ({posName}):</b> {posContext}
               </div>
             </div>
           );
@@ -980,20 +969,18 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       </div>
 
       {/* Deep Analysis Sections */}
-      <div className="space-y-4 pt-2">
+      <div className="space-y-3.5 pt-2">
         
         {/* Mind */}
         {activeAnalysis.mind && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-purple-400 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-sm">
-                <Eye className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+          <div className="craft-card p-5 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Eye className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm font-serif text-[#f5f5f4] font-bold">
                 {UI_TRANSLATIONS.sectionTitles.mind[language]}
               </h3>
             </div>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {activeAnalysis.mind}
             </p>
           </div>
@@ -1001,16 +988,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Problems */}
         {activeAnalysis.problems && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-amber-500 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-300 shadow-sm">
-                <Zap className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+          <div className="craft-card p-5 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Zap className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm font-serif text-[#f5f5f4] font-bold">
                 {UI_TRANSLATIONS.sectionTitles.problems[language]}
               </h3>
             </div>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {activeAnalysis.problems}
             </p>
           </div>
@@ -1018,16 +1003,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Hidden Forces */}
         {activeAnalysis.forces && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-indigo-400 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-300 shadow-sm">
-                <Moon className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+          <div className="craft-card p-5 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Moon className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm font-serif text-[#f5f5f4] font-bold">
                 {UI_TRANSLATIONS.sectionTitles.forces[language]}
               </h3>
             </div>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {activeAnalysis.forces}
             </p>
           </div>
@@ -1035,16 +1018,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Advice */}
         {activeAnalysis.advice && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-yellow-400 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-yellow-500/15 border border-yellow-500/30 flex items-center justify-center text-yellow-300 shadow-sm">
-                <Flame className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+          <div className="craft-card p-5 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Flame className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm font-serif text-[#f5f5f4] font-bold">
                 {UI_TRANSLATIONS.sectionTitles.advice[language]}
               </h3>
             </div>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {activeAnalysis.advice}
             </p>
           </div>
@@ -1052,16 +1033,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Outlook */}
         {activeAnalysis.outlook && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-rose-400 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-300 shadow-sm">
-                <Sun className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+          <div className="craft-card p-5 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Sun className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm font-serif text-[#f5f5f4] font-bold">
                 {UI_TRANSLATIONS.sectionTitles.outlook[language]}
               </h3>
             </div>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {activeAnalysis.outlook}
             </p>
           </div>
@@ -1069,16 +1048,14 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Timeline */}
         {activeAnalysis.timeline && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-teal-400 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-300 shadow-sm">
-                <Compass className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+          <div className="craft-card p-5 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Compass className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm font-serif text-[#f5f5f4] font-bold">
                 {UI_TRANSLATIONS.sectionTitles.timeline[language]}
               </h3>
             </div>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed pl-1">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {activeAnalysis.timeline}
             </p>
           </div>
@@ -1086,23 +1063,21 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
 
         {/* Archetype */}
         {activeAnalysis.archetype && (
-          <div className="craft-panel p-5 sm:p-6 rounded-2xl border-l-4 border-l-[#d4af37] space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#d4af37]/15 border border-[#d4af37]/30 flex items-center justify-center text-[#d4af37] shadow-sm">
-                <Crown className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-serif text-[#d4af37] tracking-wide font-semibold">
+          <div className="craft-card p-5 space-y-2">
+            <div className="flex items-center space-x-2">
+              <Crown className="w-4 h-4 text-[#a8a29e]" />
+              <h3 className="text-sm font-serif text-[#f5f5f4] font-bold">
                 {UI_TRANSLATIONS.sectionTitles.archetype[language]}
               </h3>
             </div>
-            <div className="text-base sm:text-lg font-serif font-bold text-amber-200">
+            <div className="text-sm font-serif font-bold text-[#f5f5f4]">
               {activeAnalysis.archetype.name}
             </div>
-            <p className="text-sm sm:text-base text-[#e8e0f5] font-serif leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {activeAnalysis.archetype.description}
             </p>
             {activeAnalysis.archetype.shadow && (
-              <p className="text-xs sm:text-sm text-[#c77dff] italic font-serif pt-2 border-t border-white/[0.08]">
+              <p className="text-xs text-[#fca5a5] italic font-sans pt-1 border-t border-[#292524]">
                 {activeAnalysis.archetype.shadow}
               </p>
             )}
@@ -1110,94 +1085,94 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
         )}
 
         {/* The Quintessence Master Root Card (Primary & Shadow) */}
-        <div className="craft-panel p-6 sm:p-7 rounded-3xl border-l-4 border-l-amber-400 space-y-4 shadow-xl bg-gradient-to-br from-amber-950/20 via-black/50 to-black">
-          <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-            <div className="flex items-center space-x-2 text-sm sm:text-base font-serif font-bold text-[#d4af37]">
-              <Crown className="w-4 h-4 text-[#d4af37]" />
+        <div className="craft-card p-6 sm:p-7 space-y-4">
+          <div className="flex items-center justify-between border-b border-[#292524] pb-2.5">
+            <div className="flex items-center space-x-2 text-sm sm:text-base font-serif font-bold text-[#f5f5f4]">
+              <Crown className="w-4 h-4 text-[#a8a29e]" />
               <span>{UI_TRANSLATIONS.quintessenceTitle[language]}</span>
             </div>
-            <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-200">
+            <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[#a8a29e]">
               Arcanum {extendedQuintessence.number}
             </span>
           </div>
 
-          <div className="space-y-1.5">
-            <div className="text-base sm:text-lg font-serif font-bold text-amber-100 flex items-center space-x-2">
+          <div className="space-y-1">
+            <div className="text-sm sm:text-base font-serif font-bold text-[#f5f5f4] flex items-center space-x-1.5">
               <span>✦ {extendedQuintessence.cardName[language]}</span>
             </div>
-            <p className="text-xs sm:text-sm text-[#e8e0f5] font-serif leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#a8a29e] font-sans leading-relaxed">
               {extendedQuintessence.lesson[language]}
             </p>
           </div>
 
           {/* Shadow Quintessence Complement */}
-          <div className="p-3.5 rounded-2xl bg-purple-950/30 border border-purple-500/20 space-y-1">
-            <div className="text-xs font-serif font-bold text-purple-300 flex items-center justify-between">
-              <span>🌑 Shadow Quintessence: {extendedQuintessence.shadowCardName[language]}</span>
-              <span className="text-[10px] font-mono text-purple-400">Arcanum {extendedQuintessence.shadowNumber}</span>
+          <div className="p-3.5 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1">
+            <div className="text-xs font-serif font-bold text-[#f5f5f4] flex items-center justify-between">
+              <span>Shadow Quintessence: {extendedQuintessence.shadowCardName[language]}</span>
+              <span className="text-[10px] font-mono text-[#78716c]">Arcanum {extendedQuintessence.shadowNumber}</span>
             </div>
-            <p className="text-xs text-purple-200/90 font-serif italic leading-relaxed">
+            <p className="text-xs text-[#a8a29e] font-sans italic leading-relaxed">
               {extendedQuintessence.shadowLesson[language]}
             </p>
           </div>
         </div>
 
         {/* Manifestation Affirmation & Micro-Ritual Prescription */}
-        <div className="craft-panel p-6 sm:p-7 rounded-2xl border-l-4 border-l-emerald-400 space-y-4 shadow-xl bg-gradient-to-br from-emerald-950/15 via-black/40 to-black/60">
-          <div className="flex items-center space-x-2 text-sm sm:text-base font-serif font-bold text-emerald-300">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+        <div className="craft-card p-6 sm:p-7 space-y-4">
+          <div className="flex items-center space-x-2 text-sm sm:text-base font-serif font-bold text-[#f5f5f4]">
+            <Sparkles className="w-4 h-4 text-[#a8a29e]" />
             <span>{UI_TRANSLATIONS.ritualTitle[language]}</span>
           </div>
 
-          {/* Golden Affirmation Decree */}
-          <div className="p-4 rounded-xl bg-white/[0.04] border border-emerald-500/30 text-center space-y-1">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">
+          {/* Manifestation Decree */}
+          <div className="p-4 rounded-xl bg-[#0c0a09] border border-[#292524] text-center space-y-1">
+            <div className="text-[10px] font-mono uppercase tracking-widest text-[#78716c]">
               • Sacred Manifestation Decree •
             </div>
-            <p className="text-sm sm:text-base font-serif italic font-medium text-amber-100 leading-relaxed">
+            <p className="text-sm sm:text-base font-sans italic text-[#f5f5f4] leading-relaxed">
               "{ritualPrescription.affirmation[language]}"
             </p>
           </div>
 
-          {/* Micro-Rituals Grid with Glowing SVG Icons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-serif">
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
-              <span className="text-amber-300 font-semibold flex items-center space-x-1.5">
-                <Flame className="w-3.5 h-3.5 text-amber-400" />
+          {/* Micro-Rituals Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1 flex flex-col justify-between">
+              <span className="text-[#f5f5f4] font-medium flex items-center space-x-1.5">
+                <Flame className="w-3.5 h-3.5 text-[#fca5a5]" />
                 <span>Candle & Color:</span>
               </span>
-              <span className="text-zinc-200">{ritualPrescription.candleColor[language]}</span>
+              <span className="text-[#a8a29e]">{ritualPrescription.candleColor[language]}</span>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
-              <span className="text-cyan-300 font-semibold flex items-center space-x-1.5">
-                <Gem className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1 flex flex-col justify-between">
+              <span className="text-[#f5f5f4] font-medium flex items-center space-x-1.5">
+                <Gem className="w-3.5 h-3.5 text-[#93c5fd]" />
                 <span>Sacred Crystal:</span>
               </span>
-              <span className="text-zinc-200">{ritualPrescription.crystal[language]}</span>
+              <span className="text-[#a8a29e]">{ritualPrescription.crystal[language]}</span>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
-              <span className="text-purple-300 font-semibold flex items-center space-x-1.5">
-                <Sprout className="w-3.5 h-3.5 text-purple-400" />
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1 flex flex-col justify-between">
+              <span className="text-[#f5f5f4] font-medium flex items-center space-x-1.5">
+                <Sprout className="w-3.5 h-3.5 text-[#d8b4fe]" />
                 <span>Sacred Herbs/Scent:</span>
               </span>
-              <span className="text-zinc-200">{ritualPrescription.sacredHerb[language]}</span>
+              <span className="text-[#a8a29e]">{ritualPrescription.sacredHerb[language]}</span>
             </div>
-            <div className="p-3 rounded-xl bg-black/40 border border-white/[0.06] space-y-1.5 flex flex-col justify-between">
-              <span className="text-emerald-300 font-semibold flex items-center space-x-1.5">
-                <Wind className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="p-3 rounded-lg bg-[#0c0a09] border border-[#292524] space-y-1 flex flex-col justify-between">
+              <span className="text-[#f5f5f4] font-medium flex items-center space-x-1.5">
+                <Wind className="w-3.5 h-3.5 text-[#86efac]" />
                 <span>Breath Meditation:</span>
               </span>
-              <span className="text-zinc-200">{ritualPrescription.breathRitual[language]}</span>
+              <span className="text-[#a8a29e]">{ritualPrescription.breathRitual[language]}</span>
             </div>
           </div>
         </div>
 
         {/* Master Summary Panel */}
-        <div className="summary craft-panel p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#1a0f35] to-[#120924] border border-[#d4af37]/60 text-center space-y-3 shadow-2xl">
-          <div className="text-[#d4af37] text-xs font-mono uppercase tracking-[0.25em] font-semibold">
+        <div className="summary craft-card p-6 sm:p-8 bg-[#0c0a09] text-center space-y-3">
+          <div className="text-[#a8a29e] text-xs font-mono uppercase tracking-widest">
             • {UI_TRANSLATIONS.sectionTitles.summary[language]} •
           </div>
-          <p className="text-sm sm:text-base md:text-lg text-[#e8e0f5] font-serif italic leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-[#f5f5f4] font-sans italic leading-relaxed">
             {activeAnalysis.summary}
           </p>
         </div>
@@ -1205,15 +1180,15 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       </div>
 
       {/* Journal Reflection Box & Actions */}
-      <div className="craft-panel p-5 sm:p-6 rounded-2xl space-y-3 shadow-xl">
+      <div className="craft-card p-5 sm:p-6 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs sm:text-sm font-serif uppercase tracking-wider text-[#d4af37] font-semibold">
+          <span className="text-xs font-mono uppercase tracking-wider text-[#a8a29e]">
             {UI_TRANSLATIONS.reflectionsTitle[language]}
           </span>
           <button
             onClick={() => setIsFavorite(!isFavorite)}
-            className={`p-2 rounded-xl border transition-all active:scale-95 ${
-              isFavorite ? 'bg-[#d4af37] text-black border-[#d4af37]' : 'text-zinc-400 border-white/[0.1] hover:text-white hover:bg-white/5'
+            className={`p-2 rounded-lg border transition-all ${
+              isFavorite ? 'bg-[#f5f5f4] text-[#0c0a09] border-[#f5f5f4]' : 'text-[#78716c] border-[#292524] hover:text-[#f5f5f4] hover:bg-[#1c1917]'
             }`}
             title="Favorite"
           >
@@ -1226,15 +1201,15 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           value={userNotes}
           onChange={(e) => setUserNotes(e.target.value)}
           placeholder={UI_TRANSLATIONS.reflectionsPlaceholder[language]}
-          className="w-full p-3.5 rounded-xl bg-black/60 border border-white/[0.1] text-xs sm:text-sm text-zinc-100 placeholder-zinc-500 font-serif resize-none focus:outline-none focus:border-[#d4af37] focus:ring-1 focus:ring-[#d4af37]"
+          className="w-full p-3.5 rounded-lg bg-[#0c0a09] border border-[#292524] text-xs sm:text-sm text-[#f5f5f4] placeholder-[#78716c] font-sans resize-none focus:outline-none focus:border-[#78716c]"
         />
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
           <button
             onClick={handleSave}
-            className={`h-10 px-5 rounded-xl text-xs sm:text-sm font-serif font-bold uppercase tracking-wider flex items-center space-x-2 transition-all active:scale-[0.98] ${
+            className={`h-9 px-4 rounded-lg text-xs font-sans uppercase tracking-wider flex items-center space-x-2 transition-all ${
               saved
-                ? 'bg-emerald-700 text-white'
+                ? 'bg-[#292524] text-[#f5f5f4]'
                 : 'btn-primary'
             }`}
           >
@@ -1245,15 +1220,15 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={handleCopy}
-              className="h-10 px-4 rounded-xl btn-secondary text-xs sm:text-sm font-serif flex items-center space-x-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+              className="h-9 px-3.5 rounded-lg btn-secondary text-xs font-sans flex items-center space-x-1.5"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? <Check className="w-3.5 h-3.5 text-[#86efac]" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? UI_TRANSLATIONS.copiedBtn[language] : UI_TRANSLATIONS.copyBtn[language]}</span>
             </button>
 
             <button
               onClick={onOpenScrollModal}
-              className="h-10 px-4 rounded-xl btn-secondary text-xs sm:text-sm font-serif text-[#d4af37] flex items-center space-x-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+              className="h-9 px-3.5 rounded-lg btn-secondary text-xs font-sans flex items-center space-x-1.5"
             >
               <Share2 className="w-3.5 h-3.5" />
               <span>{UI_TRANSLATIONS.exportScrollBtn[language]}</span>
@@ -1266,7 +1241,7 @@ export const DeepReadingView: React.FC<DeepReadingViewProps> = ({
       <div className="text-center pt-4">
         <button
           onClick={onResetHome}
-          className="btn-primary h-12 px-8 rounded-xl font-serif text-sm sm:text-base tracking-[0.18em] uppercase flex items-center space-x-2.5 mx-auto"
+          className="btn-primary h-11 px-7 rounded-lg font-sans text-xs tracking-wider uppercase flex items-center space-x-2.5 mx-auto"
         >
           <RotateCcw className="w-4 h-4" />
           <span>{UI_TRANSLATIONS.shuffleAgainBtn[language]}</span>

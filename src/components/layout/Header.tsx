@@ -79,35 +79,30 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const languages: { id: Language; label: string; nativeName: string; flag: string }[] = [
-    { id: 'en', label: 'English', nativeName: 'English', flag: '🇬🇧' },
-    { id: 'my', label: 'Burmese', nativeName: 'မြန်မာဘာသာ', flag: '🇲🇲' },
-    { id: 'ja', label: 'Japanese', nativeName: '日本語', flag: '🇯🇵' }
+    { id: 'en', label: 'English', nativeName: 'English', flag: 'EN' },
+    { id: 'my', label: 'Burmese', nativeName: 'မြန်မာဘာသာ', flag: 'MY' },
+    { id: 'ja', label: 'Japanese', nativeName: '日本語', flag: 'JA' }
   ];
 
-  const currentLangObj = languages.find(l => l.id === language) || languages[0];
-
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-2xl bg-[#06040d]/85 border-b border-white/[0.08] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all">
-      <div className="max-w-6xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#0c0a09]/95 border-b border-[#292524] transition-all">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
         
         {/* Left: Clean Brand Logo & Subtitle */}
         <button
           onClick={onResetHome}
-          className="group flex flex-col items-start text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] rounded-lg py-1 transition-transform active:scale-95 flex-shrink-0"
+          className="group flex items-center space-x-2.5 text-left focus:outline-none rounded-md py-1 transition-transform active:scale-98 flex-shrink-0"
         >
-          <div className="flex items-center space-x-1.5">
-            <span className="text-[#d4af37] text-xs animate-pulse">✦</span>
-            <span className="font-display text-base sm:text-lg md:text-xl font-bold tracking-[0.25em] text-[#d4af37] text-shadow-gold group-hover:text-amber-200 transition-colors uppercase">
-              ARCANIUM
-            </span>
-            <span className="text-[#d4af37] text-xs animate-pulse">✦</span>
-          </div>
-          <span className="hidden sm:inline text-[10px] text-amber-200/60 font-serif italic tracking-wider">
+          <span className="text-[#f5f5f4] text-xs">✦</span>
+          <span className="font-serif text-sm sm:text-base font-bold tracking-[0.2em] text-[#f5f5f4] group-hover:text-amber-200 transition-colors uppercase">
+            ARCANIUM
+          </span>
+          <span className="hidden md:inline text-[11px] text-[#78716c] font-sans pl-1.5 border-l border-[#292524]">
             {UI_TRANSLATIONS.appSubtitle[language]}
           </span>
         </button>
 
-        {/* Right: Controls Hub */}
+        {/* Right: Minimalist Controls Hub */}
         <div className="flex items-center space-x-1.5 sm:space-x-2">
           
           {/* Daily Oracle / Pulse Button */}
@@ -116,11 +111,11 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardFlip();
               onOpenDailyCard();
             }}
-            className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 hover:border-amber-400/60 text-xs text-amber-200 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95 shadow-sm hover:shadow-[0_0_15px_rgba(245,158,11,0.25)]"
+            className="flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
             title={UI_TRANSLATIONS.dailyCardBtn[language]}
           >
-            <Sun className="w-3.5 h-3.5 text-amber-400 animate-spin-slow" />
-            <span className="hidden md:inline font-serif tracking-wide">{UI_TRANSLATIONS.dailyCardBtn[language]}</span>
+            <Sun className="w-3.5 h-3.5 text-[#a8a29e]" />
+            <span className="hidden md:inline font-sans text-[11px] uppercase tracking-wider">{UI_TRANSLATIONS.dailyCardBtn[language]}</span>
           </button>
 
           {/* Birth Blueprint Button */}
@@ -130,11 +125,11 @@ export const Header: React.FC<HeaderProps> = ({
                 audioService.playCardSlide();
                 onOpenBirthMatrix();
               }}
-              className="hidden lg:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-amber-200/90 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              className="hidden lg:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
               title="Tarot Birth Blueprint"
             >
-              <Compass className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span className="font-serif">Blueprint</span>
+              <Compass className="w-3.5 h-3.5 text-[#a8a29e]" />
+              <span className="font-sans text-[11px] uppercase tracking-wider">Blueprint</span>
             </button>
           )}
 
@@ -145,11 +140,11 @@ export const Header: React.FC<HeaderProps> = ({
                 audioService.playCardSlide();
                 onOpenDeckTheme();
               }}
-              className="hidden xl:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              className="hidden xl:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
               title="Sacred Deck Artistry"
             >
-              <Layers className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span className="font-serif">Decks</span>
+              <Layers className="w-3.5 h-3.5 text-[#a8a29e]" />
+              <span className="font-sans text-[11px] uppercase tracking-wider">Decks</span>
             </button>
           )}
 
@@ -160,11 +155,11 @@ export const Header: React.FC<HeaderProps> = ({
                 audioService.playCardSlide();
                 onOpenTreeOfLife();
               }}
-              className="hidden md:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-purple-950/30 hover:bg-purple-900/40 border border-purple-500/40 text-xs text-purple-200 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              className="hidden md:flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
               title="Kabbalistic Tree of Life"
             >
-              <Sparkles className="w-3.5 h-3.5 text-purple-300" />
-              <span className="font-serif">Tree of Life</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#a8a29e]" />
+              <span className="font-sans text-[11px] uppercase tracking-wider">Tree of Life</span>
             </button>
           )}
 
@@ -174,12 +169,12 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenProfile();
             }}
-            className="flex items-center space-x-1 sm:space-x-1.5 h-8 px-2 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+            className="flex items-center space-x-1.5 h-8 px-2 sm:px-3 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
             title={UI_TRANSLATIONS.profileBtn[language]}
           >
-            <Compass className="w-3.5 h-3.5 text-[#d4af37]" />
-            <span className="hidden sm:inline font-serif max-w-[80px] truncate">
-              {userProfile?.zodiacSign ? `${userProfile.zodiacSign.symbol} ${userProfile.name.split(' ')[0]}` : UI_TRANSLATIONS.profileBtn[language]}
+            <Compass className="w-3.5 h-3.5 text-[#a8a29e]" />
+            <span className="hidden sm:inline font-sans text-[11px] max-w-[80px] truncate uppercase tracking-wider">
+              {userProfile?.zodiacSign ? userProfile.name.split(' ')[0] : UI_TRANSLATIONS.profileBtn[language]}
             </span>
           </button>
 
@@ -187,17 +182,17 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative" ref={langMenuRef}>
             <button
               onClick={() => setShowLangMenu(!showLangMenu)}
-              className="flex items-center space-x-1 sm:space-x-1.5 h-8 px-2 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-[#e8e0f5] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+              className="flex items-center space-x-1 h-8 px-2.5 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
             >
-              <Globe className="w-3.5 h-3.5 text-[#d4af37]" />
-              <span className="font-serif font-medium text-[11px] sm:text-xs">
-                {language === 'en' ? 'EN' : language === 'my' ? 'မြန်' : 'JP'}
+              <Globe className="w-3.5 h-3.5 text-[#a8a29e]" />
+              <span className="font-mono text-[11px] font-medium">
+                {language.toUpperCase()}
               </span>
-              <ChevronDown className={`w-3 h-3 text-zinc-400 transition-transform ${showLangMenu ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-3 h-3 text-[#78716c] transition-transform ${showLangMenu ? 'rotate-180' : ''}`} />
             </button>
 
             {showLangMenu && (
-              <div className="absolute right-0 mt-2 w-48 rounded-xl bg-[#110924] border border-white/[0.12] shadow-2xl p-1 z-50 animate-in fade-in slide-in-from-top-1 backdrop-blur-2xl">
+              <div className="absolute right-0 mt-1.5 w-44 rounded-lg bg-[#141210] border border-[#292524] shadow-modal p-1 z-50 animate-in fade-in">
                 {languages.map(lang => (
                   <button
                     key={lang.id}
@@ -206,17 +201,17 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowLangMenu(false);
                       audioService.playCardSlide();
                     }}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left text-xs font-serif transition-all active:scale-[0.98] ${
+                    className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md text-left text-xs font-sans transition-all ${
                       language === lang.id
-                        ? 'bg-[#d4af37]/15 text-[#d4af37] font-semibold border border-[#d4af37]/30'
-                        : 'hover:bg-white/5 text-zinc-300'
+                        ? 'bg-[#1c1917] text-[#f5f5f4] font-semibold border border-[#292524]'
+                        : 'hover:bg-[#1c1917] text-[#a8a29e]'
                     }`}
                   >
-                    <div className="flex items-center space-x-2.5">
-                      <span className="text-sm">{lang.flag}</span>
+                    <div className="flex items-center space-x-2">
+                      <span className="font-mono text-[10px] text-[#78716c]">{lang.flag}</span>
                       <span>{lang.nativeName}</span>
                     </div>
-                    {language === lang.id && <Check className="w-3.5 h-3.5 text-[#d4af37]" />}
+                    {language === lang.id && <Check className="w-3.5 h-3.5 text-[#f5f5f4]" />}
                   </button>
                 ))}
               </div>
@@ -229,26 +224,26 @@ export const Header: React.FC<HeaderProps> = ({
               audioService.playCardSlide();
               onOpenCodex();
             }}
-            className="hidden lg:flex items-center space-x-1.5 h-8 px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+            className="hidden lg:flex items-center space-x-1.5 h-8 px-2.5 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
             title={UI_TRANSLATIONS.codexBtn[language]}
           >
-            <BookOpen className="w-3.5 h-3.5 text-[#d4af37]" />
-            <span className="font-serif">{UI_TRANSLATIONS.codexBtn[language]}</span>
+            <BookOpen className="w-3.5 h-3.5 text-[#a8a29e]" />
+            <span className="font-sans text-[11px] uppercase tracking-wider">{UI_TRANSLATIONS.codexBtn[language]}</span>
           </button>
 
-          {/* Journal Button with Count Pill */}
+          {/* Journal Button with Count */}
           <button
             onClick={() => {
               audioService.playCardSlide();
               onOpenJournal();
             }}
-            className="relative flex items-center space-x-1.5 h-8 px-2.5 sm:px-3 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-[#d4af37]/50 text-xs text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] active:scale-95"
+            className="relative flex items-center space-x-1.5 h-8 px-2.5 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#44403c] text-xs text-[#f5f5f4] transition-all focus:outline-none active:scale-98"
             title={UI_TRANSLATIONS.journalBtn[language]}
           >
-            <Scroll className="w-3.5 h-3.5 text-[#d4af37]" />
-            <span className="hidden sm:inline font-serif">{UI_TRANSLATIONS.journalBtn[language]}</span>
+            <Scroll className="w-3.5 h-3.5 text-[#a8a29e]" />
+            <span className="hidden sm:inline font-sans text-[11px] uppercase tracking-wider">{UI_TRANSLATIONS.journalBtn[language]}</span>
             {journalCount > 0 && (
-              <span className="inline-flex items-center justify-center px-1.5 py-0.2 text-[9px] font-mono font-bold rounded-full bg-[#d4af37] text-black">
+              <span className="inline-flex items-center justify-center px-1.5 py-0.2 text-[9px] font-mono font-semibold rounded bg-[#292524] text-[#f5f5f4]">
                 {journalCount}
               </span>
             )}
@@ -258,23 +253,23 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative md:hidden" ref={moreMenuRef}>
             <button
               onClick={() => setShowMoreMenu(!showMoreMenu)}
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] text-zinc-300 hover:text-[#d4af37] transition-all focus:outline-none"
-              title="Esoteric Tools"
+              className="flex items-center justify-center w-8 h-8 rounded-md bg-[#141210] hover:bg-[#1c1917] border border-[#292524] text-[#a8a29e] hover:text-[#f5f5f4] transition-all focus:outline-none"
+              title="Tools"
             >
-              <MoreHorizontal className="w-4 h-4 text-[#d4af37]" />
+              <MoreHorizontal className="w-4 h-4" />
             </button>
 
             {showMoreMenu && (
-              <div className="absolute right-0 mt-2 w-52 rounded-2xl bg-[#110924] border border-white/[0.12] shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-top-1 backdrop-blur-2xl space-y-1">
+              <div className="absolute right-0 mt-1.5 w-48 rounded-lg bg-[#141210] border border-[#292524] shadow-modal p-1 z-50 animate-in fade-in space-y-0.5">
                 <button
                   onClick={() => {
                     audioService.playCardSlide();
                     setShowMoreMenu(false);
                     onOpenCodex();
                   }}
-                  className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-zinc-200 hover:bg-white/5 transition-colors"
+                  className="w-full flex items-center space-x-2.5 px-2.5 py-1.5 rounded-md text-left text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] hover:bg-[#1c1917] transition-colors"
                 >
-                  <BookOpen className="w-4 h-4 text-[#d4af37]" />
+                  <BookOpen className="w-3.5 h-3.5" />
                   <span>{UI_TRANSLATIONS.codexBtn[language]}</span>
                 </button>
 
@@ -285,9 +280,9 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowMoreMenu(false);
                       onOpenBirthMatrix();
                     }}
-                    className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-zinc-200 hover:bg-white/5 transition-colors"
+                    className="w-full flex items-center space-x-2.5 px-2.5 py-1.5 rounded-md text-left text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] hover:bg-[#1c1917] transition-colors"
                   >
-                    <Compass className="w-4 h-4 text-amber-400" />
+                    <Compass className="w-3.5 h-3.5" />
                     <span>Birth Blueprint</span>
                   </button>
                 )}
@@ -299,9 +294,9 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowMoreMenu(false);
                       onOpenDeckTheme();
                     }}
-                    className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-zinc-200 hover:bg-white/5 transition-colors"
+                    className="w-full flex items-center space-x-2.5 px-2.5 py-1.5 rounded-md text-left text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] hover:bg-[#1c1917] transition-colors"
                   >
-                    <Layers className="w-4 h-4 text-amber-300" />
+                    <Layers className="w-3.5 h-3.5" />
                     <span>Sacred Decks</span>
                   </button>
                 )}
@@ -313,9 +308,9 @@ export const Header: React.FC<HeaderProps> = ({
                       setShowMoreMenu(false);
                       onOpenTreeOfLife();
                     }}
-                    className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-left text-xs font-serif text-purple-200 hover:bg-white/5 transition-colors"
+                    className="w-full flex items-center space-x-2.5 px-2.5 py-1.5 rounded-md text-left text-xs font-sans text-[#a8a29e] hover:text-[#f5f5f4] hover:bg-[#1c1917] transition-colors"
                   >
-                    <Sparkles className="w-4 h-4 text-purple-300" />
+                    <Sparkles className="w-3.5 h-3.5" />
                     <span>Tree of Life</span>
                   </button>
                 )}
@@ -324,14 +319,14 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Audio Console Hub */}
-          <div className="relative flex items-center space-x-1 bg-white/[0.03] p-1 rounded-full border border-white/[0.08]" ref={volMenuRef}>
+          <div className="relative flex items-center space-x-1 bg-[#141210] p-1 rounded-md border border-[#292524]" ref={volMenuRef}>
             {/* Ambient Drone (432Hz) */}
             <button
               onClick={handleToggleAmbient}
-              className={`p-1.5 rounded-full transition-all active:scale-90 ${
+              className={`p-1 rounded transition-all active:scale-90 ${
                 isAmbientOn
-                  ? 'bg-[#d4af37]/25 text-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.5)] animate-acoustic-wave'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                  ? 'bg-[#1c1917] text-[#f5f5f4] border border-[#44403c]'
+                  : 'text-[#78716c] hover:text-[#f5f5f4]'
               }`}
               title={UI_TRANSLATIONS.ambientAudio[language]}
             >
@@ -341,8 +336,8 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Mute/Unmute */}
             <button
               onClick={handleToggleMute}
-              className={`p-1.5 rounded-full transition-all active:scale-90 ${
-                isMuted ? 'text-rose-400' : 'text-zinc-300 hover:text-[#d4af37]'
+              className={`p-1 rounded transition-all active:scale-90 ${
+                isMuted ? 'text-rose-400' : 'text-[#78716c] hover:text-[#f5f5f4]'
               }`}
               title={UI_TRANSLATIONS.soundFx[language]}
             >
@@ -352,15 +347,15 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Volume dropdown arrow */}
             <button
               onClick={() => setShowVolumeMenu(!showVolumeMenu)}
-              className="p-1 text-zinc-400 hover:text-zinc-200 focus:outline-none"
+              className="p-0.5 text-[#78716c] hover:text-[#f5f5f4] focus:outline-none"
             >
               <ChevronDown className={`w-2.5 h-2.5 transition-transform ${showVolumeMenu ? 'rotate-180' : ''}`} />
             </button>
 
             {showVolumeMenu && (
-              <div className="absolute right-0 top-10 w-48 p-3.5 rounded-xl bg-[#110924] border border-white/[0.12] shadow-2xl z-50 backdrop-blur-2xl animate-in fade-in">
-                <div className="text-[10px] font-mono uppercase tracking-wider text-[#d4af37] mb-2 flex justify-between">
-                  <span>Soundscape Volume</span>
+              <div className="absolute right-0 top-9 w-44 p-3 rounded-lg bg-[#141210] border border-[#292524] shadow-modal z-50 animate-in fade-in">
+                <div className="text-[10px] font-mono uppercase tracking-wider text-[#a8a29e] mb-2 flex justify-between">
+                  <span>Volume</span>
                   <span>{Math.round(volume * 100)}%</span>
                 </div>
                 <input
@@ -370,7 +365,7 @@ export const Header: React.FC<HeaderProps> = ({
                   step="0.05"
                   value={volume}
                   onChange={handleVolumeChange}
-                  className="w-full accent-[#d4af37] cursor-pointer h-1.5 bg-zinc-700 rounded-lg"
+                  className="w-full accent-[#f5f5f4] cursor-pointer h-1 bg-[#292524] rounded"
                 />
               </div>
             )}

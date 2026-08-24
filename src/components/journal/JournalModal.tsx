@@ -47,133 +47,131 @@ export const JournalModal: React.FC<JournalModalProps> = ({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-300">
-      <div className="relative w-full max-w-3xl h-[88vh] rounded-2xl p-1 bg-gradient-to-b from-[#d4af37]/40 via-[#8a7326]/20 to-[#140c2d] border border-[#8a7326] shadow-2xl overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-3xl h-[88vh] rounded-2xl bg-[#0c0a09] border border-[#292524] overflow-hidden flex flex-col shadow-2xl">
         
-        <div className="rounded-xl w-full h-full bg-[#0e0720] flex flex-col overflow-hidden">
-          
-          {/* Header */}
-          <div className="p-4 sm:p-6 border-b border-white/10 flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 rounded-xl bg-[#d4af37]/10 text-[#d4af37]">
-                <Scroll className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-base sm:text-xl font-serif font-bold text-[#d4af37]">
-                  {UI_TRANSLATIONS.journalBtn[language]}
-                </h2>
-                <p className="text-xs text-zinc-400 font-serif">
-                  {entries.length} {language === 'my' ? 'ခု မှတ်တမ်းတင်ထားသည်' : language === 'ja' ? '件の記録' : 'Readings Recorded'}
-                </p>
-              </div>
+        {/* Header */}
+        <div className="p-4 sm:p-5 border-b border-[#292524] flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-lg bg-[#141210] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
+              <Scroll className="w-4 h-4" />
             </div>
-
-            <button
-              onClick={onClose}
-              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div>
+              <h2 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
+                {UI_TRANSLATIONS.journalBtn[language]}
+              </h2>
+              <p className="text-xs text-[#78716c] font-sans">
+                {entries.length} {language === 'my' ? 'ခု မှတ်တမ်းတင်ထားသည်' : language === 'ja' ? '件の記録' : 'Readings Recorded'}
+              </p>
+            </div>
           </div>
 
-          {/* Search & Filter */}
-          <div className="p-4 border-b border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="relative w-full sm:w-80">
-              <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-2.5 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search questions, notes, cards..."
-                className="w-full pl-9 pr-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-200 placeholder-zinc-500 font-serif focus:outline-none focus:border-[#d4af37]"
-              />
-            </div>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg border border-transparent hover:border-[#292524] text-[#78716c] hover:text-[#f5f5f4] transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
 
-            <button
-              onClick={() => setFilterFavOnly(!filterFavOnly)}
-              className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-serif transition-all ${
-                filterFavOnly ? 'bg-[#d4af37] text-black font-bold' : 'bg-white/5 hover:bg-white/10 text-zinc-300'
-              }`}
-            >
-              <Star className="w-3.5 h-3.5 fill-current" />
-              <span>Favorites</span>
-            </button>
+        {/* Search & Filter */}
+        <div className="p-4 border-b border-[#292524] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="relative w-full sm:w-80">
+            <Search className="w-3.5 h-3.5 text-[#78716c] absolute left-3 top-2.5 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search questions, notes, cards..."
+              className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-[#141210] border border-[#292524] text-xs text-[#f5f5f4] placeholder-[#78716c] font-sans focus:outline-none focus:border-[#78716c]"
+            />
           </div>
 
-          {/* Entries */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3">
-            {filteredEntries.length === 0 ? (
-              <div className="text-center py-16 space-y-3">
-                <Bookmark className="w-10 h-10 text-zinc-600 mx-auto" />
-                <h3 className="text-sm font-serif text-zinc-400">
-                  {entries.length === 0 ? 'No readings saved yet' : 'No matching records found'}
-                </h3>
-              </div>
-            ) : (
-              filteredEntries.map(entry => (
-                <div
-                  key={entry.id}
-                  className="p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-[#8a7326]/60 transition-all space-y-2.5"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-1 flex-1 min-w-0">
-                      <div className="flex items-center space-x-2 text-[10px] font-mono text-zinc-400">
-                        <Calendar className="w-3 h-3 text-[#d4af37]" />
-                        <span>{new Date(entry.timestamp).toLocaleDateString()}</span>
-                        <span>•</span>
-                        <span className="text-[#d4af37]">{entry.spread.name[language]}</span>
-                        {entry.partnerProfile && (
-                          <>
-                            <span>•</span>
-                            <span className="text-rose-300 font-semibold flex items-center gap-1">
-                              ♥ {entry.partnerProfile.name} ({entry.partnerProfile.zodiacSign?.symbol})
-                            </span>
-                          </>
-                        )}
-                      </div>
-                      <h4 className="text-sm font-serif font-bold text-[#e8e0f5] truncate">
-                        "{entry.question}"
-                      </h4>
-                      {entry.userNotes && (
-                        <p className="text-xs text-zinc-300 italic font-serif bg-black/40 p-2 rounded border border-white/5">
-                          "{entry.userNotes}"
-                        </p>
+          <button
+            onClick={() => setFilterFavOnly(!filterFavOnly)}
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-sans border transition-all ${
+              filterFavOnly
+                ? 'bg-[#292524] text-[#f5f5f4] border-[#78716c]'
+                : 'bg-[#141210] hover:bg-[#1c1917] text-[#a8a29e] border-[#292524]'
+            }`}
+          >
+            <Star className="w-3.5 h-3.5 fill-current" />
+            <span>Favorites</span>
+          </button>
+        </div>
+
+        {/* Entries */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
+          {filteredEntries.length === 0 ? (
+            <div className="text-center py-16 space-y-2">
+              <Bookmark className="w-8 h-8 text-[#78716c] mx-auto opacity-50" />
+              <h3 className="text-xs text-[#78716c] font-sans">
+                {entries.length === 0 ? 'No readings saved yet' : 'No matching records found'}
+              </h3>
+            </div>
+          ) : (
+            filteredEntries.map(entry => (
+              <div
+                key={entry.id}
+                className="p-4 rounded-xl bg-[#141210] hover:bg-[#1c1917] border border-[#292524] hover:border-[#78716c] transition-all space-y-2.5"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="space-y-1 flex-1 min-w-0">
+                    <div className="flex items-center space-x-2 text-[10px] font-mono text-[#78716c]">
+                      <Calendar className="w-3 h-3" />
+                      <span>{new Date(entry.timestamp).toLocaleDateString()}</span>
+                      <span>•</span>
+                      <span className="text-[#a8a29e]">{entry.spread.name[language]}</span>
+                      {entry.partnerProfile && (
+                        <>
+                          <span>•</span>
+                          <span className="text-[#fca5a5] font-semibold flex items-center gap-1">
+                            ♥ {entry.partnerProfile.name} ({entry.partnerProfile.zodiacSign?.symbol})
+                          </span>
+                        </>
                       )}
                     </div>
-
-                    <div className="flex items-center space-x-1">
-                      {entry.favorite && <Star className="w-3.5 h-3.5 text-[#d4af37] fill-current" />}
-                      <button
-                        onClick={() => {
-                          audioService.playCardSlide();
-                          onSelectEntry(entry);
-                        }}
-                        className="px-2.5 py-1 rounded bg-[#d4af37]/15 hover:bg-[#d4af37]/30 text-[#d4af37] text-xs font-serif flex items-center space-x-1"
-                      >
-                        <Eye className="w-3 h-3" />
-                        <span>View</span>
-                      </button>
-                      <button
-                        onClick={() => onDeleteEntry(entry.id)}
-                        className="p-1 text-zinc-500 hover:text-rose-400"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                    <h4 className="text-sm font-serif font-bold text-[#f5f5f4] truncate">
+                      "{entry.question}"
+                    </h4>
+                    {entry.userNotes && (
+                      <p className="text-xs text-[#a8a29e] italic font-sans bg-[#0c0a09] p-2 rounded border border-[#292524]">
+                        "{entry.userNotes}"
+                      </p>
+                    )}
                   </div>
 
-                  <div className="flex flex-wrap gap-1">
-                    {entry.drawnCards.map((dc, i) => (
-                      <span key={i} className="px-2 py-0.5 rounded bg-black/50 border border-white/5 text-[10px] font-serif text-zinc-300">
-                        {dc.card.name[language]} {dc.isReversed ? '↺' : ''}
-                      </span>
-                    ))}
+                  <div className="flex items-center space-x-1">
+                    {entry.favorite && <Star className="w-3.5 h-3.5 text-[#f5f5f4] fill-current" />}
+                    <button
+                      onClick={() => {
+                        audioService.playCardSlide();
+                        onSelectEntry(entry);
+                      }}
+                      className="px-2.5 py-1 rounded bg-[#1c1917] hover:bg-[#292524] text-[#f5f5f4] text-xs font-sans flex items-center space-x-1 border border-[#292524]"
+                    >
+                      <Eye className="w-3 h-3" />
+                      <span>View</span>
+                    </button>
+                    <button
+                      onClick={() => onDeleteEntry(entry.id)}
+                      className="p-1 text-[#78716c] hover:text-[#fca5a5]"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
 
+                <div className="flex flex-wrap gap-1">
+                  {entry.drawnCards.map((dc, i) => (
+                    <span key={i} className="px-2 py-0.5 rounded bg-[#0c0a09] border border-[#292524] text-[10px] font-mono text-[#a8a29e]">
+                      {dc.card.name[language]} {dc.isReversed ? '↺' : ''}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
       </div>

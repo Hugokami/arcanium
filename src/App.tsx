@@ -209,7 +209,7 @@ export function App() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-6 text-center border-t border-[#8a7326]/20 backdrop-blur-sm text-xs text-zinc-500 font-serif">
+      <footer className="w-full py-6 text-center border-t border-[#292524] text-xs text-[#78716c] font-sans">
         <p>✦ ARCANIUM — 78 Keys of Wisdom • English • မြန်မာ • 日本語 ✦</p>
       </footer>
 

@@ -105,241 +105,227 @@ export const TreeOfLifeModal: React.FC<TreeOfLifeModalProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-300">
-      <div className="relative w-full max-w-4xl h-[92vh] rounded-3xl p-1 bg-gradient-to-b from-[#d4af37]/60 via-[#442c75]/30 to-[#0e071e] border border-[#d4af37]/70 shadow-[0_0_80px_rgba(212,175,55,0.3)] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl h-[90vh] rounded-2xl bg-[#0c0a09] border border-[#292524] flex flex-col overflow-hidden shadow-2xl">
         
-        <div className="rounded-2xl w-full h-full bg-[#0a0515] flex flex-col overflow-hidden">
-          
-          {/* Header Bar */}
-          <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-[#d4af37] shadow-gold-glow">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-base sm:text-lg font-serif font-bold text-[#d4af37]">
-                  {language === 'my' ? 'ကဘ္ဗလာ ဝိညာဉ်အပင် မဟာမြေပုံ (Tree of Life)' : language === 'ja' ? '生命の樹（カバラ・セフィロト）対話型マトリックス' : 'Kabbalistic Tree of Life • Otz Chiim'}
-                </h2>
-                <p className="text-xs text-zinc-400 font-serif">
-                  {language === 'my' ? '၁၀ စက်ဝန်းနှင့် ၂၂ လျှို့ဝှက်လမ်းကြောင်းများ' : language === 'ja' ? '10のセフィラとタロット大アルカナ22の小径' : '10 Divine Sephiroth & 22 Major Arcana Pathways'}
-                </p>
-              </div>
+        {/* Header Bar */}
+        <div className="p-4 sm:p-5 border-b border-[#292524] flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-lg bg-[#141210] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
+              <Sparkles className="w-4 h-4" />
             </div>
-
-            <button
-              onClick={onClose}
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div>
+              <h2 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">
+                {language === 'my' ? 'ကဘ္ဗလာ ဝိညာဉ်အပင် မဟာမြေပုံ (Tree of Life)' : language === 'ja' ? '生命の樹（カバラ・セフィロト）対話型マトリックス' : 'Kabbalistic Tree of Life • Otz Chiim'}
+              </h2>
+              <p className="text-xs text-[#78716c] font-sans">
+                {language === 'my' ? '၁၀ စက်ဝန်းနှင့် ၂၂ လျှို့ဝှက်လမ်းကြောင်းများ' : language === 'ja' ? '10のセフィラとタロット大アルカナ22の小径' : '10 Divine Sephiroth & 22 Major Arcana Pathways'}
+              </p>
+            </div>
           </div>
 
-          {/* Body Content */}
-          <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-12 relative">
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg border border-transparent hover:border-[#292524] text-[#78716c] hover:text-[#f5f5f4] transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Body Content */}
+        <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-12 relative">
+          
+          {/* Left/Center: Interactive SVG Astral Tree Map */}
+          <div className="md:col-span-8 relative bg-[#0c0a09] flex items-center justify-center p-4 overflow-hidden select-none">
             
-            {/* Left/Center: Interactive SVG Astral Tree Map */}
-            <div className="md:col-span-8 relative bg-black/60 flex items-center justify-center p-4 overflow-hidden select-none">
-              
-              {/* Astral Background Particles and Pillars */}
-              <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.2),transparent_70%)]" />
-              
-              <svg className="w-full h-full max-h-[70vh]" viewBox="0 0 100 105">
-                <defs>
-                  <filter id="glow-path" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="1.5" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                  <linearGradient id="lightning" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#fef08a" />
-                    <stop offset="50%" stopColor="#d4af37" />
-                    <stop offset="100%" stopColor="#ca8a04" />
-                  </linearGradient>
-                </defs>
+            <svg className="w-full h-full max-h-[70vh]" viewBox="0 0 100 105">
+              <defs>
+                <filter id="glow-path" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="1.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-                {/* 22 Connecting Paths */}
-                {KABBALAH_PATHS.map((p) => {
-                  const nodeFrom = SEPHIROTH.find(s => s.id === p.from)!;
-                  const nodeTo = SEPHIROTH.find(s => s.id === p.to)!;
-                  const isActive = activeMajorCardIds.has(p.majorCardId);
-                  const isSelected = selectedPath?.pathNum === p.pathNum;
+              {/* 22 Connecting Paths */}
+              {KABBALAH_PATHS.map((p) => {
+                const nodeFrom = SEPHIROTH.find(s => s.id === p.from)!;
+                const nodeTo = SEPHIROTH.find(s => s.id === p.to)!;
+                const isActive = activeMajorCardIds.has(p.majorCardId);
+                const isSelected = selectedPath?.pathNum === p.pathNum;
 
-                  return (
-                    <g key={p.pathNum} className="cursor-pointer group" onClick={() => {
-                      audioService.playCardHover();
-                      setSelectedPath(p);
-                      setSelectedSephirah(null);
-                    }}>
-                      <line
-                        x1={nodeFrom.x}
-                        y1={nodeFrom.y}
-                        x2={nodeTo.x}
-                        y2={nodeTo.y}
-                        stroke={isSelected ? '#fde047' : isActive ? '#d4af37' : 'rgba(255, 255, 255, 0.15)'}
-                        strokeWidth={isSelected ? 1.8 : isActive ? 1.4 : 0.8}
-                        strokeDasharray={isActive ? 'none' : '1.5, 1'}
-                        filter={isActive || isSelected ? 'url(#glow-path)' : 'none'}
-                        className="transition-all duration-300 group-hover:stroke-[#d4af37]"
-                      />
-                      {/* Midpoint Hebrew Letter Badge */}
-                      <circle
-                        cx={(nodeFrom.x + nodeTo.x) / 2}
-                        cy={(nodeFrom.y + nodeTo.y) / 2}
-                        r={isSelected ? 2.5 : 2}
-                        fill={isSelected ? '#d4af37' : isActive ? '#854d0e' : '#18181b'}
-                        stroke={isActive || isSelected ? '#fde047' : 'rgba(255, 255, 255, 0.3)'}
-                        strokeWidth="0.3"
-                      />
-                      <text
-                        x={(nodeFrom.x + nodeTo.x) / 2}
-                        y={(nodeFrom.y + nodeTo.y) / 2 + 0.8}
-                        fontSize="1.8"
-                        textAnchor="middle"
-                        fill={isSelected ? '#000000' : '#ffffff'}
-                        className="font-serif font-bold pointer-events-none"
-                      >
-                        {p.hebrewLetter}
-                      </text>
-                    </g>
-                  );
-                })}
-
-                {/* 10 Sephiroth Nodes */}
-                {SEPHIROTH.map((s) => {
-                  const isSelected = selectedSephirah?.id === s.id;
-
-                  return (
-                    <g
-                      key={s.id}
-                      className="cursor-pointer group"
-                      onClick={() => {
-                        audioService.playCardHover();
-                        setSelectedSephirah(s);
-                        setSelectedPath(null);
-                      }}
+                return (
+                  <g key={p.pathNum} className="cursor-pointer group" onClick={() => {
+                    audioService.playCardHover();
+                    setSelectedPath(p);
+                    setSelectedSephirah(null);
+                  }}>
+                    <line
+                      x1={nodeFrom.x}
+                      y1={nodeFrom.y}
+                      x2={nodeTo.x}
+                      y2={nodeTo.y}
+                      stroke={isSelected ? '#f5f5f4' : isActive ? '#a8a29e' : '#292524'}
+                      strokeWidth={isSelected ? 1.5 : isActive ? 1.2 : 0.8}
+                      strokeDasharray={isActive ? 'none' : '1.5, 1'}
+                      className="transition-all duration-200 group-hover:stroke-[#78716c]"
+                    />
+                    {/* Midpoint Hebrew Letter Badge */}
+                    <circle
+                      cx={(nodeFrom.x + nodeTo.x) / 2}
+                      cy={(nodeFrom.y + nodeTo.y) / 2}
+                      r={isSelected ? 2.5 : 2}
+                      fill={isSelected ? '#f5f5f4' : isActive ? '#292524' : '#141210'}
+                      stroke={isActive || isSelected ? '#78716c' : '#292524'}
+                      strokeWidth="0.3"
+                    />
+                    <text
+                      x={(nodeFrom.x + nodeTo.x) / 2}
+                      y={(nodeFrom.y + nodeTo.y) / 2 + 0.8}
+                      fontSize="1.8"
+                      textAnchor="middle"
+                      fill={isSelected ? '#0c0a09' : '#f5f5f4'}
+                      className="font-serif font-bold pointer-events-none"
                     >
-                      <circle
-                        cx={s.x}
-                        cy={s.y}
-                        r={isSelected ? 5.5 : 4.5}
-                        fill="#0c071a"
-                        stroke={isSelected ? '#fef08a' : s.color}
-                        strokeWidth={isSelected ? 1.2 : 0.8}
-                        filter={isSelected ? 'url(#glow-path)' : 'none'}
-                        className="transition-all duration-300 group-hover:scale-110"
-                      />
-                      {/* Inner Core */}
-                      <circle
-                        cx={s.x}
-                        cy={s.y}
-                        r={2.5}
-                        fill={s.color}
-                        opacity={0.4}
-                      />
-                      <text
-                        x={s.x}
-                        y={s.y + 0.9}
-                        fontSize="2.4"
-                        textAnchor="middle"
-                        fill="#ffffff"
-                        className="font-serif font-bold pointer-events-none"
-                      >
-                        {s.id}
-                      </text>
-                      {/* Sephirah Label */}
-                      <text
-                        x={s.x}
-                        y={s.y + 5.5}
-                        fontSize="1.7"
-                        textAnchor="middle"
-                        fill="#d4af37"
-                        className="font-serif font-semibold pointer-events-none"
-                      >
-                        {s.name.en}
-                      </text>
-                    </g>
-                  );
-                })}
-              </svg>
+                      {p.hebrewLetter}
+                    </text>
+                  </g>
+                );
+              })}
 
-            </div>
+              {/* 10 Sephiroth Nodes */}
+              {SEPHIROTH.map((s) => {
+                const isSelected = selectedSephirah?.id === s.id;
 
-            {/* Right: Detailed Sephirah / Path Inspector Panel */}
-            <div className="md:col-span-4 p-5 sm:p-6 bg-[#0e071f] border-t md:border-t-0 md:border-l border-white/10 overflow-y-auto space-y-4">
-              
-              {selectedSephirah ? (
-                <div className="space-y-4 animate-in fade-in duration-300">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <span className="text-xs font-mono uppercase text-[#d4af37]">Sephirah #{selectedSephirah.id}</span>
-                    <span className="text-lg font-serif text-amber-200">{selectedSephirah.hebrew}</span>
-                  </div>
+                return (
+                  <g
+                    key={s.id}
+                    className="cursor-pointer group"
+                    onClick={() => {
+                      audioService.playCardHover();
+                      setSelectedSephirah(s);
+                      setSelectedPath(null);
+                    }}
+                  >
+                    <circle
+                      cx={s.x}
+                      cy={s.y}
+                      r={isSelected ? 5.5 : 4.5}
+                      fill="#141210"
+                      stroke={isSelected ? '#f5f5f4' : '#292524'}
+                      strokeWidth={isSelected ? 1.2 : 0.8}
+                      className="transition-all duration-200 group-hover:stroke-[#78716c]"
+                    />
+                    {/* Inner Core */}
+                    <circle
+                      cx={s.x}
+                      cy={s.y}
+                      r={2.5}
+                      fill={s.color}
+                      opacity={0.3}
+                    />
+                    <text
+                      x={s.x}
+                      y={s.y + 0.9}
+                      fontSize="2.4"
+                      textAnchor="middle"
+                      fill="#f5f5f4"
+                      className="font-serif font-bold pointer-events-none"
+                    >
+                      {s.id}
+                    </text>
+                    {/* Sephirah Label */}
+                    <text
+                      x={s.x}
+                      y={s.y + 5.5}
+                      fontSize="1.7"
+                      textAnchor="middle"
+                      fill="#a8a29e"
+                      className="font-sans font-medium pointer-events-none"
+                    >
+                      {s.name.en}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
 
-                  <div>
-                    <h3 className="text-xl font-serif font-bold text-amber-100">{selectedSephirah.name[language]}</h3>
-                    <p className="text-xs text-[#d4af37] font-serif">{selectedSephirah.transliteration} • {selectedSephirah.pillar} Pillar</p>
-                  </div>
+          </div>
 
-                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-xs font-serif space-y-1.5 text-zinc-300">
-                    <div><b className="text-amber-300">Divine Name:</b> {selectedSephirah.divineName}</div>
-                    <div><b className="text-cyan-300">Archangel:</b> {selectedSephirah.archangel}</div>
-                    <div><b className="text-purple-300">Cosmic Ruler:</b> {selectedSephirah.planet}</div>
-                    <div><b className="text-emerald-300">World:</b> {selectedSephirah.world}</div>
-                  </div>
-
-                  <div className="p-3.5 rounded-2xl bg-[#d4af37]/10 border border-[#d4af37]/30 text-xs font-serif text-amber-200">
-                    <b className="text-[#d4af37]">Spiritual Virtue: </b>
-                    {selectedSephirah.virtue[language]}
-                  </div>
+          {/* Right: Detailed Sephirah / Path Inspector Panel */}
+          <div className="md:col-span-4 p-5 sm:p-6 bg-[#141210] border-t md:border-t-0 md:border-l border-[#292524] overflow-y-auto space-y-4">
+            
+            {selectedSephirah ? (
+              <div className="space-y-3.5 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between border-b border-[#292524] pb-2">
+                  <span className="text-xs font-mono uppercase text-[#78716c]">Sephirah #{selectedSephirah.id}</span>
+                  <span className="text-lg font-serif text-[#f5f5f4]">{selectedSephirah.hebrew}</span>
                 </div>
-              ) : selectedPath ? (
-                <div className="space-y-4 animate-in fade-in duration-300">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <span className="text-xs font-mono uppercase text-[#d4af37]">Path #{selectedPath.pathNum}</span>
-                    <span className="text-2xl font-serif text-amber-200">{selectedPath.hebrewLetter} ({selectedPath.letterName})</span>
-                  </div>
 
-                  <div>
-                    <div className="text-xs font-mono uppercase text-emerald-400">Tarot Key • {selectedPath.majorCardName[language]}</div>
-                    <h3 className="text-lg font-serif font-bold text-amber-100">{selectedPath.esotericTitle[language]}</h3>
-                  </div>
-
-                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-xs font-serif space-y-1.5 text-zinc-300">
-                    <div><b className="text-amber-300">Connects:</b> {SEPHIROTH.find(s => s.id === selectedPath.from)?.name.en} ↔ {SEPHIROTH.find(s => s.id === selectedPath.to)?.name.en}</div>
-                    <div><b className="text-purple-300">Hebrew Letter:</b> {selectedPath.letterName} ({selectedPath.hebrewLetter})</div>
-                  </div>
-
-                  {activeMajorCardIds.has(selectedPath.majorCardId) ? (
-                    <div className="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-xs font-serif text-emerald-200">
-                      ✦ <b>Active in Your Reading:</b> This sacred pathway is currently illuminated by {selectedPath.majorCardName[language]}.
-                    </div>
-                  ) : (
-                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-serif text-zinc-400">
-                      This path bridges the cosmic descent of consciousness between Sephiroth.
-                    </div>
-                  )}
+                <div>
+                  <h3 className="text-xl font-serif font-bold text-[#f5f5f4]">{selectedSephirah.name[language]}</h3>
+                  <p className="text-xs text-[#a8a29e] font-sans">{selectedSephirah.transliteration} • {selectedSephirah.pillar} Pillar</p>
                 </div>
-              ) : (
-                <div className="space-y-4 text-center p-6 text-zinc-400 font-serif">
-                  <div className="w-12 h-12 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/30 mx-auto flex items-center justify-center text-[#d4af37]">
-                    <Eye className="w-6 h-6" />
-                  </div>
-                  <h4 className="text-base font-serif font-bold text-amber-200">
-                    {language === 'my' ? 'စက်ဝန်း သို့မဟုတ် လမ်းကြောင်းကို နှိပ်ပါ' : language === 'ja' ? 'セフィラまたは小径を選択してください' : 'Select a Sephirah or Hebrew Path'}
-                  </h4>
-                  <p className="text-xs text-zinc-400">
-                    {language === 'my' ? 'ကဘ္ဗလာဝိညာဉ်ရေးရာ အဓိပ္ပာယ်များနှင့် တာရော့ချိတ်ဆက်မှုများကို စစ်ဆေးနိုင်ပါသည်' : language === 'ja' ? '対応するタロット大アルカナと神聖幾何学の叡智が表示されます' : 'Click on any sphere (1–10) or connecting Hebrew path (11–32) to reveal its sacred attributes and Tarot resonances.'}
-                  </p>
-                  {activeMajorCardIds.size > 0 && (
-                    <div className="p-3 rounded-2xl bg-[#d4af37]/15 border border-[#d4af37]/30 text-xs text-amber-200 font-mono">
-                      ✦ {activeMajorCardIds.size} Active Major Arcana in Reading
-                    </div>
-                  )}
-                </div>
-              )}
 
-            </div>
+                <div className="p-3 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs font-sans space-y-1 text-[#a8a29e]">
+                  <div><b className="text-[#f5f5f4]">Divine Name:</b> {selectedSephirah.divineName}</div>
+                  <div><b className="text-[#93c5fd]">Archangel:</b> {selectedSephirah.archangel}</div>
+                  <div><b className="text-[#d8b4fe]">Cosmic Ruler:</b> {selectedSephirah.planet}</div>
+                  <div><b className="text-[#86efac]">World:</b> {selectedSephirah.world}</div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs font-sans text-[#a8a29e]">
+                  <b className="text-[#f5f5f4]">Spiritual Virtue: </b>
+                  {selectedSephirah.virtue[language]}
+                </div>
+              </div>
+            ) : selectedPath ? (
+              <div className="space-y-3.5 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between border-b border-[#292524] pb-2">
+                  <span className="text-xs font-mono uppercase text-[#78716c]">Path #{selectedPath.pathNum}</span>
+                  <span className="text-xl font-serif text-[#f5f5f4]">{selectedPath.hebrewLetter} ({selectedPath.letterName})</span>
+                </div>
+
+                <div>
+                  <div className="text-xs font-mono uppercase text-[#86efac]">Tarot Key • {selectedPath.majorCardName[language]}</div>
+                  <h3 className="text-base font-serif font-bold text-[#f5f5f4]">{selectedPath.esotericTitle[language]}</h3>
+                </div>
+
+                <div className="p-3 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs font-sans space-y-1 text-[#a8a29e]">
+                  <div><b className="text-[#f5f5f4]">Connects:</b> {SEPHIROTH.find(s => s.id === selectedPath.from)?.name.en} ↔ {SEPHIROTH.find(s => s.id === selectedPath.to)?.name.en}</div>
+                  <div><b className="text-[#d8b4fe]">Hebrew Letter:</b> {selectedPath.letterName} ({selectedPath.hebrewLetter})</div>
+                </div>
+
+                {activeMajorCardIds.has(selectedPath.majorCardId) ? (
+                  <div className="p-3 rounded-xl bg-[#1c1917] border border-[#78716c] text-xs font-sans text-[#f5f5f4]">
+                    ✦ <b>Active in Your Reading:</b> This sacred pathway is currently illuminated by {selectedPath.majorCardName[language]}.
+                  </div>
+                ) : (
+                  <div className="p-3 rounded-xl bg-[#0c0a09] border border-[#292524] text-xs font-sans text-[#78716c]">
+                    This path bridges the cosmic descent of consciousness between Sephiroth.
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-3 text-center p-6 text-[#78716c] font-sans">
+                <div className="w-10 h-10 rounded-lg bg-[#0c0a09] border border-[#292524] mx-auto flex items-center justify-center text-[#a8a29e]">
+                  <Eye className="w-5 h-5" />
+                </div>
+                <h4 className="text-sm font-serif font-bold text-[#f5f5f4]">
+                  {language === 'my' ? 'စက်ဝန်း သို့မဟုတ် လမ်းကြောင်းကို နှိပ်ပါ' : language === 'ja' ? 'セフィラまたは小径を選択してください' : 'Select a Sephirah or Hebrew Path'}
+                </h4>
+                <p className="text-xs text-[#78716c]">
+                  {language === 'my' ? 'ကဘ္ဗလာဝိညာဉ်ရေးရာ အဓိပ္ပာယ်များနှင့် တာရော့ချိတ်ဆက်မှုများကို စစ်ဆေးနိုင်ပါသည်' : language === 'ja' ? '対応するタロット大アルカナと神聖幾何学の叡智が表示されます' : 'Click on any sphere (1–10) or connecting Hebrew path (11–32) to reveal its sacred attributes and Tarot resonances.'}
+                </p>
+                {activeMajorCardIds.size > 0 && (
+                  <div className="p-2.5 rounded-lg bg-[#0c0a09] border border-[#292524] text-xs text-[#a8a29e] font-mono">
+                    ✦ {activeMajorCardIds.size} Active Major Arcana in Reading
+                  </div>
+                )}
+              </div>
+            )}
 
           </div>
 
