@@ -114,6 +114,26 @@ export const AudioFrequencySelector: React.FC<AudioFrequencySelectorProps> = ({
         </button>
       </div>
 
+      {/* Animated Cymatic Sacred Waveform Visualizer */}
+      <div className="p-3 rounded-xl bg-[#141210] border border-[#292524] flex items-center space-x-3">
+        <div className="w-12 h-12 flex-shrink-0 relative">
+          <img
+            src="/animations/solfeggio-cymatics.svg"
+            alt="Cymatics Visualizer"
+            className={`w-full h-full object-contain ${isPlaying ? 'opacity-100 animate-pulse' : 'opacity-40'}`}
+          />
+        </div>
+        <div className="space-y-0.5 flex-1">
+          <div className="text-[10px] font-mono text-[#38bdf8] uppercase">Active Frequency Matrix</div>
+          <div className="text-xs font-serif font-bold text-[#f5f5f4]">
+            {SOLFEGGIO_PRESETS[activeKey].name[language]}
+          </div>
+          <div className="text-[10px] text-[#78716c] font-mono">
+            {SOLFEGGIO_PRESETS[activeKey].chakra[language]}
+          </div>
+        </div>
+      </div>
+
       {/* Solfeggio Presets List */}
       <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
         {(Object.keys(SOLFEGGIO_PRESETS) as SolfeggioFrequencyKey[]).map((key) => {

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Numerology Aura Gradients -->
+    <radialGradient id="numAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.3" />
+      <stop offset="45%" stop-color="#c084fc" stop-opacity="0.15" />
+      <stop offset="75%" stop-color="#141210" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#0c0a09" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="soulGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="35%" stop-color="#d4af37" />
+      <stop offset="70%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#fef08a" />
+    </linearGradient>
+
+    <filter id="numGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      @keyframes numSpinCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes numSpinCCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      @keyframes enneagramPulse {
+        0%, 100% { transform: scale(0.94); opacity: 0.7; }
+        50% { transform: scale(1.06); opacity: 1; filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.7)); }
+      }
+
+      .spin-num-cw {
+        animation: numSpinCW 48s linear infinite;
+        transform-origin: 160px 160px;
+      }
+      .spin-num-ccw {
+        animation: numSpinCCW 32s linear infinite;
+        transform-origin: 160px 160px;
+      }
+      .pulse-soul-core {
+        animation: enneagramPulse 3.8s ease-in-out infinite;
+        transform-origin: 160px 160px;
+      }
+    </style>
+  </defs>
+
+  <!-- Ambient Soul Matrix Nebula -->
+  <circle cx="160" cy="160" r="148" fill="url(#numAura)" />
+
+  <!-- Outer Machined Double Bezel -->
+  <circle cx="160" cy="160" r="150" stroke="url(#soulGold)" stroke-width="1.5" opacity="0.75" />
+  <circle cx="160" cy="160" r="144" stroke="#292524" stroke-width="1" />
+  <circle cx="160" cy="160" r="140" stroke="url(#soulGold)" stroke-width="0.75" opacity="0.4" stroke-dasharray="3 3" />
+
+  <!-- Rotating Ring 1: 9 Root Single-Digit Numerology Nodes (Clockwise) -->
+  <g class="spin-num-cw" filter="url(#numGlow)">
+    <g transform="translate(160, 160)">
+      <circle r="120" stroke="url(#soulGold)" stroke-width="1.2" opacity="0.65" />
+      
+      <!-- 9 Pythagorean Root Nodes (40 deg apart) -->
+      <!-- 1 -->
+      <circle cx="0" cy="-120" r="8" fill="#141210" stroke="#fde047" stroke-width="1.2" />
+      <text x="0" y="-116" font-size="10" font-family="monospace" font-weight="bold" fill="#fde047" text-anchor="middle">1</text>
+
+      <!-- 2 -->
+      <circle cx="77.1" cy="-91.9" r="8" fill="#141210" stroke="#93c5fd" stroke-width="1.2" />
+      <text x="77.1" y="-87.9" font-size="10" font-family="monospace" font-weight="bold" fill="#93c5fd" text-anchor="middle">2</text>
+
+      <!-- 3 -->
+      <circle cx="118.2" cy="-20.8" r="8" fill="#141210" stroke="#86efac" stroke-width="1.2" />
+      <text x="118.2" y="-16.8" font-size="10" font-family="monospace" font-weight="bold" fill="#86efac" text-anchor="middle">3</text>
+
+      <!-- 4 -->
+      <circle cx="103.9" cy="60" r="8" fill="#141210" stroke="#fcd34d" stroke-width="1.2" />
+      <text x="103.9" y="64" font-size="10" font-family="monospace" font-weight="bold" fill="#fcd34d" text-anchor="middle">4</text>
+
+      <!-- 5 -->
+      <circle cx="41" cy="112.8" r="8" fill="#141210" stroke="#d8b4fe" stroke-width="1.2" />
+      <text x="41" y="116.8" font-size="10" font-family="monospace" font-weight="bold" fill="#d8b4fe" text-anchor="middle">5</text>
+
+      <!-- 6 -->
+      <circle cx="-41" cy="112.8" r="8" fill="#141210" stroke="#fca5a5" stroke-width="1.2" />
+      <text x="-41" y="116.8" font-size="10" font-family="monospace" font-weight="bold" fill="#fca5a5" text-anchor="middle">6</text>
+
+      <!-- 7 -->
+      <circle cx="-103.9" cy="60" r="8" fill="#141210" stroke="#67e8f9" stroke-width="1.2" />
+      <text x="-103.9" y="64" font-size="10" font-family="monospace" font-weight="bold" fill="#67e8f9" text-anchor="middle">7</text>
+
+      <!-- 8 -->
+      <circle cx="-118.2" cy="-20.8" r="8" fill="#141210" stroke="#fbbf24" stroke-width="1.2" />
+      <text x="-118.2" y="-16.8" font-size="10" font-family="monospace" font-weight="bold" fill="#fbbf24" text-anchor="middle">8</text>
+
+      <!-- 9 -->
+      <circle cx="-77.1" cy="-91.9" r="8" fill="#141210" stroke="#c084fc" stroke-width="1.2" />
+      <text x="-77.1" y="-87.9" font-size="10" font-family="monospace" font-weight="bold" fill="#c084fc" text-anchor="middle">9</text>
+    </g>
+  </g>
+
+  <!-- Rotating Ring 2: Enneagram Geometry (Counter-Clockwise) -->
+  <g class="spin-num-ccw">
+    <g transform="translate(160, 160)" stroke="url(#soulGold)" stroke-width="0.8" fill="none" opacity="0.45">
+      <!-- Triangle 9-3-6 -->
+      <polygon points="0,-120 118.2,-20.8 -103.9,60" />
+      <!-- Enneagram Inner Web -->
+      <path d="M 77.1 -91.9 L 103.9 60 L -118.2 -20.8 L -41 112.8 L 41 112.8 L -77.1 -91.9 Z" stroke-dasharray="4 2" />
+    </g>
+  </g>
+
+  <!-- Central Soul Key Core -->
+  <g class="pulse-soul-core">
+    <g transform="translate(160, 160)">
+      <circle r="34" fill="#141210" stroke="url(#soulGold)" stroke-width="1.5" />
+      <circle r="26" stroke="#292524" stroke-width="0.75" fill="#0c0a09" />
+      
+      <!-- 22 Major Arcana Key Monogram -->
+      <polygon points="0,-20 14,0 0,20 -14,0" fill="url(#soulGold)" />
+      <circle r="4" fill="#ffffff" />
+      <circle r="1.5" fill="#fef08a" />
+    </g>
+  </g>
+</svg>

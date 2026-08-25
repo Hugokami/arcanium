@@ -5,12 +5,53 @@
       <stop offset="50%" stop-color="#0f051d"/>
       <stop offset="100%" stop-color="#05010a"/>
     </radialGradient>
+    
     <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f5d0fe"/>
       <stop offset="35%" stop-color="#c084fc"/>
       <stop offset="70%" stop-color="#818cf8"/>
       <stop offset="100%" stop-color="#38bdf8"/>
     </linearGradient>
+
+    <radialGradient id="hologramAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#818cf8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#2e1065" stop-opacity="0"/>
+    </radialGradient>
+
+    <style>
+      @keyframes metaRotateCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes metaRotateCCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      @keyframes sphereBreath {
+        0%, 100% { transform: scale(0.9); opacity: 0.6; }
+        50% { transform: scale(1.15); opacity: 1; }
+      }
+      @keyframes crystalGlow {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.9; }
+      }
+      .anim-meta-cw {
+        animation: metaRotateCW 40s linear infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-meta-ccw {
+        animation: metaRotateCCW 28s linear infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-sphere-pulse {
+        animation: sphereBreath 4.5s ease-in-out infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-crystal {
+        animation: crystalGlow 3s ease-in-out infinite;
+      }
+    </style>
   </defs>
 
   <!-- Background Canvas -->
@@ -20,86 +61,100 @@
   <rect x="8" y="8" width="284" height="484" rx="12" fill="none" stroke="url(#metaGrad)" stroke-width="1.2" opacity="0.6"/>
   <rect x="14" y="14" width="272" height="472" rx="9" fill="none" stroke="url(#metaGrad)" stroke-width="0.75" opacity="0.3" stroke-dasharray="3 3"/>
 
-  <!-- Metatron's Cube Geometry (13 Spheres + Intersecting Platonic Lines) -->
-  <g transform="translate(150, 250)">
-    <!-- 13 Nodes of Fruit of Life: R=52 (Outer 6), R=104 (Outer 6), Center (1) -->
-    <!-- Outer Connecting Lines -->
-    <g stroke="url(#metaGrad)" stroke-width="0.8" fill="none" opacity="0.5">
+  <!-- Central Holographic Nebula Aura -->
+  <circle cx="150" cy="250" r="95" fill="url(#hologramAura)" class="anim-sphere-pulse"/>
+
+  <!-- Rotating Outer Hexagram Framework (Clockwise) -->
+  <g class="anim-meta-cw">
+    <g transform="translate(150, 250)" stroke="url(#metaGrad)" stroke-width="0.8" fill="none" opacity="0.45">
       <!-- Outer Hexagon -->
       <polygon points="0,-104 90,-52 90,52 0,104 -90,52 -90,-52"/>
-      <!-- Inner Hexagon -->
-      <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26"/>
       <!-- Hexagram 1 -->
       <polygon points="0,-104 90,52 -90,52"/>
       <!-- Hexagram 2 -->
       <polygon points="0,104 90,-52 -90,-52"/>
-      
-      <!-- Interconnecting Nodes / Star Matrix -->
-      <line x1="0" y1="-104" x2="0" y2="104"/>
-      <line x1="-90" y1="-52" x2="90" y2="52"/>
-      <line x1="-90" y1="52" x2="90" y2="-52"/>
-
-      <line x1="0" y1="-104" x2="90" y2="52"/>
-      <line x1="0" y1="-104" x2="-90" y2="52"/>
-      <line x1="0" y1="104" x2="90" y2="-52"/>
-      <line x1="0" y1="104" x2="-90" y2="-52"/>
-
-      <line x1="-90" y1="-52" x2="0" y2="104"/>
-      <line x1="90" y1="-52" x2="0" y2="104"/>
-      <line x1="-90" y1="52" x2="0" y2="-104"/>
-      <line x1="90" y1="52" x2="0" y2="-104"/>
     </g>
+  </g>
 
-    <!-- 13 Sacred Spheres / Nodes -->
-    <g fill="#0f051d" stroke="url(#metaGrad)" stroke-width="1.2">
-      <!-- Center Sphere -->
-      <circle cx="0" cy="0" r="16"/>
-      <!-- Inner Ring of 6 -->
-      <circle cx="0" cy="-52" r="13"/>
-      <circle cx="45" cy="-26" r="13"/>
-      <circle cx="45" cy="26" r="13"/>
-      <circle cx="0" cy="52" r="13"/>
-      <circle cx="-45" cy="26" r="13"/>
-      <circle cx="-45" cy="-26" r="13"/>
-      <!-- Outer Ring of 6 -->
-      <circle cx="0" cy="-104" r="14"/>
-      <circle cx="90" cy="-52" r="14"/>
-      <circle cx="90" cy="52" r="14"/>
-      <circle cx="0" cy="104" r="14"/>
-      <circle cx="-90" cy="52" r="14"/>
-      <circle cx="-90" cy="-52" r="14"/>
+  <!-- Rotating Inner Matrix Framework (Counter-Clockwise) -->
+  <g class="anim-meta-ccw">
+    <g transform="translate(150, 250)" stroke="url(#metaGrad)" stroke-width="0.75" fill="none" opacity="0.55">
+      <!-- Inner Hexagon -->
+      <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26"/>
+      <!-- Inner Star -->
+      <polygon points="0,-52 45,26 -45,26"/>
+      <polygon points="0,52 45,-26 -45,-26"/>
     </g>
+  </g>
 
-    <!-- Inner Node Glyphs / Crystals -->
-    <g fill="url(#metaGrad)">
-      <circle cx="0" cy="0" r="6"/>
-      <circle cx="0" cy="-52" r="4"/>
-      <circle cx="45" cy="-26" r="4"/>
-      <circle cx="45" cy="26" r="4"/>
-      <circle cx="0" cy="52" r="4"/>
-      <circle cx="-45" cy="26" r="4"/>
-      <circle cx="-45" cy="-26" r="4"/>
-      <circle cx="0" cy="-104" r="4.5"/>
-      <circle cx="90" cy="-52" r="4.5"/>
-      <circle cx="90" cy="52" r="4.5"/>
-      <circle cx="0" cy="104" r="4.5"/>
-      <circle cx="-90" cy="52" r="4.5"/>
-      <circle cx="-90" cy="-52" r="4.5"/>
-    </g>
+  <!-- Static Interconnecting Lightning Conduit Lines -->
+  <g transform="translate(150, 250)" stroke="url(#metaGrad)" stroke-width="0.65" fill="none" opacity="0.4" class="anim-crystal">
+    <line x1="0" y1="-104" x2="0" y2="104"/>
+    <line x1="-90" y1="-52" x2="90" y2="52"/>
+    <line x1="-90" y1="52" x2="90" y2="-52"/>
 
-    <!-- Top & Bottom Harmonic Echoes -->
-    <g transform="translate(0, -155)" stroke="url(#metaGrad)" stroke-width="0.8" fill="none" opacity="0.5">
-      <polygon points="0,-24 20,12 -20,12"/>
-      <polygon points="0,24 20,-12 -20,-12"/>
-      <circle cx="0" cy="0" r="8" fill="#0f051d"/>
-      <circle cx="0" cy="0" r="3" fill="url(#metaGrad)"/>
-    </g>
+    <line x1="0" y1="-104" x2="90" y2="52"/>
+    <line x1="0" y1="-104" x2="-90" y2="52"/>
+    <line x1="0" y1="104" x2="90" y2="-52"/>
+    <line x1="0" y1="104" x2="-90" y2="-52"/>
 
-    <g transform="translate(0, 155)" stroke="url(#metaGrad)" stroke-width="0.8" fill="none" opacity="0.5">
-      <polygon points="0,-24 20,12 -20,12"/>
-      <polygon points="0,24 20,-12 -20,-12"/>
-      <circle cx="0" cy="0" r="8" fill="#0f051d"/>
-      <circle cx="0" cy="0" r="3" fill="url(#metaGrad)"/>
-    </g>
+    <line x1="-90" y1="-52" x2="0" y2="104"/>
+    <line x1="90" y1="-52" x2="0" y2="104"/>
+    <line x1="-90" y1="52" x2="0" y2="-104"/>
+    <line x1="90" y1="52" x2="0" y2="-104"/>
+  </g>
+
+  <!-- 13 Sacred Spheres / Nodes -->
+  <g transform="translate(150, 250)" fill="#0f051d" stroke="url(#metaGrad)" stroke-width="1.2">
+    <!-- Center Sphere -->
+    <circle cx="0" cy="0" r="16"/>
+    <!-- Inner Ring of 6 -->
+    <circle cx="0" cy="-52" r="13"/>
+    <circle cx="45" cy="-26" r="13"/>
+    <circle cx="45" cy="26" r="13"/>
+    <circle cx="0" cy="52" r="13"/>
+    <circle cx="-45" cy="26" r="13"/>
+    <circle cx="-45" cy="-26" r="13"/>
+    <!-- Outer Ring of 6 -->
+    <circle cx="0" cy="-104" r="14"/>
+    <circle cx="90" cy="-52" r="14"/>
+    <circle cx="90" cy="52" r="14"/>
+    <circle cx="0" cy="104" r="14"/>
+    <circle cx="-90" cy="52" r="14"/>
+    <circle cx="-90" cy="-52" r="14"/>
+  </g>
+
+  <!-- Glowing Crystal Centers with breathing pulse -->
+  <g transform="translate(150, 250)" fill="url(#metaGrad)" class="anim-crystal">
+    <circle cx="0" cy="0" r="6"/>
+    <circle cx="0" cy="-52" r="4"/>
+    <circle cx="45" cy="-26" r="4"/>
+    <circle cx="45" cy="26" r="4"/>
+    <circle cx="0" cy="52" r="4"/>
+    <circle cx="-45" cy="26" r="4"/>
+    <circle cx="-45" cy="-26" r="4"/>
+    <circle cx="0" cy="-104" r="4.5"/>
+    <circle cx="90" cy="-52" r="4.5"/>
+    <circle cx="90" cy="52" r="4.5"/>
+    <circle cx="0" cy="104" r="4.5"/>
+    <circle cx="-90" cy="52" r="4.5"/>
+    <circle cx="-90" cy="-52" r="4.5"/>
+    <!-- Super White Core Center -->
+    <circle cx="0" cy="0" r="2" fill="#ffffff"/>
+  </g>
+
+  <!-- Top & Bottom Harmonic Echoes -->
+  <g transform="translate(150, 95)" stroke="url(#metaGrad)" stroke-width="0.8" fill="none" opacity="0.5">
+    <polygon points="0,-24 20,12 -20,12"/>
+    <polygon points="0,24 20,-12 -20,-12"/>
+    <circle cx="0" cy="0" r="8" fill="#0f051d"/>
+    <circle cx="0" cy="0" r="3" fill="url(#metaGrad)"/>
+  </g>
+
+  <g transform="translate(150, 405)" stroke="url(#metaGrad)" stroke-width="0.8" fill="none" opacity="0.5">
+    <polygon points="0,-24 20,12 -20,12"/>
+    <polygon points="0,24 20,-12 -20,-12"/>
+    <circle cx="0" cy="0" r="8" fill="#0f051d"/>
+    <circle cx="0" cy="0" r="3" fill="url(#metaGrad)"/>
   </g>
 </svg>

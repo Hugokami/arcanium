@@ -69,6 +69,28 @@ export const CosmicAlmanacModal: React.FC<CosmicAlmanacModalProps> = ({
         {/* Body Content */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 font-sans text-xs">
           
+          {/* Animated 24K Celestial Astrolabe Dial Hero */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#141210] border border-[#292524] flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
+            <div className="w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 relative flex items-center justify-center">
+              <img
+                src="/animations/almanac-astrolabe.svg"
+                alt="Planetary Astrolabe"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="space-y-2 flex-1 text-center sm:text-left">
+              <div className="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[10px] font-mono text-[#fde047]">
+                <span>✦ CHALDEAN ASTROLOGICAL ORDER ✦</span>
+              </div>
+              <h3 className="text-sm sm:text-base font-serif font-bold text-[#f5f5f4]">
+                Planetary Sphere • {almanac.planetaryHour.symbol} {almanac.planetaryHour.name[language]}
+              </h3>
+              <p className="text-[11px] text-[#a8a29e] leading-relaxed">
+                {almanac.planetaryHour.divinatoryGuidance[language]}
+              </p>
+            </div>
+          </div>
+
           {/* Top 2-Column Bento: Moon Phase & Planetary Hour */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             

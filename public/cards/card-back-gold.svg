@@ -5,6 +5,7 @@
       <stop offset="60%" stop-color="#0c0a09"/>
       <stop offset="100%" stop-color="#050505"/>
     </radialGradient>
+    
     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fef08a"/>
       <stop offset="25%" stop-color="#d4af37"/>
@@ -12,10 +13,55 @@
       <stop offset="75%" stop-color="#eab308"/>
       <stop offset="100%" stop-color="#fef08a"/>
     </linearGradient>
+
+    <radialGradient id="oculusAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#d4af37" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+    </radialGradient>
+
     <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="1.5" result="blur"/>
       <feComposite in="SourceGraphic" in2="blur" operator="over"/>
     </filter>
+
+    <style>
+      @keyframes rotateCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes rotateCCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      @keyframes pulseAura {
+        0%, 100% { transform: scale(0.92); opacity: 0.4; }
+        50% { transform: scale(1.1); opacity: 0.85; }
+      }
+      @keyframes shimmerRays {
+        0%, 100% { opacity: 0.45; }
+        50% { opacity: 0.85; }
+      }
+      .anim-cw-slow {
+        animation: rotateCW 48s linear infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-ccw-slow {
+        animation: rotateCCW 32s linear infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-cw-fast {
+        animation: rotateCW 24s linear infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-pulse {
+        animation: pulseAura 4s ease-in-out infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-rays {
+        animation: shimmerRays 3.5s ease-in-out infinite;
+      }
+    </style>
   </defs>
 
   <!-- Background Canvas -->
@@ -33,68 +79,96 @@
     <path d="M 278 460 L 260 478 M 278 478 L 266 478 L 278 466 Z"/>
   </g>
 
-  <!-- Central Celestial Astrolabe Dial -->
-  <g transform="translate(150, 250)" filter="url(#goldGlow)">
-    <!-- Outer Astrolabe Ring -->
+  <!-- Breathing Center Aura -->
+  <circle cx="150" cy="250" r="85" fill="url(#oculusAura)" class="anim-pulse"/>
+
+  <!-- Outer Astrolabe Fixed Ring & Ticks -->
+  <g transform="translate(150, 250)">
     <circle r="95" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.8"/>
     <circle r="90" fill="none" stroke="url(#goldGrad)" stroke-width="0.75" opacity="0.5" stroke-dasharray="2 3"/>
-    <circle r="75" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.6"/>
-    <circle r="55" fill="none" stroke="url(#goldGrad)" stroke-width="0.75" opacity="0.4"/>
-    <circle r="35" fill="none" stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.7"/>
+  </g>
 
-    <!-- Concentric Star Polygons (Octagram & Hexagram) -->
-    <!-- 8-pointed star -->
-    <path d="M 0 -75 L 22 -22 L 75 0 L 22 22 L 0 75 L -22 22 L -75 0 L -22 -22 Z" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.75"/>
-    <path d="M 0 -75 L 22 -22 L 75 0 L 22 22 L 0 75 L -22 22 L -75 0 L -22 -22 Z" transform="rotate(45)" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
-
-    <!-- Sacred Center Oculus -->
-    <circle r="16" fill="#141210" stroke="url(#goldGrad)" stroke-width="1.5"/>
-    <circle r="6" fill="url(#goldGrad)"/>
-    <circle r="2" fill="#ffffff"/>
-
-    <!-- Planetary Rays / Hour Indicators (12 Rays for 12 Zodiac Houses) -->
-    <g stroke="url(#goldGrad)" stroke-width="0.75" opacity="0.6">
-      <line x1="0" y1="-95" x2="0" y2="-75"/>
-      <line x1="0" y1="95" x2="0" y2="75"/>
-      <line x1="-95" y1="0" x2="-75" y2="0"/>
-      <line x1="95" y1="0" x2="75" y2="0"/>
-
-      <line x1="-67" y1="-67" x2="-53" y2="-53"/>
-      <line x1="67" y1="-67" x2="53" y2="-53"/>
-      <line x1="-67" y1="67" x2="-53" y2="53"/>
-      <line x1="67" y1="67" x2="53" y2="53"/>
-
-      <line x1="-82" y1="-47" x2="-65" y2="-37"/>
-      <line x1="82" y1="-47" x2="65" y2="-37"/>
-      <line x1="-82" y1="47" x2="-65" y2="37"/>
-      <line x1="82" y1="47" x2="65" y2="37"/>
-    </g>
-
-    <!-- Top and Bottom Mini Astrolabes for Symmetry -->
-    <g transform="translate(0, -145)">
-      <circle r="24" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
-      <circle r="12" fill="none" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.4"/>
-      <circle r="3" fill="url(#goldGrad)" opacity="0.8"/>
-      <!-- Cross -->
-      <line x1="0" y1="-24" x2="0" y2="24" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
-      <line x1="-24" y1="0" x2="24" y2="0" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
-    </g>
-
-    <g transform="translate(0, 145)">
-      <circle r="24" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
-      <circle r="12" fill="none" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.4"/>
-      <circle r="3" fill="url(#goldGrad)" opacity="0.8"/>
-      <!-- Cross -->
-      <line x1="0" y1="-24" x2="0" y2="24" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
-      <line x1="-24" y1="0" x2="24" y2="0" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+  <!-- Rotating Ring 1 (Clockwise) -->
+  <g class="anim-cw-slow" filter="url(#goldGlow)">
+    <g transform="translate(150, 250)">
+      <circle r="80" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.65"/>
+      <!-- 12 Astrolabe Degree Nodes -->
+      <g fill="url(#goldGrad)" opacity="0.8">
+        <circle cx="0" cy="-80" r="2.5"/>
+        <circle cx="40" cy="-69.28" r="2"/>
+        <circle cx="69.28" cy="-40" r="2"/>
+        <circle cx="80" cy="0" r="2.5"/>
+        <circle cx="69.28" cy="40" r="2"/>
+        <circle cx="40" cy="69.28" r="2"/>
+        <circle cx="0" cy="80" r="2.5"/>
+        <circle cx="-40" cy="69.28" r="2"/>
+        <circle cx="-69.28" cy="40" r="2"/>
+        <circle cx="-80" cy="0" r="2.5"/>
+        <circle cx="-69.28" cy="-40" r="2"/>
+        <circle cx="-40" cy="-69.28" r="2"/>
+      </g>
+      <!-- Octagram Outer -->
+      <path d="M 0 -75 L 22 -22 L 75 0 L 22 22 L 0 75 L -22 22 L -75 0 L -22 -22 Z" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.75"/>
     </g>
   </g>
 
-  <!-- Fine Micro-Dots Filigree -->
-  <g fill="url(#goldGrad)" opacity="0.5">
-    <circle cx="150" cy="45" r="2"/>
-    <circle cx="150" cy="455" r="2"/>
-    <circle cx="45" cy="250" r="1.5"/>
-    <circle cx="255" cy="250" r="1.5"/>
+  <!-- Rotating Ring 2 (Counter-Clockwise) -->
+  <g class="anim-ccw-slow">
+    <g transform="translate(150, 250)">
+      <circle r="55" fill="none" stroke="url(#goldGrad)" stroke-width="0.75" opacity="0.5"/>
+      <path d="M 0 -55 L 16 -16 L 55 0 L 16 16 L 0 55 L -16 16 L -55 0 L -16 -16 Z" transform="rotate(45)" fill="none" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.5"/>
+      <!-- Inner Star Nodes -->
+      <circle cx="0" cy="-55" r="1.8" fill="url(#goldGrad)"/>
+      <circle cx="55" cy="0" r="1.8" fill="url(#goldGrad)"/>
+      <circle cx="0" cy="55" r="1.8" fill="url(#goldGrad)"/>
+      <circle cx="-55" cy="0" r="1.8" fill="url(#goldGrad)"/>
+    </g>
+  </g>
+
+  <!-- Central Star Core (Clockwise) -->
+  <g class="anim-cw-fast">
+    <g transform="translate(150, 250)">
+      <circle r="35" fill="none" stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.7"/>
+      <!-- 6-point hexagram -->
+      <polygon points="0,-32 27.7,16 -27.7,16" fill="none" stroke="url(#goldGrad)" stroke-width="0.7" opacity="0.6"/>
+      <polygon points="0,32 27.7,-16 -27.7,-16" fill="none" stroke="url(#goldGrad)" stroke-width="0.7" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- Central Oculus Core -->
+  <g transform="translate(150, 250)">
+    <circle r="16" fill="#141210" stroke="url(#goldGrad)" stroke-width="1.5"/>
+    <circle r="6" fill="url(#goldGrad)" class="anim-pulse"/>
+    <circle r="2.2" fill="#ffffff"/>
+  </g>
+
+  <!-- Shimmering Radiating Rays -->
+  <g transform="translate(150, 250)" stroke="url(#goldGrad)" stroke-width="0.75" class="anim-rays">
+    <line x1="0" y1="-95" x2="0" y2="-82"/>
+    <line x1="0" y1="95" x2="0" y2="82"/>
+    <line x1="-95" y1="0" x2="-82" y2="0"/>
+    <line x1="95" y1="0" x2="82" y2="0"/>
+
+    <line x1="-67" y1="-67" x2="-58" y2="-58"/>
+    <line x1="67" y1="-67" x2="58" y2="-58"/>
+    <line x1="-67" y1="67" x2="-58" y2="58"/>
+    <line x1="67" y1="67" x2="58" y2="58"/>
+  </g>
+
+  <!-- Top and Bottom Symmetrical Mini Astrolabes -->
+  <g transform="translate(150, 105)">
+    <circle r="24" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
+    <circle r="12" fill="none" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.4"/>
+    <circle r="3" fill="url(#goldGrad)" opacity="0.8"/>
+    <line x1="0" y1="-24" x2="0" y2="24" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-24" y1="0" x2="24" y2="0" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+  </g>
+
+  <g transform="translate(150, 395)">
+    <circle r="24" fill="none" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
+    <circle r="12" fill="none" stroke="url(#goldGrad)" stroke-width="0.6" opacity="0.4"/>
+    <circle r="3" fill="url(#goldGrad)" opacity="0.8"/>
+    <line x1="0" y1="-24" x2="0" y2="24" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-24" y1="0" x2="24" y2="0" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.4"/>
   </g>
 </svg>

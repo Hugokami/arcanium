@@ -237,6 +237,28 @@ export const CardSynergyModal: React.FC<CardSynergyModalProps> = ({
             </div>
           </div>
 
+          {/* Animated Elemental Alchemy & Synergy Crucible Hero */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#141210] border border-[#292524] flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
+            <div className="w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 relative flex items-center justify-center">
+              <img
+                src="/animations/synergy-resonance.svg"
+                alt="Elemental Synergy Alchemy"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="space-y-2 flex-1 text-center sm:text-left">
+              <div className="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-[#1c1917] border border-[#292524] text-[10px] font-mono text-[#c084fc]">
+                <span>✦ HERMETIC RESONANCE MATRIX ✦</span>
+              </div>
+              <h3 className="text-sm sm:text-base font-serif font-bold text-[#f5f5f4]">
+                {synergy.elementalRelation.title[language]} • {synergy.chemistryScore}% Chemistry
+              </h3>
+              <p className="text-[11px] text-[#a8a29e] leading-relaxed">
+                {synergy.interlockingInsight[language]}
+              </p>
+            </div>
+          </div>
+
           {/* Analysis Dashboard Bento */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Solfeggio Sound Resonance Gradients -->
+    <radialGradient id="soundAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3" />
+      <stop offset="45%" stop-color="#818cf8" stop-opacity="0.15" />
+      <stop offset="75%" stop-color="#141210" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#0c0a09" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="cymaticWaveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67e8f9" />
+      <stop offset="35%" stop-color="#818cf8" />
+      <stop offset="70%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#f472b6" />
+    </linearGradient>
+
+    <filter id="cymaticGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      @keyframes cymaticRotateCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes cymaticRotateCCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      @keyframes waveExpand1 {
+        0%, 100% { transform: scale(0.88); opacity: 0.4; }
+        50% { transform: scale(1.08); opacity: 0.9; }
+      }
+      @keyframes waveExpand2 {
+        0%, 100% { transform: scale(1.08); opacity: 0.8; }
+        50% { transform: scale(0.88); opacity: 0.35; }
+      }
+      @keyframes harmonicPulse {
+        0%, 100% { transform: scale(0.92); opacity: 0.7; }
+        50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.7)); }
+      }
+
+      .spin-cymatic-outer {
+        animation: cymaticRotateCW 40s linear infinite;
+        transform-origin: 160px 160px;
+      }
+      .spin-cymatic-inner {
+        animation: cymaticRotateCCW 26s linear infinite;
+        transform-origin: 160px 160px;
+      }
+      .pulse-wave-1 {
+        animation: waveExpand1 4s ease-in-out infinite;
+        transform-origin: 160px 160px;
+      }
+      .pulse-wave-2 {
+        animation: waveExpand2 4s ease-in-out infinite;
+        transform-origin: 160px 160px;
+      }
+      .pulse-sound-core {
+        animation: harmonicPulse 3.2s ease-in-out infinite;
+        transform-origin: 160px 160px;
+      }
+    </style>
+  </defs>
+
+  <!-- Ambient Sound Field Aura -->
+  <circle cx="160" cy="160" r="148" fill="url(#soundAura)" />
+
+  <!-- Outer Machined Double Bezel -->
+  <circle cx="160" cy="160" r="150" stroke="url(#cymaticWaveGrad)" stroke-width="1.5" opacity="0.75" />
+  <circle cx="160" cy="160" r="144" stroke="#292524" stroke-width="1" />
+  <circle cx="160" cy="160" r="140" stroke="url(#cymaticWaveGrad)" stroke-width="0.75" opacity="0.4" stroke-dasharray="3 3" />
+
+  <!-- Expanding Standing Wave Harmonic Circles -->
+  <g class="pulse-wave-1">
+    <circle cx="160" cy="160" r="120" stroke="url(#cymaticWaveGrad)" stroke-width="0.8" opacity="0.5" stroke-dasharray="6 3" />
+    <circle cx="160" cy="160" r="80" stroke="url(#cymaticWaveGrad)" stroke-width="0.75" opacity="0.6" stroke-dasharray="4 2" />
+  </g>
+  <g class="pulse-wave-2">
+    <circle cx="160" cy="160" r="100" stroke="url(#cymaticWaveGrad)" stroke-width="0.75" opacity="0.55" stroke-dasharray="5 4" />
+    <circle cx="160" cy="160" r="60" stroke="url(#cymaticWaveGrad)" stroke-width="0.8" opacity="0.7" />
+  </g>
+
+  <!-- Rotating Cymatic Rosette 1 (Clockwise) -->
+  <g class="spin-cymatic-outer" filter="url(#cymaticGlow)">
+    <g transform="translate(160, 160)" stroke="url(#cymaticWaveGrad)" stroke-width="1" fill="none" opacity="0.75">
+      <!-- 6-Petal Intersecting Cymatic Nodes -->
+      <circle cx="0" cy="-60" r="45" />
+      <circle cx="51.96" cy="-30" r="45" />
+      <circle cx="51.96" cy="30" r="45" />
+      <circle cx="0" cy="60" r="45" />
+      <circle cx="-51.96" cy="30" r="45" />
+      <circle cx="-51.96" cy="-30" r="45" />
+    </g>
+  </g>
+
+  <!-- Rotating Cymatic Octagram Matrix (Counter-Clockwise) -->
+  <g class="spin-cymatic-inner">
+    <g transform="translate(160, 160)" stroke="url(#cymaticWaveGrad)" stroke-width="0.85" fill="none" opacity="0.6">
+      <polygon points="0,-75 22,-22 75,0 22,22 0,75 -22,22 -75,0 -22,-22" />
+      <polygon points="0,-75 22,-22 75,0 22,22 0,75 -22,22 -75,0 -22,-22" transform="rotate(45)" />
+    </g>
+  </g>
+
+  <!-- Central Solfeggio Harmonic Resonator Core -->
+  <g class="pulse-sound-core">
+    <g transform="translate(160, 160)">
+      <circle r="28" fill="#141210" stroke="url(#cymaticWaveGrad)" stroke-width="1.5" />
+      <circle r="18" fill="#090d16" stroke="#292524" stroke-width="1" />
+      
+      <!-- Core Frequency Tuning Fork Spark -->
+      <circle r="8" fill="url(#cymaticWaveGrad)" />
+      <circle r="3" fill="#ffffff" />
+    </g>
+  </g>
+
+  <!-- 4 Harmonic Cardinal Nodes -->
+  <g fill="url(#cymaticWaveGrad)" opacity="0.8">
+    <circle cx="160" cy="22" r="3" />
+    <circle cx="160" cy="298" r="3" />
+    <circle cx="22" cy="160" r="3" />
+    <circle cx="298" cy="160" r="3" />
+  </g>
+</svg>

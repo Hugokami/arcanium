@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 440" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Kabbalah Aura Gradients -->
+    <radialGradient id="treeAura" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.3" />
+      <stop offset="40%" stop-color="#818cf8" stop-opacity="0.15" />
+      <stop offset="80%" stop-color="#141210" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#0c0a09" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="lightningGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#fde047" />
+      <stop offset="60%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+
+    <linearGradient id="pillarGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+
+    <filter id="sephirahGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      @keyframes lightningFlash {
+        0% { stroke-dashoffset: 800; opacity: 0.2; }
+        40% { opacity: 1; }
+        80% { stroke-dashoffset: 0; opacity: 0.9; }
+        100% { stroke-dashoffset: -800; opacity: 0.2; }
+      }
+      @keyframes sephirothPulse {
+        0%, 100% { transform: scale(0.95); opacity: 0.8; }
+        50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.7)); }
+      }
+      @keyframes pathGlow {
+        0%, 100% { opacity: 0.35; }
+        50% { opacity: 0.75; }
+      }
+
+      .anim-lightning {
+        stroke-dasharray: 200 600;
+        animation: lightningFlash 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      .anim-sephiroth {
+        animation: sephirothPulse 3.5s ease-in-out infinite;
+      }
+      .anim-paths {
+        animation: pathGlow 3s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Ambient Tree Aura -->
+  <rect width="320" height="440" rx="16" fill="#0c0a09" />
+  <circle cx="160" cy="220" r="140" fill="url(#treeAura)" />
+
+  <!-- Outer Double Bezel -->
+  <rect x="8" y="8" width="304" height="424" rx="12" fill="none" stroke="url(#pillarGold)" stroke-width="1.2" opacity="0.6" />
+  <rect x="14" y="14" width="292" height="412" rx="9" fill="none" stroke="#292524" stroke-width="0.75" />
+
+  <!-- 3 Pillars (Mercy Right, Severity Left, Mildness Center) -->
+  <g stroke="#292524" stroke-width="0.75" stroke-dasharray="4 4" opacity="0.5">
+    <line x1="80" y1="30" x2="80" y2="410" />
+    <line x1="160" y1="20" x2="160" y2="420" />
+    <line x1="240" y1="30" x2="240" y2="410" />
+  </g>
+
+  <!-- 22 Paths of Wisdom (Conduits) -->
+  <g stroke="url(#pillarGold)" stroke-width="1" fill="none" opacity="0.45" class="anim-paths">
+    <!-- 1 Kether (160, 45) to 2 Chokmah (240, 95) & 3 Binah (80, 95) -->
+    <line x1="160" y1="45" x2="240" y2="95" />
+    <line x1="160" y1="45" x2="80" y2="95" />
+    <line x1="80" y1="95" x2="240" y2="95" />
+
+    <!-- Binah & Chokmah to 4 Chesed (240, 175) & 5 Geburah (80, 175) & 6 Tiphareth (160, 215) -->
+    <line x1="240" y1="95" x2="240" y2="175" />
+    <line x1="80" y1="95" x2="80" y2="175" />
+    <line x1="240" y1="95" x2="160" y2="215" />
+    <line x1="80" y1="95" x2="160" y2="215" />
+    <line x1="80" y1="95" x2="240" y2="175" />
+    <line x1="240" y1="95" x2="80" y2="175" />
+
+    <line x1="80" y1="175" x2="240" y2="175" />
+    <line x1="80" y1="175" x2="160" y2="215" />
+    <line x1="240" y1="175" x2="160" y2="215" />
+
+    <!-- 7 Netzach (240, 295) & 8 Hod (80, 295) -->
+    <line x1="240" y1="175" x2="240" y2="295" />
+    <line x1="80" y1="175" x2="80" y2="295" />
+    <line x1="160" y1="215" x2="240" y2="295" />
+    <line x1="160" y1="215" x2="80" y2="295" />
+    <line x1="80" y1="175" x2="240" y2="295" />
+    <line x1="240" y1="175" x2="80" y2="295" />
+
+    <!-- 9 Yesod (160, 335) -->
+    <line x1="80" y1="295" x2="240" y2="295" />
+    <line x1="160" y1="215" x2="160" y2="335" />
+    <line x1="80" y1="295" x2="160" y2="335" />
+    <line x1="240" y1="295" x2="160" y2="335" />
+
+    <!-- 10 Malkuth (160, 395) -->
+    <line x1="80" y1="295" x2="160" y2="395" />
+    <line x1="240" y1="295" x2="160" y2="395" />
+    <line x1="160" y1="335" x2="160" y2="395" />
+  </g>
+
+  <!-- The Lightning Flash (Kav / 22 Order Path) -->
+  <path d="M 160 45 L 240 95 L 80 95 L 240 175 L 80 175 L 160 215 L 240 295 L 80 295 L 160 335 L 160 395" fill="none" stroke="url(#lightningGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="anim-lightning" filter="url(#sephirahGlow)" />
+
+  <!-- 10 Sephiroth Spheres -->
+  <!-- 1. Kether (Crown) -->
+  <g class="anim-sephiroth" transform-origin="160px 45px">
+    <circle cx="160" cy="45" r="16" fill="#141210" stroke="#ffffff" stroke-width="1.8" />
+    <circle cx="160" cy="45" r="6" fill="#ffffff" />
+  </g>
+
+  <!-- 2. Chokmah (Wisdom) -->
+  <g class="anim-sephiroth" transform-origin="240px 95px">
+    <circle cx="240" cy="95" r="14" fill="#141210" stroke="#93c5fd" stroke-width="1.5" />
+    <circle cx="240" cy="95" r="5" fill="#93c5fd" />
+  </g>
+
+  <!-- 3. Binah (Understanding) -->
+  <g class="anim-sephiroth" transform-origin="80px 95px">
+    <circle cx="80" cy="95" r="14" fill="#141210" stroke="#d8b4fe" stroke-width="1.5" />
+    <circle cx="80" cy="95" r="5" fill="#d8b4fe" />
+  </g>
+
+  <!-- 4. Chesed (Mercy) -->
+  <g class="anim-sephiroth" transform-origin="240px 175px">
+    <circle cx="240" cy="175" r="14" fill="#141210" stroke="#60a5fa" stroke-width="1.5" />
+    <circle cx="240" cy="175" r="5" fill="#60a5fa" />
+  </g>
+
+  <!-- 5. Geburah (Severity) -->
+  <g class="anim-sephiroth" transform-origin="80px 175px">
+    <circle cx="80" cy="175" r="14" fill="#141210" stroke="#f87171" stroke-width="1.5" />
+    <circle cx="80" cy="175" r="5" fill="#f87171" />
+  </g>
+
+  <!-- 6. Tiphareth (Beauty) -->
+  <g class="anim-sephiroth" transform-origin="160px 215px">
+    <circle cx="160" cy="215" r="18" fill="#141210" stroke="#fbbf24" stroke-width="2" />
+    <circle cx="160" cy="215" r="7" fill="#fbbf24" />
+    <circle cx="160" cy="215" r="2.5" fill="#ffffff" />
+  </g>
+
+  <!-- 7. Netzach (Victory) -->
+  <g class="anim-sephiroth" transform-origin="240px 295px">
+    <circle cx="240" cy="295" r="14" fill="#141210" stroke="#34d399" stroke-width="1.5" />
+    <circle cx="240" cy="295" r="5" fill="#34d399" />
+  </g>
+
+  <!-- 8. Hod (Splendor) -->
+  <g class="anim-sephiroth" transform-origin="80px 295px">
+    <circle cx="80" cy="295" r="14" fill="#141210" stroke="#fb923c" stroke-width="1.5" />
+    <circle cx="80" cy="295" r="5" fill="#fb923c" />
+  </g>
+
+  <!-- 9. Yesod (Foundation) -->
+  <g class="anim-sephiroth" transform-origin="160px 335px">
+    <circle cx="160" cy="335" r="15" fill="#141210" stroke="#c084fc" stroke-width="1.6" />
+    <circle cx="160" cy="335" r="6" fill="#c084fc" />
+  </g>
+
+  <!-- 10. Malkuth (Kingdom / Earth) -->
+  <g class="anim-sephiroth" transform-origin="160px 395px">
+    <circle cx="160" cy="395" r="16" fill="#141210" stroke="#a8a29e" stroke-width="1.8" />
+    <circle cx="160" cy="395" r="6" fill="#d6d3d1" />
+  </g>
+</svg>

@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Elemental Gradients -->
+    <radialGradient id="alchemyAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.35" />
+      <stop offset="45%" stop-color="#fca5a5" stop-opacity="0.15" />
+      <stop offset="80%" stop-color="#141210" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#0c0a09" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Fire Arc -->
+    <linearGradient id="fireGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="50%" stop-color="#f87171" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+
+    <!-- Water Arc -->
+    <linearGradient id="waterGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#67e8f9" />
+      <stop offset="50%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <!-- Air Arc -->
+    <linearGradient id="airGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a7f3d0" />
+      <stop offset="50%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Earth Arc -->
+    <linearGradient id="earthGrad" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#92400e" />
+    </linearGradient>
+
+    <linearGradient id="spiritGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5d0fe" />
+      <stop offset="50%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#fef08a" />
+    </linearGradient>
+
+    <filter id="alchemyGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <style>
+      @keyframes spinSlowCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes spinSlowCCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      @keyframes vesicaPiscisPulse {
+        0%, 100% { transform: scale(0.94); opacity: 0.55; }
+        50% { transform: scale(1.06); opacity: 0.95; }
+      }
+      @keyframes elementalWave {
+        0%, 100% { stroke-dashoffset: 0; opacity: 0.6; }
+        50% { stroke-dashoffset: 60; opacity: 1; }
+      }
+
+      .spin-alchemy-cw {
+        animation: spinSlowCW 36s linear infinite;
+        transform-origin: 160px 160px;
+      }
+      .spin-alchemy-ccw {
+        animation: spinSlowCCW 24s linear infinite;
+        transform-origin: 160px 160px;
+      }
+      .pulse-crucible {
+        animation: vesicaPiscisPulse 4s ease-in-out infinite;
+        transform-origin: 160px 160px;
+      }
+      .wave-elemental {
+        animation: elementalWave 6s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Ambient Alchemy Background Aura -->
+  <circle cx="160" cy="160" r="148" fill="url(#alchemyAura)" />
+
+  <!-- Outer Machined Double Bezel -->
+  <circle cx="160" cy="160" r="150" stroke="url(#spiritGold)" stroke-width="1.5" opacity="0.7" />
+  <circle cx="160" cy="160" r="144" stroke="#292524" stroke-width="1" />
+  <circle cx="160" cy="160" r="140" stroke="url(#spiritGold)" stroke-width="0.75" opacity="0.4" stroke-dasharray="2 3" />
+
+  <!-- 4 Elemental Quadrants Wave Rings (Clockwise) -->
+  <g class="spin-alchemy-cw">
+    <g transform="translate(160, 160)">
+      <!-- Fire Quadrant (Top Right) -->
+      <path d="M 0 -124 A 124 124 0 0 1 124 0" stroke="url(#fireGrad)" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85" />
+      <circle cx="87.7" cy="-87.7" r="4.5" fill="#f87171" filter="url(#alchemyGlow)" />
+
+      <!-- Water Quadrant (Bottom Right) -->
+      <path d="M 124 0 A 124 124 0 0 1 0 124" stroke="url(#waterGrad)" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85" />
+      <circle cx="87.7" cy="87.7" r="4.5" fill="#60a5fa" filter="url(#alchemyGlow)" />
+
+      <!-- Earth Quadrant (Bottom Left) -->
+      <path d="M 0 124 A 124 124 0 0 1 -124 0" stroke="url(#earthGrad)" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85" />
+      <circle cx="-87.7" cy="87.7" r="4.5" fill="#fbbf24" filter="url(#alchemyGlow)" />
+
+      <!-- Air Quadrant (Top Left) -->
+      <path d="M -124 0 A 124 124 0 0 1 0 -124" stroke="url(#airGrad)" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85" />
+      <circle cx="-87.7" cy="-87.7" r="4.5" fill="#34d399" filter="url(#alchemyGlow)" />
+    </g>
+  </g>
+
+  <!-- Rotating Interlocking Vesica Piscis Triad (Counter-Clockwise) -->
+  <g class="spin-alchemy-ccw" filter="url(#alchemyGlow)">
+    <g transform="translate(160, 160)" stroke="url(#spiritGold)" stroke-width="1.2" fill="none" opacity="0.75">
+      <!-- 3 Interlocking Circles (Radius 60, centered at 120-deg offsets) -->
+      <!-- Circle 1 (Top) -->
+      <circle cx="0" cy="-35" r="55" />
+      <!-- Circle 2 (Bottom Right) -->
+      <circle cx="30.3" cy="17.5" r="55" />
+      <!-- Circle 3 (Bottom Left) -->
+      <circle cx="-30.3" cy="17.5" r="55" />
+
+      <!-- Sacred Triquetra Lines -->
+      <circle cx="0" cy="0" r="70" stroke-dasharray="4 4" stroke-width="0.8" opacity="0.5" />
+    </g>
+  </g>
+
+  <!-- Central Numerology Crucible & Quintessence Oculus -->
+  <g class="pulse-crucible">
+    <g transform="translate(160, 160)">
+      <!-- Outer Hexagonal Seal -->
+      <polygon points="0,-36 31.2,-18 31.2,18 0,36 -31.2,18 -31.2,-18" fill="#141210" stroke="url(#spiritGold)" stroke-width="1.5" />
+      <circle r="22" stroke="#292524" stroke-width="1" fill="#0c0a09" />
+      
+      <!-- Core Soul Key Star (Octagram Core) -->
+      <path d="M 0 -16 L 4 -4 L 16 0 L 4 4 L 0 16 L -4 4 L -16 0 L -4 -4 Z" fill="url(#spiritGold)" />
+      
+      <circle r="4" fill="#ffffff" />
+      <circle r="1.5" fill="#fef08a" />
+    </g>
+  </g>
+
+  <!-- Micro Filigree Dots & Pointers -->
+  <g fill="url(#spiritGold)" opacity="0.7">
+    <circle cx="160" cy="24" r="2.5" />
+    <circle cx="160" cy="296" r="2.5" />
+    <circle cx="24" cy="160" r="2.5" />
+    <circle cx="296" cy="160" r="2.5" />
+  </g>
+</svg>

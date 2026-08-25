@@ -15,6 +15,50 @@
       <stop offset="0%" stop-color="#67e8f9"/>
       <stop offset="100%" stop-color="#38bdf8"/>
     </linearGradient>
+    <radialGradient id="cosmicPulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity="0.6"/>
+      <stop offset="60%" stop-color="#38bdf8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <style>
+      @keyframes orbitRotate1 {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes orbitRotate2 {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+      }
+      @keyframes starBlink {
+        0%, 100% { opacity: 0.3; transform: scale(0.85); }
+        50% { opacity: 1; transform: scale(1.2); }
+      }
+      @keyframes coreGlow {
+        0%, 100% { transform: scale(0.95); opacity: 0.5; }
+        50% { transform: scale(1.15); opacity: 0.9; }
+      }
+      .anim-orbit-1 {
+        animation: orbitRotate1 36s linear infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-orbit-2 {
+        animation: orbitRotate2 28s linear infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-star-1 {
+        animation: starBlink 3s ease-in-out infinite;
+        transform-origin: 150px 250px;
+      }
+      .anim-star-2 {
+        animation: starBlink 4.5s ease-in-out infinite 1.5s;
+        transform-origin: 150px 250px;
+      }
+      .anim-core {
+        animation: coreGlow 4s ease-in-out infinite;
+        transform-origin: 150px 250px;
+      }
+    </style>
   </defs>
 
   <!-- Deep Cosmos Background -->
@@ -24,16 +68,23 @@
   <rect x="8" y="8" width="284" height="484" rx="12" fill="none" stroke="url(#silverGlow)" stroke-width="1.2" opacity="0.5"/>
   <rect x="14" y="14" width="272" height="472" rx="9" fill="none" stroke="#334155" stroke-width="0.75" opacity="0.6"/>
 
+  <!-- Background Pulsing Nebula -->
+  <circle cx="150" cy="250" r="90" fill="url(#cosmicPulse)" class="anim-core"/>
+
   <!-- Scattered Starlight Constellation Dots -->
-  <g fill="#ffffff">
-    <circle cx="50" cy="80" r="1.2" opacity="0.7"/>
-    <circle cx="240" cy="90" r="1.5" opacity="0.8"/>
-    <circle cx="70" cy="220" r="0.8" opacity="0.5"/>
-    <circle cx="230" cy="280" r="1.2" opacity="0.7"/>
-    <circle cx="60" cy="420" r="1.4" opacity="0.7"/>
-    <circle cx="250" cy="410" r="1.0" opacity="0.6"/>
-    <circle cx="150" cy="40" r="1.5" opacity="0.9"/>
-    <circle cx="150" cy="460" r="1.5" opacity="0.9"/>
+  <g fill="#ffffff" class="anim-star-1">
+    <circle cx="50" cy="80" r="1.5"/>
+    <circle cx="240" cy="90" r="1.8"/>
+    <circle cx="230" cy="280" r="1.4"/>
+    <circle cx="60" cy="420" r="1.6"/>
+    <circle cx="150" cy="40" r="1.8"/>
+  </g>
+  <g fill="#67e8f9" class="anim-star-2">
+    <circle cx="70" cy="220" r="1.2"/>
+    <circle cx="250" cy="410" r="1.4"/>
+    <circle cx="150" cy="460" r="1.8"/>
+    <circle cx="100" cy="140" r="1.1"/>
+    <circle cx="200" cy="360" r="1.1"/>
   </g>
 
   <!-- Constellation Geometric Lines -->
@@ -43,15 +94,29 @@
     <path d="M 60 420 L 150 250 L 250 410"/>
   </g>
 
-  <!-- Central Cosmic Oculus & Orbital Rings -->
-  <g transform="translate(150, 250)">
-    <!-- Orbit Ellipses -->
-    <ellipse rx="100" ry="45" fill="none" stroke="url(#silverGlow)" stroke-width="1" transform="rotate(-30)" opacity="0.6"/>
-    <ellipse rx="100" ry="45" fill="none" stroke="url(#silverGlow)" stroke-width="1" transform="rotate(30)" opacity="0.6"/>
-    <ellipse rx="100" ry="45" fill="none" stroke="url(#cyanStar)" stroke-width="0.75" transform="rotate(90)" opacity="0.4"/>
+  <!-- Rotating Planetary Orbit Ellipses 1 -->
+  <g class="anim-orbit-1">
+    <g transform="translate(150, 250)">
+      <ellipse rx="100" ry="42" fill="none" stroke="url(#silverGlow)" stroke-width="1" opacity="0.65"/>
+      <!-- Satellite orbiter on ring -->
+      <circle cx="100" cy="0" r="3.5" fill="#f8fafc" stroke="#818cf8" stroke-width="1"/>
+      <circle cx="-100" cy="0" r="2.5" fill="#67e8f9"/>
+    </g>
+  </g>
 
-    <!-- Concentric Moon Spheres -->
-    <circle r="65" fill="none" stroke="url(#silverGlow)" stroke-width="1.2" opacity="0.7"/>
+  <!-- Rotating Planetary Orbit Ellipses 2 -->
+  <g class="anim-orbit-2">
+    <g transform="translate(150, 250)">
+      <ellipse rx="95" ry="40" fill="none" stroke="url(#cyanStar)" stroke-width="0.85" transform="rotate(60)" opacity="0.6"/>
+      <!-- Satellite orbiter -->
+      <circle cx="0" cy="40" r="3" fill="#818cf8"/>
+      <circle cx="0" cy="-40" r="2" fill="#c7d2fe"/>
+    </g>
+  </g>
+
+  <!-- Concentric Moon Phase Sphere -->
+  <g transform="translate(150, 250)">
+    <circle r="65" fill="none" stroke="url(#silverGlow)" stroke-width="1.2" opacity="0.75"/>
     <circle r="45" fill="none" stroke="url(#cyanStar)" stroke-width="0.75" opacity="0.5" stroke-dasharray="3 3"/>
     
     <!-- Sacred Moon Phase Quartet -->
@@ -69,7 +134,7 @@
     <!-- Center Mystic Eye / Core Star -->
     <circle r="18" fill="#090d16" stroke="url(#silverGlow)" stroke-width="1.5"/>
     <!-- 8-Point Star Core -->
-    <path d="M 0 -14 L 4 -4 L 14 0 L 4 4 L 0 14 L -4 4 L -14 0 L -4 -4 Z" fill="url(#silverGlow)"/>
+    <path d="M 0 -14 L 4 -4 L 14 0 L 4 4 L 0 14 L -4 4 L -14 0 L -4 -4 Z" fill="url(#silverGlow)" class="anim-core"/>
     <circle r="3" fill="#ffffff"/>
   </g>
 </svg>

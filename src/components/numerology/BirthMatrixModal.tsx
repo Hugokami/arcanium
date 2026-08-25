@@ -56,8 +56,12 @@ export const BirthMatrixModal: React.FC<BirthMatrixModalProps> = ({
         {/* Header Bar */}
         <div className="p-5 sm:p-6 border-b border-[#292524] flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-lg bg-[#141210] border border-[#292524] flex items-center justify-center text-[#f5f5f4]">
-              <Sun className="w-4 h-4" />
+            <div className="w-10 h-10 rounded-lg bg-[#141210] border border-[#292524] flex items-center justify-center p-0.5 overflow-hidden">
+              <img
+                src="/animations/numerology-astrolabe.svg"
+                alt="Pythagorean Soul Astrolabe"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-serif font-bold text-[#f5f5f4]">

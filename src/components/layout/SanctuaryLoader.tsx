@@ -35,7 +35,16 @@ const CRITICAL_ASSETS = [
   '/animations/spread-fork.svg',
   '/animations/spread-chakra.svg',
   '/animations/spread-celtic.svg',
-  '/animations/oracle-crystal-ball.svg'
+  '/animations/oracle-crystal-ball.svg',
+  '/animations/almanac-astrolabe.svg',
+  '/animations/synergy-resonance.svg',
+  '/animations/daily-pulse-oculus.svg',
+  '/animations/solfeggio-cymatics.svg',
+  '/animations/tree-of-life-flow.svg',
+  '/animations/numerology-astrolabe.svg',
+  '/cards/card-back-gold.svg',
+  '/cards/card-back-midnight.svg',
+  '/cards/card-back-metatron.svg'
 ];
 
 export const SanctuaryLoader: React.FC<SanctuaryLoaderProps> = ({
