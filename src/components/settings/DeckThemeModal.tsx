@@ -95,7 +95,12 @@ export const DeckThemeModal: React.FC<DeckThemeModalProps> = ({
                   <div
                     className="w-12 h-18 rounded-lg overflow-hidden border border-[#292524] bg-[#0c0a09] flex-shrink-0"
                   >
-                    <img src={theme.image} alt={theme.name.en} className="w-full h-full object-cover" />
+                    <img
+                      src={theme.image}
+                      alt={theme.name.en}
+                      onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
                   <div className="space-y-0.5">

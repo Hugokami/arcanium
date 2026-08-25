@@ -6,6 +6,7 @@ import { AstrologyService, ZODIAC_SIGNS } from '../../services/astrologyService'
 import { UserProfile, ZodiacSignId } from '../../types/userProfile';
 import { ArrowRight, Sparkles, MessageSquare, Compass, Check, User, Calendar, Lock, Unlock, Edit3, Heart, Users, AlertCircle, Trash2 } from 'lucide-react';
 import { DeckCutRitual } from '../ritual/DeckCutRitual';
+import { DeckThemeService } from '../../services/deckThemeService';
 
 interface ArcanaFlowSelectorProps {
   language: Language;
@@ -688,6 +689,7 @@ export const ArcanaFlowSelector: React.FC<ArcanaFlowSelectorProps> = ({
 
           <DeckCutRitual
             language={language}
+            cardBackImage={DeckThemeService.getSelectedTheme().image || '/cards/CardBacks.png'}
             onCompleteRitual={handleFinishRitual}
           />
         </section>

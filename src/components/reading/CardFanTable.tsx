@@ -246,6 +246,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                     <img
                       src="/cards/CardBacks.png"
                       alt="Tarot Back"
+                      onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
                       className="w-full h-full object-cover rounded"
                     />
                   </div>
@@ -382,6 +383,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                             <img
                               src={cardBackImage}
                               alt="Card Back"
+                              onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
                               className="w-full h-full object-cover rounded"
                             />
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 hover:bg-black/20 transition-colors">
@@ -465,6 +467,7 @@ export const CardFanTable: React.FC<CardFanTableProps> = ({
                       <img
                         src={cardBackImage}
                         alt="Card Back"
+                        onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
                         className="w-full h-full object-cover"
                       />
                     </div>

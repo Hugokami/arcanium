@@ -12,7 +12,7 @@ interface DeckCutRitualProps {
 export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
   language,
   onCompleteRitual,
-  cardBackImage = '/cards/card-back.png'
+  cardBackImage = '/cards/CardBacks.png'
 }) => {
   const [ritualState, setRitualState] = useState<'initial' | 'cut' | 'reuniting' | 'complete'>('initial');
 
@@ -65,7 +65,12 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
             <div className="absolute -top-2 w-28 h-44 rounded-xl bg-[#141210] border border-[#292524] transform rotate-[-3deg]" />
             <div className="absolute -top-1 w-28 h-44 rounded-xl bg-[#141210] border border-[#292524] transform rotate-[3deg]" />
             <div className="relative w-28 h-44 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5">
-              <img src={cardBackImage} alt="Deck" className="w-full h-full object-cover rounded-lg" />
+              <img
+                src={cardBackImage}
+                alt="Deck"
+                onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
+                className="w-full h-full object-cover rounded-lg"
+              />
             </div>
 
             <div className="absolute -bottom-7 px-3 py-1 rounded-full bg-[#141210] border border-[#292524] text-xs font-sans text-[#f5f5f4] whitespace-nowrap">
@@ -81,7 +86,12 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
           >
             {/* Packet 1 (Left) */}
             <div className="w-22 sm:w-26 h-34 sm:h-40 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5 transform -rotate-6 hover:-translate-y-1 transition-all">
-              <img src={cardBackImage} alt="Packet 1" className="w-full h-full object-cover rounded-lg" />
+              <img
+                src={cardBackImage}
+                alt="Packet 1"
+                onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
+                className="w-full h-full object-cover rounded-lg"
+              />
               <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-[#a8a29e] bg-black/70">
                 Left (Past)
               </div>
@@ -89,7 +99,12 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
 
             {/* Packet 2 (Center) */}
             <div className="w-22 sm:w-26 h-34 sm:h-40 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5 transform hover:-translate-y-1 transition-all z-10">
-              <img src={cardBackImage} alt="Packet 2" className="w-full h-full object-cover rounded-lg" />
+              <img
+                src={cardBackImage}
+                alt="Packet 2"
+                onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
+                className="w-full h-full object-cover rounded-lg"
+              />
               <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-[#a8a29e] bg-black/70">
                 Center (Present)
               </div>
@@ -97,7 +112,12 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
 
             {/* Packet 3 (Right) */}
             <div className="w-22 sm:w-26 h-34 sm:h-40 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5 transform rotate-6 hover:-translate-y-1 transition-all">
-              <img src={cardBackImage} alt="Packet 3" className="w-full h-full object-cover rounded-lg" />
+              <img
+                src={cardBackImage}
+                alt="Packet 3"
+                onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
+                className="w-full h-full object-cover rounded-lg"
+              />
               <div className="absolute bottom-1 left-0 right-0 text-[10px] font-mono text-center text-[#a8a29e] bg-black/70">
                 Right (Future)
               </div>
@@ -112,7 +132,12 @@ export const DeckCutRitual: React.FC<DeckCutRitualProps> = ({
         {ritualState === 'reuniting' && (
           <div className="relative flex items-center justify-center animate-pulse">
             <div className="w-28 h-44 rounded-xl overflow-hidden border border-[#292524] bg-[#141210] p-0.5">
-              <img src={cardBackImage} alt="Deck Reunited" className="w-full h-full object-cover rounded-lg" />
+              <img
+                src={cardBackImage}
+                alt="Deck Reunited"
+                onError={(e) => { e.currentTarget.src = '/cards/CardBacks.png'; }}
+                className="w-full h-full object-cover rounded-lg"
+              />
             </div>
           </div>
         )}
